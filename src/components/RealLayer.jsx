@@ -3,6 +3,7 @@ import { realPart } from '../lib/real.js';
 import { COLORS } from '../lib/color.js';
 import { shownBox } from '../lib/mask.js';
 import { createElement } from '../lib/engine.js';
+import { gridColumns } from '../lib/grids.js';
 import './RealLayer.css';
 
 // "New here? [Create account]": a bracketed action inside a line of words reads as a link, not brackets.
@@ -24,7 +25,11 @@ function Part({ el, charW, rowH, byId }) {
   const cls = `real real-${p.kind}${el.accent ? ' is-accent' : ''}${el.variant ? ` is-${el.variant}` : ''}${el.height === 1 ? ' is-row' : ''}`;
   const lines = rows => rows.map(r => <span key={r.row} className={`real-line${r.button ? ' is-button' : ''}`} style={at(r.col, r.row)}>{r.button ? r.text : linked(r.text)}</span>);
   switch (p.kind) {
-    case 'screen': return <div className={cls} style={style}><span className="real-frame-name">{p.title}</span></div>;
+    case 'screen': return ( // with its column grid (grids.js) as faint bands on the artboard
+      <div className={cls} style={style}><span className="real-frame-name">{p.title}</span>
+        {gridColumns(el).map(g => <span key={g.col} className="real-band" style={{ left: (g.col - el.col) * charW, top: rowH, width: g.width * charW, height: (el.height - 2) * rowH }} />)}
+      </div>
+    );
     case 'button': return <div className={cls} style={style}>{p.label}</div>;
     case 'input': return <div className={cls} style={style}>{p.search && <span className="real-glass" aria-hidden="true" />}<span>{p.placeholder}</span></div>;
     case 'select': return <div className={cls} style={style}><span>{p.value}</span><span className="real-chevron" aria-hidden="true" /></div>;

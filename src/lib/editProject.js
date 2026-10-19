@@ -10,6 +10,7 @@ import { playAction, cleanStep } from './actions.js';
 import { expandChanges, harmonize } from './heal.js';
 import { autoLayout, constrain, syncTwins, makeSizes, AUTO_MAX } from './layout.js';
 import { parseLibrary, pullLibrary } from './library.js';
+import { GRID_MAX, gridEverywhere } from './grids.js';
 import { MODES, VAR_MAX, isVarName, setMode, setVar, canvasVars } from './modes.js';
 import { variations, keepVariation } from './tweaks.js';
 import { removeDistractions } from './critique.js';
@@ -149,6 +150,11 @@ export function editProject(args) {
       elements = swapSymbol(elements, id, other.symbol);
     }
     else if (op.op === 'sizes') elements = makeSizes(elements, id).elements;
+    else if (op.op === 'grid') { // a screen's column grid (grids.js); all: true gives every screen the same one
+      if (!op.off && op.cols !== undefined) n('cols', 1, GRID_MAX);
+      elements = updateElement(elements, id, { grid: op.off ? null : { cols: op.cols ?? 4, gutter: op.gutter ?? 1 } });
+      if (op.all === true) elements = gridEverywhere(elements, id);
+    }
     else if (op.op === 'pin') elements = updateElement(elements, id, { pin: { x: op.x, y: op.y } });
     else if (op.op === 'auto') elements = updateElement(elements, id, { auto: op.off ? null : { gap: op.gap ?? 1, pad: op.pad ?? 1 } });
     else if (op.op === 'play') {

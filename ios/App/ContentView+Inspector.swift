@@ -23,6 +23,17 @@ extension ContentView {
                 }
                 .pickerStyle(.menu).fixedSize()
             }
+            let g = el.grid
+            Stepper(g.map { "Columns \($0.cols)" } ?? String(localized: "Columns off"),
+                    onIncrement: { setGrid(el, ColumnGrid(cols: min(gridMax, (g?.cols ?? 0) + 1), gutter: g?.gutter ?? 1)) },
+                    onDecrement: { setGrid(el, g.flatMap { $0.cols > 1 ? ColumnGrid(cols: $0.cols - 1, gutter: $0.gutter) : nil }) })
+                .fixedSize()
+            if let g {
+                Stepper("Gutter \(g.gutter)", onIncrement: { setGrid(el, ColumnGrid(cols: g.cols, gutter: min(8, g.gutter + 1))) },
+                        onDecrement: { setGrid(el, ColumnGrid(cols: g.cols, gutter: max(0, g.gutter - 1))) })
+                    .fixedSize()
+                Button("Use on Every Screen") { canvasEdit { gridEverywhere($0, id: el.id) } }
+            }
             Picker("Every box", selection: Binding(get: { el.style ?? "single" }, set: { tweak(el, style: $0) })) {
                 ForEach(boxStyles, id: \.self) { Text($0.capitalized).tag($0) }
             }
@@ -135,6 +146,8 @@ extension ContentView {
         .fixedSize()
         .accessibilityLabel("Canvas")
     }
+
+    func setGrid(_ el: Element, _ grid: ColumnGrid?) { canvasEdit { updateElement($0, id: el.id, grid: grid) } }
 
     func canvasEdit(_ change: ([Element]) -> [Element]) {
         state.pushHistory()

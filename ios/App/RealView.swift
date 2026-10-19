@@ -88,6 +88,12 @@ private struct RealPartView: View {
             RoundedRectangle(cornerRadius: rowH * 0.6).fill(paper ?? Theme.canvas)
                 .overlay(RoundedRectangle(cornerRadius: rowH * 0.6).strokeBorder(Theme.rule))
                 .shadow(color: .black.opacity(0.06), radius: 8, y: 4)
+                .overlay(alignment: .topLeading) { // its column grid (Grids.swift) as faint bands on the artboard
+                    ForEach(gridColumns(el), id: \.col) { b in
+                        Rectangle().fill(Theme.accent.opacity(0.08)).frame(width: charW * CGFloat(b.width), height: rowH * CGFloat(el.height - 2))
+                            .offset(x: charW * CGFloat(b.col - el.col), y: rowH)
+                    }
+                }
                 .overlay(alignment: .topLeading) { Text(verbatim: title).font(.caption).foregroundStyle(Theme.muted).offset(y: -rowH) }
         case .button(let label):
             Capsule().fill(paper ?? deep).overlay(Text(verbatim: label).fontWeight(.semibold).foregroundStyle(ink ?? .white).lineLimit(1))

@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { t, partLabel } from '../i18n.js';
 import { drawCell } from '../lib/draw.js';
 import { COLORS } from '../lib/color.js';
+import { gridColumns } from '../lib/grids.js';
 
 export function token(name, fallback) {
   const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -70,6 +71,9 @@ export function drawCells(ctx, grid, [r0, r1, c0, c1], charW, charH, fontSize, {
 export function drawMarks(ctx, elements, outlinedIds, charW, charH, accent) {
   ctx.strokeStyle = ctx.fillStyle = accent;
   ctx.lineWidth = 1;
+  ctx.globalAlpha = 0.08; // a screen's column grid (grids.js): faint bands, never in the text
+  for (const s of elements) if (s.presetId === 'screen' && !s.hidden) for (const b of gridColumns(s)) ctx.fillRect(b.col * charW, (s.row + 1) * charH, b.width * charW, (s.height - 2) * charH);
+  ctx.globalAlpha = 1;
   for (const el of elements) {
     if (outlinedIds.includes(el.id)) ctx.strokeRect(el.col * charW - 1.5, el.row * charH - 1.5, el.width * charW + 3, el.height * charH + 3);
   }

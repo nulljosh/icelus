@@ -1,6 +1,7 @@
 // Lines, connectors, see-through text and banners. Split out of engine.js to keep each file small.
 // Ported line for line in ios/App/Lines.swift.
 
+import { snapToGrid } from './grids.js';
 import { createGrid, elementAt, newElementId, trimText, asciiChar } from './engine.js';
 export { tableFrame, tableCells, tableText, textCells, CHARTS, SIZED, chartItems, chartFrame, nodeFrame, sequenceFrame, isMessage,
   treeFrame, isTreeLine, contentFrame, syncSymbol, makeSymbol, detachSymbol, symbolUses,
@@ -281,5 +282,5 @@ export function snapPosition(elements, id, col, row, reach = 2) {
   };
   const [c, guideCols] = snap(col, el.width, 'col', 'width');
   const [r, guideRows] = snap(row, el.height, 'row', 'height');
-  return { col: c, row: r, guideCols, guideRows };
+  return snapToGrid(elements, id, { col: c, row: r, guideCols, guideRows }); // then onto a screen's column grid (grids.js)
 }

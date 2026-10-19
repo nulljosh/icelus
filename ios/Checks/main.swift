@@ -350,5 +350,6 @@ runSizeChecks()
 runPropertyChecks()
 runModeChecks()
 runLibraryChecks()
+runGridChecks()
 
 print("ok — \(checks) checks passed")

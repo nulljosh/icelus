@@ -21,6 +21,7 @@
 		865169F86BF775DB26F322C4 /* IcelusWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5733217419067E190F9AF43A /* IcelusWatchApp.swift */; };
 		B00511AB2DBCFCAEA5E4D980 /* Mask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247E90D4FC2E1B6B5ACB4601 /* Mask.swift */; };
 		B08573BE6CB151E5D241B071 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23245C03482D89C431A3035 /* Theme.swift */; };
+		B1903325184344351313B26E /* Grids.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09E8B569A328AA9EDE43372 /* Grids.swift */; };
 		B205A53C576184135A20F1A2 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF867FFAD8CBAE908513995 /* Layout.swift */; };
 		CCD0A0B1326D5608761B9ECD /* Modes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B37F496459948738E0D11 /* Modes.swift */; };
 		DDD410A8587722D3DA6352A7 /* Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFDCFA6ADCB7BE2F58A967F /* Engine.swift */; };
@@ -43,6 +44,7 @@
 		8A0B86E01C3CC4E95B400A6C /* Lines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lines.swift; sourceTree = "<group>"; };
 		8A6B37F496459948738E0D11 /* Modes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modes.swift; sourceTree = "<group>"; };
 		8AF867FFAD8CBAE908513995 /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
+		B09E8B569A328AA9EDE43372 /* Grids.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grids.swift; sourceTree = "<group>"; };
 		CBFDCFA6ADCB7BE2F58A967F /* Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine.swift; sourceTree = "<group>"; };
 		D23245C03482D89C431A3035 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		E020A050D3AEF8A6D8CE948B /* Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presets.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 			children = (
 				7462A3DA83B6CD153AB82F11 /* Actions.swift */,
 				CBFDCFA6ADCB7BE2F58A967F /* Engine.swift */,
+				B09E8B569A328AA9EDE43372 /* Grids.swift */,
 				03A7ADA5CA9E70AF85236ABB /* Heal.swift */,
 				62BC73AE896394FDEA07260B /* History.swift */,
 				8AF867FFAD8CBAE908513995 /* Layout.swift */,
@@ -188,6 +191,7 @@
 				00011868AC2593F27094D1E9 /* CanvasView.swift in Sources */,
 				401EFA0A3016021AC26F9DFE /* ContentView.swift in Sources */,
 				DDD410A8587722D3DA6352A7 /* Engine.swift in Sources */,
+				B1903325184344351313B26E /* Grids.swift in Sources */,
 				2AE7E01E5C66FBCD8B93A2EF /* Heal.swift in Sources */,
 				F4A45F91A3934F34BDAA042C /* History.swift in Sources */,
 				865169F86BF775DB26F322C4 /* IcelusWatchApp.swift in Sources */,

@@ -1,6 +1,7 @@
 import { newElementId, DEFAULT_COLS, DEFAULT_ROWS } from './engine.js';
 import { ADJUSTMENTS, BOX_STYLES, VARIANTS, cleanBlend } from './lines.js';
 import { cleanVars } from './modes.js';
+import { cleanGrid } from './grids.js';
 import { cleanNote, cleanOwn } from './shapes.js';
 import { maxOf } from './extent.js';
 import { cleanColor } from './color.js';
@@ -54,6 +55,7 @@ export function parseProject(json) {
       ...(cleanMask(el.mask) && { mask: cleanMask(el.mask) }),
       ...(cleanBlend(el.blend) && { blend: el.blend }),
       ...(el.presetId === 'screen' && cleanAuto(el.auto) && { auto: cleanAuto(el.auto) }),
+      ...(el.presetId === 'screen' && cleanGrid(el.grid) && { grid: cleanGrid(el.grid) }),
       ...(cleanPin(el.pin) && { pin: cleanPin(el.pin) }),
       ...(typeof el.twin === 'string' && el.twin.length <= 64 && { twin: el.twin }),
       ...(el.presetId === 'screen' && SIZES.some(s => s.name === el.size) && { size: el.size }),

@@ -11,6 +11,7 @@
 		08EE5C314D3463BDF50FEBA5 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57424AF9D748F7E21870DB86 /* Deck.swift */; };
 		0A93A71612288950460E9431 /* ContentView+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D023F976FC3E7E474C45A2A /* ContentView+Toolbar.swift */; };
 		0DBBEFA8B3E7B524A9755C26 /* Tweaks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5484773E47EA73A7F1F10210 /* Tweaks.swift */; };
+		0F433D2A7A2B343BB7D7D3B9 /* Grids.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3A0BEDA608AA6302988DB0 /* Grids.swift */; };
 		10B1C7EEEB167065E800C6D0 /* Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C84E6F38B851C0D65D2FE5A /* Engine.swift */; };
 		169C891A6F05E01E700B75ED /* Modes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9262121316785E21EF4B8849 /* Modes.swift */; };
 		1A50DF6C2AF5EF85C96FAE4F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879B44EFB8FEC71630884A00 /* Color.swift */; };
@@ -74,6 +75,7 @@
 		3F4D1BF3518E566E0218FC21 /* Intents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intents.swift; sourceTree = "<group>"; };
 		419611A285800EF858E0B507 /* ContentView+Inspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Inspector.swift"; sourceTree = "<group>"; };
 		49F4241AD7BFA3A38496EAF0 /* PresentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentView.swift; sourceTree = "<group>"; };
+		4B3A0BEDA608AA6302988DB0 /* Grids.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grids.swift; sourceTree = "<group>"; };
 		4D37A240FE1660EB61CBCCD5 /* TextSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSheet.swift; sourceTree = "<group>"; };
 		4E39EFE31CF675EC3B86E17A /* Icelus-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "Icelus-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5084EB91A39CB3AEECD78655 /* ContentView+Brush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Brush.swift"; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				57424AF9D748F7E21870DB86 /* Deck.swift */,
 				6C84E6F38B851C0D65D2FE5A /* Engine.swift */,
 				6AE20C0CE94BA0F9C50420FE /* Gradient.swift */,
+				4B3A0BEDA608AA6302988DB0 /* Grids.swift */,
 				922E8F8F17F9828807573B25 /* Handoff.swift */,
 				5B20898F035FF1CC8BEDD3A8 /* Heal.swift */,
 				B1150CBEE7464B0AFA89246C /* History.swift */,
@@ -313,6 +316,7 @@
 				08EE5C314D3463BDF50FEBA5 /* Deck.swift in Sources */,
 				10B1C7EEEB167065E800C6D0 /* Engine.swift in Sources */,
 				AD75027F9AFB926E213A0E1B /* Gradient.swift in Sources */,
+				0F433D2A7A2B343BB7D7D3B9 /* Grids.swift in Sources */,
 				44C93173EBE97426CE2F2DC7 /* HTML.swift in Sources */,
 				4F4ABF4D8BB3CD425C1DCE2D /* Handoff.swift in Sources */,
 				2F10D86B5E31A124C3C5E91C /* Heal.swift in Sources */,
@@ -426,7 +430,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 47.0.0;
+				MARKETING_VERSION = 48.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -516,7 +520,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 47.0.0;
+				MARKETING_VERSION = 48.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;

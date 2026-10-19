@@ -343,7 +343,7 @@ func snapPosition(_ elements: [Element], id: String, col: Int, row: Int, reach: 
     }
     let (c, guideCols) = snap(col, el.width) { ($0.col, $0.width) }
     let (r, guideRows) = snap(row, el.height) { ($0.row, $0.height) }
-    return (c, r, guideCols, guideRows)
+    return snapToGrid(elements, id: id, (c, r, guideCols, guideRows))
 }
 
 /// Copy an element one cell down and right so the duplicate is visible. Returns the new list and id.

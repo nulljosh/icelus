@@ -9,6 +9,7 @@ import { BLENDS, partsInside } from '../lib/lines.js';
 import { PIN_X, PIN_Y } from '../lib/layout.js';
 import LayerList from './LayerList.jsx';
 import CanvasPanel from './CanvasPanel.jsx';
+import ScreenGrid from './ScreenGrid.jsx';
 import { canvasVars, knobValue } from '../lib/modes.js';
 import ReviewList from './ReviewList.jsx';
 import { screenTweaks } from '../lib/tweaks.js';
@@ -116,6 +117,7 @@ export default function Inspector({
   onSizes,
   onSwap,
   onCanvas,
+  onGrid,
   more = false,
   onMore,
   onVariations,
@@ -204,7 +206,7 @@ export default function Inspector({
                 <span className="inspector-value">{t(`size_${el.size.toLowerCase()}`)}</span>
               </div>
             )}
-            {el.presetId === 'screen' && <Tweaks element={el} elements={elements} onUpdate={onUpdateElement} />}
+            {el.presetId === 'screen' && <><Tweaks element={el} elements={elements} onUpdate={onUpdateElement} /><ScreenGrid element={el} onUpdate={onUpdateElement} onEverywhere={onGrid} /></>}
             {el.presetId === 'screen' && (
               <div className="inspector-actions">
                 {onVariations && <button className="btn" onClick={() => onVariations(el.id)}>{t('show_variations')}</button>}

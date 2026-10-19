@@ -195,6 +195,7 @@ struct Element: Equatable, Identifiable {
     var pin: Pin? = nil // how it follows a resized screen (Layout.swift)
     var twin: String? = nil, size: String? = nil // sizes of one screen kept in step (Layout.swift)
     var own: [String] = [] // what a symbol copy keeps as its own (Shapes.swift)
+    var grid: ColumnGrid? = nil // a screen's column grid (Grids.swift)
     var canvas = false, vars: [String: Int] = [:] // the canvas part: line mode and spacing variables (Modes.swift)
 }
 

@@ -14,6 +14,7 @@ import { recordAction, saveAction, playAction, cleanActionName } from './lib/act
 import { harmonize } from './lib/heal.js';
 import { autoLayout, constrain, syncTwins, makeSizes } from './lib/layout.js';
 import { setMode, setVar } from './lib/modes.js';
+import { gridEverywhere } from './lib/grids.js';
 import { makeLibrary, parseLibrary, pullLibrary, libraryPalette } from './lib/library.js';
 import { maxOf } from './lib/extent.js';
 import SelectBar from './components/SelectBar.jsx';
@@ -220,6 +221,12 @@ function edit(state, action) {
     case 'SWAP_SYMBOL': {
       const elements = swapSymbol(state.elements, action.id, action.symbol);
       return elements === state.elements ? state : { ...pushHistory(state), elements, grid: renderElements(elements, state.cols, state.rows) };
+    }
+
+    // Grids (grids.js): every screen takes the picked screen's column grid.
+    case 'GRID_EVERYWHERE': {
+      const elements = gridEverywhere(state.elements, action.id);
+      return { ...pushHistory(state), elements, grid: renderElements(elements, state.cols, state.rows) };
     }
 
     // Libraries (library.js): every linked copy takes the opened library's version, one undo step.
@@ -1004,6 +1011,7 @@ export default function App() {
         onSizes={id => dispatch({ type: 'MAKE_SIZES', id })}
         onSwap={(id, symbol) => dispatch({ type: 'SWAP_SYMBOL', id, symbol })}
         onCanvas={change => dispatch({ type: 'CANVAS', ...change })}
+        onGrid={id => dispatch({ type: 'GRID_EVERYWHERE', id })}
         more={more}
         onMore={setMore}
         onVariations={(id) => dispatch({ type: 'VARIATIONS', id, labels: ['var_stacked', 'var_split', 'var_dense'].map(k => t(k)) })}

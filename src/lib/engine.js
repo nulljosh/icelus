@@ -2,6 +2,7 @@
 // Grid coordinate system: (col, row), 0-indexed
 // Lines, connectors, see-through text and banners live in lines.js and are re-exported here.
 
+import { cleanGrid } from './grids.js';
 import { FILLS, cleanNote, cleanOwn, symbolFields, SYMBOL_FIELDS } from './shapes.js';
 import { tweakScreen } from './tweaks.js';
 import { closeLines } from './heal.js';
@@ -258,6 +259,10 @@ function updateOne(elements, id, changes) {
       const { mask, clip, ...next } = el, m = changes.mask === undefined ? mask : cleanMask(changes.mask);
       const to = changes.clip === undefined ? clip : changes.clip;
       return { ...next, ...(m && { mask: m }), ...(typeof to === 'string' && to !== el.id && { clip: to }) };
+    }
+    if (changes.grid !== undefined && el.presetId === 'screen') { // column grid (grids.js); null takes it off
+      const { grid, ...rest } = el, g = cleanGrid(changes.grid);
+      return g ? { ...rest, grid: g } : rest;
     }
     if (changes.auto !== undefined && el.presetId === 'screen') { // auto layout (layout.js); null turns it off
       const { auto, ...rest } = el, a = cleanAuto(changes.auto);

@@ -1,6 +1,6 @@
 # Icelus
 
-v48.0.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
+v49.0.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
 like Figma or Photoshop, and underneath every screen is text on a character grid that pastes anywhere. Web (Vite + React 19) at icelus.jaybulb.com, native SwiftUI for
 iPhone, iPad and Mac (ASC app 6794988951, $0.99), plus a Watch app and a terminal companion.
 
@@ -23,7 +23,7 @@ Ex-Charwork, ex-Wiretext, ex-Blockframe, ex-Blockprint, ex-Glyphic, ex-Glyphbox,
 npm install && npm run dev        # :5173
 npm test && npm run build
 npm run build && npx wrangler pages deploy   # a push deploys nothing; ships the app and landing/ together
-swiftc -o /tmp/wtcheck ios/App/Engine.swift ios/App/Lines.swift ios/App/Shapes.swift ios/App/Presets.swift ios/App/Syntax.swift ios/App/Photo.swift ios/App/Palette.swift ios/App/HTML.swift ios/App/Import.swift ios/App/Tweaks.swift ios/App/Critique.swift ios/App/Tutorial.swift ios/App/Account.swift ios/App/Handoff.swift ios/App/Code.swift ios/App/Deck.swift ios/App/Brush.swift ios/App/Select.swift ios/App/Gradient.swift ios/App/Color.swift ios/App/Real.swift ios/App/Mask.swift ios/App/History.swift ios/App/Project.swift ios/App/Actions.swift ios/App/Heal.swift ios/App/Layout.swift ios/App/Symbols.swift ios/App/Modes.swift ios/App/Library.swift ios/Checks/*.swift && /tmp/wtcheck
+swiftc -o /tmp/wtcheck ios/App/Engine.swift ios/App/Lines.swift ios/App/Shapes.swift ios/App/Presets.swift ios/App/Syntax.swift ios/App/Photo.swift ios/App/Palette.swift ios/App/HTML.swift ios/App/Import.swift ios/App/Tweaks.swift ios/App/Critique.swift ios/App/Tutorial.swift ios/App/Account.swift ios/App/Handoff.swift ios/App/Code.swift ios/App/Deck.swift ios/App/Brush.swift ios/App/Select.swift ios/App/Gradient.swift ios/App/Color.swift ios/App/Real.swift ios/App/Mask.swift ios/App/History.swift ios/App/Project.swift ios/App/Actions.swift ios/App/Heal.swift ios/App/Layout.swift ios/App/Symbols.swift ios/App/Modes.swift ios/App/Grids.swift ios/App/Library.swift ios/Checks/*.swift && /tmp/wtcheck
 ```
 
 Mac build check (no signing, run in the background, never next to another heavy job):
@@ -50,8 +50,8 @@ file is `{blockprint: 1, cols, rows, elements}` (the old key stays so every save
 - `ios/App/Store.swift`: autosaves project.json in Application Support
 - Languages: web strings in `src/i18n.js` (English) and `src/locales/*.json`; the apps' `ios/App/Localizable.xcstrings`
   is built from those plus `ios/strings.json` by `python3 tools/strings.py`. Never edit the catalog by hand.
-- `watchos/` builds from the iOS Engine, Lines, Shapes, Mask, History, Project, Actions, Heal, Layout, Symbols, Modes, Presets, Store and Theme files (see its project.yml); `tui/`
-  symlinks Engine, Lines, Shapes, Mask, History, Project, Actions, Heal, Layout, Symbols, Modes and Presets. One engine, four apps.
+- `watchos/` builds from the iOS Engine, Lines, Shapes, Mask, History, Project, Actions, Heal, Layout, Symbols, Modes, Grids, Presets, Store and Theme files (see its project.yml); `tui/`
+  symlinks Engine, Lines, Shapes, Mask, History, Project, Actions, Heal, Layout, Symbols, Modes, Grids and Presets. One engine, four apps.
 - `src/lib/mask.js` + `ios/App/Mask.swift`: masks (v38). A crop (`mask` insets) or a clip to another part (`clip` id) turns hidden cells into holes at draw time; the template is never cut
 - `lands()` in `src/lib/lines.js` + `Mask.swift`: blend modes (v39). One rule for whether a part's character lands on a cell (join, over, under, knockout), shared by drawing, accent and color so all three agree
 - `src/lib/history.js` + `ios/App/History.swift`: history (v40). `stepName` names each undo step from the element diff, `goToStep` is undo or redo repeated, snapshots (`{name, elements}`, at most 20) live in the project file and are parsed like a project of their own. `HistoryList.jsx` and `HistorySheet.swift` draw it
@@ -61,6 +61,7 @@ file is `{blockprint: 1, cols, rows, elements}` (the old key stays so every save
 - `src/lib/shapes.js` + `ios/App/Symbols.swift`: symbol properties (v46). A copy's `own: ['text'|'style']` is kept only on parts with a symbol; `symbolFields(src, el)` leaves owned fields out of `syncSymbol`, and `swapSymbol` is a full replace (kind, label, characters, size; owns dropped)
 - `src/lib/modes.js` + `ios/App/Modes.swift`: variables and modes (v47). One canvas part (`presetId: 'adjust', canvas: true`) holds the line mode (`adjust`, drawn over the whole grid last by renderElements, kept out of screens and selections) and `vars` (named spacing 0-8, at most 12). A screen's `auto.gap`/`pad` may be a var name (Swift `gapVar`/`padVar`), resolved in autoLayout; removing a var leaves its last value
 - `src/lib/library.js` + `ios/App/Library.swift` (app only): libraries (v48). `makeLibrary` writes one part per symbol (`{icelusLibrary: 1, name, parts: [{symbol, label, presetId, template, text?, style?}]}`); `libraryPalette` puts them in Mine with `symbol`, which `createElement` copies, so placed parts stay linked; `pullLibrary` runs symbolFields over linked copies. Web: Open a library file, Export > Download library. Native: Paste, Export > Copy library. API `project_to_library`, edit op `pull`
+- `src/lib/grids.js` + `ios/App/Grids.swift`: grids (v49). A screen's `grid: {cols 1-24, gutter 0-8}`; `gridColumns` gives the bands, `snapToGrid` runs at the end of `snapPosition` (left or right edge onto a band), `gridEverywhere` copies one screen's grid to all. Bands draw in drawMarks / CanvasView at 8 percent accent, never in the text
 - `src/lib/editProject.js`: the edit_project ops, split from tools.js; argument checks in `toolArgs.js`
 - `ios/Checks/main.swift`: the JS tests as plain asserts
 - `landing/`: the landing page (static, no build step of its own; `npm run build` copies it to `dist/` and `wrangler pages deploy` publishes it with the app), which embeds the real app at `/app/?demo` (no storage writes), and the ad

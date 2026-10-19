@@ -10,6 +10,7 @@
 /* Screens are artboards: a white page with its name above, like a frame in a design tool. */
 .real-screen { overflow: visible; background: var(--paper, var(--color-bg2)); border-radius: calc(var(--row) * 0.6);
   box-shadow: 0 0 0 1px var(--color-hairline), 0 8px 24px rgba(0, 0, 0, 0.06); }
+.real-band { position: absolute; background: var(--accent); opacity: 0.08; }
 .real-frame-name { position: absolute; left: 0; bottom: 100%; font-size: 0.85em; line-height: var(--row); color: var(--color-secondary); }
 
 .real-button { justify-content: center; border-radius: 999px; background: var(--paper, var(--accent-deep)); color: var(--ink, #fff); font-weight: 600; }

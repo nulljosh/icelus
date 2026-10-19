@@ -68,6 +68,7 @@ What the three inspirations shipped in 2026 that the roadmap did not cover yet, 
 10. Show and hide per copy (Figma boolean properties): a symbol copy hides one of its lines, like an icon or a subtitle, without detaching. Found after v46 shipped own words, own style and swap.
 11. Color and width variables with light and dark sets (Figma color variables and modes). Found after v47 shipped named spacing and the canvas line mode.
 12. Libraries by link with an update list (Figma library updates): today a library travels as a file. Found after v48.
+13. Row grids and named grid styles (Figma grid styles). Found after v49 shipped column grids.
 
 Already level: inline sliders (v21 tweaks), design system from code and checks against it (v24, v23), handoff bundle to Claude Code (v27),
 standalone HTML (v28), decks and PDF (v29), history and actions (v40, v41). Skipped on purpose: shaders, 3D transforms and AI upscale,
