@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { closeLines, nextValue, nextLine, expandChanges } from './heal.js';
+import { closeLines, nextValue, nextLine, expandChanges, harmonize } from './heal.js';
 import { createElement, createLine, deleteElement, moveElement, updateElement, serializeProject, tableCells } from './engine.js';
-import { getPreset } from './presets.js';
+import { getPreset, SCREEN_TOOL } from './presets.js';
 import { callTool } from './tools.js';
 
 const box = (col, row) => createElement(getPreset('button'), col, row);
@@ -63,5 +63,21 @@ describe('heal', () => {
     expect(out.text).toContain('• Item five');
     expect(() => callTool('edit_project', { project, ops: [{ op: 'expand', index: 1 }] })).toThrow(/does not expand/);
     expect(() => callTool('edit_project', { project, ops: [{ op: 'expand', index: 0, by: 99 }] })).toThrow(/between 1 and 50/);
+  });
+
+  it('harmonizes a part dropped on a screen with the look most parts there share', () => {
+    const base = createElement(SCREEN_TOOL, 0, 0), screen = updateElement([base], base.id, { width: 70, height: 30 })[0];
+    const card = (col, row, extra = {}) => ({ ...createElement(getPreset('card'), col, row), ...extra });
+    const mates = [card(2, 2, { style: 'double', ink: 4 }), card(2, 11, { style: 'double', ink: 4 }), card(24, 11, { style: 'double', ink: 4 }), card(2, 20)];
+    const fresh = card(24, 2), colored = card(46, 2, { ink: 2 }), outside = card(80, 2);
+    const els = [screen, ...mates, fresh, colored, outside];
+    const got = id => harmonize(els, id).find(el => el.id === id);
+    expect([got(fresh.id).style, got(fresh.id).ink]).toEqual(['double', 4]);
+    expect(got(colored.id).ink).toBe(2);
+    expect(harmonize(els, outside.id)).toBe(els);
+    expect(harmonize([screen, mates[0], mates[3], fresh], fresh.id)).toEqual([screen, mates[0], mates[3], fresh]); // no majority to follow
+    expect(harmonize(els, 'missing')).toBe(els);
+    const out = callTool('edit_project', { project: JSON.parse(serializeProject({ cols: 80, rows: 30, elements: els })), ops: [{ op: 'harmonize', index: 5 }] });
+    expect(out.project.elements[5].style).toBe('double');
   });
 });

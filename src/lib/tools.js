@@ -10,7 +10,7 @@ import {
 import { BLENDS } from './lines.js';
 import { takeSnapshot } from './history.js';
 import { playAction, cleanStep } from './actions.js';
-import { expandChanges } from './heal.js';
+import { expandChanges, harmonize } from './heal.js';
 import { PRESETS as CORE, CATEGORIES as CORE_CATEGORIES, PACKS, PACK_CATEGORIES, getPreset } from './presets.js';
 
 // The core parts plus the platform packs (iOS, Material, terminal, email).
@@ -229,6 +229,7 @@ export function callTool(name, rawArgs) {
           if (!changes) throw new ToolError(`${at} names a part that does not expand (tables and lists do)`);
           elements = updateElement(elements, id, changes);
         }
+        else if (op.op === 'harmonize') elements = harmonize(elements, id);
         else if (op.op === 'play') {
           // An action's steps on this part: by name from the project's actions, or given inline.
           const saved = typeof op.name === 'string' ? actions.find(a => a.name === op.name) : null;

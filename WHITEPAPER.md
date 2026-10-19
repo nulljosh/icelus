@@ -1,6 +1,6 @@
 # Icelus Technical Whitepaper
 
-**v42.1.0** | October 2026
+**v42.2.0** | October 2026
 
 Icelus is a design tool for screens, for people and agents. You describe a screen in a sentence and it
 draws, or you stamp parts yourself, then edit it like a design tool: real controls on artboards, a brush,

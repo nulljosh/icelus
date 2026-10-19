@@ -11,6 +11,7 @@ import BrushBar from './components/BrushBar.jsx';
 import ChatPanel from './components/ChatPanel.jsx';
 import HistoryList from './components/HistoryList.jsx';
 import { recordAction, saveAction, playAction, cleanActionName } from './lib/actions.js';
+import { harmonize } from './lib/heal.js';
 import { maxOf } from './lib/extent.js';
 import SelectBar from './components/SelectBar.jsx';
 import { paint, paintMarks, erase } from './lib/brush.js';
@@ -65,7 +66,8 @@ function reducer(state, action) {
       }
       const el = createElement(preset, col, row);
       // A screen goes to the back, so the parts inside it draw on top in every app, old ones included.
-      const elements = preset.id === 'screen' ? [el, ...withHistory.elements] : [...withHistory.elements, el];
+      // A part dropped on a screen takes on its look (heal.js harmonize).
+      const elements = preset.id === 'screen' ? [el, ...withHistory.elements] : harmonize([...withHistory.elements, el], el.id);
       const { cols, rows } = fitCanvas(state, elements);
       return {
         ...withHistory,

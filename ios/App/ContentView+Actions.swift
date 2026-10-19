@@ -40,7 +40,7 @@ extension ContentView {
                 state.elements.insert(el, at: 0)
                 state.fitCanvas()
             } else {
-                state.elements.append(el)
+                state.elements = harmonize(state.elements + [el], id: el.id) // takes on the screen's look
             }
             selection = nil
             selectedId = el.id

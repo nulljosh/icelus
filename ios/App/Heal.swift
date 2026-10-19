@@ -2,6 +2,7 @@ import Foundation
 
 /// Heal and expand (v42), the twin of src/lib/heal.js. Heal: delete a part in the middle of a flow and the
 /// arrows on either side join up. Expand: a table or list grows by a row and carries its pattern on.
+/// Harmonize: a part dropped on a screen takes on its look.
 
 /// The lines pinned to a part that is going away, joined across it: one way in, any number out, or the other way round.
 func closeLines(_ elements: [Element], _ gone: String) -> [Element] {
@@ -89,4 +90,35 @@ func expandElement(_ elements: [Element], id: String, by: Int = 1) -> [Element]?
     guard lines.count + n <= 200 else { return nil }
     for _ in 0..<n { lines.append(nextLine(lines)) }
     return updateElement(elements, id: id, text: lines.joined(separator: "\n"))
+}
+
+/// Harmonize, after Photoshop's: a part dropped on a screen takes on the look most parts there share,
+/// the box style and the ink and paper, when more than half of them agree. A part that already has a color keeps it.
+private func boxed(_ el: Element) -> Bool { el.template.joined().contains { "┌╭┏╔".contains($0) } }
+private func majority<T: Hashable>(_ values: [T]) -> T? {
+    var counts: [T: Int] = [:]
+    for v in values { counts[v, default: 0] += 1 }
+    return values.first { counts[$0]! * 2 > values.count }
+}
+
+func harmonize(_ elements: [Element], id: String) -> [Element] {
+    let skip: Set<String> = ["line", "paint", "adjust"]
+    guard let el = elements.first(where: { $0.id == id }), el.presetId != "screen", !skip.contains(el.presetId),
+          let screen = elements.filter({ $0.presetId == "screen" && !partsInside([el], $0).isEmpty }).min(by: { $0.width * $0.height < $1.width * $1.height })
+    else { return elements }
+    let mates = partsInside(elements, screen).filter { $0.id != id && !skip.contains($0.presetId) }
+    guard !mates.isEmpty else { return elements }
+    var out = elements
+    if boxed(el), let style = majority(mates.filter(boxed).map { $0.style ?? "single" }), style != (el.style ?? "single") {
+        out = updateElement(out, id: id, style: style)
+    }
+    // Set here, not via Color.swift, which the Watch and terminal apps do not build.
+    let ink = majority(mates.map { $0.ink ?? -1 }), paper = majority(mates.map { $0.paper ?? -1 })
+    return out.map { p in
+        guard p.id == id else { return p }
+        var next = p
+        if let ink, ink >= 0, el.ink == nil { next.ink = ink }
+        if let paper, paper >= 0, el.paper == nil { next.paper = paper }
+        return next
+    }
 }

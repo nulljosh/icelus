@@ -1,10 +1,10 @@
-import { lineShape } from './lines.js';
+import { lineShape, partsInside } from './lines.js';
 import { tableCells } from './shapes.js';
-import { newElementId } from './engine.js';
+import { newElementId, updateElement } from './engine.js';
 
 // Heal and expand (v42). Heal: delete a part in the middle of a flow and the arrows on either side join up.
 // Expand: a table or list grows by a row and carries its pattern on (Item 3, Item 4; Mon, Tue, Wed).
-// ios/App/Heal.swift is the twin.
+// Harmonize: a part dropped on a screen takes on its look. ios/App/Heal.swift is the twin.
 // The lines pinned to a part that is going away, joined across it: one way in, any number out, or the other way round.
 export function closeLines(elements, gone) {
   const ins = elements.filter(el => el.presetId === 'line' && el.to?.id === gone && el.from?.id !== gone);
@@ -83,4 +83,31 @@ export function expandChanges(el, by = 1) {
     return { text: lines.join('\n') };
   }
   return null;
+}
+
+// Harmonize, after Photoshop's: a part dropped on a screen takes on the look most parts there share,
+// the box style and the ink and paper, when more than half of them agree. A part that already has a color keeps it.
+const BOXED = el => /[┌╭┏╔]/u.test(el.template.join(''));
+function majority(values) {
+  const counts = new Map();
+  for (const v of values) counts.set(v, (counts.get(v) ?? 0) + 1);
+  for (const [v, n] of counts) if (n * 2 > values.length) return v;
+  return undefined;
+}
+
+export function harmonize(elements, id) {
+  const el = elements.find(x => x.id === id);
+  if (!el || ['screen', 'line', 'paint', 'adjust'].includes(el.presetId)) return elements;
+  const screen = elements.filter(s => s.presetId === 'screen' && partsInside([el], s).length)
+    .sort((a, b) => a.width * a.height - b.width * b.height)[0];
+  const mates = screen ? partsInside(elements, screen).filter(p => p.id !== id && !['line', 'paint', 'adjust'].includes(p.presetId)) : [];
+  if (!mates.length) return elements;
+  let out = elements;
+  const style = BOXED(el) && majority(mates.filter(BOXED).map(p => p.style ?? 'single'));
+  if (style && style !== (el.style ?? 'single')) out = updateElement(out, id, { style });
+  for (const key of ['ink', 'paper']) {
+    const v = majority(mates.map(p => p[key] ?? null));
+    if (v != null && el[key] === undefined) out = updateElement(out, id, { [key]: v });
+  }
+  return out;
 }

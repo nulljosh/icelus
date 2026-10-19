@@ -30,4 +30,16 @@ func runHealChecks() {
     check(bigger.map { tableCells($0.template).last } == ["Cell", "Cell", "Cell"] && bigger?.height == table.height + 1, "expand: a table grows by a row")
     check(expandElement([a], id: "a") == nil && expandElement([], id: "none") == nil, "expand: other parts do not expand")
     check(expandElement([table], id: table.id, by: 999).map { tableCells($0[0].template).count } == 53, "expand: at most 50 at once")
+
+    let card = presets.first { $0.id == "card" }!
+    func at(_ col: Int, _ row: Int, style: String? = nil, ink: Int? = nil) -> Element { var e = createElement(card, col: col, row: row); e.style = style; e.ink = ink; return e }
+    let screen = Element(id: "s", presetId: "screen", label: "Screen", template: screenFrame("Screen", width: 70, height: 30), width: 70, height: 30, col: 0, row: 0, text: "Screen")
+    let mates = [at(2, 2, style: "double", ink: 4), at(2, 11, style: "double", ink: 4), at(24, 11, style: "double", ink: 4), at(2, 20)]
+    let fresh = at(24, 2), colored = at(46, 2, ink: 2), outside = at(80, 2)
+    let all = [screen] + mates + [fresh, colored, outside]
+    let h = harmonize(all, id: fresh.id).first { $0.id == fresh.id }
+    check(h?.style == "double" && h?.ink == 4, "harmonize: a dropped part takes the screen's look")
+    check(harmonize(all, id: colored.id).first { $0.id == colored.id }?.ink == 2, "harmonize: a part's own color is kept")
+    check(harmonize(all, id: outside.id) == all && harmonize(all, id: "missing") == all, "harmonize: off every screen, nothing changes")
+    check(harmonize([screen, mates[0], mates[3], fresh], id: fresh.id) == [screen, mates[0], mates[3], fresh], "harmonize: no majority, nothing changes")
 }

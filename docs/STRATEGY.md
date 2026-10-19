@@ -57,7 +57,7 @@ Sources: [AlternativeTo on Monodraw](https://alternativeto.net/software/monodraw
 What the three inspirations shipped in 2026 that the roadmap did not cover yet, cheapest first. Each is one tick.
 
 1. Find distractions (Photoshop 2026 Remove). **Done 2026-10-19 (v42.1):** Review flags stray marks, paint off every screen and parts that show nothing; one tap removes them.
-2. Harmonize (Photoshop): a part dropped on a screen takes on that screen's box style, ink and paper.
+2. Harmonize (Photoshop). **Done 2026-10-19 (v42.2):** a part dropped on a screen takes the box style, ink and paper most parts there share.
 3. Describe into a selection (Photoshop Generative Fill, Claude Design inline edits): marquee an area, type what goes there.
 4. Notes Claude acts on (Claude Design comments): a note addressed to Claude is read by Describe it and resolved when done.
 5. PowerPoint export (Claude Design exports PPTX): the deck as a .pptx, one slide a screen.
