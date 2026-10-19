@@ -1,10 +1,9 @@
-/* Account: a card with two tabs, Profile and Settings, on the 8 point grid. */
+/* Profile and Settings: one sheet each, on the 8 point grid. Title on the left, Done on the right, like an iOS sheet. */
 .account-card { max-width: 440px; align-items: stretch; text-align: start; gap: var(--sp-4); }
-.account-tabs { display: flex; gap: var(--sp-1); padding: var(--sp-1); background: var(--surface2); border-radius: var(--r-pill); }
-.account-tab { flex: 1; height: 40px; border: 0; border-radius: var(--r-pill); background: none; color: var(--color-text);
-  font: inherit; font-size: 15px; font-weight: 500; cursor: pointer; transition: background 0.2s ease; }
-.account-tab.is-on { background: var(--color-bg2); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
-.account-tab:focus-visible { outline: none; box-shadow: var(--ring); }
+.account-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); }
+.account-head .account-title { font-size: 28px; line-height: 34px; letter-spacing: -0.01em; }
+.account-done { min-height: 44px; padding: 0 var(--sp-2); border: 0; background: none; font: inherit; font-size: 17px; font-weight: 600; color: var(--accent); cursor: pointer; border-radius: var(--r-pill); }
+.account-done:focus-visible { outline: none; box-shadow: var(--ring); }
 .account-body { display: flex; flex-direction: column; gap: var(--sp-3); }
 .account-why, .account-who { margin: 0; font-size: 15px; line-height: 20px; color: var(--color-secondary); }
 .account-title { margin: 0; font-size: 22px; line-height: 28px; }
@@ -28,4 +27,3 @@
 .account-group > .inspector-row { border-radius: 0; }
 .account-danger .btn { background: var(--color-bg2); }
 .account-wide { width: 100%; }
-@media (prefers-reduced-motion: reduce) { .account-tab { transition: none; } }

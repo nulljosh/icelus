@@ -36,6 +36,7 @@ struct ContentView: View {
     @State var typing = false
     @State var capturing = false
     @State var showingAccount = false
+    @State var accountTab = "profile"
     /// Signed in, or nil. Kept in the Keychain (Account.swift).
     @State var session = SessionStore.load()
     @State var showingLayers = false
@@ -111,7 +112,7 @@ struct ContentView: View {
         }
         .onChange(of: session) { SessionStore.save(session) }
         .sheet(isPresented: $showingAccount) {
-            AccountSheet(session: $session, showMore: $showMore, onTutorial: startLesson)
+            AccountSheet(session: $session, showMore: $showMore, tab: accountTab, onTutorial: startLesson)
         }
         #if os(iOS)
         .fullScreenCover(isPresented: Binding(get: { presenting != nil }, set: { if !$0 { presenting = nil } })) {

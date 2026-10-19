@@ -16,6 +16,9 @@
   display: grid;
   place-content: safe center;
   touch-action: pan-x pan-y;
+  /* Room inside the rounded panel, so a screen's name above row 0 is never cut by the corner. */
+  padding: var(--sp-4, 16px);
+  box-sizing: border-box;
 }
 
 .canvas {

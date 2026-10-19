@@ -25,7 +25,7 @@ export const en = {
   // inspector
   inspector: 'Inspector', canvas: 'Canvas', col: 'Col', row: 'Row', size: 'Size', history: 'History', placing: 'Placing',
   click_to_place: 'Click canvas to place', selected: 'Selected', name: 'Name', position: 'Position', box_style: 'Box style', cat_More: 'More tools', describe: 'Describe', describe_title: 'Describe a screen', describe_hint: 'Say what the screen is for, and it appears on the canvas. Pick a screen first to change it.', describe_placeholder: 'A sign up screen with name, email and a terms checkbox', send: 'Send', describe_busy: 'Drawing your screen', describe_drew: 'Drew this', describe_changing: 'Changing {name}', describe_new: 'A new screen', describe_failed: 'Describe it did not answer. Try again.', look: 'Look', look_real: 'Real', look_text: 'Text', cat_Paint: 'Paint', cat_Pick: 'Pick', inspector_empty: 'Pick a part on the left to place it, or tap one on the canvas to change it.', done: 'Done',
-  account: 'Account', profile: 'Profile', settings: 'Settings', sign_in: 'Sign in', sign_out: 'Sign out',
+  account: 'Account', profile: 'Profile', settings: 'Settings', menu_copy: 'Copy', menu_download: 'Download', menu_share: 'Share', sign_in: 'Sign in', sign_out: 'Sign out',
   create_account: 'Create account', email: 'Email', password: 'Password', password_hint: 'At least 8 characters.',
   forgot_password: 'Forgot password?', send_reset: 'Send reset link', check_inbox: 'Check your email',
   check_email: 'We sent a link to confirm your account. Open it, then sign in here.',

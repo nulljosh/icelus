@@ -108,7 +108,11 @@
   transition: background var(--ease);
 }
 .menu-pop button:hover, .menu-check:hover { background: var(--surface2); }
-.menu-check { border-top: 1px solid var(--color-hairline); border-radius: 0 0 var(--r-pill) var(--r-pill); margin-top: var(--sp-1); }
+.menu-pop { max-height: calc(100vh - 96px); overflow-y: auto; }
+.menu-head { padding: var(--sp-2) var(--sp-4) var(--sp-1); font-size: 13px; line-height: 18px; font-weight: 600; color: var(--color-secondary); }
+.menu-pop hr { margin: var(--sp-1) var(--sp-4); border: 0; border-top: 1px solid var(--color-hairline); }
+/* With a mouse, rows sit at 32 points like a Mac menu; touch keeps 44. */
+@media (pointer: fine) { .menu-pop button, .menu-check { min-height: 32px; } }
 .menu-check input, .mobile-action-check input { width: 18px; height: 18px; accent-color: var(--accent); }
 
 /* The canvas card and its empty state */

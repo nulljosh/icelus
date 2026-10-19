@@ -103,7 +103,8 @@ function Profile({ user, setUser, recovery, setRecovery }) {
   return (
     <div className="account-body">
       <p className="account-why">{t('account_why')}</p>
-      <h3 className="account-title">{t(title)}</h3>
+      {/* Signing in needs no heading of its own: the sheet says Profile and the button says Sign in. */}
+      {view !== 'signin' && <h3 className="account-title">{t(title)}</h3>}
       {view !== 'sent' && (
         <form className="account-form" onSubmit={submit} noValidate>
           {view !== 'reset' && <>
@@ -171,23 +172,19 @@ function Settings({ darkMode, setDarkMode, look, setLook, more, setMore, onTutor
   );
 }
 
-export default function AccountPanel({ onClose, user, setUser, recovery, setRecovery, settings }) {
-  const [tab, setTab] = useState('profile');
+// One sheet, one job: the nav bar opens Profile or Settings directly, so there are no tabs to switch.
+export default function AccountPanel({ tab = 'profile', onClose, user, setUser, recovery, setRecovery, settings }) {
   return (
     <div className="tour-overlay" onClick={onClose}>
-      <div className="tour-card account-card" role="dialog" aria-modal="true" aria-label={t('account')} onClick={e => e.stopPropagation()}
+      <div className="tour-card account-card" role="dialog" aria-modal="true" aria-label={t(tab)} onClick={e => e.stopPropagation()}
         onKeyDown={e => { if (e.key === 'Escape') onClose(); }}>
-        <div className="account-tabs" role="tablist">
-          {['profile', 'settings'].map(id => (
-            <button key={id} type="button" role="tab" aria-selected={tab === id} className={`account-tab${tab === id ? ' is-on' : ''}`} onClick={() => setTab(id)}>
-              {t(id)}
-            </button>
-          ))}
+        <div className="account-head">
+          <h2 className="account-title">{t(tab)}</h2>
+          <button type="button" className="account-done" onClick={onClose}>{t('done')}</button>
         </div>
-        {tab === 'profile'
-          ? <Profile user={user} setUser={setUser} recovery={recovery} setRecovery={setRecovery} />
-          : <Settings {...settings} />}
-        <button type="button" className="btn account-wide" onClick={onClose}>{t('done')}</button>
+        {tab === 'settings'
+          ? <Settings {...settings} />
+          : <Profile user={user} setUser={setUser} recovery={recovery} setRecovery={setRecovery} />}
       </div>
     </div>
   );

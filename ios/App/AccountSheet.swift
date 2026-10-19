@@ -1,16 +1,16 @@
 import SwiftUI
 
-/// Account: Profile and Settings, a port of src/components/AccountPanel.jsx. Signed out you can sign in, create
+/// Profile or Settings, one sheet each (the toolbar opens either directly), a port of src/components/AccountPanel.jsx. Signed out you can sign in, create
 /// an account or ask for a reset link (the link finishes on the web, then you sign in here). Signed in you can
 /// set your name, sign out, or delete the account for good.
 struct AccountSheet: View {
     @Binding var session: AccountSession?
     @Binding var showMore: Bool
+    let tab: String // "profile" or "settings"
     let onTutorial: () -> Void
     var client = AccountClient()
     @Environment(\.dismiss) private var dismiss
     @AppStorage("glyphbox-look") private var look = "real"
-    @State private var tab = "profile"
     @State private var view = "signin" // signin | signup | forgot | sent
     @State private var email = ""
     @State private var password = ""
@@ -23,12 +23,6 @@ struct AccountSheet: View {
     var body: some View {
         NavigationStack {
             Form {
-                Picker("Account", selection: $tab) {
-                    Text("Profile").tag("profile")
-                    Text("Settings").tag("settings")
-                }
-                .pickerStyle(.segmented)
-                .labelsHidden()
                 if tab == "profile" { profile } else { settings }
             }
             .navigationTitle(tab == "profile" ? "Profile" : "Settings")

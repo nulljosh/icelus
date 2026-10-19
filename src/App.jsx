@@ -290,6 +290,14 @@ const SunIcon = () => (
   </svg>
 );
 
+// A gear: the outer ring's dashes are the teeth.
+const GearIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+    <circle cx="9" cy="9" r="6.4" stroke="currentColor" strokeWidth="2.6" strokeDasharray="2.5 2.53" />
+    <circle cx="9" cy="9" r="4.6" stroke="currentColor" strokeWidth="1.6" />
+    <circle cx="9" cy="9" r="1.6" fill="currentColor" />
+  </svg>
+);
 const PersonIcon = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
     <circle cx="9" cy="6" r="3.2" stroke="currentColor" strokeWidth="1.6" />
@@ -392,7 +400,7 @@ export default function App() {
   // Accounts (jaybulb-api): signed out is first class. A reset link opens the panel by itself.
   const { user, setUser, recovery, setRecovery } = useAccount(!DEMO);
   const [accountOpen, setAccountOpen] = useState(false);
-  useEffect(() => { if (recovery) setAccountOpen(true); }, [recovery]);
+  useEffect(() => { if (recovery) setAccountOpen('profile'); }, [recovery]);
   // More: the advanced controls, shown or hidden everywhere at once, remembered per viewer.
   const [more, setMoreState] = useState(() => { try { return localStorage.getItem('glyphbox-more') === '1'; } catch { return false; } });
   const setMore = useCallback(open => { setMoreState(open); try { localStorage.setItem('glyphbox-more', open ? '1' : '0'); } catch { /* blocked */ } }, []);
@@ -743,7 +751,7 @@ export default function App() {
         </div>
       )}
       {accountOpen && (
-        <AccountPanel onClose={() => { setAccountOpen(false); setRecovery(false); }} user={user} setUser={setUser} recovery={recovery} setRecovery={setRecovery}
+        <AccountPanel tab={accountOpen} onClose={() => { setAccountOpen(false); setRecovery(false); }} user={user} setUser={setUser} recovery={recovery} setRecovery={setRecovery}
           settings={{ darkMode, setDarkMode, look, setLook, more, setMore, onTutorial: startLesson }} />
       )}
       {lesson !== null && <Tutorial step={lesson} onClose={() => setLesson(null)} />}
@@ -764,43 +772,52 @@ export default function App() {
           <details className="menu">
             <summary className="btn btn-primary">{t('export')}</summary>
             <div className="menu-pop" role="menu">
+              {/* Three groups, the way a Mac menu reads: what goes to the clipboard, what saves a file, what you show. */}
+              <span className="menu-head">{t('menu_copy')}</span>
               <button role="menuitem" onClick={(e) => { handleCopy(); closeMenu(e); }}>{t('copy_text')}</button>
               <button role="menuitem" onClick={(e) => { handleCopyMarkdown(); closeMenu(e); }}>{t('copy_markdown')}</button>
               <button role="menuitem" onClick={(e) => { handleCopySketch(); closeMenu(e); }}>{t('copy_lines')}</button>
               {hasColor(state.elements) && <button role="menuitem" onClick={(e) => { handleCopyAnsi(); closeMenu(e); }}>{t('copy_ansi')}</button>}
               {screensDoc && <button role="menuitem" onClick={(e) => { handleCopyScreens(); closeMenu(e); }}>{t('copy_screens')}</button>}
-              <button role="menuitem" onClick={(e) => { handlePresent(); closeMenu(e); }}>{t('present')}</button>
-              <button role="menuitem" onClick={(e) => { handleDownloadDeck(); closeMenu(e); }}>{t('download_deck')}</button>
-              <button role="menuitem" onClick={(e) => { handleCopyHandoff(); closeMenu(e); }}>{t('copy_handoff')}</button>
-              <button role="menuitem" onClick={(e) => { handleDownloadHandoff(); closeMenu(e); }}>{t('download_handoff')}</button>
               <button role="menuitem" onClick={(e) => { handleCopyReact(); closeMenu(e); }}>{t('copy_react')}</button>
               <button role="menuitem" onClick={(e) => { handleCopySwiftUI(); closeMenu(e); }}>{t('copy_swiftui')}</button>
+              <button role="menuitem" onClick={(e) => { handleCopyHandoff(); closeMenu(e); }}>{t('copy_handoff')}</button>
+              <hr />
+              <span className="menu-head">{t('menu_download')}</span>
+              <button role="menuitem" onClick={(e) => { handleExportPng(); closeMenu(e); }}>{t('download_image')}</button>
+              <button role="menuitem" onClick={(e) => { handleExport(); closeMenu(e); }}>{t('download_txt')}</button>
               <button role="menuitem" onClick={(e) => { handleDownloadHTML(); closeMenu(e); }}>{t('download_html')}</button>
+              <button role="menuitem" onClick={(e) => { handleDownloadDeck(); closeMenu(e); }}>{t('download_deck')}</button>
+              <button role="menuitem" onClick={(e) => { handleDownloadHandoff(); closeMenu(e); }}>{t('download_handoff')}</button>
+              <button role="menuitem" onClick={(e) => { handleSaveProject(); closeMenu(e); }}>{t('save_project')}</button>
+              <hr />
+              <span className="menu-head">{t('menu_share')}</span>
+              <button role="menuitem" onClick={(e) => { handlePresent(); closeMenu(e); }}>{t('present')}</button>
               <button role="menuitem" onClick={(e) => { handleShareLink(); closeMenu(e); }}>{t('copy_share')}</button>
               <button role="menuitem" onClick={(e) => { handleEmbed(); closeMenu(e); }}>{t('copy_embed')}</button>
-              <button role="menuitem" onClick={(e) => { handleExport(); closeMenu(e); }}>{t('download_txt')}</button>
-              <button role="menuitem" onClick={(e) => { handleExportPng(); closeMenu(e); }}>{t('download_image')}</button>
-              <button role="menuitem" onClick={(e) => { handleSaveProject(); closeMenu(e); }}>{t('save_project')}</button>
-              <button role="menuitem" className="menu-danger" onClick={(e) => { handleClear(); closeMenu(e); }}>{t('clear')}</button>
+              <hr />
               <label className="menu-check"><input type="checkbox" checked={asciiOnly} onChange={(e) => setAsciiOnly(e.target.checked)} />{t('plain_ascii')}</label>
+              <button role="menuitem" className="menu-danger" onClick={(e) => { handleClear(); closeMenu(e); }}>{t('clear')}</button>
             </div>
           </details>
           {DEMO ? (<button className="btn btn-icon-round" onClick={() => setDarkMode(d => !d)} title={t('toggle_dark')} aria-label={t('toggle_dark')}>
             {darkMode ? <SunIcon /> : <MoonIcon />}
-          </button>) : (<button className={`btn btn-icon-round${user ? ' is-signed-in' : ''}`} onClick={() => setAccountOpen(true)} title={t('account')} aria-label={t('account')}>
+          </button>) : (<><button className="btn btn-icon-round" onClick={() => setAccountOpen('settings')} title={t('settings')} aria-label={t('settings')}><GearIcon /></button>
+          <button className={`btn btn-icon-round${user ? ' is-signed-in' : ''}`} onClick={() => setAccountOpen('profile')} title={t('profile')} aria-label={t('profile')}>
             {user ? <span className="account-initial" aria-hidden="true">{displayName(user).slice(0, 1).toUpperCase()}</span> : <PersonIcon />}
-          </button>)}
+          </button></>)}
         </div>
 
         {/* Mobile header: icons only */}
         <div className="app-header-actions header-mobile">
-          <button className="btn btn-icon-round" onClick={handleUndo} title={t('undo')} aria-label={t('undo')}><UndoIcon /></button>
-          <button className="btn btn-icon-round" onClick={handleRedo} title={t('redo')} aria-label={t('redo')}><RedoIcon /></button>
+          {/* Undo and Redo live in the bottom bar on a phone, so the header keeps the one thing that makes a screen. */}
+          {!DEMO && <button className="btn" onClick={() => setChatOpen(o => !o)} aria-pressed={chatOpen}>{t('describe')}</button>}
           {DEMO ? (<button className="btn btn-icon-round" onClick={() => setDarkMode(d => !d)} title={t('toggle_dark')} aria-label={t('toggle_dark')}>
             {darkMode ? <SunIcon /> : <MoonIcon />}
-          </button>) : (<button className={`btn btn-icon-round${user ? ' is-signed-in' : ''}`} onClick={() => setAccountOpen(true)} title={t('account')} aria-label={t('account')}>
+          </button>) : (<><button className="btn btn-icon-round" onClick={() => setAccountOpen('settings')} title={t('settings')} aria-label={t('settings')}><GearIcon /></button>
+          <button className={`btn btn-icon-round${user ? ' is-signed-in' : ''}`} onClick={() => setAccountOpen('profile')} title={t('profile')} aria-label={t('profile')}>
             {user ? <span className="account-initial" aria-hidden="true">{displayName(user).slice(0, 1).toUpperCase()}</span> : <PersonIcon />}
-          </button>)}
+          </button></>)}
         </div>
       </header>
 

@@ -1,7 +1,7 @@
 import SwiftUI
 
 extension ContentView {
-    /// The basics stay in view: undo, redo, More, Account and Export. More shows the rest and the extra inspector
+    /// The basics stay in view: undo, redo, More, Settings, Profile and Export. More shows the rest and the extra inspector
     /// controls, remembered per device (glyphbox-more), the same split as the web.
     var toolbar: some View {
         HStack(spacing: 16) {
@@ -38,8 +38,9 @@ extension ContentView {
                 }
             }
             toolButton("More", systemImage: "ellipsis.circle", enabled: true, active: showMore) { showMore.toggle() }
-            toolButton("Account", systemImage: session == nil ? "person.crop.circle" : "person.crop.circle.fill", enabled: true,
-                       active: session != nil) { showingAccount = true }
+            toolButton("Settings", systemImage: "gearshape", enabled: true) { accountTab = "settings"; showingAccount = true }
+            toolButton("Profile", systemImage: session == nil ? "person.crop.circle" : "person.crop.circle.fill", enabled: true,
+                       active: session != nil) { accountTab = "profile"; showingAccount = true }
 
             exportMenu
         }

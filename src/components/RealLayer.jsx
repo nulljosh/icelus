@@ -4,6 +4,9 @@ import { COLORS } from '../lib/color.js';
 import { shownBox } from '../lib/mask.js';
 import './RealLayer.css';
 
+// "New here? [Create account]": a bracketed action inside a line of words reads as a link, not brackets.
+const linked = text => text.split(/\[([^[\]]{2,})\]/).map((s, i) => (i % 2 ? <span key={i} className="real-link">{s.trim()}</span> : s));
+
 // The real look: every part with a real twin drawn as an actual control, placed on the same grid the
 // canvas uses, so selecting, dragging and resizing work unchanged (this layer never takes a click).
 function Part({ el, charW, rowH, byId }) {
@@ -16,8 +19,9 @@ function Part({ el, charW, rowH, byId }) {
     ...(b && { clipPath: `inset(${Math.max(0, b.r0 - el.row) * rowH}px ${Math.max(0, el.col + el.width - b.c1) * charW}px ${Math.max(0, el.row + el.height - b.r1) * rowH}px ${Math.max(0, b.c0 - el.col) * charW}px)` }),
     ...(el.ink !== undefined && { '--ink': COLORS[el.ink]?.hex }), ...(el.paper !== undefined && { '--paper': COLORS[el.paper]?.hex }),
   };
-  const cls = `real real-${p.kind}${el.accent ? ' is-accent' : ''}${el.variant ? ` is-${el.variant}` : ''}`;
-  const lines = rows => rows.map(r => <span key={r.row} className={`real-line${r.button ? ' is-button' : ''}`} style={at(r.col, r.row)}>{r.text}</span>);
+  // A one-row control stands a little taller than its row, the way a real field or button does.
+  const cls = `real real-${p.kind}${el.accent ? ' is-accent' : ''}${el.variant ? ` is-${el.variant}` : ''}${el.height === 1 ? ' is-row' : ''}`;
+  const lines = rows => rows.map(r => <span key={r.row} className={`real-line${r.button ? ' is-button' : ''}`} style={at(r.col, r.row)}>{r.button ? r.text : linked(r.text)}</span>);
   switch (p.kind) {
     case 'screen': return <div className={cls} style={style}><span className="real-frame-name">{p.title}</span></div>;
     case 'button': return <div className={cls} style={style}>{p.label}</div>;
@@ -28,7 +32,7 @@ function Part({ el, charW, rowH, byId }) {
     case 'slider': case 'progress': return <div className={cls} style={style}><span className="real-track"><span style={{ width: `${p.value * 100}%` }} /></span></div>;
     case 'divider': return <div className={cls} style={style}><hr /></div>;
     case 'heading': return <div className={cls} style={style}>{p.text}</div>;
-    case 'text': return <div className={cls} style={style}>{p.lines.map((l, i) => <span key={i} className="real-line" style={at(0, i)}>{l}</span>)}</div>;
+    case 'text': return <div className={cls} style={style}>{p.lines.map((l, i) => <span key={i} className="real-line" style={at(0, i)}>{linked(l)}</span>)}</div>;
     case 'avatar': return <div className={cls} style={style}><span>{p.initials}</span></div>;
     case 'image': return <div className={cls} style={style}><span className="real-photo" aria-hidden="true" /></div>;
     case 'skeleton': return <div className={cls} style={style} />;
