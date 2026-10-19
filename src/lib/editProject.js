@@ -8,7 +8,8 @@ import { BLENDS } from './lines.js';
 import { takeSnapshot } from './history.js';
 import { playAction, cleanStep } from './actions.js';
 import { expandChanges, harmonize } from './heal.js';
-import { autoLayout, constrain, syncTwins, makeSizes } from './layout.js';
+import { autoLayout, constrain, syncTwins, makeSizes, AUTO_MAX } from './layout.js';
+import { MODES, VAR_MAX, isVarName, setMode, setVar, canvasVars } from './modes.js';
 import { variations, keepVariation } from './tweaks.js';
 import { removeDistractions } from './critique.js';
 import { strokeCells, paint, paintMarks, erase } from './brush.js';
@@ -41,6 +42,17 @@ export function editProject(args) {
       const size = op.size === undefined ? 1 : n('size', 1, 5);
       const cells = strokeCells(points, size, project.cols, project.rows);
       elements = op.op === 'paint' ? paint(elements, cells, typeof op.char === 'string' ? op.char : '█') : erase(elements, cells);
+      return;
+    }
+    if (op.op === 'mode') { // the whole canvas in one line set (modes.js); null goes back to each part's own
+      if (op.mode !== null && !MODES.includes(op.mode)) throw new ToolError(`${at}.mode must be null or one of ${MODES.join(', ')}`);
+      elements = setMode(elements, op.mode);
+      return;
+    }
+    if (op.op === 'var') { // a named spacing value auto layout screens use by name; null removes it
+      if (!isVarName(op.name)) throw new ToolError(`${at}.name must be lowercase letters, digits or dashes, at most 16`);
+      if (op.value !== null && Object.keys(canvasVars(elements)).length >= VAR_MAX && canvasVars(elements)[op.name] === undefined) throw new ToolError(`a project holds at most ${VAR_MAX} variables`);
+      elements = setVar(elements, op.name, op.value === null ? null : n('value', 0, AUTO_MAX));
       return;
     }
     if (op.op === 'adjust' && op.index === undefined) {

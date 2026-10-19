@@ -66,7 +66,7 @@ func joinChar(_ under: Character, _ over: Character) -> Character {
 
 func renderElements(_ elements: [Element], cols: Int, rows: Int) -> Grid {
     var grid = createGrid(cols: cols, rows: rows)
-    for el in withMasks(elements) where !el.hidden {
+    for el in withMasks(elements) where !el.hidden && !el.canvas {
         if el.presetId == "adjust" { adjustGrid(&grid, el); continue }
         // Lines, text and banners are see-through: only their marks land on what is underneath (lands()).
         let plain = el.blend == "over" || el.blend == "knockout"
@@ -81,6 +81,7 @@ func renderElements(_ elements: [Element], cols: Int, rows: Int) -> Grid {
             }
         }
     }
+    applyMode(&grid, elements)
     return grid
 }
 
@@ -144,7 +145,7 @@ func screenFrame(_ name: String, width: Int, height: Int) -> [String] {
 /// The parts wholly inside a screen travel with it. A part across its edge stays where it is.
 func partsInside(_ elements: [Element], _ frame: Element) -> [Element] {
     elements.filter {
-        $0.id != frame.id && $0.presetId != "screen" && $0.col >= frame.col && $0.row >= frame.row
+        $0.id != frame.id && $0.presetId != "screen" && !$0.canvas && $0.col >= frame.col && $0.row >= frame.row
             && $0.col + $0.width <= frame.col + frame.width && $0.row + $0.height <= frame.row + frame.height
     }
 }

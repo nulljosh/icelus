@@ -348,5 +348,6 @@ runLayoutChecks()
 runPinChecks()
 runSizeChecks()
 runPropertyChecks()
+runModeChecks()
 
 print("ok — \(checks) checks passed")

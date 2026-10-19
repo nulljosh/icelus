@@ -12,6 +12,17 @@ extension ContentView {
             Stepper("Padding \(now.padding)", onIncrement: { tweak(el, padding: now.padding + 1) },
                     onDecrement: { tweak(el, padding: now.padding - 1) })
                 .fixedSize()
+            if let auto = el.auto, !canvasVars(state.elements).isEmpty {
+                let names = canvasVars(state.elements).keys.sorted()
+                Picker("Spacing variable", selection: Binding(get: { auto.gapVar ?? "" }, set: { bind(el, gap: $0) })) {
+                    Text("Own value").tag(""); ForEach(names, id: \.self) { Text(verbatim: $0).tag($0) }
+                }
+                .pickerStyle(.menu).fixedSize()
+                Picker("Padding variable", selection: Binding(get: { auto.padVar ?? "" }, set: { bind(el, pad: $0) })) {
+                    Text("Own value").tag(""); ForEach(names, id: \.self) { Text(verbatim: $0).tag($0) }
+                }
+                .pickerStyle(.menu).fixedSize()
+            }
             Picker("Every box", selection: Binding(get: { el.style ?? "single" }, set: { tweak(el, style: $0) })) {
                 ForEach(boxStyles, id: \.self) { Text($0.capitalized).tag($0) }
             }
@@ -77,6 +88,57 @@ extension ContentView {
     func setPin(_ el: Element, x: String?, y: String?) {
         state.pushHistory()
         state.elements = updateElement(state.elements, id: el.id, pin: Pin(x: x, y: y))
+        persist()
+    }
+
+    /// Bind a screen's gap or pad to a canvas variable by name; an empty name keeps its own value.
+    func bind(_ el: Element, gap: String? = nil, pad: String? = nil) {
+        guard var a = el.auto else { return }
+        let now = knobs(el)
+        if let gap { a.gapVar = gap.isEmpty ? nil : gap; a.gap = now.spacing }
+        if let pad { a.padVar = pad.isEmpty ? nil : pad; a.pad = now.padding }
+        state.pushHistory()
+        state.elements = updateElement(state.elements, id: el.id, auto: a)
+        persist()
+    }
+
+    /// The canvas as a whole (v47, Modes.swift): its line mode over every part, and named spacing for auto layout.
+    var canvasMenu: some View {
+        let vars = canvasVars(state.elements), names = vars.keys.sorted()
+        return Menu {
+            Picker("Lines", selection: Binding(get: { canvasMode(state.elements) ?? "" }, set: { m in canvasEdit { setMode($0, m.isEmpty ? nil : m) } })) {
+                Text("Each part its own").tag("")
+                ForEach(modes, id: \.self) { m in
+                    Text(LocalizedStringKey(["ascii": "ASCII only", "single": "Single lines", "heavy": "Heavy lines", "double": "Double lines", "rounded": "Rounded corners"][m]!)).tag(m)
+                }
+            }
+            ForEach(names, id: \.self) { name in
+                Picker(selection: Binding(get: { vars[name] ?? 1 }, set: { v in canvasEdit { setVar($0, name, v) } })) {
+                    ForEach(0...autoMax, id: \.self) { Text("\($0)").tag($0) }
+                } label: { Text(verbatim: name) }
+            }
+            if names.count < varMax {
+                Button("Add Spacing") {
+                    let name = names.isEmpty ? "space" : ((2...99).map { "space-\($0)" }.first { vars[$0] == nil } ?? "space-0")
+                    canvasEdit { setVar($0, name, 1) }
+                }
+            }
+            if !names.isEmpty {
+                Menu("Remove") { ForEach(names, id: \.self) { name in Button(name) { canvasEdit { setVar($0, name, nil) } } } }
+            }
+        } label: {
+            Label("Canvas", systemImage: "square.grid.3x3")
+                .labelStyle(.iconOnly)
+                .foregroundStyle(Theme.ink)
+        }
+        .menuIndicator(.hidden)
+        .fixedSize()
+        .accessibilityLabel("Canvas")
+    }
+
+    func canvasEdit(_ change: ([Element]) -> [Element]) {
+        state.pushHistory()
+        state.elements = change(state.elements)
         persist()
     }
 }

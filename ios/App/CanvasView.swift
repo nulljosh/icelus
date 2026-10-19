@@ -210,7 +210,7 @@ struct CanvasView: View {
             context.stroke(Path { $0.move(to: CGPoint(x: 0, y: y)); $0.addLine(to: CGPoint(x: canvasSize.width, y: y)) },
                            with: .color(Theme.accent), style: dash)
         }
-        for el in parts where el.presetId == "adjust" && !el.hidden { // an adjustment's area, dashed
+        for el in parts where el.presetId == "adjust" && !el.hidden && !el.canvas { // an adjustment's area, dashed
             let area = CGRect(x: charW * CGFloat(el.col), y: rowHeight * CGFloat(el.row), width: charW * CGFloat(el.width), height: rowHeight * CGFloat(el.height))
             context.stroke(Path(area.insetBy(dx: 0.5, dy: 0.5)), with: .color(Theme.accent), style: StrokeStyle(lineWidth: 1, dash: [3, 3]))
         }

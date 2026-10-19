@@ -8,6 +8,7 @@ let autoMax = 8
 struct AutoLayout: Equatable {
     var gap = 1
     var pad = 1
+    var gapVar: String? = nil, padVar: String? = nil // bound to a canvas variable by name (Modes.swift)
 }
 
 func cleanAuto(_ value: Any?) -> AutoLayout? {
@@ -16,7 +17,8 @@ func cleanAuto(_ value: Any?) -> AutoLayout? {
         guard let n = a[k] as? NSNumber, CFGetTypeID(n) != CFBooleanGetTypeID(), let i = Int(exactly: n.doubleValue), (0...autoMax).contains(i) else { return 1 }
         return i
     }
-    return AutoLayout(gap: knob("gap"), pad: knob("pad"))
+    func bound(_ k: String) -> String? { (a[k] as? String).flatMap { isVarName($0) ? $0 : nil } }
+    return AutoLayout(gap: knob("gap"), pad: knob("pad"), gapVar: bound("gap"), padVar: bound("pad"))
 }
 
 private func inner(_ elements: [Element], _ screen: Element) -> [Element] {
@@ -62,13 +64,14 @@ func autoLayout(_ prev: [Element], _ next: [Element]) -> [Element] {
     guard next.contains(where: { $0.presetId == "screen" && $0.auto != nil }) else { return next }
     let was = Dictionary(prev.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
     var out = next
+    let vars = canvasVars(next)
     for id in next.filter({ $0.presetId == "screen" && $0.auto != nil }).map(\.id) {
         guard let now = out.first(where: { $0.id == id }), let auto = now.auto else { continue }
         let stayed = was[id].map { before in inner(prev, before).filter { p in
             out.first { $0.id == p.id }.map { $0.presetId != "line" && !$0.locked && $0.col == p.col && $0.row == p.row } ?? false
         } } ?? []
         let ids = Set((stayed + inner(out, now)).map(\.id))
-        out = stack(out, now, out.filter { ids.contains($0.id) }, auto) { was[$0.id]?.height ?? $0.height }
+        out = stack(out, now, out.filter { ids.contains($0.id) }, resolvedAuto(auto, vars)) { was[$0.id]?.height ?? $0.height }
     }
     return out
 }
@@ -77,7 +80,7 @@ func updateElement(_ elements: [Element], id: String, auto: AutoLayout?) -> [Ele
     elements.map { el in
         guard el.id == id, el.presetId == "screen" else { return el }
         var next = el
-        next.auto = auto.map { AutoLayout(gap: max(0, min(autoMax, $0.gap)), pad: max(0, min(autoMax, $0.pad))) }
+        next.auto = auto.map { AutoLayout(gap: max(0, min(autoMax, $0.gap)), pad: max(0, min(autoMax, $0.pad)), gapVar: $0.gapVar, padVar: $0.padVar) }
         return next
     }
 }

@@ -16,6 +16,7 @@ extension ContentView {
                 toolButton("Layers", systemImage: "square.3.layers.3d", enabled: !state.elements.isEmpty) { showingLayers = true }
                 toolButton("History", systemImage: "clock.arrow.circlepath", enabled: true) { showingHistory = true }
                 toolButton("Review", systemImage: "checklist", enabled: !state.elements.isEmpty) { reviewing = true }
+                canvasMenu
                 toolButton("Erase", systemImage: "eraser", enabled: true, active: erasing) {
                     erasing.toggle()
                     if erasing { selection = nil; selectedId = nil }

@@ -12,6 +12,7 @@
 		0A93A71612288950460E9431 /* ContentView+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D023F976FC3E7E474C45A2A /* ContentView+Toolbar.swift */; };
 		0DBBEFA8B3E7B524A9755C26 /* Tweaks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5484773E47EA73A7F1F10210 /* Tweaks.swift */; };
 		10B1C7EEEB167065E800C6D0 /* Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C84E6F38B851C0D65D2FE5A /* Engine.swift */; };
+		169C891A6F05E01E700B75ED /* Modes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9262121316785E21EF4B8849 /* Modes.swift */; };
 		1A50DF6C2AF5EF85C96FAE4F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879B44EFB8FEC71630884A00 /* Color.swift */; };
 		1A57AFBB187D986047D205CD /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EECD3D9BB67D44DEA7D2CF3 /* Layout.swift */; };
 		28F46FC946FD673630CAB84D /* ContentView+Brush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5084EB91A39CB3AEECD78655 /* ContentView+Brush.swift */; };
@@ -91,6 +92,7 @@
 		8E1BA5C1AA0F00AB6EB87226 /* Lines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lines.swift; sourceTree = "<group>"; };
 		9100DA6A23FBF1C9B026AE16 /* RealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealView.swift; sourceTree = "<group>"; };
 		922E8F8F17F9828807573B25 /* Handoff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handoff.swift; sourceTree = "<group>"; };
+		9262121316785E21EF4B8849 /* Modes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modes.swift; sourceTree = "<group>"; };
 		936178068387331E58393CA5 /* Select.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Select.swift; sourceTree = "<group>"; };
 		95260F9B1A1864439BC31E3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9C11522D7900814164153063 /* Syntax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Syntax.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				AB84827DB3AAE3C5A2D8E08E /* Localizable.xcstrings */,
 				5DE55F405EF48DA465F09BA1 /* Mask.swift */,
 				C158F9FBC296CB8C1D1C1481 /* MaskView.swift */,
+				9262121316785E21EF4B8849 /* Modes.swift */,
 				1C02085D7634E7A40206A127 /* Palette.swift */,
 				C657388B467BF20F6C542CE2 /* PaletteView.swift */,
 				725719DC47ECE7175907E74D /* Photo.swift */,
@@ -320,6 +323,7 @@
 				E8AC8D1716C4CAE2CD8E9089 /* Lines.swift in Sources */,
 				E338AE18AC6B0BA01FDB43B0 /* Mask.swift in Sources */,
 				D8FD9CD32586FC514F2C1CB0 /* MaskView.swift in Sources */,
+				169C891A6F05E01E700B75ED /* Modes.swift in Sources */,
 				F0D253732521AD3BAE6B6DC4 /* Palette.swift in Sources */,
 				DE206826F3EACA807830F022 /* PaletteView.swift in Sources */,
 				C01E0FF1FB7A7B1F62B54E60 /* Photo.swift in Sources */,
@@ -418,7 +422,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 46.0.0;
+				MARKETING_VERSION = 47.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -508,7 +512,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 46.0.0;
+				MARKETING_VERSION = 47.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;

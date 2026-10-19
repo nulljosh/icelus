@@ -44,7 +44,8 @@ private func elementJSON(_ e: Element) -> [String: Any] {
     if let m = e.mask { el["mask"] = ["top": m.top, "right": m.right, "bottom": m.bottom, "left": m.left] }
     if let clip = e.clip { el["clip"] = clip }
     if let blend = e.blend { el["blend"] = blend }
-    if let auto = e.auto { el["auto"] = ["gap": auto.gap, "pad": auto.pad] }
+    if let auto = e.auto { el["auto"] = ["gap": auto.gapVar ?? auto.gap as Any, "pad": auto.padVar ?? auto.pad as Any] }
+    if e.canvas { el["canvas"] = true; if !e.vars.isEmpty { el["vars"] = e.vars } }
     if let pin = e.pin { el["pin"] = [("x", pin.x), ("y", pin.y)].reduce(into: [String: String]()) { if let v = $1.1 { $0[$1.0] = v } } }
     return el
 }
@@ -101,6 +102,7 @@ func parseProject(_ json: String) -> EditorState? {
         state.elements[i].blend = cleanBlend(el["blend"])
         if state.elements[i].presetId == "screen" { state.elements[i].auto = cleanAuto(el["auto"]) }
         state.elements[i].pin = cleanPin(el["pin"])
+        if state.elements[i].presetId == "adjust" && el["canvas"] as? Bool == true { state.elements[i].canvas = true; state.elements[i].vars = cleanVars(el["vars"]) }
         if state.elements[i].symbol != nil { state.elements[i].own = cleanOwn(el["own"]) }
         state.elements[i].twin = (el["twin"] as? String).flatMap { $0.count <= 64 ? $0 : nil }
         if state.elements[i].presetId == "screen" { state.elements[i].size = (el["size"] as? String).flatMap { s in screenSizes.contains { $0.name == s } ? s : nil } }

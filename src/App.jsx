@@ -13,6 +13,7 @@ import HistoryList from './components/HistoryList.jsx';
 import { recordAction, saveAction, playAction, cleanActionName } from './lib/actions.js';
 import { harmonize } from './lib/heal.js';
 import { autoLayout, constrain, syncTwins, makeSizes } from './lib/layout.js';
+import { setMode, setVar } from './lib/modes.js';
 import { maxOf } from './lib/extent.js';
 import SelectBar from './components/SelectBar.jsx';
 import { paint, paintMarks, erase } from './lib/brush.js';
@@ -218,6 +219,12 @@ function edit(state, action) {
     case 'SWAP_SYMBOL': {
       const elements = swapSymbol(state.elements, action.id, action.symbol);
       return elements === state.elements ? state : { ...pushHistory(state), elements, grid: renderElements(elements, state.cols, state.rows) };
+    }
+
+    // Variables and modes (modes.js): the canvas line set, or a named spacing value; one undo step each.
+    case 'CANVAS': {
+      const elements = 'mode' in action ? setMode(state.elements, action.mode) : setVar(state.elements, action.name, action.value);
+      return { ...pushHistory(state), elements, grid: renderElements(elements, state.cols, state.rows) };
     }
 
     // Sizes (layout.js): the screen at phone, tablet and desktop widths, kept in step.
@@ -978,6 +985,7 @@ export default function App() {
         onRemoveParts={ids => dispatch({ type: 'REMOVE_PARTS', ids })}
         onSizes={id => dispatch({ type: 'MAKE_SIZES', id })}
         onSwap={(id, symbol) => dispatch({ type: 'SWAP_SYMBOL', id, symbol })}
+        onCanvas={change => dispatch({ type: 'CANVAS', ...change })}
         more={more}
         onMore={setMore}
         onVariations={(id) => dispatch({ type: 'VARIATIONS', id, labels: ['var_stacked', 'var_split', 'var_dense'].map(k => t(k)) })}

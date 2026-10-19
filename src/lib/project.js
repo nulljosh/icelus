@@ -1,5 +1,6 @@
 import { newElementId, DEFAULT_COLS, DEFAULT_ROWS } from './engine.js';
 import { ADJUSTMENTS, BOX_STYLES, VARIANTS, cleanBlend } from './lines.js';
+import { cleanVars } from './modes.js';
 import { cleanNote, cleanOwn } from './shapes.js';
 import { maxOf } from './extent.js';
 import { cleanColor } from './color.js';
@@ -47,6 +48,7 @@ export function parseProject(json) {
       ...(BOX_STYLES.includes(el.style) && el.style !== 'single' && { style: el.style }),
       ...(el.accent === true && { accent: true }),
       ...(el.presetId === 'adjust' && ADJUSTMENTS.includes(el.adjust) && { adjust: el.adjust }),
+      ...(el.presetId === 'adjust' && el.canvas === true && { canvas: true, ...(cleanVars(el.vars) && { vars: cleanVars(el.vars) }) }),
       ...(cleanColor(el.ink) !== undefined && { ink: el.ink }),
       ...(cleanColor(el.paper) !== undefined && { paper: el.paper }),
       ...(cleanMask(el.mask) && { mask: cleanMask(el.mask) }),

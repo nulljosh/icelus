@@ -30,6 +30,7 @@ targets:
       - ../ios/App/Heal.swift
       - ../ios/App/Layout.swift
       - ../ios/App/Symbols.swift
+      - ../ios/App/Modes.swift
       - ../ios/App/Presets.swift
       - ../ios/App/Store.swift
       - ../ios/App/Theme.swift

@@ -1,5 +1,6 @@
 import { partsInside, screenFrame, routeLines, freshTag } from './lines.js';
 import { updateElement, duplicateScreen } from './engine.js';
+import { isVarName, canvasVars, knobValue } from './modes.js';
 
 // Auto layout (v43), after Figma's. A screen with `auto: {gap, pad}` keeps its parts stacked: bands of parts
 // that share rows run top to bottom, `gap` rows apart and `pad` cells inside the frame, and the frame hugs them.
@@ -8,7 +9,8 @@ export const AUTO_MAX = 8;
 
 export function cleanAuto(a) {
   if (!a || typeof a !== 'object') return null;
-  const knob = v => (Number.isInteger(v) && v >= 0 && v <= AUTO_MAX ? v : 1);
+  // A knob is a number or the name of a spacing variable (modes.js).
+  const knob = v => (isVarName(v) || (Number.isInteger(v) && v >= 0 && v <= AUTO_MAX) ? v : 1);
   return { gap: knob(a.gap), pad: knob(a.pad) };
 }
 
@@ -49,6 +51,7 @@ export function autoLayout(prev, next) {
   if (!next.some(el => el.presetId === 'screen' && el.auto)) return next;
   const was = new Map(prev.map(el => [el.id, el]));
   let out = next;
+  const vars = canvasVars(next);
   for (const screen of next) {
     if (screen.presetId !== 'screen' || !screen.auto) continue;
     const before = was.get(screen.id), now = out.find(el => el.id === screen.id);
@@ -57,7 +60,8 @@ export function autoLayout(prev, next) {
       return n && n.presetId !== 'line' && !n.locked && n.col === p.col && n.row === p.row;
     }) : [];
     const ids = new Set([...stayed, ...inner(out, now)].map(p => p.id));
-    out = stack(out, now, out.filter(el => ids.has(el.id)), cleanAuto(now.auto), p => was.get(p.id)?.height ?? p.height);
+    const a = cleanAuto(now.auto);
+    out = stack(out, now, out.filter(el => ids.has(el.id)), { gap: knobValue(a.gap, vars), pad: knobValue(a.pad, vars) }, p => was.get(p.id)?.height ?? p.height);
   }
   return out.every((el, i) => el === next[i] || JSON.stringify(el) === JSON.stringify(next[i])) ? next : out;
 }
@@ -79,6 +83,7 @@ const shift = (mode, d) => (mode === 'right' || mode === 'bottom' ? d : mode ===
 export function constrain(prev, next) {
   const was = new Map(prev.map(el => [el.id, el]));
   let out = next;
+  const vars = canvasVars(next);
   for (const screen of next) {
     const before = was.get(screen.id);
     if (screen.presetId !== 'screen' || !before || before.col !== screen.col || before.row !== screen.row) continue;

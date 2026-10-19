@@ -55,7 +55,7 @@ const keyOf = (c, r) => `${c},${r}`;
 export function partsWithin(elements, cells) {
   const set = new Set(cells.map(([c, r]) => keyOf(c, r)));
   return elements.filter(el => {
-    if (el.presetId === 'paint' || el.locked || el.hidden) return false;
+    if (el.presetId === 'paint' || el.locked || el.hidden || el.canvas) return false;
     for (let r = el.row; r < el.row + el.height; r++) for (let c = el.col; c < el.col + el.width; c++) if (!set.has(keyOf(c, r))) return false;
     return true;
   });

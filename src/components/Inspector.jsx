@@ -8,6 +8,8 @@ import { COLORS } from '../lib/color.js';
 import { BLENDS, partsInside } from '../lib/lines.js';
 import { PIN_X, PIN_Y } from '../lib/layout.js';
 import LayerList from './LayerList.jsx';
+import CanvasPanel from './CanvasPanel.jsx';
+import { canvasVars, knobValue } from '../lib/modes.js';
 import ReviewList from './ReviewList.jsx';
 import { screenTweaks } from '../lib/tweaks.js';
 
@@ -34,10 +36,12 @@ function NoteField({ element, onUpdate }) {
 
 // A screen's live knobs: drag spacing or padding and the screen restacks; one style for every box in it.
 function Tweaks({ element, elements, onUpdate }) {
-  const now = element.auto ? { spacing: element.auto.gap, padding: element.auto.pad } : screenTweaks(elements, element);
+  const vars = canvasVars(elements), names = Object.keys(vars), a = element.auto;
+  const bound = { spacing: a?.gap, padding: a?.pad }; // a number, or the name of a canvas variable (modes.js)
+  const now = a ? { spacing: knobValue(a.gap, vars), padding: knobValue(a.pad, vars) } : screenTweaks(elements, element);
   // With auto layout on, the knobs are the stack's own gap and padding, kept on the screen (layout.js).
-  const tweak = changes => (element.auto && changes.style === undefined
-    ? onUpdate(element.id, { auto: { gap: changes.spacing ?? now.spacing, pad: changes.padding ?? now.padding } })
+  const tweak = changes => (a && changes.style === undefined
+    ? onUpdate(element.id, { auto: { gap: changes.spacing ?? bound.spacing, pad: changes.padding ?? bound.padding } })
     : onUpdate(element.id, { tweak: changes }));
   return (
     <>
@@ -52,6 +56,13 @@ function Tweaks({ element, elements, onUpdate }) {
           <input id={`tweak-${key}`} className="inspector-range" type="range" min="0" max="8" value={now[key]}
             onChange={e => tweak({ [key]: Number(e.target.value) })} />
           <span className="inspector-value">{now[key]}</span>
+          {a && names.length > 0 && (
+            <select className="inspector-select" aria-label={t('use_var', { name: t(key) })} value={typeof bound[key] === 'string' ? bound[key] : ''}
+              onChange={e => tweak({ [key]: e.target.value || now[key] })}>
+              <option value="">{t('own_value')}</option>
+              {names.map(n => <option key={n} value={n}>{n}</option>)}
+            </select>
+          )}
         </div>
       ))}
       <div className="inspector-row">
@@ -104,6 +115,7 @@ export default function Inspector({
   onRemoveParts,
   onSizes,
   onSwap,
+  onCanvas,
   more = false,
   onMore,
   onVariations,
@@ -319,12 +331,7 @@ export default function Inspector({
           <LayerList elements={elements} selectedId={el?.id} onSelect={onSelectElement}
             onUpdate={onUpdateElement} onReorder={onReorder} />
           <ReviewList elements={elements} cols={cols} rows={rows} system={system} onClearSystem={onClearSystem} onSelect={onSelectElement} onRemove={onRemoveParts} />
-          <section className="inspector-section">
-            <div className="inspector-section-title">{t('canvas')}</div>
-            <div className="inspector-row"><span className="inspector-key">{t('col')}</span><span className="inspector-value">{cursor.col}</span></div>
-            <div className="inspector-row"><span className="inspector-key">{t('row')}</span><span className="inspector-value">{cursor.row}</span></div>
-            <div className="inspector-row"><span className="inspector-key">{t('size')}</span><span className="inspector-value">{cols}×{rows}</span></div>
-          </section>
+          <CanvasPanel elements={elements} cursor={cursor} cols={cols} rows={rows} onCanvas={onCanvas} />
         </details>
         </section>
       )}

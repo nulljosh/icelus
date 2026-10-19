@@ -48,7 +48,7 @@ func cellText(_ grid: Grid, _ cells: [(Int, Int)]) -> String {
 func partsWithin(_ elements: [Element], _ cells: [(Int, Int)]) -> [Element] {
     let set = Set(cells.map { "\($0.0),\($0.1)" })
     return elements.filter { el in
-        guard el.presetId != "paint", !el.locked, !el.hidden else { return false }
+        guard el.presetId != "paint", !el.locked, !el.hidden, !el.canvas else { return false }
         for r in el.row..<(el.row + el.height) { for c in el.col..<(el.col + el.width) where !set.contains("\(c),\(r)") { return false } }
         return true
     }

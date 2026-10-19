@@ -74,7 +74,7 @@ export function drawMarks(ctx, elements, outlinedIds, charW, charH, accent) {
     if (outlinedIds.includes(el.id)) ctx.strokeRect(el.col * charW - 1.5, el.row * charH - 1.5, el.width * charW + 3, el.height * charH + 3);
   }
   ctx.setLineDash([3, 3]);
-  for (const el of elements) if (el.presetId === 'adjust' && !el.hidden) ctx.strokeRect(el.col * charW + 0.5, el.row * charH + 0.5, el.width * charW - 1, el.height * charH - 1);
+  for (const el of elements) if (el.presetId === 'adjust' && !el.hidden && !el.canvas) ctx.strokeRect(el.col * charW + 0.5, el.row * charH + 0.5, el.width * charW - 1, el.height * charH - 1);
   ctx.setLineDash([]);
   for (const el of elements) {
     if (!el.note || el.hidden) continue;

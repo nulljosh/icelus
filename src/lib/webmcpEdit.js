@@ -1,10 +1,28 @@
 import { expandChanges } from './heal.js';
+import { MODES, isVarName } from './modes.js';
+import { AUTO_MAX } from './layout.js';
 
-// The live-canvas tools for actions (v41) and expand (v42), split out of webmcp.js to keep it small.
+// The live-canvas tools for actions (v41), expand (v42) and variables and modes (v47), split out of webmcp.js to keep it small.
 const NUM = { type: 'number' };
 
 export function editTools(get) {
   return [
+    {
+      name: 'set_canvas',
+      description: `Draw the whole canvas in one line set (mode: ${MODES.join(', ')}, or null for each part's own), and/or set a named spacing variable (name, value 0 to ${AUTO_MAX}, null removes it) that auto layout screens use by name. One step of undo each.`,
+      inputSchema: { type: 'object', properties: { mode: { type: ['string', 'null'] }, name: { type: 'string' }, value: { type: ['number', 'null'] } } },
+      execute: async args => {
+        const { dispatch } = get();
+        if ('mode' in args) { if (args.mode !== null && !MODES.includes(args.mode)) return { error: `mode must be null or one of ${MODES.join(', ')}` }; dispatch({ type: 'CANVAS', mode: args.mode }); }
+        if (args.name !== undefined) {
+          const v = args.value;
+          if (!isVarName(args.name)) return { error: 'name must be lowercase letters, digits or dashes, at most 16' };
+          if (v !== null && !(Number.isInteger(v) && v >= 0 && v <= AUTO_MAX)) return { error: `value must be 0 to ${AUTO_MAX} or null` };
+          dispatch({ type: 'CANVAS', name: args.name, value: v });
+        }
+        return { ok: true };
+      },
+    },
     {
       name: 'expand_part',
       description: 'Grow the selected table by rows or list by items (by: 1 to 50), carrying the pattern on: Item 3 then Item 4, Mon then Tue. One step of undo.',

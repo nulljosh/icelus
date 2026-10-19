@@ -179,7 +179,9 @@ extension ContentView {
     func tweak(_ el: Element, spacing: Int? = nil, padding: Int? = nil, style: String? = nil) {
         state.pushHistory()
         if let auto = el.auto, style == nil { // with auto layout on, the knobs are the stack's own (Layout.swift)
-            state.elements = updateElement(state.elements, id: el.id, auto: AutoLayout(gap: spacing ?? auto.gap, pad: padding ?? auto.pad))
+            // a stepped knob lets go of its variable (Modes.swift)
+            state.elements = updateElement(state.elements, id: el.id, auto: AutoLayout(gap: spacing ?? auto.gap, pad: padding ?? auto.pad,
+                                                                                    gapVar: spacing == nil ? auto.gapVar : nil, padVar: padding == nil ? auto.padVar : nil))
         } else {
             state.elements = tweakScreen(state.elements, id: el.id, spacing: spacing, padding: padding, style: style)
         }
@@ -187,7 +189,9 @@ extension ContentView {
     }
 
     /// A screen's spacing and padding: its auto layout's when on, else read off the layout.
-    func knobs(_ el: Element) -> (spacing: Int, padding: Int) { el.auto.map { ($0.gap, $0.pad) } ?? screenTweaks(state.elements, el) }
+    func knobs(_ el: Element) -> (spacing: Int, padding: Int) {
+        el.auto.map { let a = resolvedAuto($0, canvasVars(state.elements)); return (a.gap, a.pad) } ?? screenTweaks(state.elements, el)
+    }
 
     /// The Auto layout switch on a screen.
     func autoBinding(_ el: Element) -> Binding<Bool> {

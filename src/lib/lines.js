@@ -80,7 +80,7 @@ export function accentMask(elements, cols, rows) {
 export function renderElements(elements, cols, rows) {
   const grid = createGrid(cols, rows);
   for (const el of withMasks(elements)) {
-    if (el.hidden) continue;
+    if (el.hidden || el.canvas) continue;
     if (el.presetId === 'adjust') { adjustGrid(grid, el); continue; }
     // Lines, text and banners are see-through: only their marks land on what is underneath (lands()).
     const plain = el.blend === 'over' || el.blend === 'knockout';
@@ -95,6 +95,9 @@ export function renderElements(elements, cols, rows) {
       });
     });
   }
+  // The canvas mode (modes.js) goes over everything, whatever its place in the list.
+  const mode = elements.find(el => el.canvas && el.adjust && !el.hidden);
+  if (mode) adjustGrid(grid, { ...mode, col: 0, row: 0, width: cols, height: rows });
   return grid;
 }
 // An elbow line from one cell to another: across first, then up or down, with an arrowhead at the end.
@@ -153,7 +156,7 @@ export function screenFrame(name, width, height) {
 
 // The parts wholly inside a screen travel with it. A part across its edge stays where it is.
 export function partsInside(elements, frame) {
-  return elements.filter(el => el.id !== frame.id && el.presetId !== 'screen'
+  return elements.filter(el => el.id !== frame.id && el.presetId !== 'screen' && !el.canvas
     && el.col >= frame.col && el.row >= frame.row
     && el.col + el.width <= frame.col + frame.width && el.row + el.height <= frame.row + frame.height);
 }
