@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { realPart } from '../lib/real.js';
 import { COLORS } from '../lib/color.js';
 import { shownBox } from '../lib/mask.js';
+import { createElement } from '../lib/engine.js';
 import './RealLayer.css';
 
 // "New here? [Create account]": a bracketed action inside a line of words reads as a link, not brackets.
@@ -56,3 +57,19 @@ export default memo(function RealLayer({ elements, charW, rowH, fontSize }) {
     </div>
   );
 });
+
+// The parts list shows each part as its real control, drawn small on the same grid and scaled to fit the row.
+const THUMB_W = 96, THUMB_H = 28, CHAR_W = 6, ROW_H = 14;
+/** A preset drawn as its real control for the parts list, or null when it keeps its characters. */
+export function RealThumb({ preset }) {
+  const el = createElement(preset, 0, 0);
+  if (!el.template?.length || !realPart(el)) return null;
+  const w = el.width * CHAR_W, h = el.height * ROW_H, scale = Math.min(1, THUMB_W / w, THUMB_H / h);
+  return (
+    <span className="real-thumb" aria-hidden="true">
+      <span className="real-layer" style={{ '--real-size': '11px', '--row': `${ROW_H}px`, width: w, height: h, top: (THUMB_H - h * scale) / 2, transform: `scale(${scale})` }}>
+        <Part el={el} charW={CHAR_W} rowH={ROW_H} byId={new Map()} />
+      </span>
+    </span>
+  );
+}

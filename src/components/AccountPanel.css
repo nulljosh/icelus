@@ -27,3 +27,8 @@
 .account-group > .inspector-row { border-radius: 0; }
 .account-danger .btn { background: var(--color-bg2); }
 .account-wide { width: 100%; }
+/* A row that opens something: the whole row is the button, with a trailing chevron, like an iOS list. */
+.account-row { width: 100%; border: 0; border-radius: var(--r-list); font: inherit; color: var(--color-text); text-align: start; cursor: pointer; }
+.account-row:hover { background: color-mix(in srgb, var(--color-text) 8%, var(--surface2)); }
+.account-row:focus-visible { outline: none; box-shadow: var(--ring); }
+.account-chevron { width: 8px; height: 8px; border-top: 2px solid #8E8E93; border-right: 2px solid #8E8E93; transform: rotate(45deg); margin-inline-end: 4px; }

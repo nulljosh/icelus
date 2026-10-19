@@ -70,14 +70,23 @@
   .inspector.is-open { transform: translateY(0); }
 }
 
+/* A menu in a grouped row reads like iOS: the value in secondary text with a small up-down chevron, no well.
+   The chevron is Apple's secondary gray, which reads on light and dark alike. */
 .inspector-select {
+  appearance: none;
+  -webkit-appearance: none;
   font: inherit;
-  color: var(--color-text);
-  background: var(--surface2);
+  color: var(--color-secondary);
+  text-align: end;
+  text-align-last: end;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='12' viewBox='0 0 8 12' fill='none' stroke='%238E8E93' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 4.5 4 1.5 7 4.5M1 7.5 4 10.5 7 7.5'/%3E%3C/svg%3E") right 6px center / 8px 12px no-repeat;
   border: 0;
   border-radius: var(--r-pill, 999px);
-  padding: var(--sp-1, 4px) var(--sp-3, 12px);
+  min-height: 44px;
+  padding: 0 var(--sp-5, 20px) 0 var(--sp-2, 8px);
+  cursor: pointer;
 }
+.inspector-select:hover { color: var(--color-text); }
 .inspector-select:focus-visible { outline: none; box-shadow: var(--ring); }
 
 /* A capsule switch, drawn in CSS so it matches the 8 point grid and the one accent. */
@@ -182,3 +191,5 @@
 .inspector-num { width: 40px; flex: none; -moz-appearance: textfield; font: inherit; text-align: center; color: var(--color-text); background: var(--surface2); border: 0; border-radius: var(--r-pill); padding: var(--sp-1) 0; }
 .inspector-num:focus-visible { outline: none; box-shadow: var(--ring); }
 .inspector-num::-webkit-inner-spin-button, .inspector-num::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+/* Inside a grouped row the menu keeps a 32 point hit area but takes no extra height, so every row is 48. */
+.inspector-row .inspector-select { min-height: 32px; margin-block: -4px; }

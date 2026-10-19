@@ -822,6 +822,7 @@ export default function App() {
       </header>
 
       <Toolbar
+        real={look === 'real'}
         selectedPreset={state.selectedPreset}
         onSelectPreset={handleSelectPreset}
         isOpen={mobileSheet === 'components'}

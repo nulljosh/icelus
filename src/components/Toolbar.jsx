@@ -4,6 +4,7 @@ import './Toolbar.css';
 import { PRESETS as STAMPS, CATEGORIES as STAMP_CATEGORIES, PACKS, PACK_CATEGORIES, LINE_TOOL, TEXT_TOOL, BANNER_TOOL, BOXY_TOOL, TYPE_TOOL, PHOTO_TOOL, TRACE_TOOL, SCREEN_TOOL,
   BRAILLE_TOOL, SHADE_PHOTO_TOOL, FILL_TOOL, CAPTURE_TOOL, BRUSH_TOOL, ERASER_TOOL, MARQUEE_TOOL, WAND_TOOL, GRADIENT_TOOL, ADJUST_TOOL } from '../lib/presets.js';
 import { SCREEN_TEMPLATES } from '../lib/syntax.js';
+import { RealThumb } from './RealLayer.jsx';
 
 // The drawing tools sit with the parts so they are picked the same way. A beginner sees the parts first and
 // four everyday tools; the rest wait in closed sections (search still finds everything).
@@ -22,7 +23,14 @@ const CLOSED = new Set(['Paint', 'Pick', 'More', ...PACK_CATEGORIES]);
 // The row with the most marks says the most about a part, so that is the one previewed.
 const preview = p => p.template.reduce((a, b) => (b.replace(/ /g, '').length > a.replace(/ /g, '').length ? b : a)).trim().slice(0, 12);
 
-export default function Toolbar({ selectedPreset, onSelectPreset, isOpen, mine = [], onRemoveMine }) {
+// In the real look a part shows as its control beside its name; tools and character parts keep their glyphs.
+function Item({ preset, real }) {
+  const thumb = real ? RealThumb({ preset }) : null;
+  return thumb ? <><span className="toolbar-item-label">{partLabel(preset)}</span>{thumb}</>
+    : <><span className="toolbar-item-preview">{preview(preset)}</span><span className="toolbar-item-label">{partLabel(preset)}</span></>;
+}
+
+export default function Toolbar({ selectedPreset, onSelectPreset, isOpen, mine = [], onRemoveMine, real = false }) {
   const [search, setSearch] = useState('');
   const all = [...PRESETS, ...mine];
   const at = CATEGORIES.indexOf('Paint');
@@ -65,8 +73,7 @@ export default function Toolbar({ selectedPreset, onSelectPreset, isOpen, mine =
                   onClick={() => onSelectPreset(preset)}
                   title={`${preset.template.join('\n')}`}
                 >
-                  <span className="toolbar-item-preview">{preview(preset)}</span>
-                  <span className="toolbar-item-label">{partLabel(preset)}</span>
+                  <Item preset={preset} real={real} />
                 </button>
               ))}
             </section>
@@ -83,8 +90,7 @@ export default function Toolbar({ selectedPreset, onSelectPreset, isOpen, mine =
                     onClick={() => onSelectPreset(preset)}
                     title={`${preset.template.join('\n')}`}
                   >
-                    <span className="toolbar-item-preview">{preview(preset)}</span>
-                    <span className="toolbar-item-label">{partLabel(preset)}</span>
+                    <Item preset={preset} real={real} />
                   </button>
                   {category === 'Mine' && (
                     <button className="toolbar-remove" onClick={() => onRemoveMine(preset.id)} aria-label={t('remove_from_palette', { name: partLabel(preset) })}>×</button>

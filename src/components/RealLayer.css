@@ -61,3 +61,7 @@
 /* Cards, modals, alerts, browser windows and the like: a rounded container with its words inside. */
 .real-box { display: block; border-radius: calc(var(--row) * 0.6); background: var(--paper, var(--color-bg2));
   box-shadow: 0 0 0 1px var(--color-hairline), 0 4px 16px rgba(0, 0, 0, 0.05); }
+
+/* The parts list thumbnail: a fixed 96 by 28 well, the control scaled into it from the top left. */
+.real-thumb { position: relative; flex: none; width: 96px; height: 28px; overflow: hidden; }
+.real-thumb > .real-layer { inset: auto; left: 0; transform-origin: 0 0; }

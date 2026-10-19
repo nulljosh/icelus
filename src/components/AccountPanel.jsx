@@ -167,7 +167,9 @@ function Settings({ darkMode, setDarkMode, look, setLook, more, setMore, onTutor
         <input id="setting-more" type="checkbox" className="inspector-switch" checked={more} onChange={e => setMore(e.target.checked)} />
       </div>
       </div>
-      {onTutorial && <button type="button" className="btn account-wide" onClick={onTutorial}>{t('tutorial')}</button>}
+      {onTutorial && <div className="account-group"><button type="button" className="inspector-row account-row" onClick={onTutorial}>
+        <span className="inspector-key">{t('tutorial')}</span><span className="account-chevron" aria-hidden="true" />
+      </button></div>}
     </div>
   );
 }

@@ -108,6 +108,7 @@
   height: 1px;
   background: var(--color-hairline);
 }
+.toolbar-item:has(.real-thumb) { flex-direction: row; align-items: center; justify-content: space-between; gap: var(--sp-3); }
 .toolbar-item:hover { background: color-mix(in srgb, var(--color-text) 12%, transparent); }
 .toolbar-item--active, .toolbar-item--active:hover { background: var(--accent-muted); }
 .toolbar-item--active .toolbar-item-label { color: var(--accent); font-weight: 600; }
