@@ -182,6 +182,8 @@ struct Element: Equatable, Identifiable {
     /// A crop and a clip to another part (Mask.swift), applied when drawn. The template keeps every character.
     var mask: Inset? = nil
     var clip: String? = nil
+    /// How the part meets what is under it (Lines.swift blends): over, under or knockout; nil joins lines.
+    var blend: String? = nil
 }
 
 private var nextElementId = 1
@@ -349,6 +351,7 @@ func serializeProject(_ state: EditorState) -> String {
         if let adjust = $0.adjust { el["adjust"] = adjust }
         if let m = $0.mask { el["mask"] = ["top": m.top, "right": m.right, "bottom": m.bottom, "left": m.left] }
         if let clip = $0.clip { el["clip"] = clip }
+        if let blend = $0.blend { el["blend"] = blend }
         return el
     }
     let project: [String: Any] = ["blockprint": 1, "cols": state.cols, "rows": state.rows, "elements": elements]
@@ -405,6 +408,7 @@ func parseProject(_ json: String) -> EditorState? {
     }
     for (i, el) in valid.enumerated() { // masks keep pointing at the clip part's new id
         state.elements[i].mask = cleanMask(el["mask"])
+        state.elements[i].blend = cleanBlend(el["blend"])
         if let old = el["clip"] as? String, let id = ids[old], id != fresh[i] { state.elements[i].clip = id }
     }
     return state

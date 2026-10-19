@@ -4,7 +4,7 @@
 
 import { FILLS, cleanNote } from './shapes.js';
 import { tweakScreen } from './tweaks.js';
-import { ADJUSTMENTS, renderElements, routeLines, shiftLine, bannerText, BOX_STYLES, screenFrame, partsInside, carry, groupMates, tableFrame, textCells, SIZED, nodeFrame, contentFrame, syncSymbol, VARIANTS } from './lines.js';
+import { ADJUSTMENTS, renderElements, routeLines, shiftLine, bannerText, BOX_STYLES, screenFrame, partsInside, carry, groupMates, tableFrame, textCells, SIZED, nodeFrame, contentFrame, syncSymbol, VARIANTS, cleanBlend } from './lines.js';
 import { maxOf } from './extent.js';
 import { cleanColor } from './color.js';
 import { cleanMask } from './mask.js';
@@ -246,6 +246,10 @@ function updateOne(elements, id, changes) {
       const to = changes.clip === undefined ? clip : changes.clip;
       return { ...next, ...(m && { mask: m }), ...(typeof to === 'string' && to !== el.id && { clip: to }) };
     }
+    if (changes.blend !== undefined) {
+      const { blend, ...rest } = el, b = cleanBlend(changes.blend);
+      return b ? { ...rest, blend: b } : rest;
+    }
     if (changes.note !== undefined) {
       const { note, ...rest } = el, next = cleanNote(changes.note);
       return next ? { ...rest, note: next } : rest;
@@ -414,6 +418,7 @@ export function parseProject(json) {
       ...(cleanColor(el.ink) !== undefined && { ink: el.ink }),
       ...(cleanColor(el.paper) !== undefined && { paper: el.paper }),
       ...(cleanMask(el.mask) && { mask: cleanMask(el.mask) }),
+      ...(cleanBlend(el.blend) && { blend: el.blend }),
       ...(ids.has(el.clip) && ids.get(el.clip) !== fresh[i] && { clip: ids.get(el.clip) }),
       ...(typeof el.group === 'string' && { group: el.group }),
       ...(el.hidden === true && { hidden: true }),

@@ -1,6 +1,6 @@
 # Icelus
 
-v38.0.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
+v39.0.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
 like Figma or Photoshop, and underneath every screen is text on a character grid that pastes anywhere. Web (Vite + React 19) at icelus.jaybulb.com, native SwiftUI for
 iPhone, iPad and Mac (ASC app 6794988951, $0.99), plus a Watch app and a terminal companion.
 
@@ -53,6 +53,7 @@ file is `{blockprint: 1, cols, rows, elements}` (the old key stays so every save
 - `watchos/` builds from the iOS Engine, Lines, Shapes, Mask, Presets, Store and Theme files (see its project.yml); `tui/`
   symlinks Engine, Lines, Shapes, Mask and Presets. One engine, four apps.
 - `src/lib/mask.js` + `ios/App/Mask.swift`: masks (v38). A crop (`mask` insets) or a clip to another part (`clip` id) turns hidden cells into holes at draw time; the template is never cut
+- `lands()` in `src/lib/lines.js` + `Mask.swift`: blend modes (v39). One rule for whether a part's character lands on a cell (join, over, under, knockout), shared by drawing, accent and color so all three agree
 - `ios/Checks/main.swift`: the JS tests as plain asserts
 - `landing/`: the landing page (static, no build step of its own; `npm run build` copies it to `dist/` and `wrangler pages deploy` publishes it with the app), which embeds the real app at `/app/?demo` (no storage writes), and the ad
   (`landing/ad/`, rebuilt with `tools/ad-capture.mjs`, `ad-audio.py`, `ad-music.py`)

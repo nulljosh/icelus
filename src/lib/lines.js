@@ -15,6 +15,19 @@ const JOINS = Object.fromEntries(Object.entries(LINKS).map(([c, b]) => [b, c]));
 
 export const SEE_THROUGH = new Set(['line', 'text', 'banner', 'screen', 'paint', 'adjust']);
 
+// Blend modes: how a part meets what is drawn under it. join (the default) merges light box lines into ┼ and ├,
+// over replaces without joining, under only fills empty cells, knockout clears its whole box, spaces too.
+export const BLENDS = ['join', 'over', 'under', 'knockout'];
+export const cleanBlend = b => (BLENDS.includes(b) && b !== 'join' ? b : undefined);
+
+/** Whether a part's character lands on a cell that holds `under`. Drawing, accent and color all ask this. */
+export function lands(el, ch, under) {
+  if (ch === HOLE) return false;
+  if (el.blend === 'knockout') return true;
+  if (ch === ' ' && SEE_THROUGH.has(el.presetId)) return false;
+  return el.blend !== 'under' || under === ' ';
+}
+
 // A 3 by 5 pixel font. Each glyph is five rows of three bits, top to bottom.
 const FONT = {
   A: '010101111101101', B: '110101110101110', C: '011100100100011', D: '110101101101110', E: '111100110100111',
@@ -47,16 +60,17 @@ export function joinChar(under, over) {
 // clears the accent under it. Only the canvas and images use it; copied text stays plain.
 export function accentMask(elements, cols, rows) {
   const mask = Array.from({ length: rows }, () => new Array(cols).fill(false));
+  const drawn = createGrid(cols, rows); // what is under each cell so far, for under
   for (const el of withMasks(elements)) {
     if (el.hidden) continue;
-    const clear = SEE_THROUGH.has(el.presetId);
     el.template.forEach((line, dy) => {
       const r = el.row + dy;
       if (r < 0 || r >= rows) return;
       [...line].forEach((ch, dx) => {
         const c = el.col + dx;
-        if (c < 0 || c >= cols || (clear && ch === ' ') || ch === HOLE) return;
+        if (c < 0 || c >= cols || !lands(el, ch, drawn[r][c])) return;
         mask[r][c] = el.accent === true;
+        drawn[r][c] = ch;
       });
     });
   }
@@ -68,16 +82,16 @@ export function renderElements(elements, cols, rows) {
   for (const el of withMasks(elements)) {
     if (el.hidden) continue;
     if (el.presetId === 'adjust') { adjustGrid(grid, el); continue; }
-    // Lines, text and banners are see-through: only their marks land on what is underneath.
-    const clear = SEE_THROUGH.has(el.presetId);
+    // Lines, text and banners are see-through: only their marks land on what is underneath (lands()).
+    const plain = el.blend === 'over' || el.blend === 'knockout';
     el.template.forEach((line, dy) => {
       const r = el.row + dy;
       if (r < 0 || r >= rows) return;
       [...line].forEach((ch, dx) => {
         const c = el.col + dx;
-        if (c < 0 || c >= cols || (clear && ch === ' ') || ch === HOLE) return;
+        if (c < 0 || c >= cols || !lands(el, ch, grid[r][c])) return;
         // A part's state or box style draws its own line set; joins only form between light strokes.
-        grid[r][c] = el.variant ? variantChar(ch, el.variant) : el.style ? styleChar(ch, el.style) : joinChar(grid[r][c], ch);
+        grid[r][c] = el.variant ? variantChar(ch, el.variant) : el.style ? styleChar(ch, el.style) : plain ? ch : joinChar(grid[r][c], ch);
       });
     });
   }

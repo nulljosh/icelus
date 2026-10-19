@@ -12,6 +12,7 @@ import {
   renderElements, serializeProject, trimText, parseProject, moveElement, updateElement,
   deleteElement, createLine, BOX_STYLES, ADJUSTMENTS, adjustLayer,
 } from './engine.js';
+import { BLENDS } from './lines.js';
 import { PRESETS as CORE, CATEGORIES as CORE_CATEGORIES, PACKS, PACK_CATEGORIES, getPreset } from './presets.js';
 
 // The core parts plus the platform packs (iOS, Material, terminal, email).
@@ -212,12 +213,16 @@ export function callTool(name, rawArgs) {
           const mask = op.inset === undefined ? undefined : op.inset === null ? null : Object.fromEntries(['top', 'right', 'bottom', 'left'].map(k => [k, op.inset[k] === undefined ? 0 : int(op.inset[k], `${at}.inset.${k}`, { min: 0, max: MAX_COLS })]));
           elements = updateElement(elements, id, { mask, clip });
         }
+        else if (op.op === 'blend') {
+          if (!BLENDS.includes(op.mode)) throw new ToolError(`${at}.mode must be one of ${BLENDS.join(', ')}`);
+          elements = updateElement(elements, id, { blend: op.mode });
+        }
         else if (op.op === 'tweak') {
           if (op.style !== undefined && !BOX_STYLES.includes(op.style)) throw new ToolError(`${at}.style must be one of ${BOX_STYLES.join(', ')}`);
           const knob = k => (op[k] === undefined ? undefined : n(k, 0, 8));
           elements = updateElement(elements, id, { tweak: { spacing: knob('spacing'), padding: knob('padding'), style: op.style } });
         } else if (op.op === 'delete') elements = deleteElement(elements, id);
-        else throw new ToolError(`${at}.op must be move, resize, text, style, tweak, note, variations, keep, delete, color, mask, adjust, arrow, paint, erase, gradient, cut, fill or move_cells`);
+        else throw new ToolError(`${at}.op must be move, resize, text, style, tweak, note, variations, keep, delete, color, mask, blend, adjust, arrow, paint, erase, gradient, cut, fill or move_cells`);
       });
       const { cols, rows } = project;
       return {

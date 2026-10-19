@@ -136,8 +136,20 @@ extension ContentView {
         .background(Theme.background)
     }
 
-    /// Ink and paper from the 16 terminal colors, then the crop and clip (Mask.swift). Plain copy never carries them.
+    /// Ink and paper from the 16 terminal colors, the blend, then the crop and clip (Mask.swift). Plain copy never carries colors.
     @ViewBuilder func colorPickers(_ el: Element) -> some View {
+        Picker("Blend", selection: Binding(get: { el.blend ?? "join" }, set: { v in
+            state.pushHistory()
+            state.elements = updateElement(state.elements, id: el.id, blend: v)
+            persist()
+        })) {
+            Text("Join lines").tag("join")
+            Text("Over").tag("over")
+            Text("Under").tag("under")
+            Text("Knock out").tag("knockout")
+        }
+        .pickerStyle(.menu)
+        .fixedSize()
         MaskControls(el: el, others: state.elements.filter { $0.id != el.id && $0.presetId != "adjust" }) { mask, clip in
             state.pushHistory()
             state.elements = updateElement(state.elements, id: el.id, mask: mask, clip: clip)

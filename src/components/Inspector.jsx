@@ -4,6 +4,7 @@ import { BOX_STYLES, tableCells, VARIANTS, ADJUSTMENTS } from '../lib/engine.js'
 import { FILLS, NOTE_MAX } from '../lib/shapes.js';
 import { t, partLabel } from '../i18n.js';
 import { COLORS } from '../lib/color.js';
+import { BLENDS } from '../lib/lines.js';
 import LayerList from './LayerList.jsx';
 import ReviewList from './ReviewList.jsx';
 import { screenTweaks } from '../lib/tweaks.js';
@@ -209,6 +210,12 @@ export default function Inspector({
                 </select>
               </div>
             ))}
+            <div className="inspector-row">
+              <label className="inspector-key" htmlFor="blend">{t('blend')}</label>
+              <select id="blend" className="inspector-select" value={el.blend ?? 'join'} onChange={e => onUpdateElement(el.id, { blend: e.target.value })}>
+                {BLENDS.map(b => <option key={b} value={b}>{t(`blend_${b}`)}</option>)}
+              </select>
+            </div>
             {/* Masks (mask.js): crop cells off each edge, or show the part only inside another one. */}
             <div className="inspector-row">
               <span className="inspector-key">{t('mask_crop')}</span>

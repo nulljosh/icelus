@@ -62,3 +62,28 @@ func updateElement(_ elements: [Element], id: String, mask: Inset? = nil, clip: 
         return out
     }
 }
+
+/// Blend modes, a port of BLENDS and lands() in lines.js (kept here so Lines.swift stays small; every target builds Mask.swift): join (the default) merges light box lines, over replaces without joining,
+/// under only fills empty cells, knockout clears its whole box, spaces too.
+let blends = ["join", "over", "under", "knockout"]
+func cleanBlend(_ value: Any?) -> String? {
+    guard let b = value as? String, blends.contains(b), b != "join" else { return nil }
+    return b
+}
+
+/// Whether a part's character lands on a cell that holds `under`. Drawing, accent and color all ask this.
+func lands(_ el: Element, _ ch: Character, _ under: Character) -> Bool {
+    if ch == hole { return false }
+    if el.blend == "knockout" { return true }
+    if ch == " " && seeThroughParts.contains(el.presetId) { return false }
+    return el.blend != "under" || under == " "
+}
+
+func updateElement(_ elements: [Element], id: String, blend: String) -> [Element] {
+    elements.map { el in
+        guard el.id == id else { return el }
+        var next = el
+        next.blend = cleanBlend(blend)
+        return next
+    }
+}

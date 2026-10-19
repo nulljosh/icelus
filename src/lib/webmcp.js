@@ -112,6 +112,8 @@ export function buildTools(get) {
       { style: { type: 'string', enum: BOX_STYLES } }, ({ id, style }) => ({ type: 'UPDATE_ELEMENT', id, changes: { style } })),
     elementTool(get, 'color_element', 'Give a part an ink and a paper from the 16 terminal colors (0-15; null clears). Plain copy stays colorless. Undoable.',
       { ink: { type: ['integer', 'null'] }, paper: { type: ['integer', 'null'] } }, ({ id, ink, paper }) => ({ type: 'UPDATE_ELEMENT', id, changes: { ink, paper } }), true),
+    elementTool(get, 'blend_element', 'How a part meets what is under it: join (box lines merge, the default), over (replaces without joining), under (fills only empty cells), knockout (clears its whole box). Undoable.',
+      { mode: { type: 'string', enum: ['join', 'over', 'under', 'knockout'] } }, ({ id, mode }) => ({ type: 'UPDATE_ELEMENT', id, changes: { blend: mode } }), true),
     elementTool(get, 'mask_element', 'Hide part of a part without cutting it: inset {top,right,bottom,left} crops cells off each edge, clip names another part id to show it only inside that part. null clears either. Undoable.',
       { inset: { type: ['object', 'null'] }, clip: { type: ['string', 'null'] } }, ({ id, inset, clip }) => ({ type: 'UPDATE_ELEMENT', id, changes: { mask: inset, clip } }), true),
     {

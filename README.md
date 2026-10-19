@@ -1,6 +1,6 @@
 <img src="icon.svg" width="80" alt="Icelus">
 
-![version](https://img.shields.io/badge/version-v38.0.0-blue)
+![version](https://img.shields.io/badge/version-v39.0.0-blue)
 ![license](https://img.shields.io/badge/license-Apache%202.0-green)
 
 A design tool for screens, built for people and agents. Describe a screen in a sentence and it draws, then edit it like you would in Figma or Photoshop: real buttons, fields and switches on artboards, a brush, selections, gradients, color and adjustment layers.

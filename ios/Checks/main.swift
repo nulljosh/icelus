@@ -339,5 +339,6 @@ runColorChecks()
 runAdjustChecks()
 runRealChecks()
 runMaskChecks()
+runBlendChecks()
 
 print("ok — \(checks) checks passed")

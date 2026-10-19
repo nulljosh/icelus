@@ -29,6 +29,7 @@ func colorIndex(_ v: Any?) -> Int? {
 let seeThroughParts: Set<String> = ["line", "text", "banner", "screen", "paint", "adjust"]
 private var seeThrough: Set<String> { seeThroughParts }
 
+
 /// A 3 by 5 pixel font. Each glyph is five rows of three bits, top to bottom.
 private let font: [Character: String] = [
     "A": "010101111101101", "B": "110101110101110", "C": "011100100100011", "D": "110101101101110", "E": "111100110100111",
@@ -67,16 +68,16 @@ func renderElements(_ elements: [Element], cols: Int, rows: Int) -> Grid {
     var grid = createGrid(cols: cols, rows: rows)
     for el in withMasks(elements) where !el.hidden {
         if el.presetId == "adjust" { adjustGrid(&grid, el); continue }
-        // Lines, text and banners are see-through: only their marks land on what is underneath.
-        let clear = seeThrough.contains(el.presetId)
+        // Lines, text and banners are see-through: only their marks land on what is underneath (lands()).
+        let plain = el.blend == "over" || el.blend == "knockout"
         for (dy, line) in el.template.enumerated() {
             let r = el.row + dy
             guard r >= 0 && r < rows else { continue }
             for (dx, ch) in line.enumerated() {
                 let c = el.col + dx
-                guard c >= 0 && c < cols, !(clear && ch == " "), ch != hole else { continue }
+                guard c >= 0 && c < cols, lands(el, ch, grid[r][c]) else { continue }
                 // A styled box draws its own line set; joins only form between light strokes.
-                grid[r][c] = el.variant.map { variantChar(ch, $0) } ?? el.style.map { styleChar(ch, $0) } ?? joinChar(grid[r][c], ch)
+                grid[r][c] = el.variant.map { variantChar(ch, $0) } ?? el.style.map { styleChar(ch, $0) } ?? (plain ? ch : joinChar(grid[r][c], ch))
             }
         }
     }
@@ -295,14 +296,15 @@ func stepElement(_ elements: [Element], id: String, up: Bool) -> [Element] {
 
 func accentMask(_ elements: [Element], cols: Int, rows: Int) -> [[Bool]] {
     var mask = Array(repeating: Array(repeating: false, count: cols), count: rows)
+    var drawn = createGrid(cols: cols, rows: rows) // what is under each cell so far, for under
     for el in withMasks(elements) where !el.hidden {
-        let clear = seeThrough.contains(el.presetId)
         for (dy, line) in el.template.enumerated() {
             let r = el.row + dy
             guard r >= 0 && r < rows else { continue }
             for (dx, ch) in line.enumerated() {
                 let c = el.col + dx
-                if c < 0 || c >= cols || (clear && ch == " ") || ch == hole { continue }
+                if c < 0 || c >= cols || !lands(el, ch, drawn[r][c]) { continue }
+                drawn[r][c] = ch
                 mask[r][c] = el.accent
             }
         }

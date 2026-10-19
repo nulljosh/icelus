@@ -33,15 +33,16 @@ struct ColorMask { var ink: [[Int]]; var paper: [[Int]] }
 func colorMask(_ elements: [Element], cols: Int, rows: Int) -> ColorMask {
     var mask = ColorMask(ink: Array(repeating: Array(repeating: -1, count: cols), count: rows),
                          paper: Array(repeating: Array(repeating: -1, count: cols), count: rows))
+    var drawn = createGrid(cols: cols, rows: rows) // what is under each cell so far, for the under blend
     for el in withMasks(elements) where !el.hidden {
-        let clear = seeThroughParts.contains(el.presetId)
         for dy in 0..<el.height {
             let r = el.row + dy
             guard r >= 0, r < rows else { continue }
             let line = dy < el.template.count ? Array(el.template[dy]) : []
             for dx in 0..<el.width {
                 let c = el.col + dx, ch = dx < line.count ? line[dx] : " "
-                guard c >= 0, c < cols, !(clear && ch == " "), ch != hole else { continue }
+                guard c >= 0, c < cols, lands(el, ch, drawn[r][c]) else { continue }
+                drawn[r][c] = ch
                 mask.ink[r][c] = el.ink ?? -1
                 mask.paper[r][c] = el.paper ?? -1
             }

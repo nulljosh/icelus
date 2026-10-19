@@ -2,8 +2,9 @@
 // index. A paint stroke is a part, so painting in a color colors cells one stroke at a time. Plain copy
 // never carries color; ANSI and HTML keep it. Ported line for line in ios/App/Color.swift.
 
-import { SEE_THROUGH } from './lines.js';
-import { withMasks, HOLE } from './mask.js';
+import { lands } from './lines.js';
+import { createGrid } from './engine.js';
+import { withMasks } from './mask.js';
 
 // The xterm palette: the eight colors, then their bright twins. Index n is SGR 30+n (90+n-8 bright).
 export const COLORS = [
@@ -22,15 +23,16 @@ export const hasColor = elements => elements.some(el => !el.hidden && (el.ink !=
 export function colorMask(elements, cols, rows) {
   const ink = Array.from({ length: rows }, () => new Array(cols).fill(-1));
   const paper = Array.from({ length: rows }, () => new Array(cols).fill(-1));
+  const drawn = createGrid(cols, rows); // what is under each cell so far, for the under blend
   for (const el of withMasks(elements)) {
     if (el.hidden) continue;
-    const clear = SEE_THROUGH.has(el.presetId);
     for (let dy = 0; dy < el.height; dy++) {
       const r = el.row + dy, line = [...(el.template[dy] ?? '')];
       if (r < 0 || r >= rows) continue;
       for (let dx = 0; dx < el.width; dx++) {
         const c = el.col + dx, ch = line[dx] ?? ' ';
-        if (c < 0 || c >= cols || (clear && ch === ' ') || ch === HOLE) continue;
+        if (c < 0 || c >= cols || !lands(el, ch, drawn[r][c])) continue;
+        drawn[r][c] = ch;
         ink[r][c] = el.ink ?? -1;
         paper[r][c] = el.paper ?? -1;
       }

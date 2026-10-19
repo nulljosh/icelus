@@ -87,10 +87,10 @@ export const TOOLS = [
   {
     name: 'edit_project',
     description:
-      'Edit a Icelus project file part by part and return the new wireframe text plus project. ' +
+      'Edit an Icelus project file part by part and return the new wireframe text plus project. ' +
       'Stateless: pass the project in, keep the one that comes back. Each op names a part by `index`, its ' +
       'place in `elements` when the call starts. Ops: move {col,row}, resize {width,height}, text {text}, ' +
-      `style {style: ${BOX_STYLES.join('|')}}, tweak a screen {spacing, padding: 0-8, style}, note {note} (empty resolves it), color {ink, paper: 0-15 terminal colors, null clears}, mask {inset: {top,right,bottom,left} cells hidden from each edge, clip: index of a part to show it only inside (null clears either)}, adjust {kind} on an adjustment layer, variations (three takes of a screen), keep (one take, the rest cleared), delete, arrow {fromCol,fromRow,toCol,toRow} (no index; an end ` +
+      `style {style: ${BOX_STYLES.join('|')}}, tweak a screen {spacing, padding: 0-8, style}, note {note} (empty resolves it), color {ink, paper: 0-15 terminal colors, null clears}, mask {inset: {top,right,bottom,left} cells hidden from each edge, clip: index of a part to show it only inside (null clears either)}, blend {mode: join|over|under|knockout, how a part meets what is under it}, adjust {kind} on an adjustment layer, variations (three takes of a screen), keep (one take, the rest cleared), delete, arrow {fromCol,fromRow,toCol,toRow} (no index; an end ` +
       'on a part stays pinned to it), paint {points: [[col,row],...], size: 1-5, char} (no index; a freehand stroke joined ' +
       'point to point, one see-through part) erase {points, size} (no index; clears painted cells only), adjust {area: {col,row,width,height}, kind: invert|dim|ascii|single|double|rounded|heavy} (no index; ' +
       'an adjustment layer that changes everything drawn under it in its area), gradient {from: [col,row], to: [col,row], mode: straight|round} ' +
