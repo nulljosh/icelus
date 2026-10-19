@@ -36,7 +36,7 @@ describe('heal', () => {
     expect(nextValue(['Item one', 'Item two'])).toBe('Item three');
     expect(nextValue(['Sun'])).toBe('Mon');
     expect(nextValue(['december'])).toBe('january');
-    expect(nextValue(['twelve'])).toBe('');
+    expect(nextValue(['Item twelve'])).toBe('Item 13');
     expect(nextValue(['Cell', 'Cell'])).toBe('Cell');
     expect(nextValue(['Apples', 'Pears'])).toBe('');
     expect(nextValue([])).toBe('');

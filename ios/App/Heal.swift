@@ -48,7 +48,7 @@ func nextValue(_ values: [String]) -> String {
     if let w = groups("(.*?)([A-Za-z]+)", last) {
         for (k, list) in seriesWords.enumerated() {
             guard let i = list.firstIndex(where: { $0.lowercased() == w[1].lowercased() }) else { continue }
-            if k == 0 && i == list.count - 1 { break } // counting stops at twelve
+            if k == 0 && i == list.count - 1 { return w[0] + "13" } // past twelve, count in digits
             let word = list[(i + 1) % list.count]
             let upper = w[1].first?.isUppercase == true
             return w[0] + (upper ? word.prefix(1).uppercased() + word.dropFirst() : word.lowercased())

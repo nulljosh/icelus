@@ -43,7 +43,7 @@ export function nextValue(values) {
       const i = list.findIndex(x => x.toLowerCase() === w[2].toLowerCase());
       if (i < 0) continue;
       const word = list[(i + 1) % list.length];
-      if (list === WORDS[0] && i === list.length - 1) break; // counting stops at twelve
+      if (list === WORDS[0] && i === list.length - 1) return `${w[1]}13`; // past twelve, count in digits
       const cased = w[2][0] === w[2][0].toUpperCase() ? word[0].toUpperCase() + word.slice(1) : word.toLowerCase();
       return w[1] + cased;
     }

@@ -18,7 +18,7 @@ func runHealChecks() {
 
     check(nextValue(["Item 1", "Item 2"]) == "Item 3" && nextValue(["10", "20"]) == "30" && nextValue(["$40"]) == "$41", "expand: numbers keep their step")
     check(nextValue(["Item one", "Item two"]) == "Item three" && nextValue(["Sun"]) == "Mon" && nextValue(["december"]) == "january", "expand: words, days and months")
-    check(nextValue(["twelve"]) == "" && nextValue(["Cell", "Cell"]) == "Cell" && nextValue(["Apples", "Pears"]) == "" && nextValue([]) == "", "expand: no pattern, nothing")
+    check(nextValue(["Item twelve"]) == "Item 13" && nextValue(["Cell", "Cell"]) == "Cell" && nextValue(["Apples", "Pears"]) == "" && nextValue([]) == "", "expand: no pattern, nothing")
     check(nextLine(["• Item one", "• Item two", "• Item three"]) == "• Item four", "expand: a bullet list carries on")
     check(nextLine(["1. Wash", "2. Dry"]) == "3. " && nextLine(["  - a", "  - b"]) == "  - ", "expand: numbers and indents carry on")
 
