@@ -9,6 +9,7 @@ import Tutorial from './components/Tutorial.jsx';
 import Present from './components/Present.jsx';
 import BrushBar from './components/BrushBar.jsx';
 import ChatPanel from './components/ChatPanel.jsx';
+import HistoryList from './components/HistoryList.jsx';
 import { maxOf } from './lib/extent.js';
 import SelectBar from './components/SelectBar.jsx';
 import { paint, paintMarks, erase } from './lib/brush.js';
@@ -30,6 +31,7 @@ import {
   groupElements, ungroupElements, groupMates, makeSymbol, detachSymbol, symbolUses, freshTag, accentMask, adjustLayer, partsInside,
 } from './lib/engine.js';
 import { getPreset } from './lib/presets.js';
+import { goToStep, takeSnapshot, cleanSnapshotName } from './lib/history.js';
 import { useWebMCP } from './lib/webmcp.js';
 import { encodeShare, decodeShare } from './lib/share.js';
 import { parseSketch, toSketch, screenTemplate } from './lib/syntax.js';
@@ -235,7 +237,7 @@ function reducer(state, action) {
     case 'LOAD': {
       const elements = action.elements;
       return {
-        ...pushHistory(state), cols: action.cols, rows: action.rows, elements,
+        ...pushHistory(state), cols: action.cols, rows: action.rows, elements, snapshots: action.snapshots ?? state.snapshots,
         grid: renderElements(elements, action.cols, action.rows), selectedId: null, selectedPreset: null,
       };
     }
@@ -248,6 +250,25 @@ function reducer(state, action) {
 
     case 'REDO':
       return redo(state);
+
+    // History panel (history.js): jump to any step; snapshots are named copies kept in the project file.
+    case 'GO_TO_STEP':
+      return { ...goToStep(state, action.index), selectedId: null };
+
+    case 'SNAPSHOT':
+      return { ...state, snapshots: takeSnapshot(state.snapshots, state.elements, action.name) };
+
+    case 'RENAME_SNAPSHOT':
+      return { ...state, snapshots: state.snapshots.map((s, i) => (i === action.index ? { ...s, name: cleanSnapshotName(action.name, i + 1) } : s)) };
+
+    case 'DELETE_SNAPSHOT':
+      return { ...state, snapshots: state.snapshots.filter((_, i) => i !== action.index) };
+
+    case 'RESTORE_SNAPSHOT': {
+      const snap = state.snapshots?.[action.index];
+      if (!snap) return state;
+      return { ...pushHistory(state), elements: snap.elements, grid: renderElements(snap.elements, state.cols, state.rows), selectedId: null };
+    }
 
     case 'CLEAR': {
       const withHistory = pushHistory(state);
@@ -335,7 +356,7 @@ function initialState() {
     // A doc that no longer parses is set aside before the first autosave can overwrite it.
     if (raw && !saved) localStorage.setItem(`${DOC_KEY}-unreadable`, raw);
     if (saved && saved.elements.length) {
-      return { ...base, cols: saved.cols, rows: saved.rows, elements: saved.elements,
+      return { ...base, cols: saved.cols, rows: saved.rows, elements: saved.elements, snapshots: saved.snapshots ?? [],
         grid: renderElements(saved.elements, saved.cols, saved.rows) };
     }
   } catch { /* private mode or blocked storage: start blank */ }
@@ -486,7 +507,7 @@ export default function App() {
   useEffect(() => {
     if (DEMO) return;
     try { localStorage.setItem(DOC_KEY, serializeProject(state)); } catch { /* storage full or blocked */ }
-  }, [state.elements, state.cols, state.rows]);
+  }, [state.elements, state.cols, state.rows, state.snapshots]);
 
   useEffect(() => {
     if (DEMO) return;
@@ -657,7 +678,7 @@ export default function App() {
   const handlePresent = useCallback(() => {
     const list = slides(state.elements, state.cols, state.rows);
     if (list.length) setPresenting(list); else setToast(t('no_slides'));
-  }, [state.elements, state.cols, state.rows]);
+  }, [state.elements, state.cols, state.rows, state.snapshots]);
   const closePresent = useCallback(() => setPresenting(null), []);
   // Describe it changes the picked screen, read back as typed lines; with no screen picked it draws a new one.
   const describedScreen = state.elements.find(e => e.id === state.selectedId && e.presetId === 'screen') ?? null;
@@ -665,20 +686,20 @@ export default function App() {
   const handleDownloadDeck = useCallback(() => download('deck.html', new Blob([toDeck(state.elements, state.cols, state.rows)], { type: 'text/html' })), [state.elements, state.cols, state.rows]);
   const handleDownloadHTML = useCallback(() => {
     download('layout.html', new Blob([toHTML(state.elements, state.cols, state.rows)], { type: 'text/html' }));
-  }, [state.elements, state.cols, state.rows]);
+  }, [state.elements, state.cols, state.rows, state.snapshots]);
   const handleCopySketch = useCallback(() => {
     const { source, skipped } = toSketch(state.elements);
     copy(source, skipped.length ? t('copied_lines_skipped', { n: skipped.length }) : t('copied_lines'));
   }, [copy, state.elements]);
   const handleShareLink = useCallback(() => {
-    encodeShare(serializeProject(state)).then(code => {
+    encodeShare(serializeProject({ ...state, snapshots: null })).then(code => {
       copy(`${window.location.origin}${window.location.pathname}#p=${code}`, t('share_copied'));
     });
   }, [state, copy]);
 
   // An iframe of the read-only embed page, sized to the sketch (14px monospace, line height 1, 16px padding).
   const handleEmbed = useCallback(() => {
-    encodeShare(serializeProject(state)).then(code => {
+    encodeShare(serializeProject({ ...state, snapshots: null })).then(code => {
       const right = Math.max(10, ...state.elements.map(el => el.col + el.width));
       const bottom = Math.max(2, ...state.elements.map(el => el.row + el.height));
       const width = Math.ceil(right * 8.5 + 32), height = Math.ceil(bottom * 14 + 32 + 26);
@@ -905,8 +926,7 @@ export default function App() {
         onSymbol={handleSymbol}
         onUpdateElement={handleUpdateElement}
         onSaveToPalette={DEMO ? null : handleSaveToPalette}
-        historyLength={state.history.length}
-        futureLength={state.future.length}
+        historyPanel={DEMO ? null : <HistoryList state={state} dispatch={dispatch} />}
         isOpen={mobileSheet === 'inspector'}
         onClose={closeSheet}
       />

@@ -95,6 +95,7 @@ struct EditorState {
     private(set) var grid: Grid
     private(set) var history: [[Element]] = []
     private(set) var future: [[Element]] = []
+    var snapshots: [CanvasSnapshot] = [] // History.swift; saved with the project
 
     init(cols: Int = defaultCols, rows: Int = defaultRows) {
         self.cols = cols
@@ -319,99 +320,6 @@ func updateElement(_ elements: [Element], id: String, text: String) -> [Element]
         next.height = next.template.count
         return next
     }), id: id)
-}
-
-// MARK: - Project files
-
-/// The shared project file: the same JSON the web app saves, opens and exports.
-func serializeProject(_ state: EditorState) -> String {
-    func anchor(_ a: Anchor) -> [String: Any] {
-        var out: [String: Any] = ["col": a.col, "row": a.row]
-        if let id = a.id { out["id"] = id; out["dCol"] = a.dCol; out["dRow"] = a.dRow }
-        if a.edge { out["edge"] = true }
-        if let side = a.side { out["side"] = side }
-        return out
-    }
-    let elements: [[String: Any]] = state.elements.map {
-        var el: [String: Any] = ["id": $0.id, "presetId": $0.presetId, "label": $0.label, "template": $0.template,
-                                 "width": $0.width, "height": $0.height, "col": $0.col, "row": $0.row]
-        if let from = $0.from, let to = $0.to { el["from"] = anchor(from); el["to"] = anchor(to) }
-        if let text = $0.text { el["text"] = text }
-        if let style = $0.style { el["style"] = style }
-        if $0.accent { el["accent"] = true }
-        if let group = $0.group { el["group"] = group }
-        if $0.hidden { el["hidden"] = true }
-        if $0.locked { el["locked"] = true }
-        if let symbol = $0.symbol { el["symbol"] = symbol }
-        if let variant = $0.variant { el["variant"] = variant }
-        if let note = $0.note { el["note"] = note }
-        if let take = $0.take { el["take"] = take }
-        if let ink = $0.ink { el["ink"] = ink }
-        if let paper = $0.paper { el["paper"] = paper }
-        if let adjust = $0.adjust { el["adjust"] = adjust }
-        if let m = $0.mask { el["mask"] = ["top": m.top, "right": m.right, "bottom": m.bottom, "left": m.left] }
-        if let clip = $0.clip { el["clip"] = clip }
-        if let blend = $0.blend { el["blend"] = blend }
-        return el
-    }
-    let project: [String: Any] = ["blockprint": 1, "cols": state.cols, "rows": state.rows, "elements": elements]
-    guard let data = try? JSONSerialization.data(withJSONObject: project, options: [.sortedKeys]) else { return "" }
-    return String(data: data, encoding: .utf8) ?? ""
-}
-
-/// Lenient, like the web: broken elements are dropped, a bad size falls back to the default, ids are fresh.
-func parseProject(_ json: String) -> EditorState? {
-    guard let data = json.data(using: .utf8),
-          let project = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any],
-          let raw = project["elements"] as? [Any] else { return nil }
-    func size(_ value: Any?, _ fallback: Int) -> Int {
-        guard let n = value as? Int, n > 0, n <= 500 else { return fallback }
-        return n
-    }
-    var state = EditorState(cols: size(project["cols"], defaultCols), rows: size(project["rows"], defaultRows))
-    let valid = raw.compactMap { $0 as? [String: Any] }.filter { $0["template"] is [String] }
-    // Ids are fresh on open, so pinned line ends are re-pointed at the new ids.
-    let fresh = valid.map { _ in newElementId() }
-    var ids: [String: String] = [:]
-    for (i, el) in valid.enumerated() {
-        if let old = el["id"] as? String, ids[old] == nil { ids[old] = fresh[i] }
-    }
-    func anchor(_ value: Any?) -> Anchor? {
-        guard let a = value as? [String: Any] else { return nil }
-        var out = Anchor(col: a["col"] as? Int ?? 0, row: a["row"] as? Int ?? 0)
-        if let old = a["id"] as? String, let id = ids[old] {
-            out.id = id
-            out.dCol = a["dCol"] as? Int ?? 0
-            out.dRow = a["dRow"] as? Int ?? 0
-        }
-        out.edge = a["edge"] as? Bool ?? false
-        if let side = a["side"] as? String, ["left", "below"].contains(side) { out.side = side }
-        return out
-    }
-    state.elements = valid.enumerated().map { i, el in
-        let template = el["template"] as? [String] ?? []
-        let from = anchor(el["from"]), to = anchor(el["to"])
-        let pinned = from != nil && to != nil
-        return Element(id: fresh[i], presetId: el["presetId"] as? String ?? "custom",
-                       label: el["label"] as? String ?? "Element", template: template,
-                       width: max(1, template.map(\.count).max() ?? 0), height: template.count,
-                       col: el["col"] as? Int ?? 0, row: el["row"] as? Int ?? 0,
-                       from: pinned ? from : nil, to: pinned ? to : nil, text: el["text"] as? String,
-                       style: (el["style"] as? String).flatMap { boxStyles.contains($0) && $0 != "single" ? $0 : nil },
-                       accent: el["accent"] as? Bool == true, group: el["group"] as? String,
-                       hidden: el["hidden"] as? Bool == true, locked: el["locked"] as? Bool == true, symbol: el["symbol"] as? String,
-                       variant: (el["variant"] as? String).flatMap { variants.contains($0) && $0 != "default" ? $0 : nil },
-                       note: (el["note"] as? String).map(cleanNote).flatMap { $0.isEmpty ? nil : $0 },
-                       take: (el["take"] as? String).flatMap { $0.count <= 64 ? $0 : nil },
-                       ink: colorIndex(el["ink"]), paper: colorIndex(el["paper"]),
-                       adjust: (el["adjust"] as? String).flatMap { el["presetId"] as? String == "adjust" && adjustments.contains($0) ? $0 : nil })
-    }
-    for (i, el) in valid.enumerated() { // masks keep pointing at the clip part's new id
-        state.elements[i].mask = cleanMask(el["mask"])
-        state.elements[i].blend = cleanBlend(el["blend"])
-        if let old = el["clip"] as? String, let id = ids[old], id != fresh[i] { state.elements[i].clip = id }
-    }
-    return state
 }
 
 /// Keep a moved element on the canvas.

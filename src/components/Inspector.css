@@ -147,6 +147,11 @@
 .layer-tools button[aria-pressed="true"] { color: var(--accent); background: var(--accent-muted); }
 .layer-tools button:disabled { opacity: .3; cursor: default; }
 .layer-tools button:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
+/* History: a step is a row like a layer; the snapshot name edits in place. */
+.history-name { font: 17px/24px var(--font); cursor: text; }
+.history-name:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); border-radius: 4px; }
+.history-check { color: var(--accent); font-weight: 600; }
+.history-take { width: 100%; margin-top: var(--sp-3); }
 
 .inspector-range { flex: 1; min-width: 0; margin-inline: var(--sp-3); accent-color: var(--accent); }
 .inspector-note { flex-wrap: wrap; gap: var(--sp-2, 8px); }

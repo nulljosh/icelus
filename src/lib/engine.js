@@ -8,6 +8,7 @@ import { ADJUSTMENTS, renderElements, routeLines, shiftLine, bannerText, BOX_STY
 import { maxOf } from './extent.js';
 import { cleanColor } from './color.js';
 import { cleanMask } from './mask.js';
+export { serializeProject, parseProject } from './project.js';
 export { ADJUSTMENTS, adjustChar, adjustLayer, renderElements, joinChar, bannerText, lineShape, createLine, routeLines, BOX_STYLES, styleChar, snapPosition, screenFrame, partsInside, screensDocument, accentMask, tableFrame, tableCells, tableText, textCells, CHARTS, chartFrame, chartItems, nodeFrame, SIZED, sequenceFrame, isMessage, treeFrame, isTreeLine, contentFrame,
   groupMates, groupElements, ungroupElements, syncSymbol, makeSymbol, detachSymbol, symbolUses, freshTag, VARIANTS, variantChar } from './lines.js';
 
@@ -111,6 +112,7 @@ export function createState(cols = DEFAULT_COLS, rows = DEFAULT_ROWS) {
     selectedPreset: null,
     elements: [],
     selectedId: null,
+    snapshots: [],
   };
 }
 
@@ -378,56 +380,3 @@ export function toMarkdown(text) {
   return '```\n' + trimText(text) + '\n```';
 }
 
-// A project file is just the element list and the canvas size.
-export function serializeProject(state) {
-  return JSON.stringify({ blockprint: 1, cols: state.cols, rows: state.rows, elements: state.elements });
-}
-
-export function parseProject(json) {
-  let data;
-  try { data = JSON.parse(json); } catch { return null; }
-  if (!data || typeof data !== 'object' || !Array.isArray(data.elements)) return null;
-  const cols = Number.isInteger(data.cols) && data.cols > 0 && data.cols <= 500 ? data.cols : DEFAULT_COLS;
-  const rows = Number.isInteger(data.rows) && data.rows > 0 && data.rows <= 500 ? data.rows : DEFAULT_ROWS;
-  const valid = data.elements.filter(el => el && Array.isArray(el.template) && el.template.every(l => typeof l === 'string'));
-  // Ids are fresh on open, so pinned line ends are re-pointed at the new ids.
-  const fresh = valid.map(() => newElementId());
-  const ids = new Map();
-  valid.forEach((el, i) => { if (el.id != null && !ids.has(el.id)) ids.set(el.id, fresh[i]); });
-  const int = n => (Number.isInteger(n) ? n : 0);
-  const anchor = a => (a && typeof a === 'object'
-    ? { col: int(a.col), row: int(a.row), ...(ids.has(a.id) && { id: ids.get(a.id), dCol: int(a.dCol), dRow: int(a.dRow) }),
-        ...(a.edge === true && { edge: true }), ...(['left', 'below'].includes(a.side) && { side: a.side }) }
-    : null);
-  const elements = valid.map((el, i) => {
-    const from = anchor(el.from), to = anchor(el.to);
-    return {
-      id: fresh[i],
-      presetId: String(el.presetId ?? 'custom'),
-      label: String(el.label ?? 'Element'),
-      template: el.template,
-      width: Math.max(1, maxOf(el.template.map(l => [...l].length))),
-      height: el.template.length,
-      col: int(el.col),
-      row: int(el.row),
-      ...(from && to && { from, to }),
-      ...(typeof el.text === 'string' && { text: el.text }),
-      ...(BOX_STYLES.includes(el.style) && el.style !== 'single' && { style: el.style }),
-      ...(el.accent === true && { accent: true }),
-      ...(el.presetId === 'adjust' && ADJUSTMENTS.includes(el.adjust) && { adjust: el.adjust }),
-      ...(cleanColor(el.ink) !== undefined && { ink: el.ink }),
-      ...(cleanColor(el.paper) !== undefined && { paper: el.paper }),
-      ...(cleanMask(el.mask) && { mask: cleanMask(el.mask) }),
-      ...(cleanBlend(el.blend) && { blend: el.blend }),
-      ...(ids.has(el.clip) && ids.get(el.clip) !== fresh[i] && { clip: ids.get(el.clip) }),
-      ...(typeof el.group === 'string' && { group: el.group }),
-      ...(el.hidden === true && { hidden: true }),
-      ...(el.locked === true && { locked: true }),
-      ...(typeof el.symbol === 'string' && { symbol: el.symbol }),
-      ...(VARIANTS.includes(el.variant) && el.variant !== 'default' && { variant: el.variant }),
-      ...(cleanNote(typeof el.note === 'string' ? el.note : '') && { note: cleanNote(el.note) }),
-      ...(typeof el.take === 'string' && el.take.length <= 64 && { take: el.take }),
-    };
-  });
-  return { cols, rows, elements };
-}

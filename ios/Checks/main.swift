@@ -340,5 +340,6 @@ runAdjustChecks()
 runRealChecks()
 runMaskChecks()
 runBlendChecks()
+runHistoryChecks()
 
 print("ok — \(checks) checks passed")

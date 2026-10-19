@@ -1,7 +1,7 @@
 import SwiftUI
 
 extension ContentView {
-    /// The basics stay in view: undo, redo, More, Settings, Profile and Export. More shows the rest and the extra inspector
+    /// The basics stay in view: undo, redo, More, Settings, Profile and Export. More shows the rest (Layers, History, Review…) and the extra inspector
     /// controls, remembered per device (glyphbox-more), the same split as the web.
     var toolbar: some View {
         HStack(spacing: 16) {
@@ -14,6 +14,7 @@ extension ContentView {
 
             if showMore {
                 toolButton("Layers", systemImage: "square.3.layers.3d", enabled: !state.elements.isEmpty) { showingLayers = true }
+                toolButton("History", systemImage: "clock.arrow.circlepath", enabled: true) { showingHistory = true }
                 toolButton("Review", systemImage: "checklist", enabled: !state.elements.isEmpty) { reviewing = true }
                 toolButton("Erase", systemImage: "eraser", enabled: true, active: erasing) {
                     erasing.toggle()

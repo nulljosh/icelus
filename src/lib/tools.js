@@ -13,6 +13,7 @@ import {
   deleteElement, createLine, BOX_STYLES, ADJUSTMENTS, adjustLayer,
 } from './engine.js';
 import { BLENDS } from './lines.js';
+import { takeSnapshot } from './history.js';
 import { PRESETS as CORE, CATEGORIES as CORE_CATEGORIES, PACKS, PACK_CATEGORIES, getPreset } from './presets.js';
 
 // The core parts plus the platform packs (iOS, Material, terminal, email).
@@ -136,7 +137,7 @@ export function callTool(name, rawArgs) {
       if (strokePoints > 5000) throw new ToolError('paint and erase ops carry at most 5000 points in one call');
       // Indices are resolved to ids up front, so a delete does not shift the parts later ops name.
       const ids = project.elements.map(el => el.id);
-      let { elements } = project;
+      let { elements, snapshots = [] } = project;
       args.ops.forEach((op, i) => {
         const at = `ops[${i}]`;
         if (!op || typeof op !== 'object') throw new ToolError(`${at} must be an object`);
@@ -186,6 +187,13 @@ export function callTool(name, rawArgs) {
           else elements = moveCells(elements, cells, n('dCol'), n('dRow'), project.cols, project.rows);
           return;
         }
+        if (op.op === 'snapshot') { snapshots = takeSnapshot(snapshots, elements, typeof op.name === 'string' ? op.name : ''); return; }
+        if (op.op === 'restore') {
+          const snap = snapshots.find(sn => sn.name === op.name);
+          if (!snap) throw new ToolError(`${at}.name must name a snapshot: ${snapshots.map(sn => sn.name).join(', ') || 'the project has none'}`);
+          elements = snap.elements;
+          return;
+        }
         if (op.op === 'arrow') {
           elements = [...elements, createLine(elements, { col: n('fromCol'), row: n('fromRow') }, { col: n('toCol'), row: n('toRow') })];
           return;
@@ -222,12 +230,12 @@ export function callTool(name, rawArgs) {
           const knob = k => (op[k] === undefined ? undefined : n(k, 0, 8));
           elements = updateElement(elements, id, { tweak: { spacing: knob('spacing'), padding: knob('padding'), style: op.style } });
         } else if (op.op === 'delete') elements = deleteElement(elements, id);
-        else throw new ToolError(`${at}.op must be move, resize, text, style, tweak, note, variations, keep, delete, color, mask, blend, adjust, arrow, paint, erase, gradient, cut, fill or move_cells`);
+        else throw new ToolError(`${at}.op must be move, resize, text, style, tweak, note, variations, keep, delete, color, mask, blend, adjust, arrow, paint, erase, gradient, cut, fill, move_cells, snapshot or restore`);
       });
       const { cols, rows } = project;
       return {
         text: trimText(gridToText(renderElements(elements, cols, rows))),
-        project: JSON.parse(serializeProject({ cols, rows, elements })),
+        project: JSON.parse(serializeProject({ cols, rows, elements, snapshots })),
       };
     }
 

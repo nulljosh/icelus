@@ -24,6 +24,8 @@ targets:
       - ../ios/App/Lines.swift
       - ../ios/App/Shapes.swift
       - ../ios/App/Mask.swift
+      - ../ios/App/History.swift
+      - ../ios/App/Project.swift
       - ../ios/App/Presets.swift
       - ../ios/App/Store.swift
       - ../ios/App/Theme.swift

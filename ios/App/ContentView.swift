@@ -40,6 +40,7 @@ struct ContentView: View {
     /// Signed in, or nil. Kept in the Keychain (Account.swift).
     @State var session = SessionStore.load()
     @State var showingLayers = false
+    @State var showingHistory = false
     @State var reviewing = false
     @State var presenting: [Slide]? = nil
     @State var pickingPhoto = false
@@ -109,6 +110,9 @@ struct ContentView: View {
             LayersSheet(elements: state.elements, selectedId: selectedId, onSelect: { selectedId = $0 },
                         onFlag: { el, hidden, locked in flag(el, hidden: hidden, locked: locked) },
                         onStep: { el, up in step(el, up: up) })
+        }
+        .sheet(isPresented: $showingHistory) {
+            HistorySheet(state: $state, onChange: { selectedId = nil; persist() })
         }
         .onChange(of: session) { SessionStore.save(session) }
         .sheet(isPresented: $showingAccount) {

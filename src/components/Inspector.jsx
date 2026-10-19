@@ -98,14 +98,14 @@ export default function Inspector({
   onSelectElement,
   symbolCount = 0,
   onSymbol,
-  historyLength,
-  futureLength,
+  historyPanel,
   isOpen,
   onClose,
 }) {
   // A beginner sees the part, Duplicate and Delete. Everything else waits under More, remembered per viewer.
   const toggle = e => { if (e.currentTarget.open !== more) onMore?.(e.currentTarget.open); };
   const el = selectedElement;
+  const [historyOpen, setHistoryOpen] = useState(false); // closed, the step list is not worked out at all
   return (
     <aside className={`inspector${isOpen ? ' is-open' : ''}`}>
       <div className="inspector-header">
@@ -250,6 +250,15 @@ export default function Inspector({
         </section>
       )}
 
+      {historyPanel && (
+        <section className="inspector-section">
+          <details className="inspector-more" open={historyOpen} onToggle={e => setHistoryOpen(e.currentTarget.open)}>
+            <summary>{t('history')}</summary>
+            {historyOpen && historyPanel}
+          </details>
+        </section>
+      )}
+
       {elements.length > 0 && (
         <section className="inspector-section">
         <details className="inspector-more" open={more} onToggle={toggle}>
@@ -262,7 +271,6 @@ export default function Inspector({
             <div className="inspector-row"><span className="inspector-key">{t('col')}</span><span className="inspector-value">{cursor.col}</span></div>
             <div className="inspector-row"><span className="inspector-key">{t('row')}</span><span className="inspector-value">{cursor.row}</span></div>
             <div className="inspector-row"><span className="inspector-key">{t('size')}</span><span className="inspector-value">{cols}×{rows}</span></div>
-            <div className="inspector-row"><span className="inspector-key">{t('history')}</span><span className="inspector-value">{historyLength}↩ {futureLength}↪</span></div>
           </section>
         </details>
         </section>

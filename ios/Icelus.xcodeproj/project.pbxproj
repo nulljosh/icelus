@@ -32,6 +32,7 @@
 		8CE72A45E7B3D81D8CBE082D /* Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2ACD6B3C69C0F2FA51AEB25 /* Presets.swift */; };
 		90CC848B774C1A382F195FC4 /* Syntax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C11522D7900814164153063 /* Syntax.swift */; };
 		99C2CB2359C70C001A837678 /* Critique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F73153BC3FC4399F32F88A1 /* Critique.swift */; };
+		9F38DD0708937750CC2AFDAE /* HistorySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE98A00EF30F92928147522 /* HistorySheet.swift */; };
 		AD75027F9AFB926E213A0E1B /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE20C0CE94BA0F9C50420FE /* Gradient.swift */; };
 		BA4A4078EAE8AB7707AA1157 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = A642337AC42F35C1900D4829 /* Store.swift */; };
 		BA7F011C782872931FC14596 /* PresentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F4241AD7BFA3A38496EAF0 /* PresentView.swift */; };
@@ -49,11 +50,14 @@
 		F0D253732521AD3BAE6B6DC4 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C02085D7634E7A40206A127 /* Palette.swift */; };
 		F11D69B7B5344DB018B48505 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C770C89F3EE0FB3F0F7FDE2 /* Theme.swift */; };
 		F2DF33282BEA4AEF6C67CE7A /* Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF25801F171E6565367FC00D /* Shapes.swift */; };
+		F57CA2D2751F665F013C0863 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8256BF6BED71D9179305726 /* Project.swift */; };
 		F7378BAD086F6D70555ADDF4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17B48AEFACC02D89876BB10 /* ContentView.swift */; };
+		FFF5BBFF0D24027423283FA3 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1150CBEE7464B0AFA89246C /* History.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0D023F976FC3E7E474C45A2A /* ContentView+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Toolbar.swift"; sourceTree = "<group>"; };
+		1AE98A00EF30F92928147522 /* HistorySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistorySheet.swift; sourceTree = "<group>"; };
 		1C0160D1888F08A01EBF0D54 /* Brush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brush.swift; sourceTree = "<group>"; };
 		1C02085D7634E7A40206A127 /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		1E4B4D15F1A1C5622A088962 /* Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Import.swift; sourceTree = "<group>"; };
@@ -85,6 +89,7 @@
 		AB84827DB3AAE3C5A2D8E08E /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		B066987047435D7B5755DF6B /* LayersSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayersSheet.swift; sourceTree = "<group>"; };
 		B0D528D271C7A7EFF4B44177 /* AccountSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSheet.swift; sourceTree = "<group>"; };
+		B1150CBEE7464B0AFA89246C /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		B98DC5AC64DFE409A1E386DD /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		BB4837598B531487D0C31AD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BCFFCA98F6268FBF726E0EE5 /* IcelusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IcelusApp.swift; sourceTree = "<group>"; };
@@ -92,6 +97,7 @@
 		C158F9FBC296CB8C1D1C1481 /* MaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskView.swift; sourceTree = "<group>"; };
 		C17B48AEFACC02D89876BB10 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C657388B467BF20F6C542CE2 /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
+		C8256BF6BED71D9179305726 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		D9E89DB00DF46AF1962B9EE3 /* TutorialViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViews.swift; sourceTree = "<group>"; };
 		E2ACD6B3C69C0F2FA51AEB25 /* Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presets.swift; sourceTree = "<group>"; };
 		F0E6246E96397273B086EDFD /* Real.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Real.swift; sourceTree = "<group>"; };
@@ -137,6 +143,8 @@
 				6C84E6F38B851C0D65D2FE5A /* Engine.swift */,
 				6AE20C0CE94BA0F9C50420FE /* Gradient.swift */,
 				922E8F8F17F9828807573B25 /* Handoff.swift */,
+				B1150CBEE7464B0AFA89246C /* History.swift */,
+				1AE98A00EF30F92928147522 /* HistorySheet.swift */,
 				3BBFA9882B2AF65E1A3AA464 /* HTML.swift */,
 				BCFFCA98F6268FBF726E0EE5 /* IcelusApp.swift */,
 				1E4B4D15F1A1C5622A088962 /* Import.swift */,
@@ -152,6 +160,7 @@
 				725719DC47ECE7175907E74D /* Photo.swift */,
 				49F4241AD7BFA3A38496EAF0 /* PresentView.swift */,
 				E2ACD6B3C69C0F2FA51AEB25 /* Presets.swift */,
+				C8256BF6BED71D9179305726 /* Project.swift */,
 				F0E6246E96397273B086EDFD /* Real.swift */,
 				9100DA6A23FBF1C9B026AE16 /* RealView.swift */,
 				7BD1C43C57601DE2743786E0 /* ReviewSheet.swift */,
@@ -283,6 +292,8 @@
 				AD75027F9AFB926E213A0E1B /* Gradient.swift in Sources */,
 				44C93173EBE97426CE2F2DC7 /* HTML.swift in Sources */,
 				4F4ABF4D8BB3CD425C1DCE2D /* Handoff.swift in Sources */,
+				FFF5BBFF0D24027423283FA3 /* History.swift in Sources */,
+				9F38DD0708937750CC2AFDAE /* HistorySheet.swift in Sources */,
 				D6FB40D2821AD04DD2DCE849 /* IcelusApp.swift in Sources */,
 				30E8169AB4231A4B046F0A61 /* Import.swift in Sources */,
 				6AFDDFC2C755D8C40049B997 /* Intents.swift in Sources */,
@@ -295,6 +306,7 @@
 				C01E0FF1FB7A7B1F62B54E60 /* Photo.swift in Sources */,
 				BA7F011C782872931FC14596 /* PresentView.swift in Sources */,
 				8CE72A45E7B3D81D8CBE082D /* Presets.swift in Sources */,
+				F57CA2D2751F665F013C0863 /* Project.swift in Sources */,
 				740E861DAF72093385A3540E /* Real.swift in Sources */,
 				791CD2FFB9D06C7BDB840951 /* RealView.swift in Sources */,
 				E9B8A1083A2CE98F0D979864 /* ReviewSheet.swift in Sources */,
@@ -386,7 +398,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 38.0.0;
+				MARKETING_VERSION = 40.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -476,7 +488,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 38.0.0;
+				MARKETING_VERSION = 40.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;

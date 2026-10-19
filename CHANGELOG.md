@@ -4,6 +4,7 @@ Icelus was called Charwork, Wiretext, Blockframe, Blockprint, Glyphic and Glyphb
 ships on the web, iPhone, iPad and Mac unless it says otherwise.
 
 ## 2026-10-19
+- **40.0.0** History. Every step is listed by name, like Add Button or Move Card. Tap one to go back to it, and the steps after it wait in case you change your mind. Take a snapshot to keep a named copy of the canvas; snapshots save with the project.
 - **39.0.0** Blend modes. Choose how a part meets what is under it: join the lines, sit over, sit under, or knock out. A cleaner nav bar with Settings and Profile, and a simpler Export menu.
 - **38.0.0** Masks. Crop a part from its edges, or clip it to another part. Nothing is cut. Renamed to Icelus.
 - **37.0.1** QA pass. A picked screen scrolls clear of the chat, card buttons draw as buttons, prose replies to Describe it are refused.

@@ -18,6 +18,7 @@ import { slides } from './deck.js';
 import { strokeCells } from './brush.js';
 import { marquee, wand, cellText } from './select.js';
 import { gradientMarks } from './gradient.js';
+import { timeline } from './history.js';
 import { SYNTAX_HELP, parseSketch } from './syntax.js';
 
 const NUM = { type: 'number' };
@@ -121,6 +122,35 @@ export function buildTools(get) {
       description: 'The canvas as a Markdown build brief for a coding agent: every screen drawn, its parts, flow, states, notes and the project file.',
       inputSchema: { type: 'object', properties: {} },
       execute: async () => { const { state } = get(); return { markdown: handoff(state.elements, state.cols, state.rows) }; },
+    },
+    {
+      name: 'history',
+      description: 'Every undo step, oldest first, named by what changed, with the index of the step the canvas is on, plus the named snapshots.',
+      inputSchema: { type: 'object', properties: {} },
+      execute: async () => {
+        const { state } = get();
+        return { at: state.history.length, steps: timeline(state).map(s => ({ kind: s.kind, part: s.el?.label, count: s.count })),
+          snapshots: (state.snapshots ?? []).map(s => s.name) };
+      },
+    },
+    {
+      name: 'go_to_step',
+      description: 'Jump the canvas to a step from history by index. Later steps stay redoable until the next edit.',
+      inputSchema: { type: 'object', properties: { index: NUM }, required: ['index'] },
+      execute: async ({ index }) => { get().dispatch({ type: 'GO_TO_STEP', index }); return { ok: true }; },
+    },
+    {
+      name: 'snapshot',
+      description: 'Keep a named copy of the canvas in the project file. restore: true with a name puts the canvas back to that snapshot (undoable).',
+      inputSchema: { type: 'object', properties: { name: { type: 'string' }, restore: { type: 'boolean' } } },
+      execute: async ({ name = '', restore = false }) => {
+        const { state, dispatch } = get();
+        if (!restore) { dispatch({ type: 'SNAPSHOT', name }); return { ok: true }; }
+        const index = (state.snapshots ?? []).findIndex(s => s.name === name);
+        if (index < 0) return { error: `no snapshot named ${name}` };
+        dispatch({ type: 'RESTORE_SNAPSHOT', index });
+        return { ok: true };
+      },
     },
     {
       name: 'paint',
