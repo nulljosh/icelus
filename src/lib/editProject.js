@@ -9,6 +9,7 @@ import { takeSnapshot } from './history.js';
 import { playAction, cleanStep } from './actions.js';
 import { expandChanges, harmonize } from './heal.js';
 import { autoLayout, constrain, syncTwins, makeSizes, AUTO_MAX } from './layout.js';
+import { parseLibrary, pullLibrary } from './library.js';
 import { MODES, VAR_MAX, isVarName, setMode, setVar, canvasVars } from './modes.js';
 import { variations, keepVariation } from './tweaks.js';
 import { removeDistractions } from './critique.js';
@@ -42,6 +43,12 @@ export function editProject(args) {
       const size = op.size === undefined ? 1 : n('size', 1, 5);
       const cells = strokeCells(points, size, project.cols, project.rows);
       elements = op.op === 'paint' ? paint(elements, cells, typeof op.char === 'string' ? op.char : '█') : erase(elements, cells);
+      return;
+    }
+    if (op.op === 'pull') { // a library's newer parts into every linked copy (library.js)
+      const library = parseLibrary(op.library);
+      if (!library) throw new ToolError(`${at}.library must be a library from project_to_library`);
+      elements = pullLibrary(elements, library).elements;
       return;
     }
     if (op.op === 'mode') { // the whole canvas in one line set (modes.js); null goes back to each part's own

@@ -1,12 +1,26 @@
 import { expandChanges } from './heal.js';
 import { MODES, isVarName } from './modes.js';
 import { AUTO_MAX } from './layout.js';
+import { makeLibrary, parseLibrary } from './library.js';
 
-// The live-canvas tools for actions (v41), expand (v42) and variables and modes (v47), split out of webmcp.js to keep it small.
+// The live-canvas tools for actions (v41), expand (v42), variables and modes (v47) and libraries (v48), split out of webmcp.js to keep it small.
 const NUM = { type: 'number' };
 
 export function editTools(get) {
   return [
+    {
+      name: 'library',
+      description: 'With no library, publishes the canvas symbols as a part library (JSON). With one (from this tool or project_to_library), every linked copy on the canvas takes its version, minus what a copy owns. One step of undo.',
+      inputSchema: { type: 'object', properties: { library: { type: 'object' }, name: { type: 'string' } } },
+      execute: async ({ library, name }) => {
+        const { state, dispatch } = get();
+        if (library === undefined) return { library: makeLibrary(state.elements, name) };
+        const parsed = parseLibrary(library);
+        if (!parsed) return { error: 'library must be { icelusLibrary: 1, name, parts }' };
+        dispatch({ type: 'PULL_LIBRARY', library: parsed });
+        return { ok: true };
+      },
+    },
     {
       name: 'set_canvas',
       description: `Draw the whole canvas in one line set (mode: ${MODES.join(', ')}, or null for each part's own), and/or set a named spacing variable (name, value 0 to ${AUTO_MAX}, null removes it) that auto layout screens use by name. One step of undo each.`,

@@ -10,6 +10,8 @@ struct Preset: Identifiable, Hashable {
     let template: [String]
     /// A chart's numbers, which its template is drawn from.
     var text: String? = nil
+    /// A library part's symbol (Library.swift), so a placed one stays linked.
+    var symbol: String? = nil
 
     // ponytail: width/height are derived, not stored — the JS version carried them as
     // literals and its own test only ever asserted they matched the template.

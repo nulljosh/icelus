@@ -349,5 +349,6 @@ runPinChecks()
 runSizeChecks()
 runPropertyChecks()
 runModeChecks()
+runLibraryChecks()
 
 print("ok — \(checks) checks passed")

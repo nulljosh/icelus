@@ -66,6 +66,9 @@ extension ContentView {
             Button("Copy SwiftUI code") { copyToClipboard(toSwiftUI(state.elements, cols: state.cols, rows: state.rows)) }
             let deck = slides(state.elements, cols: state.cols, rows: state.rows)
             if !deck.isEmpty { Button("Present") { presenting = deck } }
+            if state.elements.contains(where: { $0.symbol != nil }) {
+                Button("Copy library") { copyToClipboard(serializeLibrary(makeLibrary(state.elements, name: String(localized: "Library")))) }
+            }
             Button("Copy for Claude Code") { copyToClipboard(handoff(state.elements, cols: state.cols, rows: state.rows, name: String(localized: "Icelus project"))) }
             if state.elements.contains(where: { $0.presetId == "screen" }) {
                 Button("Copy all screens") {

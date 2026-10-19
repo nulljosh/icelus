@@ -24,7 +24,8 @@ export function parsePalette(raw) {
   return data.filter(p => p && typeof p.id === 'string' && p.id.startsWith('mine-') && typeof p.label === 'string'
     && p.label.length <= 40 && Array.isArray(p.template) && p.template.length > 0 && p.template.length <= 60
     && p.template.every(l => typeof l === 'string' && l.length <= 200))
-    .slice(0, LIMIT).map(p => sized({ id: p.id, label: p.label, category: MINE, template: p.template }));
+    .slice(0, LIMIT).map(p => sized({ id: p.id, label: p.label, category: MINE, template: p.template,
+      ...(typeof p.symbol === 'string' && p.symbol.length <= 64 && { symbol: p.symbol }) }));
 }
 
 export const addToPalette = (palette, el) => [...palette, toPalettePart(el, palette)].slice(-LIMIT);

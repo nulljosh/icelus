@@ -167,6 +167,7 @@ export function createElement(preset, col, row) {
     col,
     row,
     ...(preset.text !== undefined && { text: preset.text }),
+    ...(typeof preset.symbol === 'string' && { symbol: preset.symbol }), // a library part stays linked (library.js)
   };
 }
 

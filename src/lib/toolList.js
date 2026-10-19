@@ -6,7 +6,7 @@ import { SYNTAX_HELP } from './syntax.js';
 
 const PRESETS = [...CORE, ...PACKS];
 const CATEGORIES = [...CORE_CATEGORIES, ...PACK_CATEGORIES];
-export const EDIT_OPS = 'move, resize, text, style, tweak, note, variations, keep, delete, color, mask, blend, play, expand, clean, harmonize, auto, pin, sizes, own, swap, adjust, arrow, paint, erase, gradient, cut, fill, move_cells, snapshot, restore, mode or var';
+export const EDIT_OPS = 'move, resize, text, style, tweak, note, variations, keep, delete, color, mask, blend, play, expand, clean, harmonize, auto, pin, sizes, own, swap, adjust, arrow, paint, erase, gradient, cut, fill, move_cells, snapshot, restore, mode, var or pull';
 export const MAX_OPS = 200;
 
 const componentSchema = {
@@ -91,7 +91,7 @@ export const TOOLS = [
       'Edit an Icelus project file part by part and return the new wireframe text plus project. ' +
       'Stateless: pass the project in, keep the one that comes back. Each op names a part by `index`, its ' +
       'place in `elements` when the call starts. Ops: move {col,row}, resize {width,height}, text {text}, ' +
-      `style {style: ${BOX_STYLES.join('|')}}, tweak a screen {spacing, padding: 0-8, style}, note {note} (empty resolves it), color {ink, paper: 0-15 terminal colors, null clears}, mask {inset: {top,right,bottom,left} cells hidden from each edge, clip: index of a part to show it only inside (null clears either)}, blend {mode: join|over|under|knockout, how a part meets what is under it}, clean (no index; removes the distractions critique_project finds: stray marks, parts that show nothing), snapshot {name} (no index; keeps a named copy of the canvas in the project), restore {name} (no index; the canvas goes back to that snapshot), auto {gap, pad: 0-8 or the name of a variable, or off: true} on a screen (auto layout: its parts stay stacked, gap rows apart, and restack after every edit), mode {mode: ascii|single|heavy|double|rounded, or null} (no index; the whole canvas in one line set), var {name, value: 0-8, or null to remove} (no index; a named spacing value that every screen using it by name follows), own {text, style: true to keep a symbol copy's own words or box style while the rest follows the symbol}, swap {with: index of a part in another symbol} (the copy becomes that symbol, in place), sizes on a screen (copies it at phone 40, tablet 64 and desktop 100 columns to its right, resized so pins apply; words, style and color then stay in step across the copies), pin {x: left|right|both|center, y: top|bottom|both|center} (constraints: when its screen is resized the part follows; both stretches it), harmonize (the part takes the box style, ink and paper most parts on its screen share), expand {by: 1-50} (a table grows by rows, a list by items, carrying the pattern on: Item 3 then Item 4), play {name of a project action, or steps: [{op: move, dCol, dRow} | {op: set, changes: {style, ink, paper, blend, variant, accent, hidden, locked}} | {op: text, text} | {op: resize, width, height} | {op: delete}]} (replays an action on the part), adjust {kind} on an adjustment layer, variations (three takes of a screen), keep (one take, the rest cleared), delete (arrows that ran through the part join up), arrow {fromCol,fromRow,toCol,toRow} (no index; an end ` +
+      `style {style: ${BOX_STYLES.join('|')}}, tweak a screen {spacing, padding: 0-8, style}, note {note} (empty resolves it), color {ink, paper: 0-15 terminal colors, null clears}, mask {inset: {top,right,bottom,left} cells hidden from each edge, clip: index of a part to show it only inside (null clears either)}, blend {mode: join|over|under|knockout, how a part meets what is under it}, clean (no index; removes the distractions critique_project finds: stray marks, parts that show nothing), snapshot {name} (no index; keeps a named copy of the canvas in the project), restore {name} (no index; the canvas goes back to that snapshot), auto {gap, pad: 0-8 or the name of a variable, or off: true} on a screen (auto layout: its parts stay stacked, gap rows apart, and restack after every edit), mode {mode: ascii|single|heavy|double|rounded, or null} (no index; the whole canvas in one line set), var {name, value: 0-8, or null to remove} (no index; a named spacing value that every screen using it by name follows), pull {library} (no index; every copy of a library symbol takes the library's version, from project_to_library), own {text, style: true to keep a symbol copy's own words or box style while the rest follows the symbol}, swap {with: index of a part in another symbol} (the copy becomes that symbol, in place), sizes on a screen (copies it at phone 40, tablet 64 and desktop 100 columns to its right, resized so pins apply; words, style and color then stay in step across the copies), pin {x: left|right|both|center, y: top|bottom|both|center} (constraints: when its screen is resized the part follows; both stretches it), harmonize (the part takes the box style, ink and paper most parts on its screen share), expand {by: 1-50} (a table grows by rows, a list by items, carrying the pattern on: Item 3 then Item 4), play {name of a project action, or steps: [{op: move, dCol, dRow} | {op: set, changes: {style, ink, paper, blend, variant, accent, hidden, locked}} | {op: text, text} | {op: resize, width, height} | {op: delete}]} (replays an action on the part), adjust {kind} on an adjustment layer, variations (three takes of a screen), keep (one take, the rest cleared), delete (arrows that ran through the part join up), arrow {fromCol,fromRow,toCol,toRow} (no index; an end ` +
       'on a part stays pinned to it), paint {points: [[col,row],...], size: 1-5, char} (no index; a freehand stroke joined ' +
       'point to point, one see-through part) erase {points, size} (no index; clears painted cells only), adjust {area: {col,row,width,height}, kind: invert|dim|ascii|single|double|rounded|heavy} (no index; ' +
       'an adjustment layer that changes everything drawn under it in its area), gradient {from: [col,row], to: [col,row], mode: straight|round} ' +
@@ -159,6 +159,21 @@ export const TOOLS = [
       properties: {
         project: { type: 'object', description: 'A Icelus project: { blockprint: 1, cols, rows, elements }.' },
         name: { type: 'string', description: 'The project name for the title.' },
+      },
+      required: ['project'],
+    },
+  },
+  {
+    name: 'project_to_library',
+    description:
+      'Publish a Icelus project\'s symbols as a part library (JSON: { icelusLibrary: 1, name, parts }). Each part keeps its ' +
+      'symbol id, so a project that places it stays linked: edit_project {op: pull, library} later updates every copy, ' +
+      'minus what a copy owns.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'object', description: 'A Icelus project: { blockprint: 1, cols, rows, elements }.' },
+        name: { type: 'string', description: 'The library name, at most 40 characters.' },
       },
       required: ['project'],
     },

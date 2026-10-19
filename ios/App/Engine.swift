@@ -207,7 +207,7 @@ func newElementId() -> String {
 
 func createElement(_ preset: Preset, col: Int, row: Int) -> Element {
     Element(id: newElementId(), presetId: preset.id, label: preset.label, template: preset.template,
-            width: preset.width, height: preset.height, col: col, row: row, text: preset.text)
+            width: preset.width, height: preset.height, col: col, row: row, text: preset.text, symbol: preset.symbol)
 }
 
 /// Topmost element whose bounding box contains (col, row), or nil.

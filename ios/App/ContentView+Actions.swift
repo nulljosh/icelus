@@ -302,6 +302,12 @@ extension ContentView {
         let text = UIPasteboard.general.string ?? ""
         #endif
         guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, text.count <= 200_000 else { return }
+        if let library = parseLibrary(text) { // a part library (Library.swift): its parts join Mine, linked copies update
+            mineRaw = serializePalette(withLibrary(parsePalette(mineRaw), library))
+            let pulled = pullLibrary(state.elements, library)
+            if pulled.changed > 0 { state.pushHistory(); state.elements = pulled.elements; persist() }
+            return
+        }
         if let system = parseSystem(text) { // a design system file: its parts join Mine
             mineRaw = serializePalette(withSystem(parsePalette(mineRaw), system))
             systemRaw = serializeSystem(system)

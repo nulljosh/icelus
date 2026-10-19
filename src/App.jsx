@@ -14,6 +14,7 @@ import { recordAction, saveAction, playAction, cleanActionName } from './lib/act
 import { harmonize } from './lib/heal.js';
 import { autoLayout, constrain, syncTwins, makeSizes } from './lib/layout.js';
 import { setMode, setVar } from './lib/modes.js';
+import { makeLibrary, parseLibrary, pullLibrary, libraryPalette } from './lib/library.js';
 import { maxOf } from './lib/extent.js';
 import SelectBar from './components/SelectBar.jsx';
 import { paint, paintMarks, erase } from './lib/brush.js';
@@ -218,6 +219,12 @@ function edit(state, action) {
 
     case 'SWAP_SYMBOL': {
       const elements = swapSymbol(state.elements, action.id, action.symbol);
+      return elements === state.elements ? state : { ...pushHistory(state), elements, grid: renderElements(elements, state.cols, state.rows) };
+    }
+
+    // Libraries (library.js): every linked copy takes the opened library's version, one undo step.
+    case 'PULL_LIBRARY': {
+      const { elements } = pullLibrary(state.elements, action.library);
       return elements === state.elements ? state : { ...pushHistory(state), elements, grid: renderElements(elements, state.cols, state.rows) };
     }
 
@@ -661,6 +668,14 @@ export default function App() {
     if (!file) return;
     if (file.size > 2_000_000) { setToast(t('file_too_big')); return; }
     const text = await file.text();
+    const library = parseLibrary(text);
+    if (library) { // its parts join Mine, linked; copies already on the canvas take its version
+      const ids = new Set(library.parts.map(p => `mine-lib-${p.symbol}`));
+      saveMine([...mine.filter(p => !ids.has(p.id)), ...libraryPalette(library)].slice(-100));
+      dispatch({ type: 'PULL_LIBRARY', library });
+      setToast(t('library_loaded', { name: library.name, n: library.parts.length }));
+      return;
+    }
     const loaded = parseSystem(text);
     if (loaded) {
       saveMine(withSystem(mine, loaded));
@@ -735,6 +750,8 @@ export default function App() {
   // Hand it to Claude Code: one Markdown brief of every screen, its parts, flow, states and notes.
   const brief = useCallback(() => handoff(state.elements, state.cols, state.rows, t('handoff_name')), [state.elements, state.cols, state.rows]);
   const handleCopyHandoff = useCallback(() => copy(brief(), t('copied_handoff')), [copy, brief]);
+  const handleDownloadLibrary = useCallback(() => download('Library.json',
+    new Blob([JSON.stringify(makeLibrary(state.elements, t('library_name')), null, 2)], { type: 'application/json' })), [state.elements]);
   const handleDownloadHandoff = useCallback(() => download('BUILD.md', new Blob([brief()], { type: 'text/markdown' })), [brief]);
   // Code that compiles: the layout as a React component with plain CSS, or a SwiftUI view.
   const handleCopyReact = useCallback(() => copy(toReact(state.elements, state.cols, state.rows), t('copied_react')), [copy, state.elements, state.cols, state.rows]);
@@ -876,6 +893,7 @@ export default function App() {
               <button role="menuitem" onClick={(e) => { handleDownloadDeck(); closeMenu(e); }}>{t('download_deck')}</button>
               <button role="menuitem" onClick={(e) => { handleDownloadHandoff(); closeMenu(e); }}>{t('download_handoff')}</button>
               <button role="menuitem" onClick={(e) => { handleSaveProject(); closeMenu(e); }}>{t('save_project')}</button>
+              {state.elements.some(el => el.symbol) && <button role="menuitem" onClick={(e) => { handleDownloadLibrary(); closeMenu(e); }}>{t('download_library')}</button>}
               <hr />
               <span className="menu-head">{t('menu_share')}</span>
               <button role="menuitem" onClick={(e) => { handlePresent(); closeMenu(e); }}>{t('present')}</button>

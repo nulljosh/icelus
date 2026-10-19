@@ -24,12 +24,17 @@ func parsePalette(_ raw: String) -> [Preset] {
               let label = p["label"] as? String, label.count <= 40,
               let template = p["template"] as? [String], !template.isEmpty, template.count <= 60,
               template.allSatisfy({ $0.count <= 200 }) else { return nil }
-        return Preset(id: id, label: label, category: mineCategory, template: template)
+        return Preset(id: id, label: label, category: mineCategory, template: template,
+                      symbol: (p["symbol"] as? String).flatMap { $0.count <= 64 ? $0 : nil })
     }.prefix(paletteLimit).map { $0 }
 }
 
 func serializePalette(_ palette: [Preset]) -> String {
-    let list = palette.map { ["id": $0.id, "label": $0.label, "category": mineCategory, "template": $0.template] as [String: Any] }
+    let list = palette.map { p -> [String: Any] in
+        var d: [String: Any] = ["id": p.id, "label": p.label, "category": mineCategory, "template": p.template]
+        if let symbol = p.symbol { d["symbol"] = symbol }
+        return d
+    }
     guard let data = try? JSONSerialization.data(withJSONObject: list) else { return "[]" }
     return String(decoding: data, as: UTF8.self)
 }

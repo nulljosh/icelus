@@ -2,6 +2,7 @@
 // `callTool`, so they cannot drift. Unlike webmcp.js (stateful, the live canvas) these are transforms: a
 // wireframe goes in, a wireframe comes out, so there is no database, session store or Durable Object.
 
+import { makeLibrary } from './library.js';
 import { createGrid, gridToText, textToGrid, stampComponent, renderElements, serializeProject, trimText, parseProject } from './engine.js';
 import { PRESETS as CORE, CATEGORIES as CORE_CATEGORIES, PACKS, PACK_CATEGORIES, getPreset } from './presets.js';
 import { parseSketch, toSketch } from './syntax.js';
@@ -115,6 +116,12 @@ export function callTool(name, rawArgs) {
       if (!project) throw new ToolError('project must be a Icelus project with an elements array');
       const name = typeof args.name === 'string' && args.name.trim() ? args.name.trim().slice(0, 80) : 'Icelus project';
       return { markdown: handoff(project.elements, project.cols, project.rows, name) };
+    }
+
+    case 'project_to_library': {
+      const project = parseProject(JSON.stringify(args.project ?? null));
+      if (!project) throw new ToolError('project must be a Icelus project with an elements array');
+      return { library: makeLibrary(project.elements, typeof args.name === 'string' ? args.name : 'Library') };
     }
 
     case 'wireframe_to_sketch': {

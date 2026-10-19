@@ -4,6 +4,7 @@ Icelus was called Charwork, Wiretext, Blockframe, Blockprint, Glyphic and Glyphb
 ships on the web, iPhone, iPad and Mac unless it says otherwise.
 
 ## 2026-10-19
+- **48.0.0** Libraries. Make parts into symbols, then Export > Download library. Open that file in any project and its parts join Mine; place one and it stays linked. Open a newer version of the library and every linked copy updates, except what a copy owns. On iPhone and Mac, Copy library and Paste do the same.
 - **47.0.0** Variables and modes. Under Layers, Canvas has a Lines switch: draw every part in ASCII, light, heavy, double or rounded lines at once, and switch back. Add a named spacing value and bind a screen's auto layout gap or padding to it; change it once and every screen using it restacks.
 - **46.0.0** Properties. Select a copy of a symbol and turn on Own words or Own style: edits to the other copies skip what it owns, and turning it off pulls the shared look back. Swap puts another symbol in its place, keeping where it sits.
 - **45.0.0** Sizes. Select a screen and tap Make sizes for phone, tablet and desktop widths side by side, resized with your pins. Change the words, style or color of a part in one and the others follow. On iPhone and Mac, a copied screen now keeps every part's color, state and pins.
