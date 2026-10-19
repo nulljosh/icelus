@@ -45,3 +45,25 @@ func runPinChecks() {
     state.elements = updateElement(state.elements, id: "s", width: 50, height: 20)
     check(state.elements.first { $0.id == right.id }?.col == 40, "pins: the editor applies them on every change")
 }
+
+func runSizeChecks() {
+    var screen = Element(id: "s", presetId: "screen", label: "Screen", template: screenFrame("Sign in", width: 40, height: 20), width: 40, height: 20, col: 0, row: 0, text: "Sign in")
+    screen.text = "Sign in"
+    let title = createElement(presets.first { $0.id == "button" }!, col: 2, row: 2)
+    var field = createElement(presets.first { $0.id == "input" }!, col: 2, row: 6); field.pin = Pin(x: "both")
+    let made = makeSizes([screen, title, field], id: "s")
+    let shots = made.elements.filter { $0.presetId == "screen" }.sorted { $0.col < $1.col }
+    check(shots.map { $0.size ?? "" } == ["Phone", "Tablet", "Desktop"] && shots.map(\.width) == [40, 64, 100] && made.ids.count == 2, "sizes: phone, tablet and desktop copies")
+    let fields = made.elements.filter { $0.presetId == "input" }.sorted { $0.col < $1.col }
+    check(fields.map(\.width) == [field.width, field.width + 24, field.width + 60] && Set(fields.compactMap(\.twin)).count == 1, "sizes: pins apply and parts are twinned")
+    check(makeSizes(made.elements, id: "s").ids.isEmpty, "sizes: a screen in a set is not sized again")
+    let buttons = made.elements.filter { $0.presetId == "button" }.sorted { $0.col < $1.col }
+    let edited = moveElement(updateElement(made.elements, id: buttons[0].id, style: "double"), id: buttons[0].id, col: 5, row: 3)
+    let synced = syncTwins(made.elements, edited).filter { $0.presetId == "button" }
+    check(synced.allSatisfy { $0.style == "double" } && synced.first { $0.id == buttons[1].id }?.col == buttons[1].col, "sizes: style follows, position does not")
+    check(syncTwins(made.elements, made.elements) == made.elements, "sizes: no change, no sync")
+    var state = EditorState(cols: 300, rows: 40)
+    state.elements = made.elements
+    let open = parseProject(serializeProject(state))
+    check(open?.elements.filter { $0.size != nil }.count == 3 && open?.elements.filter { $0.presetId == "input" }.allSatisfy { $0.twin != nil } == true, "sizes: survive a save")
+}

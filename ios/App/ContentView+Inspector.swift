@@ -17,6 +17,7 @@ extension ContentView {
             }
             .pickerStyle(.menu)
             .fixedSize()
+            if el.size == nil { Button("Make sizes") { sizeScreen(el) } } else { Text(LocalizedStringKey(el.size!)).foregroundStyle(Theme.muted) }
             Button("Show variations") { makeVariations(el) }
             if el.take != nil, state.elements.contains(where: { $0.take == el.take && $0.id != el.id }) {
                 Button("Keep this one") { keep(el) }
@@ -36,6 +37,15 @@ extension ContentView {
             }
             .pickerStyle(.menu).fixedSize()
         }
+    }
+
+    func sizeScreen(_ el: Element) {
+        let made = makeSizes(state.elements, id: el.id)
+        guard !made.ids.isEmpty else { return }
+        state.pushHistory()
+        state.elements = made.elements
+        state.fitCanvas()
+        persist()
     }
 
     func setPin(_ el: Element, x: String?, y: String?) {

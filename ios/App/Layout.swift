@@ -132,3 +132,62 @@ func constrain(_ prev: [Element], _ next: [Element]) -> [Element] {
     }
     return changed ? routeLines(out) : next
 }
+
+/// Sizes (v45): one screen at phone, tablet and desktop widths, kept in step. The copies are laid out to the
+/// right, resized so pins apply, and every part shares a `twin` tag with its copies: change the words, style or
+/// color of one and its twins follow. Where each copy sits stays its own.
+let screenSizes: [(name: String, width: Int)] = [("Phone", 40), ("Tablet", 64), ("Desktop", 100)]
+
+func makeSizes(_ elements: [Element], id: String) -> (elements: [Element], ids: [String]) {
+    guard let src = elements.first(where: { $0.id == id }), src.presetId == "screen", src.size == nil else { return (elements, []) }
+    let mine = screenSizes.min { abs($0.width - src.width) < abs($1.width - src.width) }!.name
+    let tags = Dictionary(([src] + partsInside(elements, src)).map { ($0.id, $0.twin ?? UUID().uuidString) }, uniquingKeysWith: { a, _ in a })
+    var out = elements.map { el -> Element in
+        guard let tag = tags[el.id] else { return el }
+        var next = el
+        next.twin = tag
+        if el.id == id { next.size = mine }
+        return next
+    }
+    var col = src.col + src.width + 4, ids: [String] = []
+    for size in screenSizes where size.name != mine {
+        guard let from = out.first(where: { $0.id == id }) else { break }
+        let copied = duplicateScreen(out, from, dCol: col - src.col)
+        guard let copy = copied.id else { break }
+        let named = copied.elements.map { el -> Element in var e = el; if e.id == copy { e.size = size.name }; return e }
+        out = constrain(named, updateElement(named, id: copy, width: size.width, height: src.height))
+        ids.append(copy)
+        col += size.width + 4
+    }
+    return (out, ids)
+}
+
+/// After an edit from prev to next: what changed on a part with a twin is copied to its twins that did not change.
+func syncTwins(_ prev: [Element], _ next: [Element]) -> [Element] {
+    let was = Dictionary(prev.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
+    let changed = next.filter { el in el.twin != nil && was[el.id].map { $0 != el } == true }
+    guard !changed.isEmpty else { return next }
+    var out = next
+    for src in changed {
+        guard let old = was[src.id] else { continue }
+        for twin in next where twin.twin == src.twin && twin.id != src.id && was[twin.id] == twin {
+            if src.text != old.text { out = updateElement(out, id: twin.id, text: src.text ?? "") }
+            if src.style != old.style { out = updateElement(out, id: twin.id, style: src.style ?? "single") }
+            if src.variant != old.variant { out = updateElement(out, id: twin.id, variant: src.variant ?? "default") }
+            if src.accent != old.accent { out = updateElement(out, id: twin.id, accent: src.accent) }
+            if src.blend != old.blend { out = updateElement(out, id: twin.id, blend: src.blend ?? "") }
+            out = out.map { el in
+                guard el.id == twin.id else { return el }
+                var e = el
+                if src.ink != old.ink { e.ink = src.ink }
+                if src.paper != old.paper { e.paper = src.paper }
+                // A part whose words live only in its characters: copy them when the twin is the size the part was.
+                if src.text == nil, src.presetId != "screen", src.template != old.template, twin.width == old.width {
+                    e.template = src.template; e.width = src.width; e.height = src.height
+                }
+                return e
+            }
+        }
+    }
+    return out
+}

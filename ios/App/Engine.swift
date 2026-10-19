@@ -91,7 +91,7 @@ struct EditorState {
     private(set) var rows: Int
     var elements: [Element] = [] {
         didSet { // restack auto-layout screens (Layout.swift); this assignment does not call didSet again
-            let laid = autoLayout(oldValue, constrain(oldValue, elements))
+            let laid = autoLayout(oldValue, constrain(oldValue, syncTwins(oldValue, elements)))
             if laid != elements { elements = laid }
             grid = renderElements(elements, cols: cols, rows: rows)
         }
@@ -151,7 +151,7 @@ struct EditorState {
 
 /// A placed, selectable, movable object. Later elements paint over earlier ones.
 struct Element: Equatable, Identifiable {
-    let id: String
+    var id: String
     var presetId: String
     var label: String
     var template: [String]
@@ -193,6 +193,7 @@ struct Element: Equatable, Identifiable {
     var blend: String? = nil
     var auto: AutoLayout? = nil // a screen's auto layout (Layout.swift)
     var pin: Pin? = nil // how it follows a resized screen (Layout.swift)
+    var twin: String? = nil, size: String? = nil // sizes of one screen kept in step (Layout.swift)
 }
 
 private var nextElementId = 1

@@ -102,6 +102,7 @@ export default function Inspector({
   system = null,
   onClearSystem,
   onRemoveParts,
+  onSizes,
   more = false,
   onMore,
   onVariations,
@@ -184,10 +185,17 @@ export default function Inspector({
               <span className="inspector-value">{el.width}×{el.height}</span>
             </div>
             <NoteField element={el} onUpdate={onUpdateElement} />
+            {el.size && (
+              <div className="inspector-row">
+                <span className="inspector-key">{t('size_label')}</span>
+                <span className="inspector-value">{t(`size_${el.size.toLowerCase()}`)}</span>
+              </div>
+            )}
             {el.presetId === 'screen' && <Tweaks element={el} elements={elements} onUpdate={onUpdateElement} />}
             {el.presetId === 'screen' && (
               <div className="inspector-actions">
                 {onVariations && <button className="btn" onClick={() => onVariations(el.id)}>{t('show_variations')}</button>}
+                {onSizes && !el.size && <button className="btn" onClick={() => onSizes(el.id)}>{t('make_sizes')}</button>}
                 {onKeep && el.take && elements.some(x => x.take === el.take && x.id !== el.id) && <button className="btn" onClick={() => onKeep(el.id)}>{t('keep_this')}</button>}
               </div>
             )}

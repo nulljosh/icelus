@@ -371,9 +371,11 @@ func duplicateScreen(_ elements: [Element], _ src: Element, dCol: Int? = nil) ->
         return a
     }
     let copies = group.map { el -> Element in
-        let c = carry(el, dCol: dCol ?? src.width + 4, dRow: 0)
-        return Element(id: ids[el.id]!, presetId: c.presetId, label: c.label, template: c.template, width: c.width,
-                       height: c.height, col: c.col, row: c.row, from: pin(c.from), to: pin(c.to), text: c.text, style: c.style, accent: c.accent)
+        var c = carry(el, dCol: dCol ?? src.width + 4, dRow: 0) // every field comes along, as on the web
+        c.id = ids[el.id]!
+        c.from = pin(c.from)
+        c.to = pin(c.to)
+        return c
     }
     return (routeLines([copies[0]] + elements + Array(copies.dropFirst())), copies[0].id)
 }

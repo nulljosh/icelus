@@ -1,5 +1,5 @@
-import { partsInside, screenFrame, routeLines } from './lines.js';
-import { updateElement } from './engine.js';
+import { partsInside, screenFrame, routeLines, freshTag } from './lines.js';
+import { updateElement, duplicateScreen } from './engine.js';
 
 // Auto layout (v43), after Figma's. A screen with `auto: {gap, pad}` keeps its parts stacked: bands of parts
 // that share rows run top to bottom, `gap` rows apart and `pad` cells inside the frame, and the frame hugs them.
@@ -95,4 +95,52 @@ export function constrain(prev, next) {
     }
   }
   return out === next ? next : routeLines(out);
+}
+
+// Sizes (v45): one screen at phone, tablet and desktop widths, kept in step. The copies are laid out to the
+// right, resized so pins apply, and every part shares a `twin` tag with its copies: change the words, style or
+// color of one and its twins follow. Where each copy sits stays its own.
+export const SIZES = [{ name: 'Phone', width: 40 }, { name: 'Tablet', width: 64 }, { name: 'Desktop', width: 100 }];
+const nearest = w => SIZES.reduce((a, b) => (Math.abs(b.width - w) < Math.abs(a.width - w) ? b : a));
+
+export function makeSizes(elements, id) {
+  const src = elements.find(el => el.id === id);
+  if (src?.presetId !== 'screen' || src.size) return { elements, ids: [] };
+  const mine = nearest(src.width).name;
+  const tags = new Map([src, ...partsInside(elements, src)].map(el => [el.id, el.twin ?? freshTag()]));
+  let out = elements.map(el => (tags.has(el.id) ? { ...el, twin: tags.get(el.id), ...(el.id === id && { size: mine }) } : el));
+  let col = src.col + src.width + 4;
+  const ids = [];
+  for (const size of SIZES.filter(s => s.name !== mine)) {
+    const { elements: copied, id: copy } = duplicateScreen(out, out.find(el => el.id === id), col - src.col);
+    const named = copied.map(el => (el.id === copy ? { ...el, size: size.name } : el));
+    out = constrain(named, updateElement(named, copy, { width: size.width, height: src.height }));
+    ids.push(copy);
+    col += size.width + 4;
+  }
+  return { elements: out, ids };
+}
+
+const TWIN_KEYS = ['text', 'style', 'ink', 'paper', 'variant', 'accent', 'blend'];
+
+// After an edit from prev to next: what changed on a part with a twin is copied to its twins that did not change.
+export function syncTwins(prev, next) {
+  const was = new Map(prev.map(el => [el.id, el]));
+  const changed = next.filter(el => el.twin && was.has(el.id) && el !== was.get(el.id));
+  if (!changed.length) return next;
+  let out = next;
+  for (const src of changed) {
+    const old = was.get(src.id);
+    for (const twin of out.filter(el => el.twin === src.twin && el.id !== src.id && el === next.find(n => n.id === el.id) && el === was.get(el.id))) {
+      for (const key of TWIN_KEYS) {
+        if (JSON.stringify(src[key]) === JSON.stringify(old[key])) continue;
+        out = updateElement(out, twin.id, { [key]: key === 'text' ? src.text ?? '' : src[key] ?? null });
+      }
+      // A part whose words live only in its characters: copy them when the twin is the size the part was.
+      if (src.text === undefined && src.presetId !== 'screen' && JSON.stringify(src.template) !== JSON.stringify(old.template) && twin.width === old.width) {
+        out = out.map(el => (el.id === twin.id ? { ...el, template: src.template, width: src.width, height: src.height } : el));
+      }
+    }
+  }
+  return out;
 }

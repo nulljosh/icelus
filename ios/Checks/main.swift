@@ -346,5 +346,6 @@ runHealChecks()
 runDistractionChecks()
 runLayoutChecks()
 runPinChecks()
+runSizeChecks()
 
 print("ok — \(checks) checks passed")

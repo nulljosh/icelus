@@ -7,7 +7,7 @@ import { BLENDS } from './lines.js';
 import { takeSnapshot } from './history.js';
 import { playAction, cleanStep } from './actions.js';
 import { expandChanges, harmonize } from './heal.js';
-import { autoLayout, constrain } from './layout.js';
+import { autoLayout, constrain, syncTwins, makeSizes } from './layout.js';
 import { variations, keepVariation } from './tweaks.js';
 import { removeDistractions } from './critique.js';
 import { strokeCells, paint, paintMarks, erase } from './brush.js';
@@ -122,6 +122,7 @@ export function editProject(args) {
       elements = updateElement(elements, id, changes);
     }
     else if (op.op === 'harmonize') elements = harmonize(elements, id);
+    else if (op.op === 'sizes') elements = makeSizes(elements, id).elements;
     else if (op.op === 'pin') elements = updateElement(elements, id, { pin: { x: op.x, y: op.y } });
     else if (op.op === 'auto') elements = updateElement(elements, id, { auto: op.off ? null : { gap: op.gap ?? 1, pad: op.pad ?? 1 } });
     else if (op.op === 'play') {
@@ -139,7 +140,7 @@ export function editProject(args) {
     else throw new ToolError(`${at}.op must be ${EDIT_OPS}`);
   });
   const { cols, rows } = project;
-  elements = autoLayout(project.elements, constrain(project.elements, elements));
+  elements = autoLayout(project.elements, constrain(project.elements, syncTwins(project.elements, elements)));
   return {
     text: trimText(gridToText(renderElements(elements, cols, rows))),
     project: JSON.parse(serializeProject({ cols, rows, elements, snapshots, actions })),

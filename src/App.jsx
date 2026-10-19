@@ -12,7 +12,7 @@ import ChatPanel from './components/ChatPanel.jsx';
 import HistoryList from './components/HistoryList.jsx';
 import { recordAction, saveAction, playAction, cleanActionName } from './lib/actions.js';
 import { harmonize } from './lib/heal.js';
-import { autoLayout, constrain } from './lib/layout.js';
+import { autoLayout, constrain, syncTwins, makeSizes } from './lib/layout.js';
 import { maxOf } from './lib/extent.js';
 import SelectBar from './components/SelectBar.jsx';
 import { paint, paintMarks, erase } from './lib/brush.js';
@@ -54,7 +54,7 @@ function fitCanvas(state, elements) {
 function reducer(state, action) {
   const next = edit(state, action);
   if (next.elements === state.elements || ['UNDO', 'REDO', 'GO_TO_STEP'].includes(action.type)) return next;
-  const elements = autoLayout(state.elements, constrain(state.elements, next.elements));
+  const elements = autoLayout(state.elements, constrain(state.elements, syncTwins(state.elements, next.elements)));
   return elements === next.elements ? next : { ...next, elements, grid: renderElements(elements, next.cols, next.rows) };
 }
 
@@ -213,6 +213,14 @@ function edit(state, action) {
         grid: renderElements(elements, state.cols, state.rows),
         selectedId: null,
       };
+    }
+
+    // Sizes (layout.js): the screen at phone, tablet and desktop widths, kept in step.
+    case 'MAKE_SIZES': {
+      const { elements } = makeSizes(state.elements, action.id);
+      if (elements === state.elements) return state;
+      const { cols, rows } = fitCanvas(state, elements);
+      return { ...pushHistory(state), cols, rows, elements, grid: renderElements(elements, cols, rows) };
     }
 
     // Review's Remove distractions: one step of undo, arrows through a removed part heal.
@@ -963,6 +971,7 @@ export default function App() {
         system={system}
         onClearSystem={() => saveSystem(null)}
         onRemoveParts={ids => dispatch({ type: 'REMOVE_PARTS', ids })}
+        onSizes={id => dispatch({ type: 'MAKE_SIZES', id })}
         more={more}
         onMore={setMore}
         onVariations={(id) => dispatch({ type: 'VARIATIONS', id, labels: ['var_stacked', 'var_split', 'var_dense'].map(k => t(k)) })}

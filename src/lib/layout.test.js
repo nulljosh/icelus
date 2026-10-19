@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { autoLayout, cleanAuto, constrain, cleanPin } from './layout.js';
+import { autoLayout, cleanAuto, constrain, cleanPin, makeSizes, syncTwins } from './layout.js';
 import { createElement, updateElement, moveElement, deleteElement, serializeProject, parseProject } from './engine.js';
 import { getPreset, SCREEN_TOOL } from './presets.js';
 import { callTool } from './tools.js';
@@ -90,5 +90,48 @@ describe('constraints', () => {
     const out = callTool('edit_project', { project, ops: [{ op: 'pin', index: 1, x: 'right' }, { op: 'resize', index: 0, width: 50, height: 20 }] });
     expect(out.project.elements[1].pin).toEqual({ x: 'right' });
     expect(out.project.elements[1].col).toBe(12);
+  });
+});
+
+describe('sizes', () => {
+  const base = createElement(SCREEN_TOOL, 0, 0), screen = { ...updateElement([base], base.id, { width: 40, height: 20 })[0], text: 'Sign in' };
+  const title = createElement(getPreset('button'), 2, 2), field = { ...createElement(getPreset('input'), 2, 6), pin: { x: 'both' } };
+  const els = [screen, title, field];
+
+  it('makes tablet and desktop copies to the right, resized with pins, all twinned', () => {
+    const { elements: out, ids } = makeSizes(els, screen.id);
+    const byCol = list => [...list].sort((a, b) => a.col - b.col);
+    const shots = byCol(out.filter(el => el.presetId === 'screen'));
+    expect(shots.map(s => [s.size, s.width])).toEqual([['Phone', 40], ['Tablet', 64], ['Desktop', 100]]);
+    expect(ids).toHaveLength(2);
+    const fields = byCol(out.filter(el => el.presetId === 'input'));
+    expect(fields.map(f => f.width)).toEqual([field.width, field.width + 24, field.width + 60]);
+    expect(new Set(fields.map(f => f.twin)).size).toBe(1);
+    expect(fields[1].col).toBe(screen.col + 44 + 2);
+    expect(makeSizes(out, screen.id).elements).toBe(out); // a screen in a set is not sized again
+  });
+
+  it('keeps words, style and color in step, not position', () => {
+    const { elements: out } = makeSizes(els, screen.id);
+    const buttons = () => out.filter(el => el.presetId === 'button').sort((a, b) => a.col - b.col);
+    const [phone] = buttons();
+    let edited = updateElement(out, phone.id, { style: 'double' });
+    edited = moveElement(edited, phone.id, 5, 3);
+    const synced = syncTwins(out, edited).filter(el => el.presetId === 'button').sort((a, b) => (a.id === phone.id ? -1 : b.id === phone.id ? 1 : a.col - b.col));
+    expect(synced.map(b => b.style)).toEqual(['double', 'double', 'double']);
+    expect(synced[1].col).toBe(buttons()[1].col);
+    const texted = syncTwins(out, updateElement(out, phone.id, { text: 'Go' })).filter(el => el.presetId === 'button');
+    expect(texted.map(b => b.template.join(''))).toEqual(Array(3).fill(texted[0].template.join('')));
+    expect(syncTwins(out, out)).toBe(out);
+  });
+
+  it('keeps sizes in the file and edit_project makes them', () => {
+    const { elements: out } = makeSizes(els, screen.id);
+    const open = parseProject(serializeProject({ cols: 300, rows: 40, elements: out }));
+    expect(open.elements.filter(el => el.size).map(el => el.size).sort()).toEqual(['Desktop', 'Phone', 'Tablet']);
+    expect(open.elements.filter(el => el.presetId === 'input').every(el => el.twin)).toBe(true);
+    const project = JSON.parse(serializeProject({ cols: 300, rows: 40, elements: els }));
+    const made = callTool('edit_project', { project, ops: [{ op: 'sizes', index: 0 }] });
+    expect(made.project.elements.filter(el => el.presetId === 'screen')).toHaveLength(3);
   });
 });
