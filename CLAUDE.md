@@ -1,6 +1,6 @@
 # Icelus
 
-v43.0.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
+v44.0.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
 like Figma or Photoshop, and underneath every screen is text on a character grid that pastes anywhere. Web (Vite + React 19) at icelus.jaybulb.com, native SwiftUI for
 iPhone, iPad and Mac (ASC app 6794988951, $0.99), plus a Watch app and a terminal companion.
 
@@ -57,7 +57,7 @@ file is `{blockprint: 1, cols, rows, elements}` (the old key stays so every save
 - `src/lib/history.js` + `ios/App/History.swift`: history (v40). `stepName` names each undo step from the element diff, `goToStep` is undo or redo repeated, snapshots (`{name, elements}`, at most 20) live in the project file and are parsed like a project of their own. `HistoryList.jsx` and `HistorySheet.swift` draw it
 - `src/lib/actions.js` + `ios/App/Actions.swift`: actions (v41). Record marks the undo position; Stop turns each step since then into a relative step (`actionStep`, built on `stepName`); `playAction` replays them on the selected parts. At most 20 actions of 50 steps, in the project file, shown in the History panel. Live-canvas tools for actions and expand are in `webmcpEdit.js`
 - `src/lib/heal.js` + `ios/App/Heal.swift`: heal and expand (v42). `deleteElement` calls `closeLines`, which joins the arrows across a deleted part; `expandChanges` / `expandElement` grow a table or list by `nextValue`, the next number, counting word, day or month; `harmonize` gives a part dropped on a screen the style, ink and paper most parts there share (applied on place)
-- `src/lib/layout.js` + `ios/App/Layout.swift`: auto layout (v43). A screen with `auto: {gap, pad}` is restacked after every edit by `autoLayout(prev, next)`, run in the App reducer wrapper (not on undo or redo), at the end of edit_project, and in `EditorState.elements` didSet natively
+- `src/lib/layout.js` + `ios/App/Layout.swift`: auto layout (v43). A screen with `auto: {gap, pad}` is restacked after every edit by `autoLayout(prev, next)`, run in the App reducer wrapper (not on undo or redo), at the end of edit_project, and in `EditorState.elements` didSet natively; `constrain(prev, next)` runs first and moves or stretches parts with `pin: {x, y}` when their screen is resized (v44)
 - `src/lib/editProject.js`: the edit_project ops, split from tools.js; argument checks in `toolArgs.js`
 - `ios/Checks/main.swift`: the JS tests as plain asserts
 - `landing/`: the landing page (static, no build step of its own; `npm run build` copies it to `dist/` and `wrangler pages deploy` publishes it with the app), which embeds the real app at `/app/?demo` (no storage writes), and the ad

@@ -5,7 +5,7 @@ import { maxOf } from './extent.js';
 import { cleanColor } from './color.js';
 import { cleanMask } from './mask.js';
 import { cleanActions } from './actions.js';
-import { cleanAuto } from './layout.js';
+import { cleanAuto, cleanPin } from './layout.js';
 
 // The project file, the same JSON on every platform (ios/App/Project.swift is the twin). engine.js re-exports both.
 // A project file is the element list, the canvas size, any named snapshots (history.js) and actions (actions.js).
@@ -52,6 +52,7 @@ export function parseProject(json) {
       ...(cleanMask(el.mask) && { mask: cleanMask(el.mask) }),
       ...(cleanBlend(el.blend) && { blend: el.blend }),
       ...(el.presetId === 'screen' && cleanAuto(el.auto) && { auto: cleanAuto(el.auto) }),
+      ...(cleanPin(el.pin) && { pin: cleanPin(el.pin) }),
       ...(ids.has(el.clip) && ids.get(el.clip) !== fresh[i] && { clip: ids.get(el.clip) }),
       ...(typeof el.group === 'string' && { group: el.group }),
       ...(el.hidden === true && { hidden: true }),

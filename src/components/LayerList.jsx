@@ -19,8 +19,11 @@ export default function LayerList({ elements, selectedId, onSelect, onUpdate, on
           <span className="layer-tools">
             <button type="button" aria-label={t(el.hidden ? 'show' : 'hide')} aria-pressed={!!el.hidden} onClick={() => onUpdate(el.id, { hidden: !el.hidden })}>{icon(el.hidden ? SHUT : EYE)}</button>
             <button type="button" aria-label={t(el.locked ? 'unlock' : 'lock')} aria-pressed={!!el.locked} onClick={() => onUpdate(el.id, { locked: !el.locked })}>{icon(el.locked ? LOCK : OPEN)}</button>
-            <button type="button" aria-label={t('layer_up')} disabled={i === 0} onClick={() => onReorder(el.id, 'up')}>↑</button>
-            <button type="button" aria-label={t('layer_down')} disabled={i === elements.length - 1} onClick={() => onReorder(el.id, 'down')}>↓</button>
+            {/* Up and down only on the picked layer, so every name has room. */}
+            {el.id === selectedId && <>
+              <button type="button" aria-label={t('layer_up')} disabled={i === 0} onClick={() => onReorder(el.id, 'up')}>↑</button>
+              <button type="button" aria-label={t('layer_down')} disabled={i === elements.length - 1} onClick={() => onReorder(el.id, 'down')}>↓</button>
+            </>}
           </span>
         </div>
       ))}

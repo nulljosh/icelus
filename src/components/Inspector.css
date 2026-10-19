@@ -139,7 +139,7 @@
 }
 .layer-row.is-selected .layer-name { color: var(--accent); font-weight: 600; }
 .layer-row.is-hidden .layer-name { color: var(--color-secondary); }
-.layer-tools { display: flex; gap: var(--sp-1); }
+.layer-tools { display: flex; gap: 0; flex: none; }
 .layer-tools button {
   width: 32px; height: 32px; display: grid; place-items: center; border: 0; border-radius: var(--r-pill);
   background: none; color: var(--color-secondary); font: 600 17px/1 var(--font); cursor: pointer;

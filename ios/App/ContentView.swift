@@ -257,25 +257,8 @@ struct ContentView: View {
                     .onChange(of: selectedId, initial: true) { noteDraft = selectedElement?.note ?? "" }
                 if noteDraft != (el.note ?? "") { toolButton("Save note", systemImage: "note.text", enabled: true) { setNote(el, noteDraft) } }
                 if el.note != nil { toolButton("Resolve", systemImage: "checkmark.circle", enabled: true) { setNote(el, ""); noteDraft = "" } }
-                if el.presetId == "screen" {
-                    Toggle("Auto layout", isOn: autoBinding(el)).fixedSize()
-                    let now = knobs(el)
-                    Stepper("Spacing \(now.spacing)", onIncrement: { tweak(el, spacing: now.spacing + 1) },
-                            onDecrement: { tweak(el, spacing: now.spacing - 1) })
-                        .fixedSize()
-                    Stepper("Padding \(now.padding)", onIncrement: { tweak(el, padding: now.padding + 1) },
-                            onDecrement: { tweak(el, padding: now.padding - 1) })
-                        .fixedSize()
-                    Picker("Every box", selection: Binding(get: { el.style ?? "single" }, set: { tweak(el, style: $0) })) {
-                        ForEach(boxStyles, id: \.self) { Text($0.capitalized).tag($0) }
-                    }
-                    .pickerStyle(.menu)
-                    .fixedSize()
-                    Button("Show variations") { makeVariations(el) }
-                    if el.take != nil, state.elements.contains(where: { $0.take == el.take && $0.id != el.id }) {
-                        Button("Keep this one") { keep(el) }
-                    }
-                }
+                screenControls(el)
+                pinControls(el)
                 Picker("State", selection: Binding(get: { el.variant ?? "default" }, set: { setVariant(el, $0) })) {
                     ForEach(variants, id: \.self) { Text(LocalizedStringKey($0.capitalized)).tag($0) }
                 }

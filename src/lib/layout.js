@@ -1,4 +1,5 @@
 import { partsInside, screenFrame, routeLines } from './lines.js';
+import { updateElement } from './engine.js';
 
 // Auto layout (v43), after Figma's. A screen with `auto: {gap, pad}` keeps its parts stacked: bands of parts
 // that share rows run top to bottom, `gap` rows apart and `pad` cells inside the frame, and the frame hugs them.
@@ -59,4 +60,39 @@ export function autoLayout(prev, next) {
     out = stack(out, now, out.filter(el => ids.has(el.id)), cleanAuto(now.auto), p => was.get(p.id)?.height ?? p.height);
   }
   return out.every((el, i) => el === next[i] || JSON.stringify(el) === JSON.stringify(next[i])) ? next : out;
+}
+
+// Constraints (v44), after Figma's: a part on a screen is pinned left (the default), right, to both sides
+// (it stretches) or to the center, and top, bottom, both or center the same way. When the screen is resized,
+// pinned parts follow. `pin: {x, y}` keeps only what is not the default.
+export const PIN_X = ['left', 'right', 'both', 'center'];
+export const PIN_Y = ['top', 'bottom', 'both', 'center'];
+
+export function cleanPin(p) {
+  if (!p || typeof p !== 'object') return null;
+  const x = PIN_X.includes(p.x) && p.x !== 'left' ? p.x : null, y = PIN_Y.includes(p.y) && p.y !== 'top' ? p.y : null;
+  return x || y ? { ...(x && { x }), ...(y && { y }) } : null;
+}
+
+const shift = (mode, d) => (mode === 'right' || mode === 'bottom' ? d : mode === 'center' ? Math.round(d / 2) : 0);
+
+export function constrain(prev, next) {
+  const was = new Map(prev.map(el => [el.id, el]));
+  let out = next;
+  for (const screen of next) {
+    const before = was.get(screen.id);
+    if (screen.presetId !== 'screen' || !before || before.col !== screen.col || before.row !== screen.row) continue;
+    const dx = screen.width - before.width, dy = screen.height - before.height;
+    if (!dx && !dy) continue;
+    for (const p of partsInside(prev, before)) {
+      const now = out.find(el => el.id === p.id);
+      const pin = now?.pin;
+      if (!pin || now.presetId === 'line' || now.locked) continue;
+      const width = now.width + (pin.x === 'both' ? dx : 0), height = now.height + (pin.y === 'both' ? dy : 0);
+      if (width !== now.width || height !== now.height) out = updateElement(out, p.id, { width: Math.max(1, width), height: Math.max(1, height) });
+      const col = now.col + shift(pin.x, dx), row = now.row + shift(pin.y, dy);
+      if (col !== now.col || row !== now.row) out = out.map(el => (el.id === p.id ? { ...el, col, row } : el));
+    }
+  }
+  return out === next ? next : routeLines(out);
 }

@@ -5,7 +5,7 @@
 import { FILLS, cleanNote } from './shapes.js';
 import { tweakScreen } from './tweaks.js';
 import { closeLines } from './heal.js';
-import { cleanAuto } from './layout.js';
+import { cleanAuto, cleanPin } from './layout.js';
 import { ADJUSTMENTS, renderElements, routeLines, shiftLine, bannerText, BOX_STYLES, screenFrame, partsInside, carry, groupMates, tableFrame, textCells, SIZED, nodeFrame, contentFrame, syncSymbol, VARIANTS, cleanBlend } from './lines.js';
 import { maxOf } from './extent.js';
 import { cleanColor } from './color.js';
@@ -255,6 +255,10 @@ function updateOne(elements, id, changes) {
     if (changes.auto !== undefined && el.presetId === 'screen') { // auto layout (layout.js); null turns it off
       const { auto, ...rest } = el, a = cleanAuto(changes.auto);
       return a ? { ...rest, auto: a } : rest;
+    }
+    if (changes.pin !== undefined) { // constraints (layout.js); null pins it back to the top left
+      const { pin, ...rest } = el, p = cleanPin(changes.pin);
+      return p ? { ...rest, pin: p } : rest;
     }
     if (changes.blend !== undefined) {
       const { blend, ...rest } = el, b = cleanBlend(changes.blend);

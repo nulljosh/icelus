@@ -64,6 +64,7 @@ What the three inspirations shipped in 2026 that the roadmap did not cover yet, 
 6. Motion (Figma Motion, open beta): a part keyframed across linked screens, played in play mode. Folds into v56.
 7. Live code parts (Figma code layers, beta): a part that runs a small sandboxed HTML snippet in the real look.
 8. Describe a plugin (Figma generative plugins): folds into v95.
+9. Auto layout across, with alignment and wrap (Figma). Found after v43 shipped the down stack.
 
 Already level: inline sliders (v21 tweaks), design system from code and checks against it (v24, v23), handoff bundle to Claude Code (v27),
 standalone HTML (v28), decks and PDF (v29), history and actions (v40, v41). Skipped on purpose: shaders, 3D transforms and AI upscale,

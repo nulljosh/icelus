@@ -1,6 +1,6 @@
 <img src="icon.svg" width="80" alt="Icelus">
 
-![version](https://img.shields.io/badge/version-v43.0.0-blue)
+![version](https://img.shields.io/badge/version-v44.0.0-blue)
 ![license](https://img.shields.io/badge/license-Apache%202.0-green)
 
 A design tool for screens, built for people and agents. Describe a screen in a sentence and it draws, then edit it like you would in Figma or Photoshop: real buttons, fields and switches on artboards, a brush, selections, gradients, color and adjustment layers.
@@ -34,6 +34,7 @@ Formerly Glyphbox. Same app, same files, new name.
 - Blend modes: join the lines, draw over, fill only empty cells, or knock out
 - History: every step by name, tap one to go back, and named snapshots that save with the project
 - Actions: record a few edits once, then play them on any part or screen
+- Constraints: pin a part right, bottom, center or both sides, and it follows when its screen is resized
 - Auto layout: turn it on for a screen and its parts stay stacked, spaced and padded, pushing down when text grows
 - Harmonize: a part dropped on a screen takes on the box style and colors the parts there share
 - Find distractions: Review flags stray marks and parts that show nothing, and removes them in one tap

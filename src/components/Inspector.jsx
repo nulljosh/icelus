@@ -5,7 +5,8 @@ import { BOX_STYLES, tableCells, VARIANTS, ADJUSTMENTS } from '../lib/engine.js'
 import { FILLS, NOTE_MAX } from '../lib/shapes.js';
 import { t, partLabel } from '../i18n.js';
 import { COLORS } from '../lib/color.js';
-import { BLENDS } from '../lib/lines.js';
+import { BLENDS, partsInside } from '../lib/lines.js';
+import { PIN_X, PIN_Y } from '../lib/layout.js';
 import LayerList from './LayerList.jsx';
 import ReviewList from './ReviewList.jsx';
 import { screenTweaks } from '../lib/tweaks.js';
@@ -229,6 +230,16 @@ export default function Inspector({
                 {BLENDS.map(b => <option key={b} value={b}>{t(`blend_${b}`)}</option>)}
               </select>
             </div>
+            {/* Constraints (layout.js): how a part on a screen follows it when the screen is resized. */}
+            {el.presetId !== 'screen' && elements.some(s => s.presetId === 'screen' && partsInside([el], s).length) && ['x', 'y'].map(axis => (
+              <div key={axis} className="inspector-row">
+                <label className="inspector-key" htmlFor={`pin-${axis}`}>{t(`pin_${axis}`)}</label>
+                <select id={`pin-${axis}`} className="inspector-select" value={el.pin?.[axis] ?? (axis === 'x' ? 'left' : 'top')}
+                  onChange={e => onUpdateElement(el.id, { pin: { ...el.pin, [axis]: e.target.value } })}>
+                  {(axis === 'x' ? PIN_X : PIN_Y).map(v => <option key={v} value={v}>{t(`pin_${v === 'both' ? `both_${axis}` : v}`)}</option>)}
+                </select>
+              </div>
+            ))}
             {/* Masks (mask.js): crop cells off each edge, or show the part only inside another one. */}
             <div className="inspector-row">
               <span className="inspector-key">{t('mask_crop')}</span>

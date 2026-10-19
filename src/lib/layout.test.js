@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { autoLayout, cleanAuto } from './layout.js';
+import { autoLayout, cleanAuto, constrain, cleanPin } from './layout.js';
 import { createElement, updateElement, moveElement, deleteElement, serializeProject, parseProject } from './engine.js';
 import { getPreset, SCREEN_TOOL } from './presets.js';
 import { callTool } from './tools.js';
@@ -53,5 +53,42 @@ describe('auto layout', () => {
     expect(out.project.elements[0].auto).toEqual({ gap: 2, pad: 1 });
     expect(out.project.elements[2].row).toBe(2 + a.height + 2);
     expect(callTool('edit_project', { project: out.project, ops: [{ op: 'auto', index: 0, off: true }] }).project.elements[0].auto).toBeUndefined();
+  });
+});
+
+describe('constraints', () => {
+  const base = createElement(SCREEN_TOOL, 0, 0), screen = updateElement([base], base.id, { width: 40, height: 20 })[0];
+  const btn = (col, row, pin) => ({ ...createElement(getPreset('button'), col, row), ...(pin && { pin }) });
+  const free = btn(2, 2), right = btn(30, 2, { x: 'right' }), bottom = btn(2, 15, { y: 'bottom' }), center = btn(17, 8, { x: 'center', y: 'center' });
+  const bar = { ...createElement(getPreset('divider') ?? getPreset('input'), 2, 10), pin: { x: 'both' } };
+  const els = [screen, free, right, bottom, center, bar];
+  const resized = (w, h) => constrain(els, updateElement(els, screen.id, { width: w, height: h }));
+  const at = (list, id) => list.find(el => el.id === id);
+
+  it('moves and stretches pinned parts when the screen is resized', () => {
+    const out = resized(50, 26);
+    expect([at(out, free.id).col, at(out, free.id).row]).toEqual([2, 2]);
+    expect(at(out, right.id).col).toBe(40);
+    expect(at(out, bottom.id).row).toBe(21);
+    expect([at(out, center.id).col, at(out, center.id).row]).toEqual([22, 11]);
+    expect(at(out, bar.id).width).toBe(bar.width + 10);
+  });
+
+  it('does nothing when the screen only moves or nothing is pinned', () => {
+    const moved = moveElement(els, screen.id, 5, 5);
+    expect(constrain(els, moved)).toBe(moved);
+    const plain = [screen, free];
+    const big = updateElement(plain, screen.id, { width: 60, height: 20 });
+    expect(constrain(plain, big)).toBe(big);
+  });
+
+  it('cleans pins, keeps them in the file, and edit_project pins a part', () => {
+    expect(cleanPin({ x: 'left', y: 'top' })).toBeNull();
+    expect(cleanPin({ x: 'right', y: 'nope' })).toEqual({ x: 'right' });
+    expect(parseProject(serializeProject({ cols: 80, rows: 40, elements: els })).elements[2].pin).toEqual({ x: 'right' });
+    const project = JSON.parse(serializeProject({ cols: 80, rows: 40, elements: [screen, free] }));
+    const out = callTool('edit_project', { project, ops: [{ op: 'pin', index: 1, x: 'right' }, { op: 'resize', index: 0, width: 50, height: 20 }] });
+    expect(out.project.elements[1].pin).toEqual({ x: 'right' });
+    expect(out.project.elements[1].col).toBe(12);
   });
 });

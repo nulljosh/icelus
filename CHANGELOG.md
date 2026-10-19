@@ -4,6 +4,7 @@ Icelus was called Charwork, Wiretext, Blockframe, Blockprint, Glyphic and Glyphb
 ships on the web, iPhone, iPad and Mac unless it says otherwise.
 
 ## 2026-10-19
+- **44.0.0** Constraints. Pin a part on a screen to the right, the bottom, the center or both sides. Resize the screen and pinned parts follow; pinned to both sides, they stretch. The layers list keeps the up and down arrows on the picked layer only, so every name fits.
 - **43.0.0** Auto layout. Turn it on for a screen and its parts stay stacked with an even gap and padding. Make some text longer and everything below moves down; delete a part and the rest closes up; drag one to reorder. The screen grows and shrinks to fit.
 - **42.2.0** Harmonize. Drop a part on a screen and it takes on the look the parts there share: the same box style, ink and paper. A part with its own color keeps it.
 - **42.1.0** Find distractions. Check now flags stray painted marks and parts that show nothing, and Remove distractions clears them in one tap. Arrows through a removed part join up.

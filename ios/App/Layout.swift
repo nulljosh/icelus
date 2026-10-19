@@ -81,3 +81,54 @@ func updateElement(_ elements: [Element], id: String, auto: AutoLayout?) -> [Ele
         return next
     }
 }
+
+/// Constraints (v44): a part on a screen is pinned left (the default), right, to both sides (it stretches) or to
+/// the center, and top, bottom, both or center the same way. When the screen is resized, pinned parts follow.
+let pinX = ["left", "right", "both", "center"]
+let pinY = ["top", "bottom", "both", "center"]
+
+struct Pin: Equatable {
+    var x: String? = nil
+    var y: String? = nil
+}
+
+func cleanPin(_ value: Any?) -> Pin? {
+    guard let p = value as? [String: Any] else { return nil }
+    return cleanPin(Pin(x: p["x"] as? String, y: p["y"] as? String))
+}
+
+func cleanPin(_ p: Pin?) -> Pin? {
+    let x = p?.x.flatMap { pinX.contains($0) && $0 != "left" ? $0 : nil }, y = p?.y.flatMap { pinY.contains($0) && $0 != "top" ? $0 : nil }
+    return x == nil && y == nil ? nil : Pin(x: x, y: y)
+}
+
+func updateElement(_ elements: [Element], id: String, pin: Pin?) -> [Element] {
+    elements.map { el in
+        guard el.id == id else { return el }
+        var next = el
+        next.pin = cleanPin(pin)
+        return next
+    }
+}
+
+func constrain(_ prev: [Element], _ next: [Element]) -> [Element] {
+    let was = Dictionary(prev.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
+    func shift(_ mode: String?, _ d: Int) -> Int { mode == "right" || mode == "bottom" ? d : mode == "center" ? Int((Double(d) / 2 + 0.5).rounded(.down)) : 0 } // center rounds like Math.round
+    var out = next, changed = false
+    for screen in next where screen.presetId == "screen" {
+        guard let before = was[screen.id], before.col == screen.col, before.row == screen.row else { continue }
+        let dx = screen.width - before.width, dy = screen.height - before.height
+        guard dx != 0 || dy != 0 else { continue }
+        for p in partsInside(prev, before) {
+            guard let now = out.first(where: { $0.id == p.id }), let pin = now.pin, now.presetId != "line", !now.locked else { continue }
+            let width = now.width + (pin.x == "both" ? dx : 0), height = now.height + (pin.y == "both" ? dy : 0)
+            if width != now.width || height != now.height { out = updateElement(out, id: p.id, width: max(1, width), height: max(1, height)); changed = true }
+            let col = now.col + shift(pin.x, dx), row = now.row + shift(pin.y, dy)
+            if col != now.col || row != now.row {
+                out = out.map { var e = $0; if e.id == p.id { e.col = col; e.row = row }; return e }
+                changed = true
+            }
+        }
+    }
+    return changed ? routeLines(out) : next
+}
