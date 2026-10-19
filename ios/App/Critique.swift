@@ -9,7 +9,7 @@ private let inputs: Set<String> = ["input", "textarea", "select", "search", "dat
 struct CritiqueIssue: Equatable {
     let rule: String
     let col: Int, row: Int
-    var id: String? = nil, part: String? = nil, otherId: String? = nil, word: String? = nil, note: String? = nil, style: String? = nil
+    var id: String? = nil, part: String? = nil, otherId: String? = nil, word: String? = nil, note: String? = nil, style: String? = nil, kind: String? = nil
     var severity: String { ["off_grid", "broken_box"].contains(rule) ? "error" : rule == "open_note" ? "info" : "warn" }
 }
 
@@ -66,7 +66,22 @@ func critique(_ elements: [Element], cols: Int, rows: Int, system: DesignSystem?
         }
     }
     for el in shown { if let note = el.note { var issue = at("open_note", el); issue.note = note; issues.append(issue) } }
+    // Distractions, the way Photoshop finds them: a few stray painted marks or paint off every screen, and parts with nothing to show.
+    let screens = shown.filter { $0.presetId == "screen" }
+    for el in shown where !el.locked {
+        let stray = el.presetId == "paint" && (marks(el) <= 3 || (!screens.isEmpty && !screens.contains { meets($0, el) }))
+        if stray || (!["screen", "line", "adjust", "paint"].contains(el.presetId) && marks(el) == 0) {
+            var issue = at("distraction", el); issue.kind = stray ? "stray" : "empty"; issues.append(issue)
+        }
+    }
     return issues
+}
+
+private func marks(_ el: Element) -> Int { el.template.joined().filter { !$0.isWhitespace }.count }
+
+/// One tap clears them. Deleting heals any arrows through a removed part.
+func removeDistractions(_ elements: [Element], cols: Int, rows: Int) -> [Element] {
+    critique(elements, cols: cols, rows: rows).filter { $0.rule == "distraction" }.compactMap(\.id).reduce(elements) { deleteElement($0, id: $1) }
 }
 
 /// The issue in English, for agents and the build brief (Handoff.swift). The Review sheet translates its own.
@@ -80,6 +95,7 @@ func critiqueMessage(_ i: CritiqueIssue, part: String? = nil, other: String? = n
     case "no_empty_state": return "\(p) \(at) has no empty state: add a screen for when it has nothing in it"
     case "no_error_state": return "\(p) \(at) has no error state: show what a wrong entry looks like"
     case "off_system": return "\(p) \(at) is off the \(i.style ?? "") style"
+    case "distraction": return "\(p) \(at) is a distraction: \(i.kind == "stray" ? "a few stray marks" : "it shows nothing")"
     default: return "Note on \(p) \(at): \(i.note ?? "")"
     }
 }

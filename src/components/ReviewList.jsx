@@ -4,10 +4,11 @@ import { t, partLabel } from '../i18n.js';
 
 // Review: run the critique and list what to fix. Tap an issue to select its part. The list clears on any edit,
 // so it never shows a fixed problem.
-export default function ReviewList({ elements, cols, rows, system, onClearSystem, onSelect }) {
+export default function ReviewList({ elements, cols, rows, system, onClearSystem, onSelect, onRemove }) {
   const [issues, setIssues] = useState(null);
   useEffect(() => setIssues(null), [elements, system]);
   if (!elements.length) return null;
+  const distractions = (issues ?? []).filter(i => i.rule === 'distraction').map(i => i.id);
   const name = id => { const el = elements.find(e => e.id === id); return el ? partLabel({ id: el.presetId, label: el.label }) : ''; };
   return (
     <section className="inspector-section">
@@ -27,10 +28,13 @@ export default function ReviewList({ elements, cols, rows, system, onClearSystem
         <div key={k} className="inspector-row review-row">
           <button type="button" disabled={!i.id} onClick={() => onSelect(i.id)}>
             <span className={`review-dot review-dot--${i.severity}`} aria-hidden="true" />
-            <span>{t(`crit_${i.rule}`, { part: name(i.id), other: name(i.otherId), word: i.word, note: i.note, style: i.style })}</span>
+            <span>{t(`crit_${i.rule}${i.kind ? `_${i.kind}` : ''}`, { part: name(i.id), other: name(i.otherId), word: i.word, note: i.note, style: i.style })}</span>
           </button>
         </div>
       ))}
+      {onRemove && distractions.length > 0 && (
+        <button type="button" className="btn history-take" onClick={() => onRemove(distractions)}>{t('remove_distractions', { n: distractions.length })}</button>
+      )}
     </section>
   );
 }

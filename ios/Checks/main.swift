@@ -343,5 +343,6 @@ runBlendChecks()
 runHistoryChecks()
 runActionChecks()
 runHealChecks()
+runDistractionChecks()
 
 print("ok — \(checks) checks passed")

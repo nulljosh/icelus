@@ -7,6 +7,7 @@ struct ReviewSheet: View {
     let cols: Int, rows: Int
     var system: DesignSystem? = nil
     let onSelect: (String) -> Void
+    var onRemove: ([String]) -> Void = { _ in }
     @State private var issues: [CritiqueIssue]?
     @Environment(\.dismiss) private var dismiss
 
@@ -16,6 +17,10 @@ struct ReviewSheet: View {
                 if let system { LabeledContent("Design system", value: system.name) }
                 Button("Check now") { issues = critique(elements, cols: cols, rows: rows, system: system) }
                 if let issues, issues.isEmpty { Text("Nothing to fix").foregroundStyle(Theme.muted) }
+                let distractions = (issues ?? []).filter { $0.rule == "distraction" }.compactMap(\.id)
+                if !distractions.isEmpty {
+                    Button("Remove \(distractions.count) distractions") { onRemove(distractions); dismiss() }.foregroundStyle(Theme.accent)
+                }
                 ForEach(Array((issues ?? []).enumerated()), id: \.offset) { _, issue in
                     Button { if let id = issue.id { onSelect(id); dismiss() } } label: {
                         HStack(spacing: 12) {
@@ -49,6 +54,7 @@ struct ReviewSheet: View {
         case "no_empty_state": return Text("\(part) has no empty state")
         case "no_error_state": return Text("\(part) has no error state")
         case "off_system": return Text("\(part) is off the \(i.style ?? "") style")
+        case "distraction": return i.kind == "stray" ? Text("\(part): a few stray marks") : Text("\(part) shows nothing")
         default: return Text("Note on \(part): \(i.note ?? "")")
         }
     }

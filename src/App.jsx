@@ -204,6 +204,13 @@ function reducer(state, action) {
       };
     }
 
+    // Review's Remove distractions: one step of undo, arrows through a removed part heal.
+    case 'REMOVE_PARTS': {
+      const elements = action.ids.reduce((els, id) => deleteElement(els, id), state.elements);
+      if (elements === state.elements) return state;
+      return { ...pushHistory(state), elements, grid: renderElements(elements, state.cols, state.rows), selectedId: null };
+    }
+
     case 'DUPLICATE': {
       const { elements, id } = duplicateElement(state.elements, action.id, state.cols, state.rows);
       if (!id) return state;
@@ -944,6 +951,7 @@ export default function App() {
         elements={state.elements}
         system={system}
         onClearSystem={() => saveSystem(null)}
+        onRemoveParts={ids => dispatch({ type: 'REMOVE_PARTS', ids })}
         more={more}
         onMore={setMore}
         onVariations={(id) => dispatch({ type: 'VARIATIONS', id, labels: ['var_stacked', 'var_split', 'var_dense'].map(k => t(k)) })}

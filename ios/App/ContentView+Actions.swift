@@ -103,6 +103,14 @@ extension ContentView {
         persist()
     }
 
+    /// Review's Remove distractions: one step of undo; arrows through a removed part heal.
+    func removeParts(_ ids: [String]) {
+        state.pushHistory()
+        state.elements = ids.reduce(state.elements) { deleteElement($0, id: $1) }
+        selectedId = nil
+        persist()
+    }
+
     /// A table's next row or a list's next item, carrying its pattern on (Heal.swift).
     func expand(_ el: Element) {
         guard let next = expandElement(state.elements, id: el.id) else { return }

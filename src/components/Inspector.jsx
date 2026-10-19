@@ -92,6 +92,7 @@ export default function Inspector({
   elements = [],
   system = null,
   onClearSystem,
+  onRemoveParts,
   more = false,
   onMore,
   onVariations,
@@ -269,7 +270,7 @@ export default function Inspector({
           <summary>{t('layers')}</summary>
           <LayerList elements={elements} selectedId={el?.id} onSelect={onSelectElement}
             onUpdate={onUpdateElement} onReorder={onReorder} />
-          <ReviewList elements={elements} cols={cols} rows={rows} system={system} onClearSystem={onClearSystem} onSelect={onSelectElement} />
+          <ReviewList elements={elements} cols={cols} rows={rows} system={system} onClearSystem={onClearSystem} onSelect={onSelectElement} onRemove={onRemoveParts} />
           <section className="inspector-section">
             <div className="inspector-section-title">{t('canvas')}</div>
             <div className="inspector-row"><span className="inspector-key">{t('col')}</span><span className="inspector-value">{cursor.col}</span></div>

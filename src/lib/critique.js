@@ -1,15 +1,16 @@
 // Critique: a review of the screens, the way Claude Design checks its own work. Each issue names its rule,
 // where it is and the part, if any. message() says it in English for agents and the CLI; the app translates
 // by rule. Ported in ios/App/Critique.swift.
-import { renderElements, gridToText } from './engine.js';
+import { renderElements, gridToText, deleteElement } from './engine.js';
 import { brokenBoxes } from './importer.js';
 
 const SEE_THROUGH = new Set(['line', 'text', 'banner', 'screen', 'fill', 'paint', 'adjust']);
 const VAGUE = new Set(['click', 'here', 'button', 'label', 'text', 'title', 'option', 'lorem', 'ipsum', 'todo', 'tbd', 'xxx', 'untitled', 'placeholder']);
 const LISTS = new Set(['list', 'table', 'ios-list']);
 const INPUTS = new Set(['input', 'textarea', 'select', 'search', 'datepicker']);
-export const CRITIQUE_RULES = ['off_grid', 'overlap', 'broken_box', 'vague_label', 'no_empty_state', 'no_error_state', 'off_system', 'open_note'];
+export const CRITIQUE_RULES = ['off_grid', 'overlap', 'broken_box', 'vague_label', 'no_empty_state', 'no_error_state', 'off_system', 'open_note', 'distraction'];
 
+const marks = el => el.template.join('').replace(/\s/gu, '').length;
 const tokens = el => (el.text ?? el.template.join(' ')).split(/[^\p{L}\p{N}']+/u).filter(Boolean);
 const at = (rule, el, extra = {}) => ({ rule, severity: ['off_grid', 'broken_box'].includes(rule) ? 'error' : rule === 'open_note' ? 'info' : 'warn',
   col: el.col, row: el.row, ...(el.id && { id: el.id, part: el.label }), ...extra });
@@ -59,7 +60,19 @@ export function critique(elements, cols, rows, system = null) {
     }
   }
   for (const el of shown) if (el.note) issues.push(at('open_note', el, { note: el.note }));
+  // Distractions, the way Photoshop finds them: a few stray painted marks or paint off every screen, and parts with nothing to show.
+  const screens = shown.filter(el => el.presetId === 'screen');
+  for (const el of shown) {
+    if (el.locked) continue;
+    const stray = el.presetId === 'paint' && (marks(el) <= 3 || (screens.length > 0 && !screens.some(s => meets(s, el))));
+    if (stray || (!['screen', 'line', 'adjust', 'paint'].includes(el.presetId) && !marks(el))) issues.push(at('distraction', el, { kind: stray ? 'stray' : 'empty' }));
+  }
   return issues;
+}
+
+// One tap clears them. Deleting heals any arrows through a removed part.
+export function removeDistractions(elements, cols, rows) {
+  return critique(elements, cols, rows).filter(i => i.rule === 'distraction').reduce((els, i) => deleteElement(els, i.id), elements);
 }
 
 const where = i => `at ${i.col},${i.row}`;
@@ -74,5 +87,6 @@ export function critiqueMessage(i) {
     no_error_state: `${part} ${where(i)} has no error state: show what a wrong entry looks like`,
     off_system: `${part} ${where(i)} is off the ${i.style} style of ${i.system}`,
     open_note: `Note on ${part} ${where(i)}: ${i.note}`,
+    distraction: `${part} ${where(i)} is a distraction: ${i.kind === 'stray' ? 'a few stray marks' : 'it shows nothing'}`,
   }[i.rule];
 }

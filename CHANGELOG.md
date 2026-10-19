@@ -4,6 +4,7 @@ Icelus was called Charwork, Wiretext, Blockframe, Blockprint, Glyphic and Glyphb
 ships on the web, iPhone, iPad and Mac unless it says otherwise.
 
 ## 2026-10-19
+- **42.1.0** Find distractions. Check now flags stray painted marks and parts that show nothing, and Remove distractions clears them in one tap. Arrows through a removed part join up.
 - **42.0.0** Heal and expand. Delete a box in the middle of a flow and the arrows on either side join up. Add a row to a table or an item to a list and it carries the pattern on: Item 3 then Item 4, Mon then Tue.
 - **41.0.0** Actions. Press Record, make a few edits, press Stop. Now pick any other part or screen and press Play to do the same edits to it. Actions save with the project.
 - **40.0.0** History. Every step is listed by name, like Add Button or Move Card. Tap one to go back to it, and the steps after it wait in case you change your mind. Take a snapshot to keep a named copy of the canvas; snapshots save with the project.

@@ -34,7 +34,6 @@ history. Figma brings components, auto layout, variables, prototypes and working
 wedge: every new feature is also an API and MCP tool on the day it ships.
 
 ### Gaps, round two (docs/STRATEGY.md, one per tick between versions)
-- [ ] Find distractions: critique flags stray marks, empty parts and parts off every screen; one tap removes them.
 - [ ] Harmonize: a part dropped on a screen takes that screen's box style, ink and paper.
 - [ ] Describe into a selection: marquee an area and type what goes there.
 - [ ] Notes Claude acts on: a note addressed to Claude is read by Describe it and resolved when done.

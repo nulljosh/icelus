@@ -1,11 +1,6 @@
-// The one definition of what Icelus can do over the network. Both surfaces — the REST
-// routes in functions/api/ and the MCP server in functions/mcp.js — call `callTool` from
-// here, so they cannot drift apart.
-//
-// Deliberately different from src/lib/webmcp.js: those tools are STATEFUL (undo, redo,
-// clear all mutate the live canvas in the browser). These are transforms — a wireframe
-// goes in, a wireframe comes out. That is what keeps this free of a database, a session
-// store and a Durable Object.
+// The one definition of what Icelus can do over the network: functions/api/ and functions/mcp.js both call
+// `callTool`, so they cannot drift. Unlike webmcp.js (stateful, the live canvas) these are transforms: a
+// wireframe goes in, a wireframe comes out, so there is no database, session store or Durable Object.
 
 import {
   DEFAULT_COLS, DEFAULT_ROWS, createGrid, gridToText, textToGrid, stampComponent,
@@ -24,7 +19,7 @@ const CATEGORIES = [...CORE_CATEGORIES, ...PACK_CATEGORIES];
 import { parseSketch, toSketch, SYNTAX_HELP } from './syntax.js';
 import { toHTML } from './html.js';
 import { importText } from './importer.js';
-import { critique, critiqueMessage } from './critique.js';
+import { critique, critiqueMessage, removeDistractions } from './critique.js';
 import { systemFromCode, parseSystem } from './system.js';
 import { htmlToSketch } from './capture.js';
 import { variations, keepVariation } from './tweaks.js';
@@ -189,6 +184,7 @@ export function callTool(name, rawArgs) {
           else elements = moveCells(elements, cells, n('dCol'), n('dRow'), project.cols, project.rows);
           return;
         }
+        if (op.op === 'clean') { elements = removeDistractions(elements, project.cols, project.rows); return; }
         if (op.op === 'snapshot') { snapshots = takeSnapshot(snapshots, elements, typeof op.name === 'string' ? op.name : ''); return; }
         if (op.op === 'restore') {
           const snap = snapshots.find(sn => sn.name === op.name);

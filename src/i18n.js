@@ -62,6 +62,7 @@ export const en = {
   crit_off_grid: '{part} runs off the grid', crit_overlap: '{part} overlaps {other}', crit_broken_box: 'A box here is cut open',
   crit_vague_label: '{part} says "{word}", which is placeholder text', crit_no_empty_state: '{part} has no empty state',
   crit_no_error_state: '{part} has no error state', crit_open_note: 'Note on {part}: {note}', crit_off_system: '{part} is off the {style} style',
+  crit_distraction_stray: '{part}: a few stray marks', crit_distraction_empty: '{part} shows nothing', remove_distractions: 'Remove {n} distractions',
   design_system: 'Design system', remove_system: 'Remove {name}', system_loaded: 'Loaded {name}, {n} parts in Mine', spacing: 'Spacing', padding: 'Padding', every_box: 'Every box',
   highlight: 'Highlight', duplicate: 'Duplicate', save_to_palette: 'Save to palette', to_front: 'To front', to_back: 'To back',
   delete: 'Delete', language: 'Language', rows: 'Rows', columns: 'Columns', add_row: 'Add row', remove_row: 'Remove row',
