@@ -1,0 +1,266 @@
+import './Inspector.css';
+import { useState, useEffect } from 'react';
+import { BOX_STYLES, tableCells, VARIANTS, ADJUSTMENTS } from '../lib/engine.js';
+import { FILLS, NOTE_MAX } from '../lib/shapes.js';
+import { t, partLabel } from '../i18n.js';
+import { COLORS } from '../lib/color.js';
+import LayerList from './LayerList.jsx';
+import ReviewList from './ReviewList.jsx';
+import { screenTweaks } from '../lib/tweaks.js';
+
+// A terminal color's name: the base name, with Bright for the second eight.
+const colorName = i => (i < 8 ? t(`color_${i}`) : t('color_bright', { name: t(`color_${i - 8}`) }));
+
+const LINE_CHARS = /[─│┌┐└┘├┤┬┴┼]/u;
+
+// A table's rows and columns, each a minus, the count and a plus. The engine redraws the frame from the cells.
+// A note pinned to the part, for you or an agent. It saves when you leave the field; Resolve clears it.
+function NoteField({ element, onUpdate }) {
+  const [draft, setDraft] = useState(element.note || '');
+  useEffect(() => setDraft(element.note || ''), [element.id, element.note]);
+  const save = () => { if (draft.trim() !== (element.note || '')) onUpdate(element.id, { note: draft }); };
+  return (
+    <div className="inspector-row inspector-note">
+      <label className="inspector-key" htmlFor="note">{t('note')}</label>
+      <textarea id="note" className="inspector-textarea" rows="2" value={draft} maxLength={NOTE_MAX}
+        placeholder={t('note_hint')} onChange={e => setDraft(e.target.value)} onBlur={save} />
+      {element.note && <button type="button" className="btn" onClick={() => onUpdate(element.id, { note: '' })}>{t('resolve')}</button>}
+    </div>
+  );
+}
+
+// A screen's live knobs: drag spacing or padding and the screen restacks; one style for every box in it.
+function Tweaks({ element, elements, onUpdate }) {
+  const now = screenTweaks(elements, element);
+  const tweak = changes => onUpdate(element.id, { tweak: changes });
+  return (
+    <>
+      {['spacing', 'padding'].map(key => (
+        <div key={key} className="inspector-row">
+          <label className="inspector-key" htmlFor={`tweak-${key}`}>{t(key)}</label>
+          <input id={`tweak-${key}`} className="inspector-range" type="range" min="0" max="8" value={now[key]}
+            onChange={e => tweak({ [key]: Number(e.target.value) })} />
+          <span className="inspector-value">{now[key]}</span>
+        </div>
+      ))}
+      <div className="inspector-row">
+        <label className="inspector-key" htmlFor="tweak-style">{t('every_box')}</label>
+        <select id="tweak-style" className="inspector-select" value={element.style || 'single'} onChange={e => tweak({ style: e.target.value })}>
+          {BOX_STYLES.map(s => <option key={s} value={s}>{s[0].toUpperCase() + s.slice(1)}</option>)}
+        </select>
+      </div>
+    </>
+  );
+}
+
+function TableSize({ element, onUpdate }) {
+  const cells = tableCells(element.template);
+  const width = Math.max(...cells.map(r => r.length));
+  const set = next => onUpdate(element.id, { cells: next });
+  const stepper = (key, count, less, more) => (
+    <div className="inspector-row">
+      <span className="inspector-key">{t(key)}</span>
+      <span className="inspector-stepper inspector-value">
+        <button type="button" aria-label={t(`remove_${key.slice(0, -1)}`)} disabled={count < 2} onClick={less}>−</button>
+        <span>{count}</span>
+        <button type="button" aria-label={t(`add_${key.slice(0, -1)}`)} onClick={more}>+</button>
+      </span>
+    </div>
+  );
+  return <>
+    {stepper('rows', cells.length, () => set(cells.slice(0, -1)), () => set([...cells, Array(width).fill('')]))}
+    {stepper('columns', width, () => set(cells.map(r => r.slice(0, width - 1))),
+      () => set(cells.map((r, i) => [...r, ...Array(width - r.length).fill(''), i ? '' : t('head')])))}
+  </>;
+}
+
+export default function Inspector({
+  cursor,
+  cols,
+  rows,
+  selectedPreset,
+  selectedElement,
+  onDeleteElement,
+  onDuplicate,
+  onReorder,
+  pickedCount = 0,
+  onGroup,
+  onUpdateElement,
+  onSaveToPalette,
+  elements = [],
+  system = null,
+  onClearSystem,
+  more = false,
+  onMore,
+  onVariations,
+  onKeep,
+  onSelectElement,
+  symbolCount = 0,
+  onSymbol,
+  historyLength,
+  futureLength,
+  isOpen,
+  onClose,
+}) {
+  // A beginner sees the part, Duplicate and Delete. Everything else waits under More, remembered per viewer.
+  const toggle = e => { if (e.currentTarget.open !== more) onMore?.(e.currentTarget.open); };
+  const el = selectedElement;
+  return (
+    <aside className={`inspector${isOpen ? ' is-open' : ''}`}>
+      <div className="inspector-header">
+        <span className="inspector-label">{t('inspector')}</span>
+      </div>
+
+      {!selectedPreset && !el && <p className="inspector-empty">{t('inspector_empty')}</p>}
+
+      {selectedPreset && (
+        <section className="inspector-section">
+          <div className="inspector-section-title">{t('placing')}</div>
+          <div className="inspector-row">
+            <span className="inspector-key">{t('name')}</span>
+            <span className="inspector-value inspector-value--green">{partLabel(selectedPreset)}</span>
+          </div>
+          <div className="inspector-preview">
+            {selectedPreset.template.map((line, i) => (
+              <div key={i} className="inspector-preview-line">{line}</div>
+            ))}
+          </div>
+          <div className="inspector-hint">{t({ brush: 'drag_to_paint', eraser: 'drag_to_erase', gradient: 'drag_to_ramp', adjust: 'drag_to_adjust', marquee: 'drag_to_pick', wand: 'tap_to_pick' }[selectedPreset.id] ?? 'click_to_place')}</div>
+        </section>
+      )}
+
+      {el && (
+        <section className="inspector-section">
+          <div className="inspector-section-title">{t('selected')}</div>
+          <div className="inspector-row">
+            <span className="inspector-key">{t('name')}</span>
+            <span className="inspector-value inspector-value--green">{partLabel({ id: el.presetId, label: el.label })}</span>
+          </div>
+          {el.presetId === 'table' && <TableSize element={el} onUpdate={onUpdateElement} />}
+          {el.presetId === 'adjust' && (
+            <div className="inspector-row">
+              <label className="inspector-key" htmlFor="adjust">{t('part_adjust')}</label>
+              <select id="adjust" className="inspector-select" value={el.adjust ?? 'invert'} onChange={e => onUpdateElement(el.id, { adjust: e.target.value })}>
+                {ADJUSTMENTS.map(a => <option key={a} value={a}>{t(`adjust_${a}`)}</option>)}
+              </select>
+            </div>
+          )}
+          {el.presetId === 'fill' && (
+            <div className="inspector-row">
+              <label className="inspector-key" htmlFor="fill">{t('fill')}</label>
+              <select id="fill" className="inspector-select" value={[...el.template[0]][0]}
+                onChange={e => onUpdateElement(el.id, { fill: e.target.value })}>
+                {FILLS.map((ch, i) => <option key={ch} value={ch}>{ch} {t(['fill_light', 'fill_medium', 'fill_dark', 'fill_solid'][i])}</option>)}
+              </select>
+            </div>
+          )}
+          <div className="inspector-actions">
+            <button className="btn" onClick={() => onDuplicate(el.id)}>{t('duplicate')}</button>
+            <button className="btn btn-danger" onClick={() => onDeleteElement(el.id)}>{t('delete')}</button>
+          </div>
+          <details className="inspector-more" open={more} onToggle={toggle}>
+            <summary>{t('more')}</summary>
+            <div className="inspector-row">
+              <span className="inspector-key">{t('position')}</span>
+              <span className="inspector-value">{el.col}, {el.row}</span>
+            </div>
+            <div className="inspector-row">
+              <span className="inspector-key">{t('size')}</span>
+              <span className="inspector-value">{el.width}×{el.height}</span>
+            </div>
+            <NoteField element={el} onUpdate={onUpdateElement} />
+            {el.presetId === 'screen' && <Tweaks element={el} elements={elements} onUpdate={onUpdateElement} />}
+            {el.presetId === 'screen' && (
+              <div className="inspector-actions">
+                {onVariations && <button className="btn" onClick={() => onVariations(el.id)}>{t('show_variations')}</button>}
+                {onKeep && el.take && elements.some(x => x.take === el.take && x.id !== el.id) && <button className="btn" onClick={() => onKeep(el.id)}>{t('keep_this')}</button>}
+              </div>
+            )}
+            {LINE_CHARS.test(el.template.join('')) && (
+              <div className="inspector-row">
+                <label className="inspector-key" htmlFor="box-style">{t('box_style')}</label>
+                <select id="box-style" className="inspector-select" value={el.style || 'single'}
+                  onChange={e => onUpdateElement(el.id, { style: e.target.value })}>
+                  {BOX_STYLES.map(s => <option key={s} value={s}>{s[0].toUpperCase() + s.slice(1)}</option>)}
+                </select>
+              </div>
+            )}
+            {symbolCount > 0 && (
+              <div className="inspector-row">
+                <span className="inspector-key">{t('symbol')}</span>
+                <span className="inspector-value">{t('symbol_uses', { n: symbolCount })}</span>
+              </div>
+            )}
+            {el.presetId !== 'adjust' && <>
+            <div className="inspector-row">
+              <label className="inspector-key" htmlFor="variant">{t('state')}</label>
+              <select id="variant" className="inspector-select" value={el.variant || 'default'}
+                onChange={e => onUpdateElement(el.id, { variant: e.target.value })}>
+                {VARIANTS.map(v => <option key={v} value={v}>{t(`variant_${v}`)}</option>)}
+              </select>
+            </div>
+            {['ink', 'paper'].map(key => (
+              <div className="inspector-row" key={key}>
+                <label className="inspector-key" htmlFor={key}>{t(`color_${key}`)}</label>
+                <select id={key} className="inspector-select" value={el[key] ?? ''}
+                  onChange={e => onUpdateElement(el.id, { [key]: e.target.value === '' ? null : Number(e.target.value) })}>
+                  <option value="">{t('color_none')}</option>
+                  {COLORS.map((c, i) => <option key={i} value={i}>{colorName(i)}</option>)}
+                </select>
+              </div>
+            ))}
+            {/* Masks (mask.js): crop cells off each edge, or show the part only inside another one. */}
+            <div className="inspector-row">
+              <span className="inspector-key">{t('mask_crop')}</span>
+              <span className="inspector-mask">{['top', 'right', 'bottom', 'left'].map(k => (
+                <input key={k} type="number" min="0" max="500" className="inspector-num" aria-label={t(`mask_${k}`)} title={t(`mask_${k}`)}
+                  value={el.mask?.[k] ?? 0} onChange={e => onUpdateElement(el.id, { mask: { ...el.mask, [k]: e.target.value } })} />
+              ))}</span>
+            </div>
+            <div className="inspector-row">
+              <label className="inspector-key" htmlFor="clip">{t('clip_to')}</label>
+              <select id="clip" className="inspector-select" value={el.clip ?? ''} onChange={e => onUpdateElement(el.id, { clip: e.target.value || null })}>
+                <option value="">{t('color_none')}</option>
+                {elements.filter(o => o.id !== el.id && o.presetId !== 'adjust').map(o => <option key={o.id} value={o.id}>{o.text?.split('\n')[0] || partLabel({ id: o.presetId, label: o.label })}</option>)}
+              </select>
+            </div>
+            <div className="inspector-row">
+              <label className="inspector-key" htmlFor="highlight">{t('highlight')}</label>
+              <input id="highlight" type="checkbox" className="inspector-switch" checked={el.accent === true}
+                onChange={e => onUpdateElement(el.id, { accent: e.target.checked })} />
+            </div>
+            </>}
+            <div className="inspector-actions">
+              {pickedCount >= 2 && <button className="btn" onClick={() => onGroup(false)}>{t('group_n', { n: pickedCount })}</button>}
+              {el.group && <button className="btn" onClick={() => onGroup(true)}>{t('ungroup')}</button>}
+              {onSymbol && <button className="btn" onClick={() => onSymbol(symbolCount > 0)}>{t(symbolCount > 0 ? 'detach' : 'make_symbol')}</button>}
+              {onSaveToPalette && <button className="btn" onClick={() => onSaveToPalette(el)}>{t('save_to_palette')}</button>}
+              <button className="btn" onClick={() => onReorder(el.id, 'front')}>{t('to_front')}</button>
+              <button className="btn" onClick={() => onReorder(el.id, 'back')}>{t('to_back')}</button>
+            </div>
+            <div className="inspector-hint">{t('keys_hint')}</div>
+          </details>
+        </section>
+      )}
+
+      {elements.length > 0 && (
+        <section className="inspector-section">
+        <details className="inspector-more" open={more} onToggle={toggle}>
+          <summary>{t('layers')}</summary>
+          <LayerList elements={elements} selectedId={el?.id} onSelect={onSelectElement}
+            onUpdate={onUpdateElement} onReorder={onReorder} />
+          <ReviewList elements={elements} cols={cols} rows={rows} system={system} onClearSystem={onClearSystem} onSelect={onSelectElement} />
+          <section className="inspector-section">
+            <div className="inspector-section-title">{t('canvas')}</div>
+            <div className="inspector-row"><span className="inspector-key">{t('col')}</span><span className="inspector-value">{cursor.col}</span></div>
+            <div className="inspector-row"><span className="inspector-key">{t('row')}</span><span className="inspector-value">{cursor.row}</span></div>
+            <div className="inspector-row"><span className="inspector-key">{t('size')}</span><span className="inspector-value">{cols}×{rows}</span></div>
+            <div className="inspector-row"><span className="inspector-key">{t('history')}</span><span className="inspector-value">{historyLength}↩ {futureLength}↪</span></div>
+          </section>
+        </details>
+        </section>
+      )}
+
+    </aside>
+  );
+}

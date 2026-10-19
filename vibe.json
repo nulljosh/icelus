@@ -1,0 +1,24 @@
+{
+  "source": "https://jaybulb.com/tokens.css",
+  "colors": {
+    "background": "#FAF9F5",
+    "surface": "#F0EEE6",
+    "surface2": "#E8E5DC",
+    "bg2": "#F0EEE6",
+    "text": "#191919",
+    "muted": "rgba(25,25,25,0.55)",
+    "subtle": "rgba(25,25,25,0.70)",
+    "accent": "#5B9BFF",
+    "accentDeep": "#B45F42",
+    "border": "#E3DFD4",
+    "darkBackground": "#1F1E1D",
+    "darkSurface": "#262624",
+    "darkText": "#F5F4EF",
+    "darkAccent": "#E08A6B"
+  },
+  "typography": {
+    "fontFamily": "ui-monospace, 'SF Mono', Monaco, 'Cascadia Code', monospace",
+    "uiFontFamily": "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif"
+  },
+  "note": "Warm paper palette, overriding the shared tokens.css in src/index.css (2026-08-28). Icelus matches its own iOS app, not the portfolio. Light + dark, toggled in the header."
+}

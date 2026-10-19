@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- macOS only. The iOS file's `application-identifier` is not a valid macOS entitlement:
+	     with it present, profile creation fails with "Entitlement application-identifier not
+	     found and could not be included in profile". macOS spells it
+	     com.apple.application-identifier, and automatic signing adds that itself. -->
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	<!-- Capture a page sends the address you type to icelus.jaybulb.com/api/capture. -->
+	<key>com.apple.security.network.client</key>
+	<true/>
+</dict>
+</plist>

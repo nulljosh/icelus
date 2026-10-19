@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://icelus.jaybulb.com/sitemap.xml

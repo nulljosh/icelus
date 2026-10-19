@@ -1,0 +1,86 @@
+/* Icelus design system: the one token file. Values come from constraints, not the eye: an 8 point grid,
+   one set of radii, 48 point capsule controls, the system font, one accent. src/index.css imports it and
+   ios/App/Theme.swift mirrors the colors, light and dark. Add here, never a second palette. */
+:root {
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: var(--font);
+  /* monospace lives only inside the character grid and its previews */
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --font-code: var(--font-mono);
+
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+
+  --r-card: 28px;
+  --r-list: 20px;
+  --r-pill: 999px;
+  --radius: var(--r-pill);
+  --radius-sm: var(--r-list);
+  --radius-md: var(--r-list);
+  --radius-lg: var(--r-card);
+
+  /* the type scale: large title, title, body, subhead, footnote. Line heights are steps of 4. */
+  --type-large: 700 34px/40px var(--font);
+  --type-title: 600 22px/28px var(--font);
+  --type-body: 400 17px/24px var(--font);
+  --type-subhead: 400 15px/20px var(--font);
+  --type-footnote: 400 13px/16px var(--font);
+  /* grid previews in the palette and inspector, the one place type goes under 13 */
+  --type-preview: 400 11px/16px var(--font-mono);
+
+  --control: 48px;
+  --ease: 0.2s ease;
+
+  --color-bg:        #F5F5F7;   /* page ground */
+  --color-bg2:       #FFFFFF;   /* cards, and the canvas fill read by Canvas.jsx */
+  --color-text:      #1D1D1F;
+  --color-secondary: rgba(29, 29, 31, 0.60);
+  --color-soft:      rgba(29, 29, 31, 0.80);
+  --color-hairline:  rgba(60, 60, 67, 0.18);
+  --color-code-bg:   #F5F5F7;
+  --bulb:            #1D4ED8;   /* drives --accent */
+  --bulb-deep:       #1E40AF;   /* pressed */
+  --accent:       var(--bulb);  /* the one color this app owns: actions, links, selection, the icon */
+  --accent-light: #5B9BFF;      /* the icon gradient's top */
+  --accent-deep:  #1D4ED8;      /* the icon gradient's foot */
+  --accent-ring:  color-mix(in srgb, var(--accent) 30%, transparent);
+
+  --surface:  var(--color-bg2);
+  --surface2: rgba(60, 60, 67, 0.08);   /* hover and grouped fills */
+  --border:   var(--color-hairline);
+  --border2:  var(--color-hairline);
+  --muted:    var(--color-secondary);
+  --subtle:   var(--color-soft);
+  --accent-dim:   var(--bulb-deep);
+  --accent-muted: rgba(29, 78, 216, 0.12);
+  --ring: 0 0 0 4px rgba(29, 78, 216, 0.30);
+
+  /* The landing's night field and the Icelus plate (landing/landing.css copies these, since landing/ ships alone):
+     the navy of Boxy's face as the ground, a deeper night in dark, and pale blue ink for type and engraved lines. */
+  --field:       #0B1F5C;
+  --field-deep:  #061133;
+  --on-field:    #F2F5FF;
+  --on-field-2:  #A9C4F7;
+  --engraving:   #E4ECFF;
+}
+
+/* Dark is true black, grouped surfaces #1c1c1e. */
+:root[data-theme="dark"] {
+  --color-bg:        #000000;
+  --color-bg2:       #1C1C1E;
+  --color-text:      #F5F5F7;
+  --color-secondary: rgba(245, 245, 247, 0.60);
+  --color-soft:      rgba(245, 245, 247, 0.80);
+  --color-hairline:  rgba(255, 255, 255, 0.16);
+  --color-code-bg:   #1C1C1E;
+  --bulb:            #5B9BFF;
+  --bulb-deep:       #5B9BFF;
+  --surface2:        rgba(255, 255, 255, 0.10);
+  --accent-muted:    rgba(91, 155, 255, 0.18);
+  --ring:            0 0 0 4px rgba(91, 155, 255, 0.30);
+}

@@ -1,0 +1,36 @@
+name: IcelusWatch
+options:
+  bundleIdPrefix: com.nulljosh
+  deploymentTarget:
+    watchOS: "10.0"
+settings:
+  DEVELOPMENT_TEAM: QMM486NPYC
+  SWIFT_VERSION: "5.9"
+  MARKETING_VERSION: "1.0.0"
+  CURRENT_PROJECT_VERSION: "1"
+  CODE_SIGN_STYLE: Automatic
+targets:
+  IcelusWatch:
+    type: application
+    platform: watchOS
+    sources:
+      - path: .
+        excludes:
+          - "*.xcodeproj"
+          - "*.yml"
+          - "*.md"
+      # The engine, parts, project file and colours are the iOS files themselves, not copies.
+      - ../ios/App/Engine.swift
+      - ../ios/App/Lines.swift
+      - ../ios/App/Shapes.swift
+      - ../ios/App/Mask.swift
+      - ../ios/App/Presets.swift
+      - ../ios/App/Store.swift
+      - ../ios/App/Theme.swift
+    settings:
+      INFOPLIST_FILE: ""
+      GENERATE_INFOPLIST_FILE: YES
+      INFOPLIST_KEY_WKWatchOnly: YES
+      PRODUCT_BUNDLE_IDENTIFIER: com.nulljosh.wiretext.watchos
+      ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+      PRODUCT_NAME: Icelus

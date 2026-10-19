@@ -1,0 +1,54 @@
+import { memo } from 'react';
+import { realPart } from '../lib/real.js';
+import { COLORS } from '../lib/color.js';
+import { shownBox } from '../lib/mask.js';
+import './RealLayer.css';
+
+// The real look: every part with a real twin drawn as an actual control, placed on the same grid the
+// canvas uses, so selecting, dragging and resizing work unchanged (this layer never takes a click).
+function Part({ el, charW, rowH, byId }) {
+  const p = realPart(el);
+  if (!p) return null;
+  const b = shownBox(el, byId); // a mask or clip crops the control, it never changes it
+  const at = (col, row) => ({ left: col * charW, top: row * rowH });
+  const style = {
+    left: el.col * charW, top: el.row * rowH, width: el.width * charW, height: el.height * rowH,
+    ...(b && { clipPath: `inset(${Math.max(0, b.r0 - el.row) * rowH}px ${Math.max(0, el.col + el.width - b.c1) * charW}px ${Math.max(0, el.row + el.height - b.r1) * rowH}px ${Math.max(0, b.c0 - el.col) * charW}px)` }),
+    ...(el.ink !== undefined && { '--ink': COLORS[el.ink]?.hex }), ...(el.paper !== undefined && { '--paper': COLORS[el.paper]?.hex }),
+  };
+  const cls = `real real-${p.kind}${el.accent ? ' is-accent' : ''}${el.variant ? ` is-${el.variant}` : ''}`;
+  const lines = rows => rows.map(r => <span key={r.row} className={`real-line${r.button ? ' is-button' : ''}`} style={at(r.col, r.row)}>{r.text}</span>);
+  switch (p.kind) {
+    case 'screen': return <div className={cls} style={style}><span className="real-frame-name">{p.title}</span></div>;
+    case 'button': return <div className={cls} style={style}>{p.label}</div>;
+    case 'input': return <div className={cls} style={style}>{p.search && <span className="real-glass" aria-hidden="true" />}<span>{p.placeholder}</span></div>;
+    case 'select': return <div className={cls} style={style}><span>{p.value}</span><span className="real-chevron" aria-hidden="true" /></div>;
+    case 'checkbox': case 'radio': return <div className={cls} style={style}><span className={`real-mark${p.on ? ' is-on' : ''}`} />{p.label}</div>;
+    case 'toggle': return <div className={cls} style={style}><span className={`real-switch${p.on ? ' is-on' : ''}`} /></div>;
+    case 'slider': case 'progress': return <div className={cls} style={style}><span className="real-track"><span style={{ width: `${p.value * 100}%` }} /></span></div>;
+    case 'divider': return <div className={cls} style={style}><hr /></div>;
+    case 'heading': return <div className={cls} style={style}>{p.text}</div>;
+    case 'text': return <div className={cls} style={style}>{p.lines.map((l, i) => <span key={i} className="real-line" style={at(0, i)}>{l}</span>)}</div>;
+    case 'avatar': return <div className={cls} style={style}><span>{p.initials}</span></div>;
+    case 'image': return <div className={cls} style={style}><span className="real-photo" aria-hidden="true" /></div>;
+    case 'skeleton': return <div className={cls} style={style} />;
+    case 'segmented': case 'tags': return <div className={cls} style={style}>{p.items.map((s, i) => <span key={i}>{s}</span>)}</div>;
+    case 'table': return (
+      <div className={cls} style={{ ...style, gridTemplateColumns: `repeat(${p.head.length}, 1fr)` }}>
+        {p.head.map((c, i) => <b key={`h${i}`}>{c}</b>)}
+        {p.body.flatMap((r, j) => r.map((c, i) => <span key={`${j}-${i}`}>{c}</span>))}
+      </div>
+    );
+    case 'box': return <div className={cls} style={style}>{lines(p.rows)}</div>;
+    default: return <div className={cls} style={style}>{lines(p.rows)}</div>;
+  }
+}
+
+export default memo(function RealLayer({ elements, charW, rowH, fontSize }) {
+  const byId = new Map(elements.map(el => [el.id, el]));
+  return (
+    <div className="real-layer" style={{ '--real-size': `${Math.round(fontSize * 0.93)}px`, '--row': `${rowH}px` }} aria-hidden="true">
+      {elements.map(el => (el.hidden ? null : <Part key={el.id} el={el} charW={charW} rowH={rowH} byId={byId} />))}
+    </div>
+  );
+});

@@ -1,0 +1,24 @@
+/* Describe it: a panel on the right, over the inspector, with the conversation and the box to type in. */
+.chat { position: fixed; z-index: 200; top: var(--sp-4); right: var(--sp-4); bottom: var(--sp-4); width: min(380px, calc(100% - 2 * var(--sp-4)));
+  display: flex; flex-direction: column; border-radius: var(--r-card); background: var(--surface);
+  box-shadow: 0 0 0 1px var(--border), 0 24px 48px rgba(0, 0, 0, 0.14); overflow: hidden; }
+.chat-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); padding: var(--sp-4) var(--sp-5); }
+.chat-head h2 { font: var(--type-title); letter-spacing: -0.02em; }
+.chat-list { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: var(--sp-3); padding: 0 var(--sp-5) var(--sp-4); }
+.chat-hint, .chat-target { font: var(--type-subhead); color: var(--color-secondary); }
+.chat-msg { max-width: 88%; padding: var(--sp-2) var(--sp-3); border-radius: var(--r-list); font: var(--type-subhead); }
+.chat-you { align-self: flex-end; background: var(--accent-deep); color: #fff; }
+.chat-icelus { align-self: flex-start; background: var(--surface2); }
+.chat-icelus span { display: block; font: var(--type-footnote); color: var(--color-secondary); margin-bottom: var(--sp-1); }
+.chat-icelus pre { font: var(--type-preview); white-space: pre-wrap; }
+.chat-busy { color: var(--color-secondary); }
+.chat-problem { font: var(--type-subhead); color: #D70015; }
+.chat-form { display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-3) var(--sp-5) var(--sp-5); border-top: 1px solid var(--border); }
+.chat-input { font: var(--type-body); color: var(--color-text); background: var(--surface2); border: 0; border-radius: var(--r-list);
+  padding: var(--sp-3) var(--sp-4); resize: none; }
+.chat-input:focus-visible { outline: none; box-shadow: var(--ring); }
+.chat-form .btn { align-self: flex-end; }
+@media (max-width: 768px) { .chat { top: auto; height: min(70vh, 560px); bottom: calc(var(--sp-4) + env(safe-area-inset-bottom, 0px)); } }
+
+/* While the panel is open the canvas can scroll clear of it, so a new screen is never stuck underneath. */
+@media (min-width: 700px) { body:has(.chat) .canvas-stage { margin-right: calc(380px + var(--sp-5)); } }

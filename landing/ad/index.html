@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Icelus ad</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0B2A86; }
+  canvas { display: block; width: 100vw; height: 100vh; object-fit: contain; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script>
+// The 30 second Icelus ad. Deterministic: render(t) draws frame t from nothing, so
+// tools/ad-capture.mjs can step it frame by frame. Opened without ?capture it plays live.
+const W = 1920, H = 1080, DUR = 30;
+const ctx = document.getElementById('c').getContext('2d');
+const BLUE = '#1D4ED8', LIGHT = '#5B9BFF', DEEP = '#0B2A86', INK = '#191919', MUTED = '#6B6B6B';
+const SANS = '-apple-system, "Helvetica Neue", sans-serif';
+const MONO = 'Menlo, "SF Mono", monospace';
+
+const ready = Promise.resolve(); // system font, nothing to load
+
+// ---- timing helpers
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const out = x => 1 - Math.pow(1 - x, 3);
+const lerp = (a, b, x) => a + (b - a) * x;
+
+function rr(x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
+function text(s, x, y, size, weight = 700, color = '#fff', align = 'center', alpha = 1) {
+  ctx.save(); ctx.globalAlpha *= alpha; ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = 'middle';
+  ctx.font = `${weight} ${size}px ${SANS}`; ctx.fillText(s, x, y); ctx.restore();
+}
+
+// ---- the sketch: real Icelus parts, stamped one by one
+const CARD = ['┌──────────────────┐', '│ Welcome back     │', '│                  │', '│ Sign in to keep  │',
+  '│ your sketches.   │', '│                  │', '│ [ Create one ]   │', '└──────────────────┘'];
+const NAV = ['┌─────────────────────────────────┐', '│ ≡  Logo            Search    ☆  │', '└─────────────────────────────────┘'];
+const COLS = 44, ROWS = 17;
+const PARTS = [
+  { id: 'nav', tpl: NAV, col: 2, row: 1, t: 6.3, chip: 0 },
+  { id: 'card', tpl: CARD, col: 2, row: 5, t: 7.5, chip: 1 },
+  { id: 'email', tpl: ['Email', '[____________]'], col: 25, row: 5, t: 8.7, chip: 2 },
+  { id: 'pass', tpl: ['Password', '[____________]'], col: 25, row: 8, t: 10.0, ai: true },
+  { id: 'btn', tpl: ['[ Sign in ]'], col: 25, row: 11, t: 10.8, ai: true },
+  { id: 'chk', tpl: ['[✓] Remember me'], col: 25, row: 13, t: 11.6, ai: true },
+];
+const CHIPS = ['Navbar', 'Card', 'Input', 'Button', 'Checkbox'];
+
+// The button is dragged right at 14.0 to 15.2, then Undo puts it back at 16.4.
+function btnCol(t) {
+  if (t >= 16.4) return 25;
+  return Math.round(lerp(25, 32, ease(seg(t, 14.0, 15.2))));
+}
+
+function gridAt(t) {
+  const g = Array.from({ length: ROWS }, () => Array(COLS).fill(' '));
+  for (const p of PARTS) {
+    const k = seg(t, p.t, p.t + (p.ai ? 0.45 : 0.2));
+    if (k <= 0) continue;
+    const col = p.id === 'btn' ? btnCol(t) : p.col;
+    p.tpl.forEach((line, dy) => {
+      const chars = [...line], n = Math.ceil(chars.length * k);
+      for (let dx = 0; dx < n; dx++) if (chars[dx] !== ' ') g[p.row + dy][col + dx] = chars[dx];
+    });
+  }
+  return g;
+}
+const finalText = () => gridAt(13).map(r => r.join('').replace(/\s+$/, '')).join('\n').replace(/\n+$/, '');
+
+// ---- layout of the app window
+const WIN = { x: 380, y: 190, w: 1160, h: 780 };
+const PAL = { x: WIN.x + 28, y: WIN.y + 104, w: 230 };
+const CAN = { x: WIN.x + 286, y: WIN.y + 96, w: 846, h: 656 };
+const CELL = { w: 0, h: 31, size: 26 };
+function cellXY(col, row) { return [CAN.x + 36 + col * CELL.w, CAN.y + 40 + row * CELL.h]; }
+function chipXY(i) { return [PAL.x + PAL.w / 2, PAL.y + i * 64 + 28]; }
+const BTN_UNDO = { x: WIN.x + WIN.w - 290, y: WIN.y + 22, w: 120, h: 48 };
+const BTN_COPY = { x: WIN.x + WIN.w - 156, y: WIN.y + 22, w: 128, h: 48 };
+
+function background(t) {
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, BLUE); g.addColorStop(1, DEEP);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  ctx.save(); ctx.strokeStyle = 'rgba(255,255,255,.07)'; ctx.lineWidth = 1;
+  const off = (t * 12) % 48;
+  for (let x = -48 + off; x < W; x += 48) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+  for (let y = -48 + off; y < H; y += 48) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+  ctx.restore();
+}
+
+function monoBlock(lines, x, y, size, lh, color = INK, alpha = 1) {
+  ctx.save(); ctx.globalAlpha *= alpha; ctx.fillStyle = color; ctx.font = `${size}px ${MONO}`; ctx.textBaseline = 'top';
+  lines.forEach((l, i) => ctx.fillText(l, x, y + i * lh)); ctx.restore();
+}
+
+function boxy(cx, cy, s, t, wave = 0) {
+  const k = s / 120;
+  ctx.save(); ctx.translate(cx - 120 * k, cy - 116 * k); ctx.scale(k, k);
+  ctx.fillStyle = '#0F2E8A'; rr(114, 42, 12, 40, 4); ctx.fill();
+  ctx.fillRect(84, 176, 18, 14); ctx.fillRect(138, 176, 18, 14);
+  if (wave > 0) {
+    const a = -0.9 + Math.sin(t * 9) * 0.45 * wave;
+    ctx.save(); ctx.translate(168, 132); ctx.rotate(a); ctx.strokeStyle = LIGHT; ctx.lineWidth = 14; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(44, 0); ctx.stroke(); ctx.restore();
+  }
+  ctx.fillStyle = LIGHT; rr(68, 76, 104, 104, 28); ctx.fill();
+  const blink = (t % 3.2) < 0.12 ? 0.15 : 1;
+  ctx.fillStyle = INK;
+  for (const ex of [100, 140]) { ctx.beginPath(); ctx.ellipse(ex, 116, 8, 8 * blink, 0, 0, 7); ctx.fill(); }
+  ctx.fillStyle = '#fff';
+  for (const ex of [102.5, 142.5]) { ctx.beginPath(); ctx.arc(ex, 113.5, 2.5, 0, 7); ctx.fill(); }
+  ctx.strokeStyle = INK; ctx.lineWidth = 6; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(108, 140); ctx.quadraticCurveTo(120, 152, 132, 140); ctx.stroke();
+  ctx.restore();
+}
+
+function cursor(x, y, press) {
+  ctx.save(); ctx.translate(x, y); const s = press ? 0.86 : 1; ctx.scale(s, s);
+  ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, 34); ctx.lineTo(9, 26); ctx.lineTo(16, 41); ctx.lineTo(22, 38);
+  ctx.lineTo(15, 23); ctx.lineTo(27, 23); ctx.closePath();
+  ctx.fillStyle = INK; ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 2.5; ctx.stroke(); ctx.restore();
+}
+
+// ---- scene 1 (0 to 5): a picture becomes text
+function scene1(t) {
+  const a = seg(t, 0.2, 0.9) * (1 - seg(t, 4.6, 5.2));
+  const m = ease(seg(t, 3.0, 3.8));
+  text('Most design tools hand you a picture.', W / 2, 200, 76, 700, '#fff', 'center', a * (1 - m));
+  text('Icelus hands you text.', W / 2, 200, 76, 700, '#fff', 'center', a * m);
+  const x = 600, y = 320, w = 720, h = 470;
+  ctx.save(); ctx.globalAlpha = a;
+  ctx.fillStyle = '#fff'; rr(x, y, w, h, 28); ctx.fill();
+  ctx.globalAlpha = a * (1 - m);
+  ctx.fillStyle = '#E4E8F2'; rr(x + 40, y + 40, w - 80, h - 80, 18); ctx.fill();
+  ctx.fillStyle = '#B9C4DD'; ctx.beginPath(); ctx.arc(x + 210, y + 160, 48, 0, 7); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(x + 40, y + h - 40); ctx.lineTo(x + 280, y + 220); ctx.lineTo(x + 420, y + 330);
+  ctx.lineTo(x + 520, y + 260); ctx.lineTo(x + w - 40, y + h - 40); ctx.closePath(); ctx.fill();
+  ctx.restore();
+  monoBlock(['┌──────────────────────────────┐', '│ ≡  Logo        Search    ☆   │', '└──────────────────────────────┘', '',
+    '┌──────────────┐   [ Sign in ]', '│ Welcome back │', '│              │   [✓] Remember', '└──────────────┘'],
+    x + 64, y + 70, 30, 40, INK, a * m);
+}
+
+// ---- scenes 2 and 3 (5 to 19.4): the app at work
+function cursorAt(t) {
+  const K = [[5.6, 1500, 900], [6.0, ...chipXY(0)], [6.3, ...chipXY(0)], [6.3, 0, 0, 'g', 'nav'], [7.0, ...chipXY(1)],
+    [7.3, ...chipXY(1)], [7.5, 0, 0, 'g', 'card'], [8.2, ...chipXY(2)], [8.5, ...chipXY(2)], [8.7, 0, 0, 'g', 'email'],
+    [9.4, 1460, 900], [13.4, 1460, 900], [14.0, 0, 0, 'g', 'btn'], [15.2, 0, 0, 'g', 'btn15'], [15.9, BTN_UNDO.x + 60, BTN_UNDO.y + 24],
+    [16.4, BTN_UNDO.x + 60, BTN_UNDO.y + 24], [17.1, BTN_COPY.x + 64, BTN_COPY.y + 24], [19.4, BTN_COPY.x + 64, BTN_COPY.y + 24]];
+  const pos = k => {
+    if (k[3] !== 'g') return [k[1], k[2]];
+    const p = PARTS.find(p => p.id === k[4]) || PARTS.find(p => p.id === 'btn');
+    const col = k[4] === 'btn15' ? 32 : p.col;
+    const [x, y] = cellXY(col, p.row); return [x + 20, y + 14];
+  };
+  for (let i = 0; i < K.length - 1; i++) {
+    if (t <= K[i + 1][0]) {
+      const x = ease(seg(t, K[i][0], K[i + 1][0])), [ax, ay] = pos(K[i]), [bx, by] = pos(K[i + 1]);
+      return [lerp(ax, bx, x), lerp(ay, by, x)];
+    }
+  }
+  return pos(K[K.length - 1]);
+}
+const PRESSES = [6.3, 7.5, 8.7, 14.0, 16.4, 17.1];
+const pressed = t => PRESSES.some(p => t >= p - 0.05 && t < p + 0.12) || (t > 14.0 && t < 15.2);
+
+function chip(x, y, w, h, label, on, color = INK) {
+  ctx.fillStyle = on ? BLUE : '#EEF0F4'; rr(x, y, w, h, h / 2); ctx.fill();
+  text(label, x + w / 2, y + h / 2 + 1, 22, 600, on ? '#fff' : color);
+}
+
+function appScene(t) {
+  const enter = out(seg(t, 5.0, 5.8)), leave = ease(seg(t, 19.0, 19.7));
+  const alpha = enter * (1 - leave);
+  if (alpha <= 0) return;
+  ctx.save(); ctx.globalAlpha = alpha;
+  const s = lerp(0.94, 1, enter) * lerp(1, 0.9, leave);
+  ctx.translate(W / 2, H / 2 + (1 - enter) * 60); ctx.scale(s, s); ctx.translate(-W / 2, -H / 2);
+
+  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.28)'; ctx.shadowBlur = 80; ctx.shadowOffsetY = 30;
+  ctx.fillStyle = '#F5F5F7'; rr(WIN.x, WIN.y, WIN.w, WIN.h, 32); ctx.fill(); ctx.restore();
+  ctx.fillStyle = BLUE; rr(WIN.x + 28, WIN.y + 26, 40, 40, 11); ctx.fill();
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 3.5; rr(WIN.x + 37, WIN.y + 35, 22, 22, 4); ctx.stroke();
+  text('Icelus', WIN.x + 84, WIN.y + 47, 28, 700, INK, 'left');
+  chip(BTN_UNDO.x, BTN_UNDO.y, BTN_UNDO.w, BTN_UNDO.h, 'Undo', t >= 16.35 && t < 16.6);
+  chip(BTN_COPY.x, BTN_COPY.y, BTN_COPY.w, BTN_COPY.h, t >= 17.15 ? 'Copied' : 'Copy', t >= 17.1);
+
+  ctx.fillStyle = '#fff'; rr(PAL.x - 8, PAL.y - 16, PAL.w + 16, 64 * CHIPS.length + 16, 24); ctx.fill();
+  const pick = t < 6.0 ? -1 : t < 7.3 ? 0 : t < 8.5 ? 1 : t < 9.4 ? 2 : -1;
+  CHIPS.forEach((c, i) => {
+    const [cx, cy] = chipXY(i), on = i === pick;
+    if (on) { ctx.fillStyle = 'rgba(29,78,216,.10)'; rr(PAL.x, cy - 26, PAL.w, 52, 16); ctx.fill(); }
+    text(c, PAL.x + 20, cy, 26, 600, on ? BLUE : INK, 'left');
+  });
+
+  ctx.fillStyle = '#fff'; rr(CAN.x, CAN.y, CAN.w, CAN.h, 24); ctx.fill();
+  ctx.fillStyle = 'rgba(25,25,25,.12)';
+  for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c += 2) {
+    const [x, y] = cellXY(c, r); ctx.fillRect(x + CELL.w / 2, y + CELL.h / 2, 2, 2);
+  }
+  const g = gridAt(t);
+  monoBlock(g.map(r => r.join('')), CAN.x + 36, CAN.y + 40 + 4, CELL.size, CELL.h);
+
+  if (t >= 13.9 && t < 16.4) {
+    const [x, y] = cellXY(btnCol(t), 11);
+    ctx.strokeStyle = BLUE; ctx.lineWidth = 3; rr(x - 6, y - 4, CELL.w * 11 + 12, CELL.h + 8, 8); ctx.stroke();
+  }
+  if (t >= 9.6 && t < 12.8) {
+    const k = seg(t, 9.6, 9.9) * (1 - seg(t, 12.4, 12.8));
+    ctx.save(); ctx.globalAlpha *= k;
+    ctx.fillStyle = INK; rr(CAN.x + CAN.w - 330, CAN.y + CAN.h - 76, 300, 52, 26); ctx.fill();
+    ctx.fillStyle = LIGHT; ctx.beginPath(); ctx.arc(CAN.x + CAN.w - 300, CAN.y + CAN.h - 50, 7 + Math.sin(t * 8) * 2, 0, 7); ctx.fill();
+    text('Your assistant is drawing', CAN.x + CAN.w - 282, CAN.y + CAN.h - 49, 21, 600, '#fff', 'left');
+    ctx.restore();
+  }
+  if (t >= 17.2 && t < 19.2) {
+    const k = seg(t, 17.2, 17.5) * (1 - seg(t, 18.8, 19.2));
+    ctx.save(); ctx.globalAlpha *= k; ctx.fillStyle = INK; rr(W / 2 - 170, WIN.y + WIN.h - 92, 340, 56, 28); ctx.fill();
+    text('Copied as plain text', W / 2, WIN.y + WIN.h - 63, 23, 600, '#fff'); ctx.restore();
+  }
+  const [cx, cy] = cursorAt(t);
+  if (t > 5.5) cursor(cx, cy, pressed(t));
+  ctx.restore();
+
+  const kick = t < 9.4 ? 'Pick a part. Stamp it.' : t < 13.4 ? 'Or let your assistant draw it.' : 'Move anything. Undo anything.';
+  const ka = alpha * (t < 9.4 ? seg(t, 5.4, 5.9) : 1);
+  text(kick, W / 2, 110, 46, 700, '#fff', 'center', ka);
+}
+
+// ---- scene 4 (19.4 to 25.2): the same text, pasted three places
+function pasteScene(t) {
+  const fade = 1 - seg(t, 24.8, 25.3);
+  if (t < 19.4 || fade <= 0) return;
+  text('Paste it anywhere.', W / 2, 150, 64, 700, '#fff', 'center', seg(t, 19.4, 19.9) * fade);
+  const lines = finalText().split('\n');
+  const cards = [['Pull request', 'Here is the new sign in screen.', 21.0], ['Chat', 'like this?', 22.1], ['README.md', '## Sign in', 23.0]];
+  cards.forEach(([title, note, t0], i) => {
+    const k = out(seg(t, t0, t0 + 0.5)) * fade;
+    if (k <= 0) return;
+    const x = 120 + i * 580, y = 330 + (1 - k) * 50, w = 520, h = 470;
+    ctx.save(); ctx.globalAlpha = k;
+    ctx.shadowColor = 'rgba(0,0,0,.25)'; ctx.shadowBlur = 50; ctx.shadowOffsetY = 20;
+    ctx.fillStyle = '#fff'; rr(x, y, w, h, 28); ctx.fill(); ctx.shadowColor = 'transparent';
+    text(title, x + 32, y + 46, 28, 700, INK, 'left');
+    text(note, x + 32, y + 92, 22, 400, MUTED, 'left');
+    ctx.fillStyle = '#F5F5F7'; rr(x + 24, y + 126, w - 48, h - 150, 18); ctx.fill();
+    monoBlock(lines, x + 40, y + 150, 14, 21.5);
+    ctx.restore();
+  });
+}
+
+// ---- scene 5 (25 to 30): Boxy and the name
+function endScene(t) {
+  const a = seg(t, 25.1, 25.7);
+  if (a <= 0) return;
+  ctx.save(); ctx.globalAlpha = a;
+  boxy(W / 2, 360 + Math.sin(t * 2.4) * 8, 250, t, seg(t, 25.6, 26.0) * (1 - seg(t, 28.2, 28.6)));
+  text('Icelus', W / 2, 640, 132, 700);
+  text('Sketch a screen in plain text.', W / 2, 740, 48, 600, 'rgba(255,255,255,.88)');
+  text('Free on the web. $0.99 on the App Store.', W / 2, 850, 30, 600, 'rgba(255,255,255,.78)', 'center', seg(t, 26.4, 27.0));
+  text('icelus.jaybulb.com', W / 2, 905, 30, 700, '#fff', 'center', seg(t, 26.4, 27.0));
+  ctx.restore();
+}
+
+async function render(t) {
+  await ready;
+  if (!CELL.w) { ctx.font = `${CELL.size}px ${MONO}`; CELL.w = ctx.measureText('M').width; }
+  ctx.clearRect(0, 0, W, H);
+  background(t);
+  scene1(t);
+  appScene(t);
+  pasteScene(t);
+  endScene(t);
+}
+
+window.__ad = { duration: DUR, fps: 30, ready, render: async t => { await render(t); return true; } };
+const q = new URLSearchParams(location.search);
+if (q.has('t')) render(+q.get('t'));
+else if (!q.has('capture')) {
+  const start = performance.now();
+  (function loop() { render(((performance.now() - start) / 1000) % DUR).then(() => requestAnimationFrame(loop)); })();
+}
+</script>
+</body>
+</html>

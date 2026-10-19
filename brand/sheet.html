@@ -1,0 +1,123 @@
+<!doctype html>
+<!-- The brand kit on one page: mark, mascot, colour, type, space, shape and controls. Screenshot it light and dark. -->
+<html lang="en">
+<meta charset="utf-8">
+<title>Icelus brand kit</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  :root {
+    --fill: rgba(60, 60, 67, 0.08); --text: #1D1D1F; --muted: rgba(29, 29, 31, 0.6); --ground: #F5F5F7; --card: #FFFFFF; --hair: rgba(60, 60, 67, 0.18);
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --fill: rgba(255, 255, 255, 0.14); --text: #F5F5F7; --muted: rgba(245, 245, 247, 0.6); --ground: #000000; --card: #1C1C1E; --hair: rgba(255, 255, 255, 0.16); --accent: #5B9BFF; }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--ground); color: var(--text); font: 17px/24px var(--font); padding: 48px; width: 1280px; }
+  h1 { font-size: 34px; line-height: 40px; font-weight: 700; letter-spacing: -0.022em; }
+  h2 { font-size: 13px; line-height: 16px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 16px; }
+  .lede { color: var(--muted); margin: 8px 0 32px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card { background: var(--card); border-radius: 28px; padding: 24px; }
+  .wide { grid-column: span 2; }
+  .row { display: flex; align-items: flex-end; gap: 24px; }
+  .icon { border-radius: 22%; display: block; }
+  .mark { width: 120px; height: 120px; background: var(--text); -webkit-mask: url(mark.svg) center / contain no-repeat; mask: url(mark.svg) center / contain no-repeat; }
+  .cap { font-size: 13px; line-height: 16px; color: var(--muted); margin-top: 8px; }
+  .swatches { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+  .sw { height: 64px; border-radius: 20px; box-shadow: inset 0 0 0 1px var(--hair); }
+  .type p { margin-bottom: 8px; }
+  .space { display: flex; align-items: flex-end; gap: 12px; }
+  .space div { background: var(--accent); border-radius: 4px; width: 24px; }
+  .radii { display: flex; gap: 16px; }
+  .radii div { width: 72px; height: 72px; background: var(--ground); box-shadow: inset 0 0 0 1px var(--hair); }
+  .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { height: 48px; padding: 0 24px; border-radius: 999px; border: 0; font: 600 17px var(--font); background: var(--fill); color: var(--text); }
+  .btn.primary { background: var(--accent); color: #fff; }
+  .btn.focus { box-shadow: 0 0 0 4px var(--accent-ring); }
+  pre { font: 15px/1.15 var(--mono); }
+</style>
+<body>
+  <h1>Icelus brand kit</h1>
+  <p class="lede">Sketch a screen in plain text. One accent, the system font, an 8 point grid.</p>
+  <div class="grid">
+    <div class="card">
+      <h2>App icon</h2>
+      <div class="row">
+        <img class="icon" src="icon-1024.png" width="160" height="160" alt="">
+        <img class="icon" src="icon-1024.png" width="58" height="58" alt="">
+        <img class="icon" src="icon-1024.png" width="29" height="29" alt="">
+      </div>
+      <p class="cap">A box of glyphs. 160, 58 and 29 points.</p>
+    </div>
+    <div class="card">
+      <h2>Mark and mascot</h2>
+      <div class="row">
+        <div class="mark"></div>
+        <img src="mascot.svg" width="120" height="120" alt="">
+      </div>
+      <p class="cap">The mark in currentColor. Boxy, always typing.</p>
+    </div>
+    <div class="card">
+      <h2>Boxy in text</h2>
+      <pre>   ▌
+╭─────╮
+│ ● ● │
+│  ◡  │
+╰─┬─┬─╯</pre>
+      <p class="cap">A stamp in the palette.</p>
+    </div>
+    <div class="card wide">
+      <h2>Colour</h2>
+      <div class="swatches">
+        <div><div class="sw" style="background: var(--accent)"></div><p class="cap">Accent</p></div>
+        <div><div class="sw" style="background: #1E40AF"></div><p class="cap">Pressed</p></div>
+        <div><div class="sw" style="background: var(--text)"></div><p class="cap">Text</p></div>
+        <div><div class="sw" style="background: var(--ground)"></div><p class="cap">Ground</p></div>
+        <div><div class="sw" style="background: var(--card)"></div><p class="cap">Card</p></div>
+        <div><div class="sw" style="background: linear-gradient(135deg, #5B9BFF, #1D4ED8)"></div><p class="cap">Icon tile</p></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Controls</h2>
+      <div class="btns">
+        <button class="btn primary">Export</button>
+        <button class="btn">Open</button>
+        <button class="btn focus">Focus</button>
+      </div>
+      <p class="cap">48 point capsules, a 4 point ring at 30 percent.</p>
+    </div>
+    <div class="card type">
+      <h2>Type</h2>
+      <p style="font: 700 34px/40px var(--font); letter-spacing: -0.022em">Large title</p>
+      <p style="font: 600 22px/28px var(--font)">Title</p>
+      <p>Body 17 on 24</p>
+      <p style="font-size: 15px; line-height: 20px">Subhead 15 on 20</p>
+      <p style="font-size: 13px; line-height: 16px; color: var(--muted)">Footnote 13 on 16</p>
+      <p style="font: 11px/16px var(--mono); color: var(--muted)">Grid preview 11 on 16</p>
+    </div>
+    <div class="card">
+      <h2>Space</h2>
+      <div class="space">
+        <div style="height: 4px"></div><div style="height: 8px"></div><div style="height: 12px"></div><div style="height: 16px"></div>
+        <div style="height: 24px"></div><div style="height: 32px"></div><div style="height: 48px"></div>
+      </div>
+      <p class="cap">4, 8, 12, 16, 24, 32, 48. Nothing else.</p>
+      <h2 style="margin-top: 24px">Radii</h2>
+      <div class="radii"><div style="border-radius: 28px"></div><div style="border-radius: 20px"></div><div style="border-radius: 10px"></div><div style="border-radius: 999px"></div></div>
+      <p class="cap">Cards 28, lists 20, canvas 10, controls round.</p>
+    </div>
+    <div class="card">
+      <h2>The parts</h2>
+      <pre>┌─ Sign in ──────────┐
+│                    │
+│ [ Email_________ ] │
+│ [x] Remember me    │
+│ [ Sign in ]        │
+└────────────────────┘</pre>
+      <p class="cap">One line weight, square corners, monospace only in the grid.</p>
+    </div>
+  </div>
+</body>
+</html>

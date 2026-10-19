@@ -1,0 +1,56 @@
+.canvas-wrapper {
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  outline: none;
+  touch-action: manipulation;
+}
+
+/* place-content centres the fixed-width grid instead of pinning it left, which
+   left about a third of the workspace as dead gutter on a wide window. Still
+   scrolls when the grid is bigger than the viewport. */
+.canvas-scroll {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: grid;
+  place-content: safe center;
+  touch-action: pan-x pan-y;
+}
+
+.canvas {
+  display: block;
+  cursor: crosshair;
+  image-rendering: pixelated;
+}
+
+.canvas--place-mode {
+  cursor: cell;
+}
+
+@media (max-width: 768px) {
+  .canvas-wrapper {
+    height: 100%;
+  }
+}
+
+.canvas-stage { position: relative; width: max-content; height: max-content; }
+.element-overlay { position:absolute; border:2px solid var(--accent); border-radius:6px; pointer-events:none; box-sizing:border-box; }
+.resize-handle { position:absolute; width:12px; height:12px; padding:0; border:1px solid var(--color-text); background:var(--color-bg); pointer-events:auto; touch-action:none; transform:translate(-50%,-50%); }
+.handle-nw {left:0;top:0} .handle-n {left:50%;top:0} .handle-ne {left:100%;top:0}
+.handle-w {left:0;top:50%} .handle-e {left:100%;top:50%}
+.handle-sw {left:0;top:100%} .handle-s {left:50%;top:100%} .handle-se {left:100%;top:100%}
+.element-edit {position:absolute;top:calc(100% + 10px);left:0;white-space:nowrap;pointer-events:auto}
+.element-editor {position:absolute;top:0;left:0;min-width:260px;z-index:3;pointer-events:auto;background:var(--color-bg);padding:12px;border-radius:20px;box-shadow:0 12px 32px rgba(0,0,0,.2)}
+.element-editor textarea {display:block;width:100%;min-height:100px;font:14px/20px var(--font-code,monospace);white-space:pre;color:var(--color-text);background:var(--surface2);border:0;border-radius:12px;padding:8px;resize:both}
+.element-editor div {display:flex;gap:6px;margin-top:6px}
+
+/* Keyboard focus: the house 4 point accent ring at 30 percent. */
+.canvas-wrapper:focus { outline: none; }
+.canvas-wrapper:focus-visible { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent, #1D4ED8) 30%, transparent); }
+
+/* The grid is a grid of characters: it reads left to right in every language. */
+.canvas-wrapper { direction: ltr; }
+
+/* Painting drags a stroke, so a finger paints instead of scrolling. */
+.canvas--paint { touch-action: none; cursor: crosshair; }

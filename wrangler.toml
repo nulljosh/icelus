@@ -1,0 +1,11 @@
+# Still "wiretext": that is the existing Pages project serving charwork.heyitsmejosh.com.
+# Renaming this to charwork creates a SECOND project and strips the custom domain.
+name = "wiretext"
+compatibility_date = "2025-01-01"
+# This is what makes the root-level functions/ directory get picked up. Deploying dist/
+# directly (wrangler pages deploy dist) would ship the site with no API at all.
+pages_build_output_dir = "dist"
+
+# Describe it (POST /api/describe) writes screens with Workers AI.
+[ai]
+binding = "AI"

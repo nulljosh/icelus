@@ -1,0 +1,17 @@
+# A GitHub Action: fails the build when a box-drawing wireframe in your Markdown no longer closes.
+#   - uses: nulljosh/icelus@v37.0.0
+#     with: { files: "README.md docs/*.md" }
+name: Icelus wireframe check
+description: Fails when a box-drawing wireframe in a Markdown file has a box that no longer closes.
+branding: { icon: layout, color: blue }
+inputs:
+  files:
+    description: Markdown files to check, space separated. Globs work.
+    default: README.md
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env: { FILES: "${{ inputs.files }}" }
+      # $FILES unquoted on purpose: it splits and expands globs. It comes from the workflow, never from a PR body.
+      run: node "$GITHUB_ACTION_PATH/bin/icelus.js" check $FILES

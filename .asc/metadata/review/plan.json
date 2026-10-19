@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-31T08:17:28Z",
+  "command": "metadata plan",
+  "reviewDir": ".asc/metadata/review",
+  "planPath": ".asc/metadata/review/plan.json",
+  "approvalPath": ".asc/metadata/review/approved.json",
+  "planHash": "5c628f2c6eadc4bbfb5fb7bbd44185e872a84bc12cc94082232f7a7e054abc0c",
+  "options": {
+    "appId": "6794988951",
+    "appInfoId": "eb1ddc41-960e-404d-9fe5-aa97f7e00960",
+    "version": "1.1.1",
+    "platform": "IOS",
+    "dir": "./metadata",
+    "includes": [
+      "localizations"
+    ],
+    "allowDeletes": false
+  },
+  "plan": {
+    "appId": "6794988951",
+    "appInfoId": "eb1ddc41-960e-404d-9fe5-aa97f7e00960",
+    "version": "1.1.1",
+    "versionId": "827c7715-fd20-43fe-b057-cc3e3328767f",
+    "dir": "./metadata",
+    "dryRun": true,
+    "includes": [
+      "localizations"
+    ],
+    "adds": [
+      {
+        "key": "version:1.1.1:en-US:whatsNew",
+        "scope": "version",
+        "locale": "en-US",
+        "version": "1.1.1",
+        "field": "whatsNew",
+        "reason": "field exists locally but not remotely",
+        "to": "The app is now called Charwork. Same wireframe tool, clearer name."
+      }
+    ],
+    "updates": [
+      {
+        "key": "version:1.1.1:en-US:description",
+        "scope": "version",
+        "locale": "en-US",
+        "version": "1.1.1",
+        "field": "description",
+        "reason": "field value differs",
+        "from": "Wiretext is a wireframe tool that draws interfaces out of plain Unicode characters.\n\nPick a component from the palette, place it on the character grid, and build up a layout the way you would sketch one on graph paper. Everything you make is just text, so you can paste it into a README, a code comment, a design doc, a ticket, or a chat message and it renders anywhere a monospace font does.\n\nFEATURES\n\n- 23 component presets: buttons, inputs, selects, checkboxes, radios, toggles, tables, modals, browser frames, cards, navbars, tabs, progress bars, icons, images, dividers, alerts, breadcrumbs, avatars, lists, steppers, ratings, and skeletons\n- A 100 x 50 character canvas with click-to-place positioning\n- Hover preview, so you see where a component lands before committing to it\n- Undo and redo up to 50 steps\n- Export to a .txt file or copy the whole canvas to the clipboard\n- Works entirely offline; nothing you draw leaves your device\n\nWiretext does not collect any data, require an account, or show ads.",
+        "to": "Charwork is a wireframe tool that draws interfaces out of plain Unicode characters.\n\nPick a component from the palette, place it on the character grid, and build up a layout the way you would sketch one on graph paper. Everything you make is just text, so you can paste it into a README, a code comment, a design doc, a ticket, or a chat message and it renders anywhere a monospace font does.\n\nFEATURES\n\n- 23 component presets: buttons, inputs, selects, checkboxes, radios, toggles, tables, modals, browser frames, cards, navbars, tabs, progress bars, icons, images, dividers, alerts, breadcrumbs, avatars, lists, steppers, ratings, and skeletons\n- A 100 x 50 character canvas with click-to-place positioning\n- Hover preview, so you see where a component lands before committing to it\n- Undo and redo up to 50 steps\n- Export to a .txt file or copy the whole canvas to the clipboard\n- Works entirely offline; nothing you draw leaves your device\n\nCharwork does not collect any data, require an account, or show ads."
+      }
+    ],
+    "deletes": [],
+    "apiCalls": [
+      {
+        "operation": "update_localization",
+        "scope": "version",
+        "count": 1
+      }
+    ]
+  }
+}

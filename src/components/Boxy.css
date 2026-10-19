@@ -1,0 +1,6 @@
+.boxy { display: block; }
+.boxy-eyes { transform-box: fill-box; transform-origin: center; animation: boxy-blink 5s infinite; }
+.boxy-caret { animation: boxy-caret 1.2s steps(1) infinite; }
+@keyframes boxy-blink { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(0.1); } }
+@keyframes boxy-caret { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .boxy-eyes, .boxy-caret { animation: none; } }

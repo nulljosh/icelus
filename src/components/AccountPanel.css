@@ -1,0 +1,31 @@
+/* Account: a card with two tabs, Profile and Settings, on the 8 point grid. */
+.account-card { max-width: 440px; align-items: stretch; text-align: start; gap: var(--sp-4); }
+.account-tabs { display: flex; gap: var(--sp-1); padding: var(--sp-1); background: var(--surface2); border-radius: var(--r-pill); }
+.account-tab { flex: 1; height: 40px; border: 0; border-radius: var(--r-pill); background: none; color: var(--color-text);
+  font: inherit; font-size: 15px; font-weight: 500; cursor: pointer; transition: background 0.2s ease; }
+.account-tab.is-on { background: var(--color-bg2); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
+.account-tab:focus-visible { outline: none; box-shadow: var(--ring); }
+.account-body { display: flex; flex-direction: column; gap: var(--sp-3); }
+.account-why, .account-who { margin: 0; font-size: 15px; line-height: 20px; color: var(--color-secondary); }
+.account-title { margin: 0; font-size: 22px; line-height: 28px; }
+.account-form { display: flex; flex-direction: column; gap: var(--sp-2); }
+.account-label { font: var(--type-footnote); color: var(--color-secondary); }
+.account-input { height: var(--control); padding: 0 var(--sp-4); font: inherit; font-size: 17px; color: var(--color-text);
+  background: var(--surface2); border: 0; border-radius: var(--r-pill); }
+.account-input:focus-visible { outline: none; box-shadow: var(--ring); }
+.account-form .btn { margin-top: var(--sp-2); }
+.account-hint { font: var(--type-footnote); color: var(--color-secondary); }
+.account-problem { margin: 0; font-size: 15px; line-height: 20px; color: #D70015; }
+:root[data-theme="dark"] .account-problem { color: #FF453A; }
+.account-notice { margin: 0; font-size: 15px; line-height: 20px; color: var(--accent); }
+.account-switch { display: flex; flex-wrap: wrap; gap: var(--sp-4); }
+.account-link { padding: 0; border: 0; background: none; font: inherit; font-size: 15px; color: var(--accent); cursor: pointer; }
+.account-link:focus-visible { outline: none; box-shadow: var(--ring); border-radius: var(--r-pill); }
+.account-actions { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.account-danger { display: flex; flex-direction: column; gap: var(--sp-3); padding: var(--sp-4); border-radius: var(--r-list); background: var(--surface2); }
+.account-danger p { margin: 0; font-size: 15px; line-height: 20px; }
+.account-group { border-radius: var(--r-list); overflow: hidden; }
+.account-group > .inspector-row { border-radius: 0; }
+.account-danger .btn { background: var(--color-bg2); }
+.account-wide { width: 100%; }
+@media (prefers-reduced-motion: reduce) { .account-tab { transition: none; } }

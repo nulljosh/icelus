@@ -1,0 +1,33 @@
+{
+  "name": "icelus",
+  "license": "Apache-2.0",
+  "version": "38.0.0",
+  "description": "Sketch a screen in plain text. Pick a part, stamp it on a grid, copy it anywhere.",
+  "keywords": [
+    "wireframes",
+    "ascii-art",
+    "prototyping",
+    "monospace"
+  ],
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "bash scripts/build-site.sh",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "esbuild": "^0.28.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.0",
+    "vite": "^6.0.0",
+    "vitest": "^3.2.4"
+  },
+  "bin": {
+    "icelus": "bin/icelus.js"
+  }
+}

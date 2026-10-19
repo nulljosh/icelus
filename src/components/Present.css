@@ -1,0 +1,13 @@
+.present { position: fixed; inset: 0; z-index: 1000; background: var(--color-bg); color: var(--color-text); }
+.present-slide { display: none; box-sizing: border-box; height: 100%; padding: var(--sp-6) var(--sp-7) 96px; flex-direction: column; align-items: center; justify-content: center; gap: var(--sp-5); cursor: pointer; }
+.present-slide.on { display: flex; }
+.present-slide pre { font-family: var(--font-mono); line-height: 1.2; font-size: min(calc(88vw / var(--w) / 0.6), calc(72vh / var(--h) / 1.2), 28px); }
+.present-bar { position: absolute; left: var(--sp-4); right: var(--sp-4); bottom: max(var(--sp-5), env(safe-area-inset-bottom)); display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--sp-2); }
+.present-count { min-width: 64px; text-align: center; font-size: 15px; color: var(--muted); }
+@media print {
+  @page { size: landscape; margin: 0; }
+  body.presenting > :not(.present) { display: none !important; }
+  body.presenting .present { position: static; background: #fff; color: #000; }
+  body.presenting .present-slide { display: flex; height: 100vh; break-after: page; }
+  body.presenting .present-bar { display: none; }
+}
