@@ -14,6 +14,7 @@ import {
 } from './engine.js';
 import { BLENDS } from './lines.js';
 import { takeSnapshot } from './history.js';
+import { playAction, cleanStep } from './actions.js';
 import { PRESETS as CORE, CATEGORIES as CORE_CATEGORIES, PACKS, PACK_CATEGORIES, getPreset } from './presets.js';
 
 // The core parts plus the platform packs (iOS, Material, terminal, email).
@@ -137,7 +138,7 @@ export function callTool(name, rawArgs) {
       if (strokePoints > 5000) throw new ToolError('paint and erase ops carry at most 5000 points in one call');
       // Indices are resolved to ids up front, so a delete does not shift the parts later ops name.
       const ids = project.elements.map(el => el.id);
-      let { elements, snapshots = [] } = project;
+      let { elements, snapshots = [], actions = [] } = project;
       args.ops.forEach((op, i) => {
         const at = `ops[${i}]`;
         if (!op || typeof op !== 'object') throw new ToolError(`${at} must be an object`);
@@ -225,17 +226,24 @@ export function callTool(name, rawArgs) {
           if (!BLENDS.includes(op.mode)) throw new ToolError(`${at}.mode must be one of ${BLENDS.join(', ')}`);
           elements = updateElement(elements, id, { blend: op.mode });
         }
+        else if (op.op === 'play') {
+          // An action's steps on this part: by name from the project's actions, or given inline.
+          const saved = typeof op.name === 'string' ? actions.find(a => a.name === op.name) : null;
+          if (typeof op.name === 'string' && !saved) throw new ToolError(`${at}.name must name an action: ${actions.map(a => a.name).join(', ') || 'the project has none'}`);
+          if (!saved && (!Array.isArray(op.steps) || op.steps.length > 50)) throw new ToolError(`${at} needs name or steps (at most 50)`);
+          elements = playAction(elements, saved ? saved.steps : op.steps.map(cleanStep).filter(Boolean), [id], project.cols, project.rows);
+        }
         else if (op.op === 'tweak') {
           if (op.style !== undefined && !BOX_STYLES.includes(op.style)) throw new ToolError(`${at}.style must be one of ${BOX_STYLES.join(', ')}`);
           const knob = k => (op[k] === undefined ? undefined : n(k, 0, 8));
           elements = updateElement(elements, id, { tweak: { spacing: knob('spacing'), padding: knob('padding'), style: op.style } });
         } else if (op.op === 'delete') elements = deleteElement(elements, id);
-        else throw new ToolError(`${at}.op must be move, resize, text, style, tweak, note, variations, keep, delete, color, mask, blend, adjust, arrow, paint, erase, gradient, cut, fill, move_cells, snapshot or restore`);
+        else throw new ToolError(`${at}.op must be move, resize, text, style, tweak, note, variations, keep, delete, color, mask, blend, play, adjust, arrow, paint, erase, gradient, cut, fill, move_cells, snapshot or restore`);
       });
       const { cols, rows } = project;
       return {
         text: trimText(gridToText(renderElements(elements, cols, rows))),
-        project: JSON.parse(serializeProject({ cols, rows, elements, snapshots })),
+        project: JSON.parse(serializeProject({ cols, rows, elements, snapshots, actions })),
       };
     }
 

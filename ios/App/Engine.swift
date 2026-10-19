@@ -96,6 +96,8 @@ struct EditorState {
     private(set) var history: [[Element]] = []
     private(set) var future: [[Element]] = []
     var snapshots: [CanvasSnapshot] = [] // History.swift; saved with the project
+    var actions: [CanvasAction] = [] // Actions.swift; saved with the project
+    var recording: Int? = nil // the history count when Record was pressed
 
     init(cols: Int = defaultCols, rows: Int = defaultRows) {
         self.cols = cols

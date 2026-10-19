@@ -8,7 +8,7 @@ How a version ships: every item checked, tests green, deployed, and the native a
 version number bumps and the next list opens. One item at a time, commit and push after each. Every major
 gets a new icon and new App Store text. Checkpoints where Joshua gets a report: v3, v5, v10, v20, v50, v100.
 
-**Now:** v41 Actions (Joshua 2026-10-19: Photoshop and Figma with real elements, toward Claude Design, with a chat to describe a design). v40.0.0 shipped 2026-10-19 (History panel: named steps, jump to any step, named snapshots), v39.0.0 shipped 2026-10-19 (blend modes, plus UI pass 1: Settings and Profile in the nav bar, grouped Export menu), v38.0.0 shipped 2026-10-19 (masks: crop and clip, web + native), v37.0.1 shipped 2026-10-19 (QA pass), v37.0.0 shipped 2026-10-19 (Describe it chat, web), v36.0.0 shipped 2026-10-19 (real canvas), v35.1.0 shipped 2026-10-19 (design pass), v35.0.0 shipped 2026-10-19 (adjustment layers), v34.0.0 shipped 2026-10-19 (color), v33.0.0 shipped 2026-10-19 (gradients), v32.0.0 shipped 2026-10-19 (selections), v31.0.0 shipped 2026-10-19 (brush and eraser), v30.0.0 shipped 2026-10-19 (agent kit: MCP resources, prompts, worked examples; Era 3 done), v29.0.0 shipped 2026-10-19 (decks: present, PDF, HTML deck), v28.0.0 shipped 2026-10-19 (code export, React and SwiftUI), v27.0.0 shipped 2026-10-19 (handoff brief), v26.0.0 shipped 2026-10-19 (variations), v25.1.0 shipped 2026-10-19 (accounts, Profile and Settings), v25.0.0 shipped 2026-10-19 (capture a page), v24.1.0 shipped 2026-10-19 (beginner pass: basics up front, More for the rest, five-step tutorial on web and native), v24 (design system from code), v23 (critique), v22 (notes), v21 (tweaks), v20.0.0 shipped 2026-10-19 (shading), v19 (variants), v18 (symbols), v17 (layers), v16 (groups), v15 (trees), v14 (sequence diagrams), v13 (flowcharts), v12 (charts), v11 (tables); iOS 12.0.0 is live (ready for sale); launch posts run from the dated queue below.
+**Now:** v42 Heal and expand (Joshua 2026-10-19: Photoshop and Figma with real elements, toward Claude Design, with a chat to describe a design). v41.0.0 shipped 2026-10-19 (actions: record a few edits, play them on any part), v40.0.0 shipped 2026-10-19 (History panel: named steps, jump to any step, named snapshots), v39.0.0 shipped 2026-10-19 (blend modes, plus UI pass 1: Settings and Profile in the nav bar, grouped Export menu), v38.0.0 shipped 2026-10-19 (masks: crop and clip, web + native), v37.0.1 shipped 2026-10-19 (QA pass), v37.0.0 shipped 2026-10-19 (Describe it chat, web), v36.0.0 shipped 2026-10-19 (real canvas), v35.1.0 shipped 2026-10-19 (design pass), v35.0.0 shipped 2026-10-19 (adjustment layers), v34.0.0 shipped 2026-10-19 (color), v33.0.0 shipped 2026-10-19 (gradients), v32.0.0 shipped 2026-10-19 (selections), v31.0.0 shipped 2026-10-19 (brush and eraser), v30.0.0 shipped 2026-10-19 (agent kit: MCP resources, prompts, worked examples; Era 3 done), v29.0.0 shipped 2026-10-19 (decks: present, PDF, HTML deck), v28.0.0 shipped 2026-10-19 (code export, React and SwiftUI), v27.0.0 shipped 2026-10-19 (handoff brief), v26.0.0 shipped 2026-10-19 (variations), v25.1.0 shipped 2026-10-19 (accounts, Profile and Settings), v25.0.0 shipped 2026-10-19 (capture a page), v24.1.0 shipped 2026-10-19 (beginner pass: basics up front, More for the rest, five-step tutorial on web and native), v24 (design system from code), v23 (critique), v22 (notes), v21 (tweaks), v20.0.0 shipped 2026-10-19 (shading), v19 (variants), v18 (symbols), v17 (layers), v16 (groups), v15 (trees), v14 (sequence diagrams), v13 (flowcharts), v12 (charts), v11 (tables); iOS 12.0.0 is live (ready for sale); launch posts run from the dated queue below.
 
 ## v2.0.0 Icelus (this release)
 - [ ] Repo goes public (needs Joshua's yes)
@@ -33,8 +33,15 @@ describe, tweak and hand off to code. Photoshop brings painting, selections, adj
 history. Figma brings components, auto layout, variables, prototypes and working together. Agents stay the
 wedge: every new feature is also an API and MCP tool on the day it ships.
 
+### Gaps, round two (docs/STRATEGY.md, one per tick between versions)
+- [ ] Find distractions: critique flags stray marks, empty parts and parts off every screen; one tap removes them.
+- [ ] Harmonize: a part dropped on a screen takes that screen's box style, ink and paper.
+- [ ] Describe into a selection: marquee an area and type what goes there.
+- [ ] Notes Claude acts on: a note addressed to Claude is read by Describe it and resolved when done.
+- [ ] PowerPoint export: the deck as a .pptx.
+- [ ] Live code parts: a part that runs a small sandboxed HTML snippet in the real look.
+
 ### Era 4: Photoshop, paint with characters (31 to 40)
-- [ ] **v41 Actions.** Record a few steps and replay them on any selection or screen.
 - [ ] **v42 Heal and expand.** Delete a part and the lines behind it close up. Grow the canvas and tables and lists carry on.
 
 ### Era 5: Figma, components and layout (41 to 50)
@@ -53,7 +60,7 @@ wedge: every new feature is also an API and MCP tool on the day it ships.
 - [ ] **v53 Hotspots.** Mark a button and choose the screen it opens.
 - [ ] **v54 Play mode.** Click through linked screens like a real app.
 - [ ] **v55 Live parts.** Checkboxes tick, tabs switch and fields take typing while you play.
-- [ ] **v56 Transitions.** Push, sheet and fade between screens.
+- [ ] **v56 Transitions.** Push, sheet and fade between screens, plus Motion: a part keyframed across screens.
 - [ ] **v57 Prototype links.** Share a playable prototype with one link.
 - [ ] **v58 Flow map.** Every screen and link on one map, drawn for you.
 - [ ] **v59 Present.** Play a prototype full screen, step by step, for a meeting.
@@ -99,7 +106,7 @@ wedge: every new feature is also an API and MCP tool on the day it ships.
 ### Era 10: the hundred (91 to 100)
 - [ ] **v93 Gallery.** Publish a screen, browse what others made, remix any of it into your project.
 - [ ] **v94 Lessons.** Learn layout by doing, inside the app.
-- [ ] **v95 Plugins.** A small, sandboxed plugin API and a directory to find them.
+- [ ] **v95 Plugins.** A small, sandboxed plugin API and a directory to find them. Describe a plugin and it is written for you.
 - [ ] **v96 Scripts.** Draw with a few lines of JavaScript.
 - [ ] **v97 Huge canvases.** Smooth at 10,000 by 10,000 cells. A viewport-sized canvas, so big grids stay sharp too (a 500 by 500 grid draws soft today: its backing store is capped under Safari's limit).
 - [ ] **v98 Sites.** Publish a set of screens as a real, working web page.

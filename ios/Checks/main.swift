@@ -341,5 +341,6 @@ runRealChecks()
 runMaskChecks()
 runBlendChecks()
 runHistoryChecks()
+runActionChecks()
 
 print("ok — \(checks) checks passed")

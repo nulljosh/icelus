@@ -112,7 +112,7 @@ struct ContentView: View {
                         onStep: { el, up in step(el, up: up) })
         }
         .sheet(isPresented: $showingHistory) {
-            HistorySheet(state: $state, onChange: { selectedId = nil; persist() })
+            HistorySheet(state: $state, targets: playTargets, onChange: { selectedId = nil; persist() }, onPlay: persist)
         }
         .onChange(of: session) { SessionStore.save(session) }
         .sheet(isPresented: $showingAccount) {

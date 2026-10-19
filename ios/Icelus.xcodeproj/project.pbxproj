@@ -23,6 +23,7 @@
 		5685E8846049CF92EDCCEB66 /* Code.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F5D87144ABF2C8E7E52120 /* Code.swift */; };
 		56C2371FE9D859BF349036D1 /* Brush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0160D1888F08A01EBF0D54 /* Brush.swift */; };
 		63C855E517FA0571303DA09F /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AB84827DB3AAE3C5A2D8E08E /* Localizable.xcstrings */; };
+		67301F8C194AA2C7BFE6274C /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8486456F46744CFE0E98E96B /* Actions.swift */; };
 		6A5E458D48148D2B9E021237 /* ContentView+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF56DC18085F313BA6ED380D /* ContentView+Actions.swift */; };
 		6AFDDFC2C755D8C40049B997 /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4D1BF3518E566E0218FC21 /* Intents.swift */; };
 		740E861DAF72093385A3540E /* Real.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E6246E96397273B086EDFD /* Real.swift */; };
@@ -77,6 +78,7 @@
 		70F5D87144ABF2C8E7E52120 /* Code.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code.swift; sourceTree = "<group>"; };
 		725719DC47ECE7175907E74D /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		7BD1C43C57601DE2743786E0 /* ReviewSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSheet.swift; sourceTree = "<group>"; };
+		8486456F46744CFE0E98E96B /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		879B44EFB8FEC71630884A00 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		8E1BA5C1AA0F00AB6EB87226 /* Lines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lines.swift; sourceTree = "<group>"; };
 		9100DA6A23FBF1C9B026AE16 /* RealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealView.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			children = (
 				F89D7CCF85DF259CB1256554 /* Account.swift */,
 				B0D528D271C7A7EFF4B44177 /* AccountSheet.swift */,
+				8486456F46744CFE0E98E96B /* Actions.swift */,
 				95260F9B1A1864439BC31E3D /* Assets.xcassets */,
 				1C0160D1888F08A01EBF0D54 /* Brush.swift */,
 				B98DC5AC64DFE409A1E386DD /* CanvasView.swift */,
@@ -277,6 +280,7 @@
 			files = (
 				832FE736793C8B78085C49D7 /* Account.swift in Sources */,
 				CE9F4BD3B8C5C9AE684FBB8E /* AccountSheet.swift in Sources */,
+				67301F8C194AA2C7BFE6274C /* Actions.swift in Sources */,
 				56C2371FE9D859BF349036D1 /* Brush.swift in Sources */,
 				D50E2FDCB15BD6BBE878A0D1 /* CanvasView.swift in Sources */,
 				45B3213F3D750D367ACF3010 /* CaptureSheet.swift in Sources */,

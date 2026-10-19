@@ -113,6 +113,7 @@ export function createState(cols = DEFAULT_COLS, rows = DEFAULT_ROWS) {
     elements: [],
     selectedId: null,
     snapshots: [],
+    actions: [],
   };
 }
 

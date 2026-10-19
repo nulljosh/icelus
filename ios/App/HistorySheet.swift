@@ -2,9 +2,12 @@ import SwiftUI
 
 /// The History sheet: snapshots on top, then every step by name, newest first. Tap a step to jump there;
 /// steps after it stay redoable (dimmed) until the next edit. A port of src/components/HistoryList.jsx.
+/// Actions: Record closes the sheet so you can edit; open it again to stop, then Play replays on the selection.
 struct HistorySheet: View {
     @Binding var state: EditorState
+    let targets: [String]
     let onChange: () -> Void
+    let onPlay: () -> Void
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -25,6 +28,26 @@ struct HistorySheet: View {
                     Button("Take Snapshot") { state.snapshots = takeSnapshot(state.snapshots, state.elements); onChange() }
                         .foregroundStyle(Theme.accent)
                 }
+                Section("Actions") {
+                    ForEach(state.actions.indices, id: \.self) { i in
+                        HStack(spacing: 12) {
+                            TextField("Action name", text: Binding(get: { state.actions[i].name },
+                                                                  set: { state.actions[i].name = String($0.prefix(60)) }))
+                                .onSubmit { state.actions[i].name = cleanActionName(state.actions[i].name, i + 1); onChange() }
+                            Button { play(i) } label: { Image(systemName: "play.fill") }
+                                .buttonStyle(.borderless).foregroundStyle(Theme.accent).disabled(targets.isEmpty)
+                                .accessibilityLabel("Play on selection")
+                        }
+                    }
+                    .onDelete { state.actions.remove(atOffsets: $0); onChange() }
+                    if let from = state.recording {
+                        Button("Stop Recording (\(recordAction(state, from: from).steps.count) steps)") { stop(from) }
+                            .foregroundStyle(Theme.accent).fontWeight(.semibold)
+                    } else {
+                        Button("Record Action") { state.recording = state.history.count; dismiss() }
+                            .foregroundStyle(Theme.accent)
+                    }
+                }
                 Section("Steps") {
                     ForEach(steps, id: \.offset) { i, step in
                         Button { state.goToStep(i); onChange() } label: {
@@ -44,6 +67,22 @@ struct HistorySheet: View {
             .navigationTitle("History")
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { onChange(); dismiss() } } }
         }
+    }
+
+    private func stop(_ from: Int) {
+        let made = recordAction(state, from: from, count: state.actions.count)
+        state.recording = nil
+        if !made.steps.isEmpty { state.actions = saveAction(state.actions, made) }
+        onChange()
+    }
+
+    private func play(_ i: Int) {
+        let out = playAction(state.elements, state.actions[i].steps, ids: targets, cols: state.cols, rows: state.rows)
+        guard out != state.elements else { return }
+        state.pushHistory()
+        state.elements = out
+        onPlay()
+        dismiss()
     }
 
     private func restore(_ i: Int) {

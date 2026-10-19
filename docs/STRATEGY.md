@@ -53,6 +53,26 @@ Sources: [AlternativeTo on Monodraw](https://alternativeto.net/software/monodraw
 [Claude Design launch coverage](https://noqta.tn/en/news/anthropic-claude-design-tool-figma-canva-2026),
 [2026 wireframing roundup](https://www.banani.co/blog/best-wireframing-tools).
 
+## Gaps to close, round two (research 2026-10-19, after v41)
+What the three inspirations shipped in 2026 that the roadmap did not cover yet, cheapest first. Each is one tick.
+
+1. Find distractions (Photoshop 2026 Remove): critique flags stray paint marks, empty parts and parts off every screen; one tap removes them.
+2. Harmonize (Photoshop): a part dropped on a screen takes on that screen's box style, ink and paper.
+3. Describe into a selection (Photoshop Generative Fill, Claude Design inline edits): marquee an area, type what goes there.
+4. Notes Claude acts on (Claude Design comments): a note addressed to Claude is read by Describe it and resolved when done.
+5. PowerPoint export (Claude Design exports PPTX): the deck as a .pptx, one slide a screen.
+6. Motion (Figma Motion, open beta): a part keyframed across linked screens, played in play mode. Folds into v56.
+7. Live code parts (Figma code layers, beta): a part that runs a small sandboxed HTML snippet in the real look.
+8. Describe a plugin (Figma generative plugins): folds into v95.
+
+Already level: inline sliders (v21 tweaks), design system from code and checks against it (v24, v23), handoff bundle to Claude Code (v27),
+standalone HTML (v28), decks and PDF (v29), history and actions (v40, v41). Skipped on purpose: shaders, 3D transforms and AI upscale,
+which mean nothing on a character grid.
+
+Sources: [Claude Design June update](https://pureai.com/articles/2026/06/17/anthropic-overhauls-claude-design.aspx),
+[Claude Design review](https://www.banani.co/blog/claude-design-review), [Figma Config 2026](https://www.cmswire.com/digital-experience/figma-launches-code-layers-motion-at-config-2026/),
+[Config 2026 recap](https://dev.classmethod.jp/en/articles/figma-config-2026-recap/), [Photoshop 2026 overview](https://photoshopcafe.com/whats-new-in-photoshop-2026-full-release-overview/).
+
 ## The monopoly plan
 
 Own the plain-text screen format, the way Markdown owns plain-text documents.
@@ -95,7 +115,7 @@ Photoshop is layers, colour and brushes. On a character grid that means (the rea
 - Color (v34): ink and paper from the 16 terminal colors; plain-text copy stays colourless.
 - Layers (v17) with hide, lock, reorder. Adjustment layers (v35): invert, dim, ASCII only, box style.
 - Shading and braille fills (v20): block, shade and braille characters turn an image into text art.
-- Brush and eraser (v31), selections (v32), gradients (v33) are shipped. Next: masks (v38), blend modes, history, actions, heal.
+- Brush and eraser (v31), selections (v32), gradients (v33) are shipped. Masks (v38), blend modes (v39), history (v40) and actions (v41) are shipped. Next: heal and expand (v42).
 - PNG and SVG export (v73) for decks and print.
 
 ## This month

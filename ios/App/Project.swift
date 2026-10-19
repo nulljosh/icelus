@@ -8,6 +8,7 @@ func serializeProject(_ state: EditorState) -> String {
     if !state.snapshots.isEmpty {
         project["snapshots"] = state.snapshots.map { ["name": $0.name, "elements": $0.elements.map(elementJSON)] as [String: Any] }
     }
+    if !state.actions.isEmpty { project["actions"] = state.actions.map(actionJSON) }
     guard let data = try? JSONSerialization.data(withJSONObject: project, options: [.sortedKeys]) else { return "" }
     return String(data: data, encoding: .utf8) ?? ""
 }
@@ -96,5 +97,6 @@ func parseProject(_ json: String) -> EditorState? {
         if let old = el["clip"] as? String, let id = ids[old], id != fresh[i] { state.elements[i].clip = id }
     }
     state.snapshots = parseSnapshots(project["snapshots"])
+    state.actions = parseActions(project["actions"])
     return state
 }

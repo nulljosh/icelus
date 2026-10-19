@@ -1,6 +1,6 @@
 # Icelus
 
-v40.0.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
+v41.0.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
 like Figma or Photoshop, and underneath every screen is text on a character grid that pastes anywhere. Web (Vite + React 19) at icelus.jaybulb.com, native SwiftUI for
 iPhone, iPad and Mac (ASC app 6794988951, $0.99), plus a Watch app and a terminal companion.
 
@@ -23,7 +23,7 @@ Ex-Charwork, ex-Wiretext, ex-Blockframe, ex-Blockprint, ex-Glyphic, ex-Glyphbox,
 npm install && npm run dev        # :5173
 npm test && npm run build
 npm run build && npx wrangler pages deploy   # a push deploys nothing; ships the app and landing/ together
-swiftc -o /tmp/wtcheck ios/App/Engine.swift ios/App/Lines.swift ios/App/Shapes.swift ios/App/Presets.swift ios/App/Syntax.swift ios/App/Photo.swift ios/App/Palette.swift ios/App/HTML.swift ios/App/Import.swift ios/App/Tweaks.swift ios/App/Critique.swift ios/App/Tutorial.swift ios/App/Account.swift ios/App/Handoff.swift ios/App/Code.swift ios/App/Deck.swift ios/App/Brush.swift ios/App/Select.swift ios/App/Gradient.swift ios/App/Color.swift ios/App/Real.swift ios/App/Mask.swift ios/App/History.swift ios/App/Project.swift ios/Checks/*.swift && /tmp/wtcheck
+swiftc -o /tmp/wtcheck ios/App/Engine.swift ios/App/Lines.swift ios/App/Shapes.swift ios/App/Presets.swift ios/App/Syntax.swift ios/App/Photo.swift ios/App/Palette.swift ios/App/HTML.swift ios/App/Import.swift ios/App/Tweaks.swift ios/App/Critique.swift ios/App/Tutorial.swift ios/App/Account.swift ios/App/Handoff.swift ios/App/Code.swift ios/App/Deck.swift ios/App/Brush.swift ios/App/Select.swift ios/App/Gradient.swift ios/App/Color.swift ios/App/Real.swift ios/App/Mask.swift ios/App/History.swift ios/App/Project.swift ios/App/Actions.swift ios/Checks/*.swift && /tmp/wtcheck
 ```
 
 Mac build check (no signing, run in the background, never next to another heavy job):
@@ -50,11 +50,12 @@ file is `{blockprint: 1, cols, rows, elements}` (the old key stays so every save
 - `ios/App/Store.swift`: autosaves project.json in Application Support
 - Languages: web strings in `src/i18n.js` (English) and `src/locales/*.json`; the apps' `ios/App/Localizable.xcstrings`
   is built from those plus `ios/strings.json` by `python3 tools/strings.py`. Never edit the catalog by hand.
-- `watchos/` builds from the iOS Engine, Lines, Shapes, Mask, History, Project, Presets, Store and Theme files (see its project.yml); `tui/`
-  symlinks Engine, Lines, Shapes, Mask, History, Project and Presets. One engine, four apps.
+- `watchos/` builds from the iOS Engine, Lines, Shapes, Mask, History, Project, Actions, Presets, Store and Theme files (see its project.yml); `tui/`
+  symlinks Engine, Lines, Shapes, Mask, History, Project, Actions and Presets. One engine, four apps.
 - `src/lib/mask.js` + `ios/App/Mask.swift`: masks (v38). A crop (`mask` insets) or a clip to another part (`clip` id) turns hidden cells into holes at draw time; the template is never cut
 - `lands()` in `src/lib/lines.js` + `Mask.swift`: blend modes (v39). One rule for whether a part's character lands on a cell (join, over, under, knockout), shared by drawing, accent and color so all three agree
 - `src/lib/history.js` + `ios/App/History.swift`: history (v40). `stepName` names each undo step from the element diff, `goToStep` is undo or redo repeated, snapshots (`{name, elements}`, at most 20) live in the project file and are parsed like a project of their own. `HistoryList.jsx` and `HistorySheet.swift` draw it
+- `src/lib/actions.js` + `ios/App/Actions.swift`: actions (v41). Record marks the undo position; Stop turns each step since then into a relative step (`actionStep`, built on `stepName`); `playAction` replays them on the selected parts. At most 20 actions of 50 steps, in the project file, shown in the History panel
 - `ios/Checks/main.swift`: the JS tests as plain asserts
 - `landing/`: the landing page (static, no build step of its own; `npm run build` copies it to `dist/` and `wrangler pages deploy` publishes it with the app), which embeds the real app at `/app/?demo` (no storage writes), and the ad
   (`landing/ad/`, rebuilt with `tools/ad-capture.mjs`, `ad-audio.py`, `ad-music.py`)

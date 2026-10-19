@@ -4,12 +4,14 @@ import { cleanNote } from './shapes.js';
 import { maxOf } from './extent.js';
 import { cleanColor } from './color.js';
 import { cleanMask } from './mask.js';
+import { cleanActions } from './actions.js';
 
 // The project file, the same JSON on every platform (ios/App/Project.swift is the twin). engine.js re-exports both.
-// A project file is the element list, the canvas size and any named snapshots (history.js).
+// A project file is the element list, the canvas size, any named snapshots (history.js) and actions (actions.js).
 export function serializeProject(state) {
   return JSON.stringify({ blockprint: 1, cols: state.cols, rows: state.rows, elements: state.elements,
-    ...(state.snapshots?.length && { snapshots: state.snapshots.map(s => ({ name: s.name, elements: s.elements })) }) });
+    ...(state.snapshots?.length && { snapshots: state.snapshots.map(s => ({ name: s.name, elements: s.elements })) }),
+    ...(state.actions?.length && { actions: state.actions }) });
 }
 
 export function parseProject(json) {
@@ -63,5 +65,6 @@ export function parseProject(json) {
     .filter(s => s && Array.isArray(s.elements)).slice(-20)
     .map((s, i) => ({ name: String(typeof s.name === 'string' ? s.name : '').trim().slice(0, 60) || `Snapshot ${i + 1}`,
       elements: parseProject(JSON.stringify({ elements: s.elements })).elements }));
-  return { cols, rows, elements, ...(snapshots.length && { snapshots }) };
+  const actions = cleanActions(data.actions);
+  return { cols, rows, elements, ...(snapshots.length && { snapshots }), ...(actions.length && { actions }) };
 }

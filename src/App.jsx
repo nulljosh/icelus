@@ -10,6 +10,7 @@ import Present from './components/Present.jsx';
 import BrushBar from './components/BrushBar.jsx';
 import ChatPanel from './components/ChatPanel.jsx';
 import HistoryList from './components/HistoryList.jsx';
+import { recordAction, saveAction, playAction, cleanActionName } from './lib/actions.js';
 import { maxOf } from './lib/extent.js';
 import SelectBar from './components/SelectBar.jsx';
 import { paint, paintMarks, erase } from './lib/brush.js';
@@ -237,7 +238,7 @@ function reducer(state, action) {
     case 'LOAD': {
       const elements = action.elements;
       return {
-        ...pushHistory(state), cols: action.cols, rows: action.rows, elements, snapshots: action.snapshots ?? state.snapshots,
+        ...pushHistory(state), cols: action.cols, rows: action.rows, elements, snapshots: action.snapshots ?? state.snapshots, actions: action.actions ?? state.actions, recording: null,
         grid: renderElements(elements, action.cols, action.rows), selectedId: null, selectedPreset: null,
       };
     }
@@ -263,6 +264,32 @@ function reducer(state, action) {
 
     case 'DELETE_SNAPSHOT':
       return { ...state, snapshots: state.snapshots.filter((_, i) => i !== action.index) };
+
+    // Actions (actions.js): recording marks where it started; stop turns the steps since then into an action.
+    case 'RECORD_ACTION':
+      return { ...state, recording: state.history.length };
+
+    case 'STOP_ACTION': {
+      if (state.recording == null) return state;
+      const made = recordAction(state, state.recording, action.name, state.actions?.length ?? 0);
+      return { ...state, recording: null, actions: made.steps.length ? saveAction(state.actions, made) : state.actions };
+    }
+
+    case 'PLAY_ACTION': {
+      const act = state.actions?.[action.index];
+      const ids = state.picked?.length ? state.picked : state.selectedId ? [state.selectedId] : [];
+      if (!act || !ids.length) return state;
+      const elements = playAction(state.elements, act.steps, ids, state.cols, state.rows);
+      if (elements === state.elements) return state;
+      return { ...pushHistory(state), elements, grid: renderElements(elements, state.cols, state.rows),
+        selectedId: elements.some(el => el.id === state.selectedId) ? state.selectedId : null };
+    }
+
+    case 'RENAME_ACTION':
+      return { ...state, actions: state.actions.map((a, i) => (i === action.index ? { ...a, name: cleanActionName(action.name, i + 1) } : a)) };
+
+    case 'DELETE_ACTION':
+      return { ...state, actions: state.actions.filter((_, i) => i !== action.index) };
 
     case 'RESTORE_SNAPSHOT': {
       const snap = state.snapshots?.[action.index];
@@ -356,7 +383,7 @@ function initialState() {
     // A doc that no longer parses is set aside before the first autosave can overwrite it.
     if (raw && !saved) localStorage.setItem(`${DOC_KEY}-unreadable`, raw);
     if (saved && saved.elements.length) {
-      return { ...base, cols: saved.cols, rows: saved.rows, elements: saved.elements, snapshots: saved.snapshots ?? [],
+      return { ...base, cols: saved.cols, rows: saved.rows, elements: saved.elements, snapshots: saved.snapshots ?? [], actions: saved.actions ?? [],
         grid: renderElements(saved.elements, saved.cols, saved.rows) };
     }
   } catch { /* private mode or blocked storage: start blank */ }
@@ -507,7 +534,7 @@ export default function App() {
   useEffect(() => {
     if (DEMO) return;
     try { localStorage.setItem(DOC_KEY, serializeProject(state)); } catch { /* storage full or blocked */ }
-  }, [state.elements, state.cols, state.rows, state.snapshots]);
+  }, [state.elements, state.cols, state.rows, state.snapshots, state.actions]);
 
   useEffect(() => {
     if (DEMO) return;
@@ -692,14 +719,14 @@ export default function App() {
     copy(source, skipped.length ? t('copied_lines_skipped', { n: skipped.length }) : t('copied_lines'));
   }, [copy, state.elements]);
   const handleShareLink = useCallback(() => {
-    encodeShare(serializeProject({ ...state, snapshots: null })).then(code => {
+    encodeShare(serializeProject({ ...state, snapshots: null, actions: null })).then(code => {
       copy(`${window.location.origin}${window.location.pathname}#p=${code}`, t('share_copied'));
     });
   }, [state, copy]);
 
   // An iframe of the read-only embed page, sized to the sketch (14px monospace, line height 1, 16px padding).
   const handleEmbed = useCallback(() => {
-    encodeShare(serializeProject({ ...state, snapshots: null })).then(code => {
+    encodeShare(serializeProject({ ...state, snapshots: null, actions: null })).then(code => {
       const right = Math.max(10, ...state.elements.map(el => el.col + el.width));
       const bottom = Math.max(2, ...state.elements.map(el => el.row + el.height));
       const width = Math.ceil(right * 8.5 + 32), height = Math.ceil(bottom * 14 + 32 + 26);

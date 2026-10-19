@@ -7,6 +7,9 @@ import ImageIO
 import UniformTypeIdentifiers
 
 extension ContentView {
+    /// What an action plays on: the picked parts, or the selected one.
+    var playTargets: [String] { picked.isEmpty ? selectedId.map { [$0] } ?? [] : picked }
+
     // MARK: - Actions
 
     /// Erase removes the element under the tap, a palette pick places one, otherwise the tap selects.

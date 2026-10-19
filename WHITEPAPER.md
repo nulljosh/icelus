@@ -1,6 +1,6 @@
 # Icelus Technical Whitepaper
 
-**v40.0.0** | October 2026
+**v41.0.0** | October 2026
 
 Icelus is a design tool for screens, for people and agents. You describe a screen in a sentence and it
 draws, or you stamp parts yourself, then edit it like a design tool: real controls on artboards, a brush,
@@ -14,7 +14,7 @@ terminal.
 A project is a canvas size and a list of elements, each a small template of characters at a cell:
 `{"blockprint": 1, "cols": 100, "rows": 50, "elements": [{"presetId": "button", "template": ["[ OK ]"], "col": 2, "row": 1, …}]}`.
 `renderElements` stamps them in order, so list order is the z-index. Every edit is a pure function that returns
-a new list, which makes undo a stack of 50 lists. The History panel names each step by diffing two neighbouring lists (added, deleted, moved or edited parts), and a jump is undo or redo repeated, so nothing new is stored. Snapshots are named lists saved in the project file. `resizeTemplate` stretches the middle of a box and keeps its
+a new list, which makes undo a stack of 50 lists. The History panel names each step by diffing two neighbouring lists (added, deleted, moved or edited parts), and a jump is undo or redo repeated, so nothing new is stored. Snapshots are named lists saved in the project file. An action is the same diff read the other way: each step since Record becomes a move, a property change, new text, a size or a delete, relative to the part it touched, so it replays on any other part. `resizeTemplate` stretches the middle of a box and keeps its
 corners and borders, so a wider button is still a button. Export is the grid as lines: plain text, fenced
 Markdown, plain ASCII, typed lines, HTML, a PNG, or the project file.
 

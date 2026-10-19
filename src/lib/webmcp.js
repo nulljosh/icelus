@@ -153,6 +153,27 @@ export function buildTools(get) {
       },
     },
     {
+      name: 'record_action',
+      description: 'Start recording an action; the edits that follow are its steps. stop: true saves them as a named action in the project file.',
+      inputSchema: { type: 'object', properties: { stop: { type: 'boolean' }, name: { type: 'string' } } },
+      execute: async ({ stop = false, name = '' }) => { get().dispatch({ type: stop ? 'STOP_ACTION' : 'RECORD_ACTION', name }); return { ok: true }; },
+    },
+    {
+      name: 'play_action',
+      description: 'Replay a saved action by name on the selected parts (one step of undo). With no name, lists the actions and their steps.',
+      inputSchema: { type: 'object', properties: { name: { type: 'string' } } },
+      execute: async ({ name }) => {
+        const { state, dispatch } = get();
+        const actions = state.actions ?? [];
+        if (name === undefined) return { actions };
+        const index = actions.findIndex(a => a.name === name);
+        if (index < 0) return { error: `no action named ${name}` };
+        if (!state.picked?.length && !state.selectedId) return { error: 'select a part first' };
+        dispatch({ type: 'PLAY_ACTION', index });
+        return { ok: true };
+      },
+    },
+    {
       name: 'paint',
       description: 'Paint a freehand stroke through [col, row] points with one character, 1 to 5 cells wide. One step of undo. erase: true clears painted cells instead.',
       inputSchema: { type: 'object', properties: { points: { type: 'array', items: { type: 'array', items: NUM } }, size: NUM, char: { type: 'string' }, erase: { type: 'boolean' } }, required: ['points'] },

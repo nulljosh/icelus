@@ -1,6 +1,6 @@
 <img src="icon.svg" width="80" alt="Icelus">
 
-![version](https://img.shields.io/badge/version-v40.0.0-blue)
+![version](https://img.shields.io/badge/version-v41.0.0-blue)
 ![license](https://img.shields.io/badge/license-Apache%202.0-green)
 
 A design tool for screens, built for people and agents. Describe a screen in a sentence and it draws, then edit it like you would in Figma or Photoshop: real buttons, fields and switches on artboards, a brush, selections, gradients, color and adjustment layers.
@@ -33,6 +33,7 @@ Formerly Glyphbox. Same app, same files, new name.
 - Masks: crop a part, or clip it to the shape of another, without cutting a single character
 - Blend modes: join the lines, draw over, fill only empty cells, or knock out
 - History: every step by name, tap one to go back, and named snapshots that save with the project
+- Actions: record a few edits once, then play them on any part or screen
 - Agent kit: MCP resources (syntax, parts, worked examples) and prompts to sketch, review and build ([docs/EXAMPLES.md](docs/EXAMPLES.md))
 - Three takes on any screen side by side (stacked, split, dense), then keep the one you like
 - Tweak a screen with live knobs: spacing, padding and one box style for every box
