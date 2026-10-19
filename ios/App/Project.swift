@@ -41,6 +41,7 @@ private func elementJSON(_ e: Element) -> [String: Any] {
     if let m = e.mask { el["mask"] = ["top": m.top, "right": m.right, "bottom": m.bottom, "left": m.left] }
     if let clip = e.clip { el["clip"] = clip }
     if let blend = e.blend { el["blend"] = blend }
+    if let auto = e.auto { el["auto"] = ["gap": auto.gap, "pad": auto.pad] }
     return el
 }
 
@@ -94,6 +95,7 @@ func parseProject(_ json: String) -> EditorState? {
     for (i, el) in valid.enumerated() { // masks keep pointing at the clip part's new id
         state.elements[i].mask = cleanMask(el["mask"])
         state.elements[i].blend = cleanBlend(el["blend"])
+        if state.elements[i].presetId == "screen" { state.elements[i].auto = cleanAuto(el["auto"]) }
         if let old = el["clip"] as? String, let id = ids[old], id != fresh[i] { state.elements[i].clip = id }
     }
     state.snapshots = parseSnapshots(project["snapshots"])

@@ -90,7 +90,11 @@ struct EditorState {
     private(set) var cols: Int
     private(set) var rows: Int
     var elements: [Element] = [] {
-        didSet { grid = renderElements(elements, cols: cols, rows: rows) }
+        didSet { // restack auto-layout screens (Layout.swift); this assignment does not call didSet again
+            let laid = autoLayout(oldValue, elements)
+            if laid != elements { elements = laid }
+            grid = renderElements(elements, cols: cols, rows: rows)
+        }
     }
     private(set) var grid: Grid
     private(set) var history: [[Element]] = []
@@ -187,6 +191,7 @@ struct Element: Equatable, Identifiable {
     var clip: String? = nil
     /// How the part meets what is under it (Lines.swift blends): over, under or knockout; nil joins lines.
     var blend: String? = nil
+    var auto: AutoLayout? = nil // a screen's auto layout (Layout.swift)
 }
 
 private var nextElementId = 1

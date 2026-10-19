@@ -155,7 +155,7 @@ struct ContentView: View {
         return dragTarget(id, drag)
     }
 
-    /// Where a dragged part lands: moved by the drag, then snapped to the other parts' edges and centres.
+    /// Where a dragged part lands: moved, then snapped to other parts' edges and centres.
     func dragTarget(_ id: String, _ d: (col: Int, row: Int)) -> (elements: [Element], cols: [Int], rows: [Int]) {
         let nudged = nudgeElement(state.elements, id: id, dCol: d.col, dRow: d.row, cols: state.cols, rows: state.rows)
         guard (d.col, d.row) != (0, 0), let el = nudged.first(where: { $0.id == id }) else { return (nudged, [], []) }
@@ -165,7 +165,7 @@ struct ContentView: View {
 
     var canvas: some View {
         let shown = shown
-        // In the real look the grid holds only the parts that stay characters; RealLayerView draws the rest.
+        // Real look: the grid keeps only character parts; RealLayerView draws the rest.
         let drawn = look == "real" ? shown.elements.filter { realPart($0) == nil } : shown.elements
         return ScrollView([.horizontal, .vertical]) {
             CanvasView(
@@ -193,7 +193,7 @@ struct ContentView: View {
             .padding(20)
         }
         .background(Theme.background)
-        // Pinch (touch or trackpad) zooms by font size, the same as the zoom buttons.
+        // Pinch zooms by font size, like the zoom buttons.
         .simultaneousGesture(MagnifyGesture()
             .onChanged { value in
                 if pinchStart == nil { pinchStart = fontSize }
@@ -258,7 +258,8 @@ struct ContentView: View {
                 if noteDraft != (el.note ?? "") { toolButton("Save note", systemImage: "note.text", enabled: true) { setNote(el, noteDraft) } }
                 if el.note != nil { toolButton("Resolve", systemImage: "checkmark.circle", enabled: true) { setNote(el, ""); noteDraft = "" } }
                 if el.presetId == "screen" {
-                    let now = screenTweaks(state.elements, el)
+                    Toggle("Auto layout", isOn: autoBinding(el)).fixedSize()
+                    let now = knobs(el)
                     Stepper("Spacing \(now.spacing)", onIncrement: { tweak(el, spacing: now.spacing + 1) },
                             onDecrement: { tweak(el, spacing: now.spacing - 1) })
                         .fixedSize()
@@ -319,7 +320,7 @@ struct ContentView: View {
         .background(Theme.background)
     }
 
-    /// Arrow keys nudge the selection, Shift for 5, as on the web. Invisible buttons carry the shortcuts.
+    /// Arrow keys nudge, Shift for 5. Invisible buttons carry the shortcuts.
     func nudgeKeys(_ el: Element) -> some View {
         ZStack {
             ForEach(Self.arrows, id: \.key.character) { a in

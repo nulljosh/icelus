@@ -344,5 +344,6 @@ runHistoryChecks()
 runActionChecks()
 runHealChecks()
 runDistractionChecks()
+runLayoutChecks()
 
 print("ok — \(checks) checks passed")

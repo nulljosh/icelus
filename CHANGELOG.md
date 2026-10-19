@@ -4,6 +4,7 @@ Icelus was called Charwork, Wiretext, Blockframe, Blockprint, Glyphic and Glyphb
 ships on the web, iPhone, iPad and Mac unless it says otherwise.
 
 ## 2026-10-19
+- **43.0.0** Auto layout. Turn it on for a screen and its parts stay stacked with an even gap and padding. Make some text longer and everything below moves down; delete a part and the rest closes up; drag one to reorder. The screen grows and shrinks to fit.
 - **42.2.0** Harmonize. Drop a part on a screen and it takes on the look the parts there share: the same box style, ink and paper. A part with its own color keeps it.
 - **42.1.0** Find distractions. Check now flags stray painted marks and parts that show nothing, and Remove distractions clears them in one tap. Arrows through a removed part join up.
 - **42.0.0** Heal and expand. Delete a box in the middle of a flow and the arrows on either side join up. Add a row to a table or an item to a list and it carries the pattern on: Item 3 then Item 4, Mon then Tue.

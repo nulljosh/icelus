@@ -12,6 +12,7 @@ import ChatPanel from './components/ChatPanel.jsx';
 import HistoryList from './components/HistoryList.jsx';
 import { recordAction, saveAction, playAction, cleanActionName } from './lib/actions.js';
 import { harmonize } from './lib/heal.js';
+import { autoLayout } from './lib/layout.js';
 import { maxOf } from './lib/extent.js';
 import SelectBar from './components/SelectBar.jsx';
 import { paint, paintMarks, erase } from './lib/brush.js';
@@ -49,7 +50,15 @@ function fitCanvas(state, elements) {
   return { cols: Math.min(500, Math.max(state.cols, right + 2)), rows: Math.min(500, Math.max(state.rows, bottom + 2)) };
 }
 
+// Every edit restacks the screens with auto layout on (layout.js). Undo and redo land on states already laid out.
 function reducer(state, action) {
+  const next = edit(state, action);
+  if (next.elements === state.elements || ['UNDO', 'REDO', 'GO_TO_STEP'].includes(action.type)) return next;
+  const elements = autoLayout(state.elements, next.elements);
+  return elements === next.elements ? next : { ...next, elements, grid: renderElements(elements, next.cols, next.rows) };
+}
+
+function edit(state, action) {
   switch (action.type) {
     case 'SELECT_PRESET':
       return { ...state, selectedPreset: action.preset };

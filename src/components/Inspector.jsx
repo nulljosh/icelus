@@ -33,10 +33,18 @@ function NoteField({ element, onUpdate }) {
 
 // A screen's live knobs: drag spacing or padding and the screen restacks; one style for every box in it.
 function Tweaks({ element, elements, onUpdate }) {
-  const now = screenTweaks(elements, element);
-  const tweak = changes => onUpdate(element.id, { tweak: changes });
+  const now = element.auto ? { spacing: element.auto.gap, padding: element.auto.pad } : screenTweaks(elements, element);
+  // With auto layout on, the knobs are the stack's own gap and padding, kept on the screen (layout.js).
+  const tweak = changes => (element.auto && changes.style === undefined
+    ? onUpdate(element.id, { auto: { gap: changes.spacing ?? now.spacing, pad: changes.padding ?? now.padding } })
+    : onUpdate(element.id, { tweak: changes }));
   return (
     <>
+      <div className="inspector-row">
+        <label className="inspector-key" htmlFor="auto-layout">{t('auto_layout')}</label>
+        <input id="auto-layout" type="checkbox" className="inspector-switch" checked={Boolean(element.auto)}
+          onChange={e => onUpdate(element.id, { auto: e.target.checked ? { gap: now.spacing, pad: now.padding } : null })} />
+      </div>
       {['spacing', 'padding'].map(key => (
         <div key={key} className="inspector-row">
           <label className="inspector-key" htmlFor={`tweak-${key}`}>{t(key)}</label>
