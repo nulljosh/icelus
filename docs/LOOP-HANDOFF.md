@@ -1,4 +1,4 @@
-# Icelus loop handoff (2026-10-19, afternoon)
+# Icelus loop handoff (2026-10-19, evening)
 
 ## What the loop is
 
@@ -6,7 +6,8 @@ A /loop that works `roadmap.md` top to bottom, one item per tick: build the smal
 
 ## Where things stand
 
-- v38.0.0 is live at icelus.jaybulb.com. The direction changed on 2026-10-19: Icelus is a real design tool (Figma and Photoshop with real elements) with a chat that draws a screen from a sentence. The text look is a Settings switch, not the pitch.
+- v48.0.0 is in the repo (v38.0.0 was live at icelus.jaybulb.com when this was written). Since v38 the repo has gained blend modes (v39), a history panel with named steps (v40), actions that replay edits (v41), heal and expand (v42), auto layout (v43), constraints (v44), phone, tablet and desktop sizes (v45), properties (v46), variables and modes (v47) and libraries that update linked copies (v48).
+- v38.0.0 was live at icelus.jaybulb.com. The direction changed on 2026-10-19: Icelus is a real design tool (Figma and Photoshop with real elements) with a chat that draws a screen from a sentence. The text look is a Settings switch, not the pitch.
 - v38 shipped masks: hide part of a part without cutting it, or clip one part to the shape of another. The template is never cut.
 - The landing's store links open the iPhone listing, the hero says iPhone and iPad, and the Mac card says the Mac app is coming and opens the web app.
 - Shipped this stretch, all on web and native unless noted: code export (v28), decks (v29), the agent kit with MCP resources and prompts (v30), brush and eraser (v31), selections (v32), gradients (v33), color and ANSI (v34), adjustment layers (v35), the design pass with native dark mode (v35.1), the real canvas (v36, default look, `src/lib/real.js`), and Describe it (v37, web only).
