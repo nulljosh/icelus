@@ -34,7 +34,6 @@ history. Figma brings components, auto layout, variables, prototypes and working
 wedge: every new feature is also an API and MCP tool on the day it ships.
 
 ### Era 4: Photoshop, paint with characters (31 to 40)
-- [x] **v38 Masks.** Hide part of a part without cutting it, or clip one part to the shape of another.
 - [ ] **v39 Blend modes.** Choose how overlapping characters meet: join the lines, sit over, sit under, knock out.
 - [ ] **v40 History panel.** Every step listed by name. Click one to jump back, and keep named snapshots.
 - [ ] **v41 Actions.** Record a few steps and replay them on any selection or screen.
