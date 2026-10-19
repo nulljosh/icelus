@@ -1,7 +1,7 @@
 {
   "name": "icelus",
   "license": "Apache-2.0",
-  "version": "41.0.0",
+  "version": "42.0.0",
   "description": "Sketch a screen in plain text. Pick a part, stamp it on a grid, copy it anywhere.",
   "keywords": [
     "wireframes",

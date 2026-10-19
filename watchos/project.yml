@@ -27,6 +27,7 @@ targets:
       - ../ios/App/History.swift
       - ../ios/App/Project.swift
       - ../ios/App/Actions.swift
+      - ../ios/App/Heal.swift
       - ../ios/App/Presets.swift
       - ../ios/App/Store.swift
       - ../ios/App/Theme.swift

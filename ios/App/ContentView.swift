@@ -203,15 +203,15 @@ struct ContentView: View {
     }
 
     func inspector(_ el: Element) -> some View {
-        // Scrolls sideways on a narrow iPhone rather than crushing the controls.
+        // Scrolls sideways on a narrow iPhone.
         ScrollView(.horizontal, showsIndicators: false) { HStack(spacing: 16) {
             Text(el.label).font(.headline).foregroundStyle(Theme.ink)
             Spacer()
             if el.presetId == "adjust" { adjustPicker(el) }
             if el.presetId == "table" {
-                // Its cells size a table: rows and columns instead of width and height.
+                // A table sizes by rows and columns.
                 let cells = tableCells(el.template), width = cells.map(\.count).max() ?? 1
-                Stepper("Rows \(cells.count)", onIncrement: { setCells(el, cells + [Array(repeating: "", count: width)]) },
+                Stepper("Rows \(cells.count)", onIncrement: { expand(el) },
                         onDecrement: { if cells.count > 1 { setCells(el, Array(cells.dropLast())) } })
                     .fixedSize()
                 Stepper("Columns \(width)", onIncrement: {
@@ -220,6 +220,7 @@ struct ContentView: View {
                 }, onDecrement: { if width > 1 { setCells(el, cells.map { Array($0.prefix(width - 1)) }) } })
                     .fixedSize()
             }
+            if el.presetId == "list" { toolButton("Add Item", systemImage: "plus", enabled: true) { expand(el) } }
             toolButton("Edit text", systemImage: "character.cursor.ibeam", enabled: true) { editText(el) }
             if el.presetId == "fill" {
                 Picker("Shade", selection: Binding(get: { el.template.first?.first ?? "▒" }, set: { setFill(el, $0) })) {

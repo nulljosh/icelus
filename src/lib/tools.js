@@ -15,6 +15,7 @@ import {
 import { BLENDS } from './lines.js';
 import { takeSnapshot } from './history.js';
 import { playAction, cleanStep } from './actions.js';
+import { expandChanges } from './heal.js';
 import { PRESETS as CORE, CATEGORIES as CORE_CATEGORIES, PACKS, PACK_CATEGORIES, getPreset } from './presets.js';
 
 // The core parts plus the platform packs (iOS, Material, terminal, email).
@@ -67,7 +68,7 @@ const dimensions = (args) => ({
   rows: int(args.rows, 'rows', { min: 1, max: MAX_ROWS, fallback: DEFAULT_ROWS }),
 });
 
-import { TOOLS, TOOL_NAMES, MAX_OPS } from './toolList.js';
+import { TOOLS, TOOL_NAMES, MAX_OPS, EDIT_OPS } from './toolList.js';
 export { TOOLS, TOOL_NAMES };
 
 /// Runs one tool. Throws ToolError for bad input — callers turn that into a 400 or an MCP
@@ -226,6 +227,12 @@ export function callTool(name, rawArgs) {
           if (!BLENDS.includes(op.mode)) throw new ToolError(`${at}.mode must be one of ${BLENDS.join(', ')}`);
           elements = updateElement(elements, id, { blend: op.mode });
         }
+        else if (op.op === 'expand') {
+          // A table grows by rows, a list by items, each carrying its pattern on.
+          const changes = expandChanges(elements.find(el => el.id === id), op.by === undefined ? 1 : n('by', 1, 50));
+          if (!changes) throw new ToolError(`${at} names a part that does not expand (tables and lists do)`);
+          elements = updateElement(elements, id, changes);
+        }
         else if (op.op === 'play') {
           // An action's steps on this part: by name from the project's actions, or given inline.
           const saved = typeof op.name === 'string' ? actions.find(a => a.name === op.name) : null;
@@ -238,7 +245,7 @@ export function callTool(name, rawArgs) {
           const knob = k => (op[k] === undefined ? undefined : n(k, 0, 8));
           elements = updateElement(elements, id, { tweak: { spacing: knob('spacing'), padding: knob('padding'), style: op.style } });
         } else if (op.op === 'delete') elements = deleteElement(elements, id);
-        else throw new ToolError(`${at}.op must be move, resize, text, style, tweak, note, variations, keep, delete, color, mask, blend, play, adjust, arrow, paint, erase, gradient, cut, fill, move_cells, snapshot or restore`);
+        else throw new ToolError(`${at}.op must be ${EDIT_OPS}`);
       });
       const { cols, rows } = project;
       return {

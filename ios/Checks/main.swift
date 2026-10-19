@@ -342,5 +342,6 @@ runMaskChecks()
 runBlendChecks()
 runHistoryChecks()
 runActionChecks()
+runHealChecks()
 
 print("ok — \(checks) checks passed")

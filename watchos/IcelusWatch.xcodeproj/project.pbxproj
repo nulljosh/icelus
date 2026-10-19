@@ -11,6 +11,7 @@
 		1B57F154143FE72E3E433EEF /* Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E020A050D3AEF8A6D8CE948B /* Presets.swift */; };
 		1BF3076479F0E535B60A7B48 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DC951854A8DDDD552C06CC /* PaletteView.swift */; };
 		1EBB80E0A826D96600B86663 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1D7B53255332971BBC37F65 /* Assets.xcassets */; };
+		2AE7E01E5C66FBCD8B93A2EF /* Heal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7ADA5CA9E70AF85236ABB /* Heal.swift */; };
 		3C343435C84BD74236FA2231 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EA137851A4974126E4F28A /* Project.swift */; };
 		401EFA0A3016021AC26F9DFE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F603B4585CD7B3151D1475C5 /* ContentView.swift */; };
 		4342788EE5273DA29096AF66 /* Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8736D86726F94166F3E6E2D0 /* Shapes.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		03A7ADA5CA9E70AF85236ABB /* Heal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heal.swift; sourceTree = "<group>"; };
 		14DC951854A8DDDD552C06CC /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 		247E90D4FC2E1B6B5ACB4601 /* Mask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mask.swift; sourceTree = "<group>"; };
 		272EBF037E0A8D5AB65C3C1C /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 			children = (
 				7462A3DA83B6CD153AB82F11 /* Actions.swift */,
 				CBFDCFA6ADCB7BE2F58A967F /* Engine.swift */,
+				03A7ADA5CA9E70AF85236ABB /* Heal.swift */,
 				62BC73AE896394FDEA07260B /* History.swift */,
 				8A0B86E01C3CC4E95B400A6C /* Lines.swift */,
 				247E90D4FC2E1B6B5ACB4601 /* Mask.swift */,
@@ -176,6 +179,7 @@
 				00011868AC2593F27094D1E9 /* CanvasView.swift in Sources */,
 				401EFA0A3016021AC26F9DFE /* ContentView.swift in Sources */,
 				DDD410A8587722D3DA6352A7 /* Engine.swift in Sources */,
+				2AE7E01E5C66FBCD8B93A2EF /* Heal.swift in Sources */,
 				F4A45F91A3934F34BDAA042C /* History.swift in Sources */,
 				865169F86BF775DB26F322C4 /* IcelusWatchApp.swift in Sources */,
 				6AD9B8B8B9ECBBE33CD86AF4 /* Lines.swift in Sources */,

@@ -230,8 +230,9 @@ func moveElement(_ elements: [Element], id: String, col: Int, row: Int) -> [Elem
     })
 }
 
+/// Arrows that ran through the part join up across the gap (Heal.swift).
 func deleteElement(_ elements: [Element], id: String) -> [Element] {
-    elements.filter { $0.id != id }
+    closeLines(elements, id).filter { $0.id != id }
 }
 
 /// Resize character art without stretching its text. Keep line endings and box borders.

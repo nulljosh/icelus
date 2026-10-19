@@ -103,6 +103,14 @@ extension ContentView {
         persist()
     }
 
+    /// A table's next row or a list's next item, carrying its pattern on (Heal.swift).
+    func expand(_ el: Element) {
+        guard let next = expandElement(state.elements, id: el.id) else { return }
+        state.pushHistory()
+        state.elements = next
+        persist()
+    }
+
     func setCells(_ el: Element, _ cells: [[String]]) {
         state.pushHistory()
         state.elements = updateElement(state.elements, id: el.id, cells: cells)

@@ -4,6 +4,7 @@
 
 import { FILLS, cleanNote } from './shapes.js';
 import { tweakScreen } from './tweaks.js';
+import { closeLines } from './heal.js';
 import { ADJUSTMENTS, renderElements, routeLines, shiftLine, bannerText, BOX_STYLES, screenFrame, partsInside, carry, groupMates, tableFrame, textCells, SIZED, nodeFrame, contentFrame, syncSymbol, VARIANTS, cleanBlend } from './lines.js';
 import { maxOf } from './extent.js';
 import { cleanColor } from './color.js';
@@ -195,8 +196,9 @@ export function moveElement(elements, id, col, row) {
   }));
 }
 
+// Arrows that ran through the part join up across the gap (heal.js).
 export function deleteElement(elements, id) {
-  return elements.filter(el => el.id !== id);
+  return closeLines(elements, id).filter(el => el.id !== id);
 }
 
 // Resize character art without stretching its text. Keep line endings and box borders.

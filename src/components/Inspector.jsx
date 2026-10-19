@@ -1,4 +1,5 @@
 import './Inspector.css';
+import { expandChanges } from '../lib/heal.js';
 import { useState, useEffect } from 'react';
 import { BOX_STYLES, tableCells, VARIANTS, ADJUSTMENTS } from '../lib/engine.js';
 import { FILLS, NOTE_MAX } from '../lib/shapes.js';
@@ -69,7 +70,7 @@ function TableSize({ element, onUpdate }) {
     </div>
   );
   return <>
-    {stepper('rows', cells.length, () => set(cells.slice(0, -1)), () => set([...cells, Array(width).fill('')]))}
+    {stepper('rows', cells.length, () => set(cells.slice(0, -1)), () => set(expandChanges(element).cells))}
     {stepper('columns', width, () => set(cells.map(r => r.slice(0, width - 1))),
       () => set(cells.map((r, i) => [...r, ...Array(width - r.length).fill(''), i ? '' : t('head')])))}
   </>;
@@ -154,6 +155,9 @@ export default function Inspector({
                 {FILLS.map((ch, i) => <option key={ch} value={ch}>{ch} {t(['fill_light', 'fill_medium', 'fill_dark', 'fill_solid'][i])}</option>)}
               </select>
             </div>
+          )}
+          {el.presetId === 'list' && (
+            <button type="button" className="btn history-take" onClick={() => onUpdateElement(el.id, expandChanges(el))}>{t('add_item')}</button>
           )}
           <div className="inspector-actions">
             <button className="btn" onClick={() => onDuplicate(el.id)}>{t('duplicate')}</button>

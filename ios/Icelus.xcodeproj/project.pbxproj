@@ -14,6 +14,7 @@
 		10B1C7EEEB167065E800C6D0 /* Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C84E6F38B851C0D65D2FE5A /* Engine.swift */; };
 		1A50DF6C2AF5EF85C96FAE4F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879B44EFB8FEC71630884A00 /* Color.swift */; };
 		28F46FC946FD673630CAB84D /* ContentView+Brush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5084EB91A39CB3AEECD78655 /* ContentView+Brush.swift */; };
+		2F10D86B5E31A124C3C5E91C /* Heal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B20898F035FF1CC8BEDD3A8 /* Heal.swift */; };
 		30E8169AB4231A4B046F0A61 /* Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4B4D15F1A1C5622A088962 /* Import.swift */; };
 		37754FECADAC2E254981F10D /* TextSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D37A240FE1660EB61CBCCD5 /* TextSheet.swift */; };
 		3B51F0C3BA9774DCD10316DD /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5441750CB41A52DE5C4A7E9 /* Tutorial.swift */; };
@@ -71,6 +72,7 @@
 		5084EB91A39CB3AEECD78655 /* ContentView+Brush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Brush.swift"; sourceTree = "<group>"; };
 		5484773E47EA73A7F1F10210 /* Tweaks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweaks.swift; sourceTree = "<group>"; };
 		57424AF9D748F7E21870DB86 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
+		5B20898F035FF1CC8BEDD3A8 /* Heal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heal.swift; sourceTree = "<group>"; };
 		5C770C89F3EE0FB3F0F7FDE2 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		5DE55F405EF48DA465F09BA1 /* Mask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mask.swift; sourceTree = "<group>"; };
 		6AE20C0CE94BA0F9C50420FE /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				6C84E6F38B851C0D65D2FE5A /* Engine.swift */,
 				6AE20C0CE94BA0F9C50420FE /* Gradient.swift */,
 				922E8F8F17F9828807573B25 /* Handoff.swift */,
+				5B20898F035FF1CC8BEDD3A8 /* Heal.swift */,
 				B1150CBEE7464B0AFA89246C /* History.swift */,
 				1AE98A00EF30F92928147522 /* HistorySheet.swift */,
 				3BBFA9882B2AF65E1A3AA464 /* HTML.swift */,
@@ -296,6 +299,7 @@
 				AD75027F9AFB926E213A0E1B /* Gradient.swift in Sources */,
 				44C93173EBE97426CE2F2DC7 /* HTML.swift in Sources */,
 				4F4ABF4D8BB3CD425C1DCE2D /* Handoff.swift in Sources */,
+				2F10D86B5E31A124C3C5E91C /* Heal.swift in Sources */,
 				FFF5BBFF0D24027423283FA3 /* History.swift in Sources */,
 				9F38DD0708937750CC2AFDAE /* HistorySheet.swift in Sources */,
 				D6FB40D2821AD04DD2DCE849 /* IcelusApp.swift in Sources */,
@@ -402,7 +406,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 40.0.0;
+				MARKETING_VERSION = 41.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -492,7 +496,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 40.0.0;
+				MARKETING_VERSION = 41.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
