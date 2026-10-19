@@ -5,7 +5,7 @@ import { drawCell } from '../lib/draw.js';
 import { token, FONT_FAMILY, measureCharWidth, describe, drawCells, drawMarks, useReveal } from './canvasHelpers.js';
 import { colorMask, hasColor } from '../lib/color.js';
 import { t, partLabel } from '../i18n.js';
-import { useZoom } from './useZoom.js';
+import { useZoom, useFitFirstScreen } from './useZoom.js';
 import { useBrush } from './useBrush.js';
 import RealLayer from './RealLayer.jsx';
 import { realPart } from '../lib/real.js';
@@ -83,6 +83,8 @@ export default function Canvas({
     }
     return charWRef.current * zoomRef.current;
   }
+
+  useFitFirstScreen(scrollRef, elements, () => getCharW() / zoomRef.current, zoomTo);
 
   const draw = useCallback((hoverCell) => {
     const canvas = canvasRef.current;

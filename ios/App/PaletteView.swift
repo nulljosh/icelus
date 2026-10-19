@@ -8,6 +8,7 @@ struct PaletteView: View {
     @Binding var erasing: Bool
     @AppStorage("glyphic-palette") private var mineRaw = "[]"
     @AppStorage("glyphbox-more") private var showMore = false
+    @AppStorage("glyphbox-look") private var look = "real"
     private var mine: [Preset] { parsePalette(mineRaw) }
 
     /// The tools past the everyday four, in three sections so none of them crowds the basics. Same as the web.
@@ -41,7 +42,7 @@ struct PaletteView: View {
                 .tracking(1.2)
                 .foregroundStyle(Theme.muted)
 
-            HStack(spacing: 8) {
+            HStack(alignment: .top, spacing: 8) {
                 ForEach((everydayTools + moreTools + mine + screenTemplates + presets + packs).filter { group(of: $0) == category }) { preset in
                     chip(preset)
                         .contextMenu {
@@ -56,20 +57,45 @@ struct PaletteView: View {
         }
     }
 
+    /// A part drawn small as its real control (RealView.swift), the same thumbnail as the web parts list.
+    /// Nil for tools and parts that keep their characters, and in the text look.
+    private func thumb(_ preset: Preset) -> AnyView? {
+        let el = createElement(preset, col: 0, row: 0)
+        guard look == "real", !el.template.isEmpty, realPart(el) != nil else { return nil }
+        let w = CGFloat(el.width) * 6, h = CGFloat(el.height) * 14, scale = min(1, 80 / w, 24 / h)
+        return AnyView(RealLayerView(elements: [el], charW: 6, rowH: 14, fontSize: 12)
+            .frame(width: w, height: h, alignment: .topLeading)
+            .scaleEffect(scale, anchor: .topLeading)
+            .frame(width: 80, height: 24, alignment: .leading)
+            .clipped())
+    }
+
     private func chip(_ preset: Preset) -> some View {
         let isSelected = !erasing && selection?.id == preset.id
+        let picture = thumb(preset)
         return Button {
             erasing = false
             selection = isSelected ? nil : preset
         } label: {
-            Text(LocalizedStringKey(preset.label))
-                .font(.subheadline)
-                .foregroundStyle(isSelected ? Color.white : Theme.ink)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-                .background(isSelected ? Theme.accent : Theme.canvas,
-                            in: Capsule())
-                .overlay(Capsule().strokeBorder(Theme.rule, lineWidth: isSelected ? 0 : 1))
+            // A part with a real control shows it above its name, like a shape picker; a tool stays a capsule.
+            if let picture {
+                VStack(alignment: .leading, spacing: 6) {
+                    picture
+                    Text(LocalizedStringKey(preset.label)).font(.footnote).foregroundStyle(isSelected ? Theme.accent : Theme.ink)
+                }
+                .padding(10)
+                .background(isSelected ? Theme.accent.opacity(0.14) : Theme.canvas, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(isSelected ? Theme.accent : Theme.rule, lineWidth: 1))
+            } else {
+                Text(LocalizedStringKey(preset.label))
+                    .font(.subheadline)
+                    .foregroundStyle(isSelected ? Color.white : Theme.ink)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(isSelected ? Theme.accent : Theme.canvas,
+                                in: Capsule())
+                    .overlay(Capsule().strokeBorder(Theme.rule, lineWidth: isSelected ? 0 : 1))
+            }
         }
         .buttonStyle(.plain)
         .accessibilityLabel(Text(LocalizedStringKey(preset.label)) + Text(", ") + Text("\(preset.width) by \(preset.height) characters"))

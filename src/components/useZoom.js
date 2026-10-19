@@ -57,3 +57,14 @@ export function useZoom(hoverRef) {
   }, [zoomTo]);
   return { zoom, zoomRef, zoomTo, scrollRef, drawRef };
 }
+
+// On a phone the canvas opens zoomed so the first screen fits the width (or the widest part when there are no
+// screens). Once, on open; pinch still zooms, and the rest of the canvas scrolls. charW1 is the cell width at zoom 1.
+export function useFitFirstScreen(scrollRef, elements, charW1, zoomTo) {
+  useEffect(() => {
+    const el = scrollRef.current, screens = elements.filter(e => e.presetId === 'screen').sort((a, b) => a.row - b.row || a.col - b.col);
+    const right = screens.length ? screens[0].col + screens[0].width : Math.max(0, ...elements.map(e => e.col + e.width));
+    if (!el || el.clientWidth >= 600 || !right) return;
+    zoomTo(Math.min(1, (el.clientWidth - 32) / (right * charW1())));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+}
