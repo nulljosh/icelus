@@ -2,7 +2,7 @@
 // Grid coordinate system: (col, row), 0-indexed
 // Lines, connectors, see-through text and banners live in lines.js and are re-exported here.
 
-import { FILLS, cleanNote } from './shapes.js';
+import { FILLS, cleanNote, cleanOwn, symbolFields, SYMBOL_FIELDS } from './shapes.js';
 import { tweakScreen } from './tweaks.js';
 import { closeLines } from './heal.js';
 import { cleanAuto, cleanPin } from './layout.js';
@@ -223,6 +223,12 @@ export function resizeTemplate(template, width, height) {
 
 export function updateElement(elements, id, changes) {
   if (changes.tweak) return tweakScreen(elements, id, changes.tweak);
+  // Owning words or style on a symbol copy; letting go pulls the shared ones back in from another copy.
+  if (changes.own !== undefined) {
+    const out = elements.map(el => { if (el.id !== id) return el; const { own, ...rest } = el, o = cleanOwn(changes.own); return o.length ? { ...rest, own: o } : rest; });
+    const sib = out.find(el => el.symbol && el.symbol === out.find(x => x.id === id)?.symbol && el.id !== id);
+    return sib ? syncSymbol(out, sib.id) : out;
+  }
   return syncSymbol(updateOne(elements, id, changes), id);
 }
 
@@ -318,6 +324,16 @@ function updateOne(elements, id, changes) {
     const height = Math.max(1, Math.round(changes.height || el.height));
     return {...el, ...changes, width, height, template: resizeTemplate(el.template, width, height)};
   }));
+}
+
+// Swap a symbol copy for another symbol (v46): it takes that symbol's content, keeps its place and what it owns.
+export function swapSymbol(elements, id, symbol) {
+  const el = elements.find(x => x.id === id), rep = elements.find(x => x.symbol === symbol && x.id !== id);
+  if (!el || !rep || el.symbol === symbol) return elements;
+  // A swap is a full replace: the copy takes all of the new symbol and drops what it owned.
+  const { own, ...next } = { ...el, symbol, presetId: rep.presetId, label: rep.label };
+  for (const f of SYMBOL_FIELDS) { if (rep[f] === undefined) delete next[f]; else next[f] = rep[f]; }
+  return routeLines(elements.map(x => (x.id === id ? next : x)));
 }
 
 // Copy an element one cell down and right so the duplicate is visible. Returns the new list and id.

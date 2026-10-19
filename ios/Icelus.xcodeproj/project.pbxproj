@@ -40,6 +40,7 @@
 		AD75027F9AFB926E213A0E1B /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE20C0CE94BA0F9C50420FE /* Gradient.swift */; };
 		BA4A4078EAE8AB7707AA1157 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = A642337AC42F35C1900D4829 /* Store.swift */; };
 		BA7F011C782872931FC14596 /* PresentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F4241AD7BFA3A38496EAF0 /* PresentView.swift */; };
+		BDB3184294C6205E719A4C0C /* Symbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133B696A023A11F87F936E4B /* Symbols.swift */; };
 		C01E0FF1FB7A7B1F62B54E60 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725719DC47ECE7175907E74D /* Photo.swift */; };
 		CE9F4BD3B8C5C9AE684FBB8E /* AccountSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0D528D271C7A7EFF4B44177 /* AccountSheet.swift */; };
 		D50E2FDCB15BD6BBE878A0D1 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98DC5AC64DFE409A1E386DD /* CanvasView.swift */; };
@@ -61,6 +62,7 @@
 
 /* Begin PBXFileReference section */
 		0D023F976FC3E7E474C45A2A /* ContentView+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Toolbar.swift"; sourceTree = "<group>"; };
+		133B696A023A11F87F936E4B /* Symbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbols.swift; sourceTree = "<group>"; };
 		1AE98A00EF30F92928147522 /* HistorySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistorySheet.swift; sourceTree = "<group>"; };
 		1C0160D1888F08A01EBF0D54 /* Brush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brush.swift; sourceTree = "<group>"; };
 		1C02085D7634E7A40206A127 /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				936178068387331E58393CA5 /* Select.swift */,
 				BF25801F171E6565367FC00D /* Shapes.swift */,
 				A642337AC42F35C1900D4829 /* Store.swift */,
+				133B696A023A11F87F936E4B /* Symbols.swift */,
 				9C11522D7900814164153063 /* Syntax.swift */,
 				4D37A240FE1660EB61CBCCD5 /* TextSheet.swift */,
 				5C770C89F3EE0FB3F0F7FDE2 /* Theme.swift */,
@@ -329,6 +332,7 @@
 				DCF41A869E8BF111C2C77E8C /* Select.swift in Sources */,
 				F2DF33282BEA4AEF6C67CE7A /* Shapes.swift in Sources */,
 				BA4A4078EAE8AB7707AA1157 /* Store.swift in Sources */,
+				BDB3184294C6205E719A4C0C /* Symbols.swift in Sources */,
 				90CC848B774C1A382F195FC4 /* Syntax.swift in Sources */,
 				37754FECADAC2E254981F10D /* TextSheet.swift in Sources */,
 				F11D69B7B5344DB018B48505 /* Theme.swift in Sources */,
@@ -414,7 +418,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 44.0.0;
+				MARKETING_VERSION = 46.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -504,7 +508,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 44.0.0;
+				MARKETING_VERSION = 46.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;

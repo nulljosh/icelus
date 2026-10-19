@@ -65,6 +65,7 @@ What the three inspirations shipped in 2026 that the roadmap did not cover yet, 
 7. Live code parts (Figma code layers, beta): a part that runs a small sandboxed HTML snippet in the real look.
 8. Describe a plugin (Figma generative plugins): folds into v95.
 9. Auto layout across, with alignment and wrap (Figma). Found after v43 shipped the down stack.
+10. Show and hide per copy (Figma boolean properties): a symbol copy hides one of its lines, like an icon or a subtitle, without detaching. Found after v46 shipped own words, own style and swap.
 
 Already level: inline sliders (v21 tweaks), design system from code and checks against it (v24, v23), handoff bundle to Claude Code (v27),
 standalone HTML (v28), decks and PDF (v29), history and actions (v40, v41). Skipped on purpose: shaders, 3D transforms and AI upscale,

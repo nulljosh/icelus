@@ -12,6 +12,7 @@
 		1BF3076479F0E535B60A7B48 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DC951854A8DDDD552C06CC /* PaletteView.swift */; };
 		1EBB80E0A826D96600B86663 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1D7B53255332971BBC37F65 /* Assets.xcassets */; };
 		2AE7E01E5C66FBCD8B93A2EF /* Heal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7ADA5CA9E70AF85236ABB /* Heal.swift */; };
+		3A8E7F57ECD0CC15D4DDB5CD /* Symbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52B46BA53F53379C288C52E /* Symbols.swift */; };
 		3C343435C84BD74236FA2231 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EA137851A4974126E4F28A /* Project.swift */; };
 		401EFA0A3016021AC26F9DFE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F603B4585CD7B3151D1475C5 /* ContentView.swift */; };
 		4342788EE5273DA29096AF66 /* Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8736D86726F94166F3E6E2D0 /* Shapes.swift */; };
@@ -43,6 +44,7 @@
 		CBFDCFA6ADCB7BE2F58A967F /* Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine.swift; sourceTree = "<group>"; };
 		D23245C03482D89C431A3035 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		E020A050D3AEF8A6D8CE948B /* Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presets.swift; sourceTree = "<group>"; };
+		E52B46BA53F53379C288C52E /* Symbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbols.swift; sourceTree = "<group>"; };
 		F1D7B53255332971BBC37F65 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F603B4585CD7B3151D1475C5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,6 +86,7 @@
 				59EA137851A4974126E4F28A /* Project.swift */,
 				8736D86726F94166F3E6E2D0 /* Shapes.swift */,
 				272EBF037E0A8D5AB65C3C1C /* Store.swift */,
+				E52B46BA53F53379C288C52E /* Symbols.swift */,
 				D23245C03482D89C431A3035 /* Theme.swift */,
 			);
 			name = App;
@@ -193,6 +196,7 @@
 				3C343435C84BD74236FA2231 /* Project.swift in Sources */,
 				4342788EE5273DA29096AF66 /* Shapes.swift in Sources */,
 				FB26866C6249FE1A4594F0C8 /* Store.swift in Sources */,
+				3A8E7F57ECD0CC15D4DDB5CD /* Symbols.swift in Sources */,
 				B08573BE6CB151E5D241B071 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

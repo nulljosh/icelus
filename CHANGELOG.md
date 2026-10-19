@@ -4,6 +4,7 @@ Icelus was called Charwork, Wiretext, Blockframe, Blockprint, Glyphic and Glyphb
 ships on the web, iPhone, iPad and Mac unless it says otherwise.
 
 ## 2026-10-19
+- **46.0.0** Properties. Select a copy of a symbol and turn on Own words or Own style: edits to the other copies skip what it owns, and turning it off pulls the shared look back. Swap puts another symbol in its place, keeping where it sits.
 - **45.0.0** Sizes. Select a screen and tap Make sizes for phone, tablet and desktop widths side by side, resized with your pins. Change the words, style or color of a part in one and the others follow. On iPhone and Mac, a copied screen now keeps every part's color, state and pins.
 - **44.0.0** Constraints. Pin a part on a screen to the right, the bottom, the center or both sides. Resize the screen and pinned parts follow; pinned to both sides, they stretch. The layers list keeps the up and down arrows on the picked layer only, so every name fits.
 - **43.0.0** Auto layout. Turn it on for a screen and its parts stay stacked with an even gap and padding. Make some text longer and everything below moves down; delete a part and the rest closes up; drag one to reorder. The screen grows and shrinks to fit.

@@ -165,14 +165,19 @@ export function treeFrame(text) {
 
 // A symbol is a part made once and reused: its copies share a `symbol` id, and editing one copy's content
 // (words, cells, size, box style) edits them all. Position, highlight and layer flags stay each copy's own.
-const SYMBOL_FIELDS = ['template', 'width', 'height', 'text', 'style'];
+export const SYMBOL_FIELDS = ['template', 'width', 'height', 'text', 'style'];
+// Properties (v46): a copy can keep its own words or its own box style; the rest still follows the symbol.
+export const OWN_KEYS = ['text', 'style'];
+const OWNED = { text: ['template', 'width', 'height', 'text'], style: ['style'] };
+export const cleanOwn = v => (Array.isArray(v) ? OWN_KEYS.filter(k => v.includes(k)) : []);
+export const symbolFields = (...owners) => SYMBOL_FIELDS.filter(f => !owners.some(o => (o?.own ?? []).some(k => OWNED[k]?.includes(f))));
 export function syncSymbol(elements, id) {
   const src = elements.find(el => el.id === id);
   if (!src?.symbol) return elements;
   return elements.map(el => {
     if (el.symbol !== src.symbol || el.id === id) return el;
     const next = { ...el };
-    for (const f of SYMBOL_FIELDS) { if (src[f] === undefined) delete next[f]; else next[f] = src[f]; }
+    for (const f of symbolFields(src, el)) { if (src[f] === undefined) delete next[f]; else next[f] = src[f]; }
     return next;
   });
 }

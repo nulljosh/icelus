@@ -48,6 +48,32 @@ extension ContentView {
         persist()
     }
 
+    /// Properties on a symbol copy: own words, own style, or swap to another symbol (Shapes.swift).
+    @ViewBuilder func symbolControls(_ el: Element) -> some View {
+        if let symbol = el.symbol, symbolUses(state.elements, el) > 1 {
+            ForEach(ownKeys, id: \.self) { key in
+                Toggle(key == "text" ? "Own words" : "Own style", isOn: Binding(get: { el.own.contains(key) }, set: { on in
+                    state.pushHistory()
+                    state.elements = updateElement(state.elements, id: el.id, own: on ? el.own + [key] : el.own.filter { $0 != key })
+                    persist()
+                })).fixedSize()
+            }
+            let others = Dictionary(state.elements.compactMap { e in e.symbol.flatMap { $0 != symbol ? ($0, e) : nil } }, uniquingKeysWith: { a, _ in a })
+            if !others.isEmpty {
+                Menu("Swap") {
+                    ForEach(others.keys.sorted(), id: \.self) { key in
+                        Button(others[key]!.text?.components(separatedBy: "\n").first ?? others[key]!.template.joined(separator: " ").trimmingCharacters(in: .whitespaces)) {
+                            state.pushHistory()
+                            state.elements = swapSymbol(state.elements, id: el.id, symbol: key)
+                            persist()
+                        }
+                    }
+                }
+                .fixedSize()
+            }
+        }
+    }
+
     func setPin(_ el: Element, x: String?, y: String?) {
         state.pushHistory()
         state.elements = updateElement(state.elements, id: el.id, pin: Pin(x: x, y: y))

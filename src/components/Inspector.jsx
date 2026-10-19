@@ -103,6 +103,7 @@ export default function Inspector({
   onClearSystem,
   onRemoveParts,
   onSizes,
+  onSwap,
   more = false,
   onMore,
   onVariations,
@@ -214,6 +215,26 @@ export default function Inspector({
                 <span className="inspector-value">{t('symbol_uses', { n: symbolCount })}</span>
               </div>
             )}
+            {/* Properties (shapes.js): a copy keeps its own words or box style, or swaps to another symbol. */}
+            {symbolCount > 1 && ['text', 'style'].map(key => (
+              <div key={key} className="inspector-row">
+                <label className="inspector-key" htmlFor={`own-${key}`}>{t(`own_${key}`)}</label>
+                <input id={`own-${key}`} type="checkbox" className="inspector-switch" checked={(el.own ?? []).includes(key)}
+                  onChange={e => onUpdateElement(el.id, { own: e.target.checked ? [...(el.own ?? []), key] : (el.own ?? []).filter(k => k !== key) })} />
+              </div>
+            ))}
+            {symbolCount > 0 && onSwap && (() => {
+              const others = [...new Map(elements.filter(x => x.symbol && x.symbol !== el.symbol).map(x => [x.symbol, x])).values()];
+              return others.length > 0 && (
+                <div className="inspector-row">
+                  <label className="inspector-key" htmlFor="swap">{t('swap_symbol')}</label>
+                  <select id="swap" className="inspector-select" value="" onChange={e => e.target.value && onSwap(el.id, e.target.value)}>
+                    <option value="">{t('swap_pick')}</option>
+                    {others.map(x => <option key={x.symbol} value={x.symbol}>{x.text?.split('\n')[0] || x.template.join(' ').trim().slice(0, 24) || partLabel({ id: x.presetId, label: x.label })}</option>)}
+                  </select>
+                </div>
+              );
+            })()}
             {el.presetId !== 'adjust' && <>
             <div className="inspector-row">
               <label className="inspector-key" htmlFor="variant">{t('state')}</label>

@@ -1,58 +1,23 @@
 <img src="icon.svg" width="80" alt="Icelus">
 
-![version](https://img.shields.io/badge/version-v45.0.0-blue)
+![version](https://img.shields.io/badge/version-v46.0.0-blue)
 ![license](https://img.shields.io/badge/license-Apache%202.0-green)
 
-A design tool for screens, built for people and agents. Describe a screen in a sentence and it draws, then edit it like you would in Figma or Photoshop: real buttons, fields and switches on artboards, a brush, selections, gradients, color and adjustment layers.
+Describe a screen and it draws. Then edit it like Figma or Photoshop, with real buttons, fields and switches on artboards. Underneath, every screen is text on a character grid, so it pastes into a README, an issue or a chat and stays editable.
 
-Under the real look every screen is still text on a character grid. One switch in Settings shows it as characters, and it pastes into a commit, an issue, a README or a chat and stays editable. The same project opens on the web, iPhone, iPad, Mac, Apple Watch and the terminal.
-
-Formerly Glyphbox. Same app, same files, new name.
-
-**Live:** [icelus.jaybulb.com](https://icelus.jaybulb.com). Free on the web, $0.99 on the App Store.
+**Live:** [icelus.jaybulb.com](https://icelus.jaybulb.com). Free on the web, $0.99 on the App Store for iPhone, iPad and Mac, plus Apple Watch and the terminal. One project file opens everywhere.
 
 ## Features
 
-- A real canvas (v36): parts draw as real controls on artboards, the way a design tool shows them. Arrows, paint and charts keep their character style, and the text look is a switch in Settings (`src/lib/real.js`)
-- Describe it (v37, web): a chat panel. Say what a screen is for and it appears on the canvas; pick a screen and say what to change and it redraws that screen. Workers AI behind `POST /api/describe`, app origin only
-- An optional account (email and password) with Profile and Settings; everything works without one
-- Simple to start: a five-step tutorial, the basics up front, everything else one tap away under More
-- 38 parts, from Button and Input to Table, Date picker and Tab bar, plus Arrow, Text, Banner and Boxy
-- Part packs in the style of iOS, Material, the terminal and email, and your own parts saved to the palette
-- Screens side by side, linked by arrows, from templates, copied as one document with the flow
-- Type a screen in a few lines, paste any text wireframe, or capture a live web page, and edit it
-- Tables, bar charts, sparklines, flowcharts, sequence diagrams and trees, drawn from what you type
-- Hand it to Claude Code: one build brief with every screen, part, flow, state and note
-- Code export: a React component with plain CSS or a SwiftUI view that compiles
-- Decks: present your screens one by one, or save them as a PDF or one HTML file
-- Brush and eraser: paint any character freehand, one to five cells wide
-- Selections: a marquee or a magic wand picks cells to copy, cut, fill or move
-- Gradients: drag a ░ ▒ ▓ █ ramp, straight or round
-- Color: ink and paper from the 16 terminal colors, copied as ANSI or kept in HTML and images
-- Adjustment layers: invert, dim, ASCII only or a box style for everything under an area, without touching it
-- Masks: crop a part, or clip it to the shape of another, without cutting a single character
-- Blend modes: join the lines, draw over, fill only empty cells, or knock out
-- History: every step by name, tap one to go back, and named snapshots that save with the project
-- Actions: record a few edits once, then play them on any part or screen
-- Sizes: one tap makes phone, tablet and desktop widths of a screen, and their words and colors stay in step
-- Constraints: pin a part right, bottom, center or both sides, and it follows when its screen is resized
-- Auto layout: turn it on for a screen and its parts stay stacked, spaced and padded, pushing down when text grows
-- Harmonize: a part dropped on a screen takes on the box style and colors the parts there share
-- Find distractions: Review flags stray marks and parts that show nothing, and removes them in one tap
-- Heal and expand: delete a box in a flow and its arrows join up; tables and lists carry their pattern on (Item 3, Item 4)
-- Agent kit: MCP resources (syntax, parts, worked examples) and prompts to sketch, review and build ([docs/EXAMPLES.md](docs/EXAMPLES.md))
-- Three takes on any screen side by side (stacked, split, dense), then keep the one you like
-- Tweak a screen with live knobs: spacing, padding and one box style for every box
-- Pin a note to any part for a teammate or an agent, who reads it over MCP and resolves it
-- `icelus system <repo>` turns your components into parts and your radius tokens into a box style
-- Review a screen: overlaps, boxes cut open, placeholder labels, missing empty and error states (app, CLI, API)
-- Groups, layers you can hide and lock, symbols that stay linked, and pressed, disabled and error states
-- Turn a photo into blocks, braille or soft shade, trace over one, or fill an area with a shade
-- Copy as text, Markdown, plain ASCII, typed lines or HTML, share a link, embed it, or save an image
-- Highlights, five box styles, snap guides, zoom, and undo 50 steps back
-- Every key works and VoiceOver reads it; 27 languages
-- Web, iPhone, iPad, Mac, Apple Watch and the terminal, all on one project file
-- An API, an MCP server, Shortcuts actions and a GitHub Action, so agents and builds can draw too
+- **Describe it.** Say what a screen is for and it appears. Pick a screen and say what to change.
+- **A real canvas.** 38 parts, from Button to Table and Tab bar, in iOS, Material, terminal and email styles.
+- **Layout like Figma.** Symbols with per-copy words, style and swap, auto layout, constraints, and phone, tablet and desktop sizes kept in step.
+- **Paint like Photoshop.** Brush, selections, gradients, 16 colors, masks, blend modes and adjustment layers.
+- **History and actions.** Every step by name, snapshots, and recorded edits you can play on any part.
+- **Review.** Flags overlaps, cut boxes, placeholder text, missing states and stray marks, and fixes them in one tap.
+- **Hand it off.** A build brief for Claude Code, React or SwiftUI code, a deck, a PDF, HTML, an image or plain text.
+- **For agents.** An API, an MCP server, Shortcuts actions and a GitHub Action.
+- Every key works, VoiceOver reads it, 27 languages. Works without an account.
 
 ## Run
 
@@ -61,20 +26,20 @@ npm install && npm run dev
 npm test
 ```
 
-Command line: `printf '"Email"  [Sign in]' | node bin/icelus.js draw` (also `text`, `lines`, `project`, `lint`). Terminal app: `swift build`, then `icelus-tui place sketch.json button 4 2` or `icelus-tui render sketch.json`. API and agent tools: [docs/API.md](docs/API.md). Describe it needs the Workers AI binding (`[ai]` in `wrangler.toml`), so it works on the deployed site and not under `npm run dev`.
+Command line: `printf '"Email"  [Sign in]' | node bin/icelus.js draw`. Terminal app: `swift build`, then `icelus-tui render sketch.json`. Describe it needs the Workers AI binding, so it runs on the deployed site, not under `npm run dev`. API and tools: [docs/API.md](docs/API.md).
 
 ## Check wireframes in CI
 
-Icelus is also a GitHub Action. It fails the build when a box in a Markdown wireframe no longer closes:
+The GitHub Action fails a build when a box in a Markdown wireframe no longer closes:
 
 ```yaml
-- uses: nulljosh/icelus@v37.0.0
+- uses: nulljosh/icelus@v46.0.0
   with: { files: "README.md docs/*.md" }
 ```
 
 ## More
 
-[Whitepaper](WHITEPAPER.md) · [Architecture](docs/ARCHITECTURE.md) · [API](docs/API.md) · [Examples](docs/EXAMPLES.md) · [Strategy](docs/STRATEGY.md) · [Roadmap](roadmap.md) · [Brand](brand/BRAND.md) · [Privacy](PRIVACY.md)
+[Whitepaper](WHITEPAPER.md) · [Architecture](docs/ARCHITECTURE.md) · [API](docs/API.md) · [Examples](docs/EXAMPLES.md) · [Roadmap](roadmap.md) · [Brand](brand/BRAND.md) · [Privacy](PRIVACY.md)
 
 ## License
 

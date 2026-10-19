@@ -230,29 +230,6 @@ func withCells(_ el: Element, _ cells: [[String]]) -> Element {
     return next
 }
 
-/// A symbol is a part made once and reused: its copies share a `symbol` id, and editing one copy's content
-/// (words, cells, size, box style) edits them all. Position, highlight and layer flags stay each copy's own.
-func syncSymbol(_ elements: [Element], id: String) -> [Element] {
-    guard let src = elements.first(where: { $0.id == id }), let symbol = src.symbol else { return elements }
-    return elements.map { el in
-        guard el.symbol == symbol, el.id != id else { return el }
-        var next = el
-        next.template = src.template; next.width = src.width; next.height = src.height
-        next.text = src.text; next.style = src.style
-        return next
-    }
-}
-func makeSymbol(_ elements: [Element], id: String, symbol: String) -> [Element] {
-    elements.map { var el = $0; if el.id == id { el.symbol = symbol }; return el }
-}
-func detachSymbol(_ elements: [Element], id: String) -> [Element] {
-    elements.map { var el = $0; if el.id == id { el.symbol = nil }; return el }
-}
-func symbolUses(_ elements: [Element], _ el: Element?) -> Int {
-    guard let symbol = el?.symbol else { return 0 }
-    return elements.filter { $0.symbol == symbol }.count
-}
-
 /// A part's state, drawn in its characters so it shows in pasted text too: pressed is heavy lines and solid
 /// brackets, disabled is dashed lines and soft brackets, error is double lines and bangs. Each copy has its own.
 let variants = ["default", "pressed", "disabled", "error"]

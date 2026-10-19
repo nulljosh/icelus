@@ -259,6 +259,7 @@ struct ContentView: View {
                 if el.note != nil { toolButton("Resolve", systemImage: "checkmark.circle", enabled: true) { setNote(el, ""); noteDraft = "" } }
                 screenControls(el)
                 pinControls(el)
+                symbolControls(el)
                 Picker("State", selection: Binding(get: { el.variant ?? "default" }, set: { setVariant(el, $0) })) {
                     ForEach(variants, id: \.self) { Text(LocalizedStringKey($0.capitalized)).tag($0) }
                 }

@@ -347,5 +347,6 @@ runDistractionChecks()
 runLayoutChecks()
 runPinChecks()
 runSizeChecks()
+runPropertyChecks()
 
 print("ok — \(checks) checks passed")

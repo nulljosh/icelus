@@ -1,6 +1,6 @@
 import { newElementId, DEFAULT_COLS, DEFAULT_ROWS } from './engine.js';
 import { ADJUSTMENTS, BOX_STYLES, VARIANTS, cleanBlend } from './lines.js';
-import { cleanNote } from './shapes.js';
+import { cleanNote, cleanOwn } from './shapes.js';
 import { maxOf } from './extent.js';
 import { cleanColor } from './color.js';
 import { cleanMask } from './mask.js';
@@ -60,6 +60,7 @@ export function parseProject(json) {
       ...(el.hidden === true && { hidden: true }),
       ...(el.locked === true && { locked: true }),
       ...(typeof el.symbol === 'string' && { symbol: el.symbol }),
+      ...(typeof el.symbol === 'string' && cleanOwn(el.own).length && { own: cleanOwn(el.own) }),
       ...(VARIANTS.includes(el.variant) && el.variant !== 'default' && { variant: el.variant }),
       ...(cleanNote(typeof el.note === 'string' ? el.note : '') && { note: cleanNote(el.note) }),
       ...(typeof el.take === 'string' && el.take.length <= 64 && { take: el.take }),

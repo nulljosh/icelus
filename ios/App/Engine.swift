@@ -194,6 +194,7 @@ struct Element: Equatable, Identifiable {
     var auto: AutoLayout? = nil // a screen's auto layout (Layout.swift)
     var pin: Pin? = nil // how it follows a resized screen (Layout.swift)
     var twin: String? = nil, size: String? = nil // sizes of one screen kept in step (Layout.swift)
+    var own: [String] = [] // what a symbol copy keeps as its own (Shapes.swift)
 }
 
 private var nextElementId = 1

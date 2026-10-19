@@ -1,8 +1,9 @@
 // edit_project: a list of ops applied to a project, in order, as one call. Split out of tools.js.
 import {
   renderElements, serializeProject, trimText, gridToText, parseProject, moveElement, updateElement,
-  deleteElement, createLine, BOX_STYLES, ADJUSTMENTS, adjustLayer,
+  deleteElement, createLine, BOX_STYLES, ADJUSTMENTS, adjustLayer, swapSymbol,
 } from './engine.js';
+import { OWN_KEYS } from './shapes.js';
 import { BLENDS } from './lines.js';
 import { takeSnapshot } from './history.js';
 import { playAction, cleanStep } from './actions.js';
@@ -122,6 +123,12 @@ export function editProject(args) {
       elements = updateElement(elements, id, changes);
     }
     else if (op.op === 'harmonize') elements = harmonize(elements, id);
+    else if (op.op === 'own') elements = updateElement(elements, id, { own: OWN_KEYS.filter(k => op[k] === true) });
+    else if (op.op === 'swap') {
+      const other = elements.find(el => el.id === ids[int(op.with, `${at}.with`, { min: 0, max: ids.length - 1 })]);
+      if (!other?.symbol) throw new ToolError(`${at}.with must name a part that is a symbol`);
+      elements = swapSymbol(elements, id, other.symbol);
+    }
     else if (op.op === 'sizes') elements = makeSizes(elements, id).elements;
     else if (op.op === 'pin') elements = updateElement(elements, id, { pin: { x: op.x, y: op.y } });
     else if (op.op === 'auto') elements = updateElement(elements, id, { auto: op.off ? null : { gap: op.gap ?? 1, pad: op.pad ?? 1 } });

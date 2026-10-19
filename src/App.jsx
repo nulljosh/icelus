@@ -28,7 +28,7 @@ import { handoff } from './lib/handoff.js';
 import { toReact, toSwiftUI } from './lib/code.js';
 import {
   createState, undo, redo, pushHistory, gridToText,
-  createElement, renderElements, moveElement, deleteElement, updateElement,
+  createElement, renderElements, moveElement, deleteElement, updateElement, swapSymbol,
   duplicateElement, reorderElement, nudgeElement, createLine,
   toAscii, trimText, toMarkdown, serializeProject, parseProject, screensDocument,
   groupElements, ungroupElements, groupMates, makeSymbol, detachSymbol, symbolUses, freshTag, accentMask, adjustLayer, partsInside,
@@ -213,6 +213,11 @@ function edit(state, action) {
         grid: renderElements(elements, state.cols, state.rows),
         selectedId: null,
       };
+    }
+
+    case 'SWAP_SYMBOL': {
+      const elements = swapSymbol(state.elements, action.id, action.symbol);
+      return elements === state.elements ? state : { ...pushHistory(state), elements, grid: renderElements(elements, state.cols, state.rows) };
     }
 
     // Sizes (layout.js): the screen at phone, tablet and desktop widths, kept in step.
@@ -972,6 +977,7 @@ export default function App() {
         onClearSystem={() => saveSystem(null)}
         onRemoveParts={ids => dispatch({ type: 'REMOVE_PARTS', ids })}
         onSizes={id => dispatch({ type: 'MAKE_SIZES', id })}
+        onSwap={(id, symbol) => dispatch({ type: 'SWAP_SYMBOL', id, symbol })}
         more={more}
         onMore={setMore}
         onVariations={(id) => dispatch({ type: 'VARIATIONS', id, labels: ['var_stacked', 'var_split', 'var_dense'].map(k => t(k)) })}
