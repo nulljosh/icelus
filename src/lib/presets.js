@@ -416,7 +416,7 @@ export const BANNER_TOOL = { id: 'banner', label: 'Banner', category: 'Draw', te
 // Boxy in plain text, so the mascot pastes anywhere the wireframes do.
 export const BOXY_TOOL = {
   id: 'boxy', label: 'Boxy', category: 'Draw',
-  template: ['   ▌   ', '╭─────╮', '│ ● ● │', '│  ◡  │', '╰─┬─┬─╯'], width: 7, height: 5,
+  template: ['╭────╴╱', '│ ▌ ▌ │', '│  ◡  │', '▣─────▣'], width: 7, height: 4,
 };
 
 // Paint any character freehand, one to five cells wide (brush.js). The eraser clears painted cells only.

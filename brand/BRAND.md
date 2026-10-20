@@ -18,21 +18,21 @@ of a feature.
 - Clear space equal to the glyph's thickest stroke. Smallest size 16 px. Check it at 29 px before shipping.
 
 ## Mascot
-Boxy is the block in Icelus, come to life: a rounded blueprint-blue block with two eyes, a small smile,
-two feet, and a text caret floating above its head for an antenna, because Boxy is always typing.
-The caret flashes like a real one and the eyes blink every few seconds; both stop for reduced motion.
+Boxy is a frame in Icelus, still being drawn: a rounded blueprint-blue outline with its last corner open where
+the pen is, two text cursors for eyes, a small smile, and two selection handles for feet. It is the thing you
+make in the app, caught halfway and pleased about it. The pen flashes like a caret and the eyes blink every few
+seconds; both stop for reduced motion. Never a solid block (that read as a toy brick).
 
-- `mascot.svg` is the source (240 grid). Body `#5B9BFF`, caret and feet the accent, face `#1D1D1F`.
-- On the accent ground Boxy turns white with a navy face (`#0B1F5C`). In dark mode the caret and feet
-  follow the accent to `#5B9BFF`.
+- `mascot.svg` is the source (240 grid). Outline and handles the accent, the inside `#DCE8FF`, the pen `#5B9BFF`,
+  face `#1D1D1F`.
+- On a dark ground the outline turns `#5B9BFF` and the face navy (`#0B1F5C`).
 - Boxy in text is a stamp in the palette, so the mascot pastes wherever the wireframes do:
 
 ```
-   ▌
-╭─────╮
-│ ● ● │
+╭────╴╱
+│ ▌ ▌ │
 │  ◡  │
-╰─┬─┬─╯
+▣─────▣
 ```
 
 Boxy appears on the landing, the welcome card, the empty canvas and the ad's end card. Never inside the

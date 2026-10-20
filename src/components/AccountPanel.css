@@ -32,3 +32,16 @@
 .account-row:hover { background: color-mix(in srgb, var(--color-text) 8%, var(--surface2)); }
 .account-row:focus-visible { outline: none; box-shadow: var(--ring); }
 .account-chevron { width: 8px; height: 8px; border-top: 2px solid #8E8E93; border-right: 2px solid #8E8E93; transform: rotate(45deg); margin-inline-end: 4px; }
+.account-head .account-title { flex: 1; }
+.account-back { display: grid; place-items: center; width: 44px; height: 44px; margin-left: calc(-1 * var(--sp-3)); border: 0; border-radius: var(--r-pill); background: none; cursor: pointer; }
+.account-back:focus-visible { outline: none; box-shadow: var(--ring); }
+.account-me { display: flex; align-items: center; gap: var(--sp-3); width: 100%; min-height: 64px; padding: var(--sp-3) var(--sp-4); border: 0; border-radius: 20px;
+  background: var(--surface2); color: var(--color-text); font: inherit; text-align: left; cursor: pointer; }
+.account-me:focus-visible { outline: none; box-shadow: var(--ring); }
+.account-avatar { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--color-hairline); color: var(--color-secondary); font-size: 17px; font-weight: 600; }
+.account-avatar.is-signed-in { background: var(--accent); color: #fff; }
+.account-row-text { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.account-row-text b { font-size: 17px; line-height: 22px; font-weight: 600; }
+.account-row-text small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; line-height: 18px; color: var(--color-secondary); }
+.account-me .account-chevron { flex: none; }
+.account-back .account-chevron { display: inline-block; width: 12px; height: 12px; border-color: var(--accent); border-width: 3px; transform: rotate(-135deg); margin: 0 0 0 4px; }

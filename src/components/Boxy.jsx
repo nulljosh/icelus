@@ -1,23 +1,18 @@
 import './Boxy.css';
 
-// Boxy, the mascot: a block with a text caret for an antenna. Same shapes as brand/mascot.svg;
-// inline so the eyes blink and the caret flashes.
+// Boxy, the mascot: a frame still being drawn, its last corner open where the pen is, with text cursors for
+// eyes and two selection handles for feet. Same shapes as brand/mascot.svg; inline so the eyes blink and the
+// pen flashes like a caret.
 export default function Boxy({ size = 120, className = '' }) {
   return (
     <svg className={`boxy ${className}`} width={size} height={size} viewBox="0 0 240 240" role="img" aria-label="Boxy, the Icelus mascot">
-      <rect className="boxy-caret" x="114" y="30" width="12" height="36" rx="6" fill="var(--accent)" />
-      <rect x="84" y="194" width="28" height="16" rx="8" fill="var(--accent)" />
-      <rect x="128" y="194" width="28" height="16" rx="8" fill="var(--accent)" />
-      <rect x="56" y="78" width="128" height="112" rx="36" fill="#5B9BFF" />
-      <g className="boxy-eyes" fill="#1D1D1F">
-        <ellipse cx="98" cy="126" rx="9" ry="11" />
-        <ellipse cx="142" cy="126" rx="9" ry="11" />
-      </g>
-      <g fill="#fff">
-        <circle cx="101" cy="122" r="3" />
-        <circle cx="145" cy="122" r="3" />
-      </g>
-      <path d="M106 154Q120 166 134 154" fill="none" stroke="#1D1D1F" strokeWidth="7" strokeLinecap="round" />
+      <rect x="67" y="77" width="106" height="106" rx="21" fill="#DCE8FF" />
+      <path d="M146 70H88a28 28 0 0 0-28 28v64a28 28 0 0 0 28 28h64a28 28 0 0 0 28-28V104" fill="none" stroke="var(--accent)" strokeWidth="14" strokeLinecap="round" />
+      <rect className="boxy-caret" x="166" y="58" width="12" height="34" rx="6" fill="#5B9BFF" transform="rotate(45 172 75)" />
+      <rect x="51" y="181" width="18" height="18" rx="4" fill="#fff" stroke="var(--accent)" strokeWidth="5" />
+      <rect x="171" y="181" width="18" height="18" rx="4" fill="#fff" stroke="var(--accent)" strokeWidth="5" />
+      <g className="boxy-eyes" fill="#1D1D1F"><rect x="96" y="106" width="11" height="30" rx="5.5" /><rect x="133" y="106" width="11" height="30" rx="5.5" /></g>
+      <path d="M104 156Q120 168 136 156" fill="none" stroke="#1D1D1F" strokeWidth="7" strokeLinecap="round" />
     </svg>
   );
 }

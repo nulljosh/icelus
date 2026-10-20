@@ -198,7 +198,7 @@ let drawTools: [Preset] = [
     Preset(id: "wand", label: "Magic wand", category: "Draw", template: ["╱✦"]),
     Preset(id: "text", label: "Text", category: "Draw", template: ["Text"]),
     Preset(id: "banner", label: "Banner", category: "Draw", template: bannerText("TITLE")),
-    Preset(id: "boxy", label: "Boxy", category: "Draw", template: ["   ▌   ", "╭─────╮", "│ ● ● │", "│  ◡  │", "╰─┬─┬─╯"]),
+    Preset(id: "boxy", label: "Boxy", category: "Draw", template: ["╭────╴╱", "│ ▌ ▌ │", "│  ◡  │", "▣─────▣"]),
 ]
 
 /// Part packs: parts in the style of a platform, a port of PACKS in src/lib/presets.js.

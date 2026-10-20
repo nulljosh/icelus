@@ -1,6 +1,6 @@
 # Icelus
 
-v55.1.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
+v55.2.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
 like Figma or Photoshop, and underneath every screen is text on a character grid that pastes anywhere. Web (Vite + React 19) at icelus.jaybulb.com, native SwiftUI for
 iPhone, iPad and Mac (ASC app 6794988951, $0.99), plus a Watch app and a terminal companion.
 

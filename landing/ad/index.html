@@ -98,24 +98,23 @@ function monoBlock(lines, x, y, size, lh, color = INK, alpha = 1) {
   lines.forEach((l, i) => ctx.fillText(l, x, y + i * lh)); ctx.restore();
 }
 
-function boxy(cx, cy, s, t, wave = 0) {
+function boxy(cx, cy, s, t, wave = 0) { // brand/mascot.svg: a frame still being drawn, cursor eyes, handle feet
   const k = s / 120;
-  ctx.save(); ctx.translate(cx - 120 * k, cy - 116 * k); ctx.scale(k, k);
-  ctx.fillStyle = '#0F2E8A'; rr(114, 42, 12, 40, 4); ctx.fill();
-  ctx.fillRect(84, 176, 18, 14); ctx.fillRect(138, 176, 18, 14);
-  if (wave > 0) {
-    const a = -0.9 + Math.sin(t * 9) * 0.45 * wave;
-    ctx.save(); ctx.translate(168, 132); ctx.rotate(a); ctx.strokeStyle = LIGHT; ctx.lineWidth = 14; ctx.lineCap = 'round';
-    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(44, 0); ctx.stroke(); ctx.restore();
-  }
-  ctx.fillStyle = LIGHT; rr(68, 76, 104, 104, 28); ctx.fill();
+  ctx.save(); ctx.translate(cx - 120 * k, cy - 128 * k); ctx.scale(k, k);
+  ctx.fillStyle = '#DCE8FF'; rr(67, 77, 106, 106, 21); ctx.fill();
+  ctx.strokeStyle = LIGHT; ctx.lineWidth = 14; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(146, 70); ctx.lineTo(88, 70); ctx.arcTo(60, 70, 60, 98, 28); ctx.lineTo(60, 162); ctx.arcTo(60, 190, 88, 190, 28);
+  ctx.lineTo(152, 190); ctx.arcTo(180, 190, 180, 162, 28); ctx.lineTo(180, 104); ctx.stroke();
+  if (wave > 0) { // the pen waves
+    ctx.save(); ctx.translate(172, 75); ctx.rotate(Math.PI / 4 + Math.sin(t * 9) * 0.5 * wave); ctx.fillStyle = '#fff'; rr(-6, -17, 12, 34, 6); ctx.fill(); ctx.restore();
+  } else { ctx.save(); ctx.translate(172, 75); ctx.rotate(Math.PI / 4); ctx.fillStyle = '#fff'; rr(-6, -17, 12, 34, 6); ctx.fill(); ctx.restore(); }
+  ctx.lineWidth = 5; ctx.fillStyle = '#fff';
+  for (const x of [51, 171]) { rr(x, 181, 18, 18, 4); ctx.fill(); ctx.stroke(); }
   const blink = (t % 3.2) < 0.12 ? 0.15 : 1;
   ctx.fillStyle = INK;
-  for (const ex of [100, 140]) { ctx.beginPath(); ctx.ellipse(ex, 116, 8, 8 * blink, 0, 0, 7); ctx.fill(); }
-  ctx.fillStyle = '#fff';
-  for (const ex of [102.5, 142.5]) { ctx.beginPath(); ctx.arc(ex, 113.5, 2.5, 0, 7); ctx.fill(); }
-  ctx.strokeStyle = INK; ctx.lineWidth = 6; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(108, 140); ctx.quadraticCurveTo(120, 152, 132, 140); ctx.stroke();
+  for (const x of [96, 133]) { rr(x, 121 - 15 * blink, 11, 30 * blink, 5.5 * blink); ctx.fill(); }
+  ctx.strokeStyle = INK; ctx.lineWidth = 7; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(104, 156); ctx.quadraticCurveTo(120, 168, 136, 156); ctx.stroke();
   ctx.restore();
 }
 

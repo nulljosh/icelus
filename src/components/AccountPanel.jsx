@@ -138,9 +138,17 @@ function Profile({ user, setUser, recovery, setRecovery }) {
 }
 
 // Settings: what used to sit around the app, in one place.
-function Settings({ darkMode, setDarkMode, look, setLook, more, setMore, onTutorial }) {
+function Settings({ darkMode, setDarkMode, look, setLook, more, setMore, onTutorial, user, onProfile }) {
+  const name = displayName(user);
   return (
     <div className="account-body">
+      {/* The account row, like the one at the top of iOS Settings: Profile is one step in. */}
+      <button type="button" className="account-me" onClick={onProfile}>
+        <span className={`account-avatar${user ? ' is-signed-in' : ''}`} aria-hidden="true">{user ? (name || user.email).slice(0, 1).toUpperCase()
+          : <svg width="22" height="22" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3.2" stroke="currentColor" strokeWidth="1.6" /><path d="M3 15.5c.8-3 3.2-4.5 6-4.5s5.2 1.5 6 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>}</span>
+        <span className="account-row-text"><b>{user ? name || t('profile') : t('sign_in')}</b><small>{user ? user.email : t('account_short')}</small></span>
+        <span className="account-chevron" aria-hidden="true" />
+      </button>
       <div className="account-group">
       <div className="inspector-row">
         <label className="inspector-key" htmlFor="setting-theme">{t('theme')}</label>
@@ -174,18 +182,20 @@ function Settings({ darkMode, setDarkMode, look, setLook, more, setMore, onTutor
   );
 }
 
-// One sheet, one job: the nav bar opens Profile or Settings directly, so there are no tabs to switch.
-export default function AccountPanel({ tab = 'profile', onClose, user, setUser, recovery, setRecovery, settings }) {
+// Settings, with Profile one row in. A reset link opens straight on Profile.
+export default function AccountPanel({ tab = 'settings', onClose, user, setUser, recovery, setRecovery, settings }) {
+  const [view, setView] = useState(tab);
   return (
     <div className="tour-overlay" onClick={onClose}>
-      <div className="tour-card account-card" role="dialog" aria-modal="true" aria-label={t(tab)} onClick={e => e.stopPropagation()}
+      <div className="tour-card account-card" role="dialog" aria-modal="true" aria-label={t(view)} onClick={e => e.stopPropagation()}
         onKeyDown={e => { if (e.key === 'Escape') onClose(); }}>
         <div className="account-head">
-          <h2 className="account-title">{t(tab)}</h2>
+          {view === 'profile' && <button type="button" className="account-back" onClick={() => setView('settings')} aria-label={t('settings')}><span className="account-chevron" aria-hidden="true" /></button>}
+          <h2 className="account-title">{t(view)}</h2>
           <button type="button" className="account-done" onClick={onClose}>{t('done')}</button>
         </div>
-        {tab === 'settings'
-          ? <Settings {...settings} />
+        {view === 'settings'
+          ? <Settings {...settings} user={user} onProfile={() => setView('profile')} />
           : <Profile user={user} setUser={setUser} recovery={recovery} setRecovery={setRecovery} />}
       </div>
     </div>

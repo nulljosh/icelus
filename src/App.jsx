@@ -29,7 +29,6 @@ import { drawCells } from './components/canvasHelpers.js';
 import { cutCells, fillCells, moveCells, shiftCells, cellText } from './lib/select.js';
 import { slides, toDeck } from './lib/deck.js';
 import AccountPanel, { useAccount } from './components/AccountPanel.jsx';
-import { displayName } from './lib/account.js';
 import { TUTORIAL, lessonSnapshot, stepDone, newestButton } from './lib/tutorial.js';
 import { variations, keepVariation } from './lib/tweaks.js';
 import { handoff } from './lib/handoff.js';
@@ -415,12 +414,6 @@ const GearIcon = () => (
     <circle cx="9" cy="9" r="6.4" stroke="currentColor" strokeWidth="2.6" strokeDasharray="2.5 2.53" />
     <circle cx="9" cy="9" r="4.6" stroke="currentColor" strokeWidth="1.6" />
     <circle cx="9" cy="9" r="1.6" fill="currentColor" />
-  </svg>
-);
-const PersonIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-    <circle cx="9" cy="6" r="3.2" stroke="currentColor" strokeWidth="1.6" />
-    <path d="M2.8 16c.6-3.1 3.1-5 6.2-5s5.6 1.9 6.2 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
   </svg>
 );
 const MoonIcon = () => (
@@ -941,10 +934,7 @@ export default function App() {
           </details>
           {DEMO ? (<button className="btn btn-icon-round" onClick={() => setDarkMode(d => !d)} title={t('toggle_dark')} aria-label={t('toggle_dark')}>
             {darkMode ? <SunIcon /> : <MoonIcon />}
-          </button>) : (<><button className="btn btn-icon-round" onClick={() => setAccountOpen('settings')} title={t('settings')} aria-label={t('settings')}><GearIcon /></button>
-          <button className={`btn btn-icon-round${user ? ' is-signed-in' : ''}`} onClick={() => setAccountOpen('profile')} title={t('profile')} aria-label={t('profile')}>
-            {user ? <span className="account-initial" aria-hidden="true">{displayName(user).slice(0, 1).toUpperCase()}</span> : <PersonIcon />}
-          </button></>)}
+          </button>) : (<button className="btn btn-icon-round" onClick={() => setAccountOpen('settings')} title={t('settings')} aria-label={t('settings')}><GearIcon /></button>)}
         </div>
 
         {/* Mobile header: icons only */}
@@ -953,10 +943,7 @@ export default function App() {
           {!DEMO && <button className="btn" onClick={() => setChatOpen(o => !o)} aria-pressed={chatOpen}>{t('describe')}</button>}
           {DEMO ? (<button className="btn btn-icon-round" onClick={() => setDarkMode(d => !d)} title={t('toggle_dark')} aria-label={t('toggle_dark')}>
             {darkMode ? <SunIcon /> : <MoonIcon />}
-          </button>) : (<><button className="btn btn-icon-round" onClick={() => setAccountOpen('settings')} title={t('settings')} aria-label={t('settings')}><GearIcon /></button>
-          <button className={`btn btn-icon-round${user ? ' is-signed-in' : ''}`} onClick={() => setAccountOpen('profile')} title={t('profile')} aria-label={t('profile')}>
-            {user ? <span className="account-initial" aria-hidden="true">{displayName(user).slice(0, 1).toUpperCase()}</span> : <PersonIcon />}
-          </button></>)}
+          </button>) : (<button className="btn btn-icon-round" onClick={() => setAccountOpen('settings')} title={t('settings')} aria-label={t('settings')}><GearIcon /></button>)}
         </div>
       </header>
 

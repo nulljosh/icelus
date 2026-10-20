@@ -37,7 +37,7 @@ export const en = {
   reset_sent: 'If that address has an account, a reset link is on its way.',
   new_password: 'New password', save_password: 'Save password', password_saved: 'Password saved. You are signed in.',
   have_account: 'I have an account', no_account: 'Create an account',
-  account_why: 'An account keeps your name with your work. Everything works without one.',
+  account_short: 'Optional, keeps your name', account_why: 'An account keeps your name with your work. Everything works without one.',
   signed_in_as: 'Signed in as {email}', display_name: 'Name', name_saved: 'Name saved.',
   delete_account: 'Delete account', delete_for_good: 'Delete for good', account_deleted: 'Your account is deleted.',
   delete_confirm: 'This deletes your account for good. Your sketches stay on this device.',
