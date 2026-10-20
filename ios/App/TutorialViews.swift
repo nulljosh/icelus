@@ -2,9 +2,10 @@ import SwiftUI
 
 // The tutorial card and the first-launch sheet. The steps themselves live in Tutorial.swift.
 
-/// One short step at a time, at the bottom of the screen, never in the way of the grid.
+/// One short step at a time, in its own row under the toolbar: never over the parts, the grid or a control.
 struct TutorialCard: View {
     let step: Int
+    var compact = false // the iPhone layout, where the parts are under Add
     let onClose: () -> Void
 
     var body: some View {
@@ -17,16 +18,17 @@ struct TutorialCard: View {
             Spacer(minLength: 0)
             Button(last ? "Got it" : "Skip", action: onClose).buttonStyle(.bordered).buttonBorderShape(.capsule)
         }
-        .padding(16)
-        .frame(maxWidth: 440)
-        .background(RoundedRectangle(cornerRadius: 28).fill(Theme.background).shadow(color: .black.opacity(0.18), radius: 16, y: 8))
-        .padding(16)
+        .padding(.horizontal, 16).padding(.vertical, 12)
+        .frame(maxWidth: 560)
+        .background(RoundedRectangle(cornerRadius: 20).fill(Theme.canvas))
+        .padding(.horizontal, 16).padding(.vertical, 8)
+        .frame(maxWidth: .infinity)
         .accessibilityElement(children: .combine)
     }
 
     private func lessonText(_ name: String) -> String {
         switch name {
-        case "pick": return "Pick Button in the parts below."
+        case "pick": return compact ? "Tap Add, then pick Button." : "Pick Button in the parts below."
         #if os(macOS)
         case "place": return "Click the grid to put the button there."
         #else

@@ -1,6 +1,6 @@
 # Icelus
 
-v55.0.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
+v55.1.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
 like Figma or Photoshop, and underneath every screen is text on a character grid that pastes anywhere. Web (Vite + React 19) at icelus.jaybulb.com, native SwiftUI for
 iPhone, iPad and Mac (ASC app 6794988951, $0.99), plus a Watch app and a terminal companion.
 
@@ -80,6 +80,7 @@ Rules live in `brand/BRAND.md`. Blueprint blue `#1D4ED8` is the one accent, for 
 The system font (SF Pro on Apple devices), never a custom face. Monospace only inside the grid. Mascot: Boxy. Real look: controls draw in the system font with the same tokens.
 
 ## Native notes
+- iPhone (compact width) uses `ContentView+Phone.swift`: canvas edge to edge, Liquid Glass bars (`glass(in:)`, material before iOS 26) with undo/redo, Tools menu, Play, Export on top and Add, Layers, History, Settings tabs at the bottom; iPad and Mac use `regularLayout`. Sideways ScrollViews get `.fixedSize(horizontal: false, vertical: true)` or they take half the screen. Marks (selection, notes, hotspots) draw in `overlayMarks`, above the real layer. Launch flags for simulator shots: `-shot-lesson YES`, `-shot-select YES`, `-shot-sheet add|settings`.
 - One target builds iOS and macOS (`supportedDestinations`). Two entitlements files, split by SDK, because
   `application-identifier` is not a valid Mac entitlement.
 - Measure text with CoreText, not UIFont, so the canvas compiles on both platforms without `#if`.

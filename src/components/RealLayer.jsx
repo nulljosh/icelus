@@ -61,12 +61,17 @@ function Part({ el, charW, rowH, byId }) {
   }
 }
 
-// Hotspots (hotspots.js) over the artboards: a ring on each one's bottom right, and a dashed link to its screen when picked.
-function Links({ elements, picked, charW, rowH }) {
-  const spots = elements.flatMap(el => { const to = !el.hidden && opensScreen(elements, el); return to ? [[el, to]] : []; });
-  if (!spots.length) return null;
+// What sits over the artboards, so it is never hidden under one: note dots, outlines round picked parts, and
+// hotspots (hotspots.js), a ring on each one's bottom right and a dashed link to its screen when picked.
+function Marks({ elements, picked, charW, rowH }) {
+  const shown = elements.filter(el => !el.hidden);
+  const spots = shown.flatMap(el => { const to = opensScreen(elements, el); return to ? [[el, to]] : []; });
+  const notes = shown.filter(el => el.note), boxes = shown.filter(el => picked.includes(el.id) && el.presetId !== 'screen');
+  if (!spots.length && !notes.length && !boxes.length) return null;
   return (
     <svg className="real-links">
+      {boxes.map(el => <rect key={`b${el.id}`} className="real-pick" x={el.col * charW - 2} y={el.row * rowH - 2} width={el.width * charW + 4} height={el.height * rowH + 4} rx="4" />)}
+      {notes.map(el => <circle key={`n${el.id}`} className="real-note" cx={(el.col + el.width) * charW} cy={el.row * rowH} r="4" />)}
       {spots.map(([el, to]) => {
         const x = (el.col + el.width) * charW, y = (el.row + el.height) * rowH;
         return (
@@ -85,7 +90,7 @@ export default memo(function RealLayer({ elements, charW, rowH, fontSize, picked
   return (
     <div className="real-layer" style={{ '--real-size': `${Math.round(fontSize * 0.93)}px`, '--row': `${rowH}px` }} aria-hidden="true">
       {elements.map(el => (el.hidden ? null : <Part key={el.id} el={el} charW={charW} rowH={rowH} byId={byId} />))}
-      <Links elements={elements} picked={picked} charW={charW} rowH={rowH} />
+      <Marks elements={elements} picked={picked} charW={charW} rowH={rowH} />
     </div>
   );
 });

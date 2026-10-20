@@ -71,7 +71,7 @@ struct CanvasView: View {
         }
         .frame(width: canvasSize.width, height: canvasSize.height, alignment: .topLeading)
         .overlay(alignment: .topLeading) { if real { RealLayerView(elements: parts, charW: charW, rowH: charH, fontSize: fontSize) } }
-        .overlay(alignment: .topLeading) { hotspotMarks }
+        .overlay(alignment: .topLeading) { overlayMarks }
         .background(Theme.canvas, in: RoundedRectangle(cornerRadius: Theme.radius))
         .overlay(RoundedRectangle(cornerRadius: Theme.radius).strokeBorder(Theme.rule, lineWidth: 1))
         .gesture(tapGesture)
@@ -215,26 +215,28 @@ struct CanvasView: View {
             let area = CGRect(x: charW * CGFloat(el.col), y: rowHeight * CGFloat(el.row), width: charW * CGFloat(el.width), height: rowHeight * CGFloat(el.height))
             context.stroke(Path(area.insetBy(dx: 0.5, dy: 0.5)), with: .color(Theme.accent), style: StrokeStyle(lineWidth: 1, dash: [3, 3]))
         }
-        for el in parts where el.note != nil && !el.hidden { // a part with a note wears a dot on its top right corner
-            let dot = CGRect(x: charW * CGFloat(el.col + el.width) - 4, y: rowHeight * CGFloat(el.row) - 4, width: 8, height: 8)
-            context.fill(Path(ellipseIn: dot), with: .color(Theme.accent))
-        }
-        for el in outlined {
-            let box = CGRect(x: charW * CGFloat(el.col), y: rowHeight * CGFloat(el.row),
-                             width: charW * CGFloat(el.width), height: rowHeight * CGFloat(el.height))
-            context.stroke(Path(roundedRect: box.insetBy(dx: -2, dy: -2), cornerRadius: 4), with: .color(Theme.accent), lineWidth: 1)
-        }
-        if let el = selected {
-            let box = CGRect(x: charW * CGFloat(el.col), y: rowHeight * CGFloat(el.row),
-                             width: charW * CGFloat(el.width), height: rowHeight * CGFloat(el.height))
-            context.stroke(Path(roundedRect: box.insetBy(dx: -2, dy: -2), cornerRadius: 4),
-                           with: .color(Theme.accent), lineWidth: 2)
-        }
     }
 
-    /// Hotspots (Hotspots.swift) over every artboard: a ring on each one's bottom right, a dashed link to its screen when picked.
-    private var hotspotMarks: some View {
+    /// What sits over every artboard: note dots, outlines round picked parts and the selection, and hotspots
+    /// (Hotspots.swift), a ring on each one's bottom right and a dashed link to its screen when picked.
+    private var overlayMarks: some View {
         Canvas { context, _ in
+            // Over the real look, so a note, a picked part and the selection still show on an artboard.
+            for el in parts where el.note != nil && !el.hidden { // a part with a note wears a dot on its top right corner
+                let dot = CGRect(x: charW * CGFloat(el.col + el.width) - 4, y: charH * CGFloat(el.row) - 4, width: 8, height: 8)
+                context.fill(Path(ellipseIn: dot), with: .color(Theme.accent))
+            }
+            for el in outlined {
+                let box = CGRect(x: charW * CGFloat(el.col), y: charH * CGFloat(el.row),
+                                 width: charW * CGFloat(el.width), height: charH * CGFloat(el.height))
+                context.stroke(Path(roundedRect: box.insetBy(dx: -2, dy: -2), cornerRadius: 4), with: .color(Theme.accent), lineWidth: 1)
+            }
+            if let el = selected {
+                let box = CGRect(x: charW * CGFloat(el.col), y: charH * CGFloat(el.row),
+                                 width: charW * CGFloat(el.width), height: charH * CGFloat(el.height))
+                context.stroke(Path(roundedRect: box.insetBy(dx: -2, dy: -2), cornerRadius: 4),
+                               with: .color(Theme.accent), lineWidth: 2)
+            }
             for el in parts where !el.hidden { // a hotspot wears a ring on its bottom right, and a dashed link to its screen when picked
                 guard let to = opensScreen(parts, el) else { continue }
                 let p = CGPoint(x: charW * CGFloat(el.col + el.width), y: charH * CGFloat(el.row + el.height))

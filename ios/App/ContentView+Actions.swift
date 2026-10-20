@@ -360,6 +360,13 @@ extension ContentView {
 
     func restore() {
         if let saved = Store.load() { state = saved }
+        if UserDefaults.standard.bool(forKey: "shot-lesson") { startLesson() } // `-shot-lesson YES` opens on step 1, for screenshots
+        if UserDefaults.standard.bool(forKey: "shot-select") { selectedId = state.elements.last?.id } // `-shot-select YES` picks the top part
+        switch UserDefaults.standard.string(forKey: "shot-sheet") { // `-shot-sheet add|settings` opens a sheet
+        case "add": addingParts = true
+        case "settings": accountTab = "settings"; showingAccount = true
+        default: break
+        }
     }
 
     // ponytail: write on every edit — the project is a few KB, so debouncing would be

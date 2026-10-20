@@ -1,12 +1,12 @@
 import SwiftUI
 
-/// Profile or Settings, one sheet each (the toolbar opens either directly), a port of src/components/AccountPanel.jsx. Signed out you can sign in, create
+/// Settings, with Profile one row in (like the account row in iOS Settings), a port of src/components/AccountPanel.jsx. Signed out you can sign in, create
 /// an account or ask for a reset link (the link finishes on the web, then you sign in here). Signed in you can
 /// set your name, sign out, or delete the account for good.
 struct AccountSheet: View {
     @Binding var session: AccountSession?
     @Binding var showMore: Bool
-    let tab: String // "profile" or "settings"
+    var tab = "settings" // "profile" opens straight on Profile
     let onTutorial: () -> Void
     var client = AccountClient()
     @Environment(\.dismiss) private var dismiss
@@ -19,15 +19,18 @@ struct AccountSheet: View {
     @State private var notice: String?
     @State private var busy = false
     @State private var deleting = false
+    @State private var path: [String] = []
 
     var body: some View {
-        NavigationStack {
-            Form {
-                if tab == "profile" { profile } else { settings }
-            }
-            .navigationTitle(tab == "profile" ? "Profile" : "Settings")
-            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } } }
-            .onAppear { name = displayName(session?.user) }
+        NavigationStack(path: $path) {
+            Form { settings }
+                .navigationTitle("Settings")
+                .navigationDestination(for: String.self) { _ in
+                    Form { profile }.navigationTitle("Profile")
+                        .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } } }
+                }
+                .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } } }
+                .onAppear { name = displayName(session?.user); if tab == "profile" && path.isEmpty { path = ["profile"] } }
         }
     }
 
@@ -85,17 +88,35 @@ struct AccountSheet: View {
         if let notice { Text(LocalizedStringKey(notice)).foregroundStyle(Theme.accent) }
     }
 
-    private var settings: some View {
+    @ViewBuilder private var settings: some View {
         Section {
+            NavigationLink(value: "profile") {
+                HStack(spacing: 12) {
+                    Image(systemName: "person.crop.circle.fill").font(.system(size: 44)).foregroundStyle(session == nil ? Theme.muted : Theme.accent)
+                    VStack(alignment: .leading, spacing: 2) {
+                        let n = displayName(session?.user)
+                        Text(session == nil ? "Sign in" : n.isEmpty ? "Profile" : n).font(.headline).foregroundStyle(Theme.ink)
+                        Text(verbatim: session?.user.email ?? String(localized: "Keep your name with your work")).font(.footnote).foregroundStyle(Theme.muted)
+                    }
+                }
+                .padding(.vertical, 4)
+            }
+        }
+        Section("Canvas") {
             Picker("Look", selection: $look) {
                 Text("Real").tag("real")
                 Text("Text").tag("text")
             }
             Toggle("Show all controls", isOn: $showMore)
+        }
+        Section("Help") {
             Button("Tutorial") { dismiss(); onTutorial() }
             #if os(iOS)
             Button("Language") { if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) } }
             #endif
+        }
+        Section {
+            LabeledContent("Version", value: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")
         }
     }
 

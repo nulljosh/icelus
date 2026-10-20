@@ -1,6 +1,6 @@
 <img src="icon.svg" width="80" alt="Icelus">
 
-![version](https://img.shields.io/badge/version-v55.0.0-blue)
+![version](https://img.shields.io/badge/version-v55.1.0-blue)
 ![license](https://img.shields.io/badge/license-Apache%202.0-green)
 
 Describe a screen and it draws. Then edit it like Figma or Photoshop, with real buttons, fields and switches on artboards. Underneath, every screen is text on a character grid, so it pastes into a README, an issue or a chat and stays editable.
@@ -36,7 +36,7 @@ Command line: `printf '"Email"  [Sign in]' | node bin/icelus.js draw`. Terminal 
 The GitHub Action fails a build when a box in a Markdown wireframe no longer closes:
 
 ```yaml
-- uses: nulljosh/icelus@v55.0.0
+- uses: nulljosh/icelus@v55.1.0
   with: { files: "README.md docs/*.md" }
 ```
 

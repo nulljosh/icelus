@@ -6,6 +6,8 @@ import SwiftUI
 struct PaletteView: View {
     @Binding var selection: Preset?
     @Binding var erasing: Bool
+    /// The iPhone Add sheet lists the sections top to bottom in a grid; elsewhere it is one row that scrolls sideways.
+    var vertical = false
     @AppStorage("glyphic-palette") private var mineRaw = "[]"
     @AppStorage("glyphbox-more") private var showMore = false
     @AppStorage("glyphbox-look") private var look = "real"
@@ -22,28 +24,52 @@ struct PaletteView: View {
     private var moreTools: [Preset] { drawTools.filter { Self.moreIds.contains($0.id) } }
     private func group(of p: Preset) -> String { Self.toolGroups[p.id] ?? p.category }
 
+    private var categories: [String] {
+        (mine.isEmpty ? [] : [mineCategory]) + presetCategories + ["Screens"] + (vertical ? [] : ["Draw"])
+            + (showMore ? (vertical ? [] : ["Paint", "Pick", "More tools"]) + packCategories : [])
+    }
+    private func parts(in category: String) -> [Preset] {
+        (everydayTools + moreTools + mine + screenTemplates + presets + packs).filter { group(of: $0) == category }
+    }
+
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(alignment: .top, spacing: 24) {
-                ForEach(presetCategories + ["Draw"] + (mine.isEmpty ? [] : [mineCategory]) + ["Screens"] + (showMore ? ["Paint", "Pick", "More tools"] + packCategories : []), id: \.self) { category in
-                    categoryColumn(category)
+        if vertical {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    ForEach(categories, id: \.self) { category in
+                        VStack(alignment: .leading, spacing: 8) {
+                            heading(category)
+                            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 8)], alignment: .leading, spacing: 8) {
+                                ForEach(parts(in: category)) { chip($0) }
+                            }
+                        }
+                    }
                 }
+                .padding(20)
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 14)
+            .background(Theme.background)
+        } else {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .top, spacing: 24) {
+                    ForEach(categories, id: \.self) { categoryColumn($0) }
+                }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 14)
+            }
+            .fixedSize(horizontal: false, vertical: true) // one row tall, never a share of the screen
+            .background(Theme.background)
         }
-        .background(Theme.background)
+    }
+
+    private func heading(_ category: String) -> some View {
+        Text(LocalizedStringKey(category)).textCase(.uppercase).font(.caption2).tracking(1.2).foregroundStyle(Theme.muted)
     }
 
     private func categoryColumn(_ category: String) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(LocalizedStringKey(category)).textCase(.uppercase)
-                .font(.caption2)
-                .tracking(1.2)
-                .foregroundStyle(Theme.muted)
-
+            heading(category)
             HStack(alignment: .top, spacing: 8) {
-                ForEach((everydayTools + moreTools + mine + screenTemplates + presets + packs).filter { group(of: $0) == category }) { preset in
+                ForEach(parts(in: category)) { preset in
                     chip(preset)
                         .contextMenu {
                             if preset.category == mineCategory {
@@ -83,6 +109,7 @@ struct PaletteView: View {
                     picture
                     Text(LocalizedStringKey(preset.label)).font(.footnote).foregroundStyle(isSelected ? Theme.accent : Theme.ink)
                 }
+                .frame(maxWidth: vertical ? .infinity : nil, alignment: .leading)
                 .padding(10)
                 .background(isSelected ? Theme.accent.opacity(0.14) : Theme.canvas, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                 .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(isSelected ? Theme.accent : Theme.rule, lineWidth: 1))
@@ -92,6 +119,7 @@ struct PaletteView: View {
                     .foregroundStyle(isSelected ? Color.white : Theme.ink)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
+                    .frame(maxWidth: vertical ? .infinity : nil, minHeight: vertical ? 66 : nil, alignment: .leading)
                     .background(isSelected ? Theme.accent : Theme.canvas,
                                 in: Capsule())
                     .overlay(Capsule().strokeBorder(Theme.rule, lineWidth: isSelected ? 0 : 1))

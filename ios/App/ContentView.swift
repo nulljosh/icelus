@@ -40,6 +40,10 @@ struct ContentView: View {
     /// Signed in, or nil. Kept in the Keychain (Account.swift).
     @State var session = SessionStore.load()
     @State var showingLayers = false
+    @State var addingParts = false // the iPhone Add sheet
+    #if os(iOS)
+    @Environment(\.horizontalSizeClass) var sizeClass
+    #endif
     @State var showingCopy = false
     @State var showingHistory = false
     @State var reviewing = false
@@ -60,21 +64,8 @@ struct ContentView: View {
     ]
 
     var body: some View {
-        VStack(spacing: 0) {
-            toolbar
-            Divider().overlay(Theme.rule)
-            canvas
-            if ["brush", "gradient", "adjust"].contains(selection?.id) || erasing { Divider().overlay(Theme.rule); brushBar }
-            if pickingCells { Divider().overlay(Theme.rule); selectBar }
-            if let el = selectedElement {
-                Divider().overlay(Theme.rule)
-                inspector(el)
-            }
-            Divider().overlay(Theme.rule)
-            PaletteView(selection: $selection, erasing: $erasing)
-        }
+        layout // ContentView+Phone.swift: the iPhone layout, or this one on iPad and Mac
         .background(Theme.background)
-        .overlay(alignment: .bottom) { if let lesson { TutorialCard(step: lesson) { self.lesson = nil } } }
         .sheet(isPresented: Binding(get: { !tourSeen }, set: { if !$0 { tourSeen = true } })) {
             WelcomeSheet(onStart: startLesson, onSkip: { tourSeen = true })
         }
@@ -150,69 +141,37 @@ struct ContentView: View {
         }
     }
 
+    /// iPad and Mac: the toolbar, the canvas, the selection row and the parts along the bottom.
+    var regularLayout: some View {
+        VStack(spacing: 0) {
+            toolbar
+            Divider().overlay(Theme.rule)
+            // The tutorial takes its own row under the toolbar, so it never covers the parts or controls it points at.
+            if let lesson { TutorialCard(step: lesson) { self.lesson = nil } }
+            canvas
+            editBars
+            Divider().overlay(Theme.rule)
+            PaletteView(selection: $selection, erasing: $erasing)
+        }
+    }
+
+    /// The bars under the canvas: the brush or selection bar while one is in use, and the selected part's row.
+    @ViewBuilder var editBars: some View {
+        if ["brush", "gradient", "adjust"].contains(selection?.id) || erasing { Divider().overlay(Theme.rule); brushBar }
+        if pickingCells { Divider().overlay(Theme.rule); selectBar }
+        if let el = selectedElement {
+            Divider().overlay(Theme.rule)
+            inspector(el)
+        }
+    }
+
     // MARK: - Pieces
 
     var selectedElement: Element? {
         state.elements.first { $0.id == selectedId }
     }
 
-    /// The elements as drawn right now, with the snap guides: mid-drag the selected part sits where it will
-    /// land, and while the arrow tool drags, the line being drawn shows.
-    var shown: (elements: [Element], cols: [Int], rows: [Int]) {
-        if let lineDrag { return (state.elements + [createLine(state.elements, start: lineDrag.start, end: lineDrag.end)], [], []) }
-        if !stroke.isEmpty { return (strokeResult, [], []) }
-        guard let drag, let id = selectedId else { return (state.elements, [], []) }
-        return dragTarget(id, drag)
-    }
-
-    /// Where a dragged part lands: moved, then snapped to other parts' edges and centres.
-    func dragTarget(_ id: String, _ d: (col: Int, row: Int)) -> (elements: [Element], cols: [Int], rows: [Int]) {
-        let nudged = nudgeElement(state.elements, id: id, dCol: d.col, dRow: d.row, cols: state.cols, rows: state.rows)
-        guard (d.col, d.row) != (0, 0), let el = nudged.first(where: { $0.id == id }) else { return (nudged, [], []) }
-        let snap = snapPosition(state.elements, id: id, col: el.col, row: el.row)
-        return (moveElement(state.elements, id: id, col: snap.col, row: snap.row), snap.guideCols, snap.guideRows)
-    }
-
-    var canvas: some View {
-        let shown = shown
-        // Real look: the grid keeps only character parts; RealLayerView draws the rest.
-        let drawn = look == "real" ? shown.elements.filter { realPart($0) == nil } : shown.elements
-        return ScrollView([.horizontal, .vertical]) {
-            CanvasView(
-                grid: look == "real" ? renderElements(drawn, cols: state.cols, rows: state.rows)
-                    : drag == nil && lineDrag == nil && stroke.isEmpty ? state.grid : renderElements(shown.elements, cols: state.cols, rows: state.rows),
-                fontSize: fontSize,
-                selected: shown.elements.first { $0.id == selectedId },
-                outlined: shown.elements.filter { el in el.id != selectedId
-                    && (picked.contains(el.id) || groupMates(shown.elements, shown.elements.first { $0.id == selectedId }).contains { $0.id == el.id }) },
-                onTap: tap,
-                onDrag: dragged,
-                drawing: selection?.id == "line",
-                onLine: lined,
-                painting: ["brush", "gradient", "adjust"].contains(selection?.id) || erasing || pickingCells,
-                picked: pickedShown,
-                onPaint: stroked,
-                guideCols: shown.cols,
-                guideRows: shown.rows,
-                trace: trace,
-                accent: drawn.contains { $0.accent } ? accentMask(drawn, cols: state.cols, rows: state.rows) : nil,
-                colors: hasColor(drawn) ? colorMask(drawn, cols: state.cols, rows: state.rows) : nil,
-                real: look == "real",
-                parts: look == "real" ? shown.elements : state.elements
-            )
-            .padding(20)
-        }
-        .background(Theme.background)
-        // Pinch zooms by font size, like the zoom buttons.
-        .simultaneousGesture(MagnifyGesture()
-            .onChanged { value in
-                if pinchStart == nil { pinchStart = fontSize }
-                fontSize = min(Self.maxFontSize, max(Self.minFontSize, (pinchStart ?? fontSize) * value.magnification))
-            }
-            .onEnded { _ in pinchStart = nil })
-    }
-
-    func inspector(_ el: Element) -> some View {
+    func inspector(_ el: Element, floating: Bool = false) -> some View {
         // Scrolls sideways on a narrow iPhone.
         ScrollView(.horizontal, showsIndicators: false) { HStack(spacing: 16) {
             Text(el.label).font(.headline).foregroundStyle(Theme.ink)
@@ -309,11 +268,12 @@ struct ContentView: View {
                 .keyboardShortcut("]", modifiers: [])
             }
         } }
+        .fixedSize(horizontal: false, vertical: true) // one row tall: a sideways ScrollView otherwise takes half the screen
         .background { nudgeKeys(el) }
         .foregroundStyle(Theme.ink)
         .padding(.horizontal, 20)
         .padding(.vertical, 8)
-        .background(Theme.background)
+        .background(floating ? Color.clear : Theme.background) // floating: on the iPhone glass bar
     }
 
     /// Arrow keys nudge, Shift for 5. Invisible buttons carry the shortcuts.
