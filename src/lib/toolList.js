@@ -175,6 +175,22 @@ export const TOOLS = [
     },
   },
   {
+    name: 'play_prototype',
+    description:
+      'Click through a prototype like a tester: start on a screen and press hotspots (parts set with edit_project ' +
+      'opens) in turn. Returns each screen visited with its name and text, or the step where a press was not a hotspot ' +
+      'on the screen shown, so an agent can check that a flow reaches where it should.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'object', description: 'A Icelus project: { blockprint: 1, cols, rows, elements }.' },
+        start: { type: 'integer', description: 'The screen to start on, by its place in elements. Omit for the first screen.' },
+        presses: { type: 'array', items: { type: 'integer' }, description: 'Parts to press in order, by their place in elements. At most 50.' },
+      },
+      required: ['project'],
+    },
+  },
+  {
     name: 'inspect_part',
     description:
       'Inspect one part, like Figma Dev Mode: its column, row, width and height in cells, the gap to the nearest part or ' +

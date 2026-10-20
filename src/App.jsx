@@ -7,6 +7,8 @@ import Inspector from './components/Inspector.jsx';
 import Boxy from './components/Boxy.jsx';
 import Tutorial from './components/Tutorial.jsx';
 import Present from './components/Present.jsx';
+import Play from './components/Play.jsx';
+import { startScreen } from './lib/play.js';
 import BrushBar from './components/BrushBar.jsx';
 import ChatPanel from './components/ChatPanel.jsx';
 import HistoryList from './components/HistoryList.jsx';
@@ -500,6 +502,7 @@ export default function App() {
   const [brush, setBrush] = useState({ char: '█', size: 1, ramp: 'straight', adjust: 'invert' });
   const [cellSel, setCellSel] = useState([]); // the cells the marquee or wand picked
   const [presenting, setPresenting] = useState(null);
+  const [playing, setPlaying] = useState(null); // play mode (play.js): the screen it starts on
   const [chatOpen, setChatOpen] = useState(false); // Describe it // the slides on show, or null
   const [mobileSheet, setMobileSheet] = useState(null); // null | 'components' | 'inspector' | 'more'
   const [darkMode, setDarkMode] = useState(() => {
@@ -786,6 +789,12 @@ export default function App() {
     if (list.length) setPresenting(list); else setToast(t('no_slides'));
   }, [state.elements, state.cols, state.rows, state.snapshots]);
   const closePresent = useCallback(() => setPresenting(null), []);
+  // Play mode: click through the screens by their hotspots, starting on the picked screen.
+  const handlePlay = useCallback(() => {
+    const s = startScreen(state.elements, state.selectedId);
+    if (s) setPlaying(s.id); else setToast(t('no_slides'));
+  }, [state.elements, state.selectedId]);
+  const closePlay = useCallback(() => setPlaying(null), []);
   // Describe it changes the picked screen, read back as typed lines; with no screen picked it draws a new one.
   const describedScreen = state.elements.find(e => e.id === state.selectedId && e.presetId === 'screen') ?? null;
   const describedSource = useMemo(() => (describedScreen ? toSketch(partsInside(state.elements, describedScreen)).source : ''), [describedScreen, state.elements]);
@@ -883,6 +892,7 @@ export default function App() {
       )}
       {lesson !== null && <Tutorial step={lesson} onClose={() => setLesson(null)} />}
       {presenting && <Present slides={presenting} onClose={closePresent} />}
+      {playing && <Play elements={state.elements} start={playing} onClose={closePlay} />}
       {chatOpen && <ChatPanel onClose={() => setChatOpen(false)} current={describedSource} currentName={describedScreen?.text}
         onScreen={source => dispatch({ type: 'PLACE_DESCRIBED', source, replaceId: describedScreen?.id })} />}
       <input ref={photoRef} type="file" accept="image/*" hidden onChange={handlePhoto} />
@@ -920,6 +930,7 @@ export default function App() {
               {state.elements.some(el => el.symbol) && <button role="menuitem" onClick={(e) => { handleDownloadLibrary(); closeMenu(e); }}>{t('download_library')}</button>}
               <hr />
               <span className="menu-head">{t('menu_share')}</span>
+              <button role="menuitem" onClick={(e) => { handlePlay(); closeMenu(e); }}>{t('play')}</button>
               <button role="menuitem" onClick={(e) => { handlePresent(); closeMenu(e); }}>{t('present')}</button>
               <button role="menuitem" onClick={(e) => { handleShareLink(); closeMenu(e); }}>{t('copy_share')}</button>
               <button role="menuitem" onClick={(e) => { handleEmbed(); closeMenu(e); }}>{t('copy_embed')}</button>
@@ -1098,6 +1109,7 @@ export default function App() {
           <button className="mobile-action-item" onClick={() => { handleCopySketch(); closeSheet(); }}>{t('copy_lines')}</button>
           {hasColor(state.elements) && <button className="mobile-action-item" onClick={() => { handleCopyAnsi(); closeSheet(); }}>{t('copy_ansi')}</button>}
           {screensDoc && <button className="mobile-action-item" onClick={() => { handleCopyScreens(); closeSheet(); }}>{t('copy_screens')}</button>}
+          <button className="mobile-action-item" onClick={() => { handlePlay(); closeSheet(); }}>{t('play')}</button>
           <button className="mobile-action-item" onClick={() => { handlePresent(); closeSheet(); }}>{t('present')}</button>
           <button className="mobile-action-item" onClick={() => { handleCopyHandoff(); closeSheet(); }}>{t('copy_handoff')}</button>
           <button className="mobile-action-item" onClick={() => { handleCopyReact(); closeSheet(); }}>{t('copy_react')}</button>

@@ -355,5 +355,6 @@ runInspectChecks()
 runAccessChecks()
 runCopyChecks()
 runHotspotChecks()
+runPlayChecks()
 
 print("ok — \(checks) checks passed")

@@ -25,18 +25,20 @@ func updateElement(_ elements: [Element], id: String, opens screenId: String?) -
     }
 }
 
+/// The words on a part, for a flow line or a spoken hotspot: letters, digits and spaces, or its kind.
+func partWords(_ el: Element) -> String {
+    let w = (el.text ?? el.template.joined(separator: " "))
+        .replacingOccurrences(of: "[^\\p{L}\\p{N}' ]+", with: " ", options: .regularExpression)
+        .replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression).trimmingCharacters(in: .whitespaces)
+    return w.isEmpty ? el.label : w
+}
+
 /// Every way from one screen to another, as Markdown list lines: arrows drawn between screens, then hotspots,
 /// which name the part you press. Used by Copy all screens and the build brief.
 func flowLines(_ elements: [Element]) -> [String] {
     let screens = elements.filter { $0.presetId == "screen" }
     let at = { (col: Int, row: Int) in screens.first { col >= $0.col && col < $0.col + $0.width && row >= $0.row && row < $0.row + $0.height } }
     let name = { (s: Element) in (s.text ?? "").isEmpty ? "Screen" : s.text! }
-    let words = { (el: Element) -> String in
-        let w = (el.text ?? el.template.joined(separator: " "))
-            .replacingOccurrences(of: "[^\\p{L}\\p{N}' ]+", with: " ", options: .regularExpression)
-            .replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression).trimmingCharacters(in: .whitespaces)
-        return w.isEmpty ? el.label : w
-    }
     var out: [String] = []
     func add(_ item: String) { if !out.contains(item) { out.append(item) } }
     for el in elements where el.presetId == "line" {
@@ -45,7 +47,7 @@ func flowLines(_ elements: [Element]) -> [String] {
     }
     for el in elements where canOpen(el) {
         guard let a = at(el.col, el.row), let b = opensScreen(elements, el), a.id != b.id else { continue }
-        add("- \(name(a)) → \(name(b)) (\(words(el)))")
+        add("- \(name(a)) → \(name(b)) (\(partWords(el)))")
     }
     return out
 }

@@ -4,6 +4,7 @@ Icelus was called Charwork, Wiretext, Blockframe, Blockprint, Glyphic and Glyphb
 ships on the web, iPhone, iPad and Mac unless it says otherwise.
 
 ## 2026-10-19
+- **54.0.0** Play mode. Export, then Play shows one screen at a time, as large as fits. Tap a linked button to open its screen, Back to go back, Escape or Done to stop. A tap that misses shows where the links are. Agents get the same as the play_prototype tool.
 - **53.0.0** Hotspots. Pick a button, open More and choose the screen it opens. A small ring marks it, and a dashed line points to its screen while it is picked. Copy all screens and the build brief list every hotspot in the flow by the words on the part.
 - **52.0.0** Copy deck. Open Copy in the inspector to see every word on the canvas in one list and edit any of it there; only those words change. Pick a language and tap Translate to see the whole canvas in it, one step of undo. On iPhone and Mac, Copy is under More (translate is on the web).
 - **51.0.0** Access check. Review now flags controls that keyboard and screen reader focus would visit out of reading order, fields with no label, and controls too narrow to tap or touching each other. Fix Focus Order puts the controls in reading order, screen by screen, in one step.

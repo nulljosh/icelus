@@ -44,6 +44,7 @@ struct ContentView: View {
     @State var showingHistory = false
     @State var reviewing = false
     @State var presenting: [Slide]? = nil
+    @State var playing: String? = nil // play mode (Play.swift): the screen it starts on
     @State var pickingPhoto = false
     @State var photoItem: PhotosPickerItem?
     @State var photoLook = "blocks"
@@ -125,7 +126,13 @@ struct ContentView: View {
         .fullScreenCover(isPresented: Binding(get: { presenting != nil }, set: { if !$0 { presenting = nil } })) {
             if let presenting { PresentView(slides: presenting) }
         }
+        .fullScreenCover(isPresented: Binding(get: { playing != nil }, set: { if !$0 { playing = nil } })) {
+            if let playing { PlayView(elements: state.elements, start: playing) }
+        }
         #else
+        .sheet(isPresented: Binding(get: { playing != nil }, set: { if !$0 { playing = nil } })) {
+            if let playing { PlayView(elements: state.elements, start: playing).frame(minWidth: 800, minHeight: 600) }
+        }
         .sheet(isPresented: Binding(get: { presenting != nil }, set: { if !$0 { presenting = nil } })) {
             if let presenting { PresentView(slides: presenting).frame(minWidth: 800, minHeight: 500) }
         }

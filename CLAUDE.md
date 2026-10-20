@@ -1,6 +1,6 @@
 # Icelus
 
-v53.0.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
+v54.0.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
 like Figma or Photoshop, and underneath every screen is text on a character grid that pastes anywhere. Web (Vite + React 19) at icelus.jaybulb.com, native SwiftUI for
 iPhone, iPad and Mac (ASC app 6794988951, $0.99), plus a Watch app and a terminal companion.
 
@@ -23,7 +23,7 @@ Ex-Charwork, ex-Wiretext, ex-Blockframe, ex-Blockprint, ex-Glyphic, ex-Glyphbox,
 npm install && npm run dev        # :5173
 npm test && npm run build
 npm run build && npx wrangler pages deploy   # a push deploys nothing; ships the app and landing/ together
-swiftc -o /tmp/wtcheck ios/App/Engine.swift ios/App/Lines.swift ios/App/Shapes.swift ios/App/Presets.swift ios/App/Syntax.swift ios/App/Photo.swift ios/App/Palette.swift ios/App/HTML.swift ios/App/Import.swift ios/App/Tweaks.swift ios/App/Critique.swift ios/App/Tutorial.swift ios/App/Account.swift ios/App/Handoff.swift ios/App/Code.swift ios/App/Deck.swift ios/App/Brush.swift ios/App/Select.swift ios/App/Gradient.swift ios/App/Color.swift ios/App/Real.swift ios/App/Mask.swift ios/App/History.swift ios/App/Project.swift ios/App/Actions.swift ios/App/Heal.swift ios/App/Layout.swift ios/App/Symbols.swift ios/App/Modes.swift ios/App/Grids.swift ios/App/Library.swift ios/App/Inspect.swift ios/App/Access.swift ios/App/CopyDeck.swift ios/App/Hotspots.swift ios/Checks/*.swift && /tmp/wtcheck
+swiftc -o /tmp/wtcheck ios/App/Engine.swift ios/App/Lines.swift ios/App/Shapes.swift ios/App/Presets.swift ios/App/Syntax.swift ios/App/Photo.swift ios/App/Palette.swift ios/App/HTML.swift ios/App/Import.swift ios/App/Tweaks.swift ios/App/Critique.swift ios/App/Tutorial.swift ios/App/Account.swift ios/App/Handoff.swift ios/App/Code.swift ios/App/Deck.swift ios/App/Brush.swift ios/App/Select.swift ios/App/Gradient.swift ios/App/Color.swift ios/App/Real.swift ios/App/Mask.swift ios/App/History.swift ios/App/Project.swift ios/App/Actions.swift ios/App/Heal.swift ios/App/Layout.swift ios/App/Symbols.swift ios/App/Modes.swift ios/App/Grids.swift ios/App/Library.swift ios/App/Inspect.swift ios/App/Access.swift ios/App/CopyDeck.swift ios/App/Hotspots.swift ios/App/Play.swift ios/Checks/*.swift && /tmp/wtcheck
 ```
 
 Mac build check (no signing, run in the background, never next to another heavy job):
@@ -66,6 +66,7 @@ file is `{blockprint: 1, cols, rows, elements}` (the old key stays so every save
 - `src/lib/access.js` + `ios/App/Access.swift` (app only): access check (v51), three critique rules. `focus_order` (controls in list order vs reading order, screen by screen; `fixFocusOrder` reorders controls only), `no_label` (a field with no words in it, just left of it or the row above), `small_target` (narrower than 5 cells, or touching another control). Review's Fix Focus Order, edit op `focus`
 - `src/lib/copydeck.js` + `ios/App/CopyDeck.swift` (app only): copy deck (v52). `copyEntries` (runs of words per line, key `part:line:offset` in UTF-16, at most 200), `applyCopy(elements, {key: words})` right to left per part (tables through `cells`). Web `CopyDeck.jsx` in the inspector with Translate (`POST /api/translate {strings, to}`, app origin only, the Describe model, one JSON array, 200 x 200 chars, 8000 total); native `CopySheet.swift` (no translate). MCP `copy_deck`, edit op `copy`
 - `src/lib/hotspots.js` + `ios/App/Hotspots.swift`: hotspots (v53). A part's `opens` is a screen id (`setOpens`, or `updateElement(..., {opens})`); screens, lines, paint and adjustments never open. `opensScreen` ignores a link to a gone screen and project files drop it; `flowLines` (arrows, then hotspots as `- From → To (words)`) feeds screensDocument and the handoff. Web `HotspotPicker.jsx` under More with a ring and a dashed link drawn in RealLayer and drawMarks; native `hotspotControls` and `hotspotMarks` over the real layer. Edit op `opens {screen}`, WebMCP `link_part`
+- `src/lib/play.js` + `ios/App/Play.swift` (app only): play mode (v54). `startScreen` (picked screen, the picked part's screen, else the first), `playView` (one screen and its parts moved to 0,0, its hotspots as `spots`), `spotAt`, `playPath` (presses by part id). Web `Play.jsx` (Export > Play, real look, clear buttons over hotspots, Back, Escape, a missed press flashes them); native `PlayView.swift` (CanvasView in the real look, Export > Play). MCP `play_prototype {project, start?, presses}`
 - `src/lib/editProject.js`: the edit_project ops, split from tools.js; argument checks in `toolArgs.js`
 - `ios/Checks/main.swift`: the JS tests as plain asserts
 - `landing/`: the landing page (static, no build step of its own; `npm run build` copies it to `dist/` and `wrangler pages deploy` publishes it with the app), which embeds the real app at `/app/?demo` (no storage writes), and the ad

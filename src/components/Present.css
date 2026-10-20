@@ -11,3 +11,14 @@
   body.presenting .present-slide { display: flex; height: 100vh; break-after: page; }
   body.presenting .present-bar { display: none; }
 }
+
+/* Play mode (Play.jsx): the screen as large as fits; hotspots are clear buttons that flash on a missed press. */
+.play-stage { position: absolute; inset: var(--sp-4) var(--sp-4) 112px; display: flex; align-items: center; justify-content: center; }
+.play-screen { position: relative; cursor: default; }
+.play-screen pre { position: absolute; inset: 0; margin: 0; white-space: pre; color: var(--color-text); }
+.play .play-spot, .play .play-spot:hover { position: absolute; padding: 0; border: 0; background: transparent; border-radius: 8px; cursor: pointer; transition: background 0.2s ease; }
+.play-spot:focus-visible { outline: 4px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+.play .play-screen.is-hint .play-spot { background: color-mix(in srgb, var(--accent) 25%, transparent); }
+.play .play-spot.is-row { border-radius: 999px; }
+@media (prefers-reduced-motion: reduce) { .play-spot { transition: none; } }
+.play .real-frame-name { display: none; }

@@ -19,7 +19,7 @@ export function setOpens(elements, id, screenId) {
 
 const at = (screens, col, row) => screens.find(s => col >= s.col && col < s.col + s.width && row >= s.row && row < s.row + s.height);
 const name = s => s.text || 'Screen';
-const words = el => (el.text ?? el.template.join(' ')).replace(/[^\p{L}\p{N}' ]+/gu, ' ').replace(/\s+/g, ' ').trim() || el.label;
+export const partWords = el => (el.text ?? el.template.join(' ')).replace(/[^\p{L}\p{N}' ]+/gu, ' ').replace(/\s+/g, ' ').trim() || el.label;
 
 // Every way from one screen to another, as Markdown list lines: arrows drawn between screens, then hotspots,
 // which name the part you press. Used by Copy all screens and the build brief.
@@ -29,6 +29,6 @@ export function flowLines(elements) {
     .map(el => [at(screens, el.from.col, el.from.row), at(screens, el.to.col, el.to.row)])
     .filter(([a, b]) => a && b && a !== b).map(([a, b]) => `- ${name(a)} → ${name(b)}`);
   const spots = elements.map(el => [el, at(screens, el.col, el.row), opensScreen(elements, el)])
-    .filter(([el, a, b]) => canOpen(el) && a && b && a !== b).map(([el, a, b]) => `- ${name(a)} → ${name(b)} (${words(el)})`);
+    .filter(([el, a, b]) => canOpen(el) && a && b && a !== b).map(([el, a, b]) => `- ${name(a)} → ${name(b)} (${partWords(el)})`);
   return [...new Set([...arrows, ...spots])];
 }

@@ -5,6 +5,7 @@
 import { makeLibrary } from './library.js';
 import { inspectPart } from './inspect.js';
 import { copyEntries } from './copydeck.js';
+import { startScreen, playPath } from './play.js';
 import { createGrid, gridToText, textToGrid, stampComponent, renderElements, serializeProject, trimText, parseProject } from './engine.js';
 import { PRESETS as CORE, CATEGORIES as CORE_CATEGORIES, PACKS, PACK_CATEGORIES, getPreset } from './presets.js';
 import { parseSketch, toSketch } from './syntax.js';
@@ -124,6 +125,22 @@ export function callTool(name, rawArgs) {
       const project = parseProject(JSON.stringify(args.project ?? null));
       if (!project) throw new ToolError('project must be a Icelus project with an elements array');
       return { entries: copyEntries(project.elements).map(({ key, part, text, label }) => ({ key, part, label, text })) };
+    }
+
+    case 'play_prototype': {
+      const project = parseProject(JSON.stringify(args.project ?? null));
+      if (!project) throw new ToolError('project must be a Icelus project with an elements array');
+      const els = project.elements, at = i => (Number.isInteger(i) && i >= 0 && i < els.length ? els[i].id : null);
+      const presses = args.presses ?? [];
+      if (!Array.isArray(presses) || presses.length > 50) throw new ToolError('presses must be a list of at most 50 part indexes');
+      const ids = presses.map((p, i) => at(p) ?? (() => { throw new ToolError(`presses[${i}] must be 0 to ${els.length - 1}`); })());
+      const start = args.start === undefined ? startScreen(els)?.id : at(args.start);
+      if (!start) throw new ToolError('start must be the index of a screen (or the project needs one)');
+      const out = playPath(els, start, ids);
+      if (!out.path) throw new ToolError(out.error);
+      const screens = out.path.map(v => ({ screen: v.title, index: els.findIndex(el => el.id === v.id),
+        text: trimText(gridToText(renderElements(v.elements, v.cols, v.rows))) }));
+      return { screens, ...(out.error && { stopped: out.error }) };
     }
 
     case 'inspect_part': {
