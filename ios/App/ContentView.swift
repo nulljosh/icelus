@@ -21,6 +21,7 @@ struct ContentView: View {
     @State var cellSel: [(Int, Int)] = []
     @State var fontSize: CGFloat = 13
     @State var pinchStart: CGFloat?
+    @State var fitted = false // the canvas zoomed to fit once (ContentView+Canvas.swift)
     @AppStorage("glyphic-palette") var mineRaw = "[]"
     @AppStorage("glyphbox-system") var systemRaw = ""
     @AppStorage("glyphbox-more") var showMore = false

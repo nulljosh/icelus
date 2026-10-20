@@ -48,6 +48,10 @@ extension ContentView {
             .padding(20)
         }
         .background(Theme.background)
+        // A blank canvas says what to do, like the web: Boxy and one line. It never takes a tap.
+        .overlay { if state.elements.isEmpty { emptyCanvas.allowsHitTesting(false) } }
+        // Fit the work to the width once, so a phone opens on the whole screen, not its top left corner.
+        .background(GeometryReader { g in Color.clear.onAppear { DispatchQueue.main.async { fit(width: g.size.width) } } }) // after restore
         // Pinch zooms by font size, like the zoom buttons.
         .simultaneousGesture(MagnifyGesture()
             .onChanged { value in
@@ -55,5 +59,33 @@ extension ContentView {
                 fontSize = min(Self.maxFontSize, max(Self.minFontSize, (pinchStart ?? fontSize) * value.magnification))
             }
             .onEnded { _ in pinchStart = nil })
+    }
+
+    private var emptyCanvas: some View {
+        VStack(spacing: 8) {
+            BoxyView(size: 96)
+            Text("A blank frame").font(.title3.weight(.semibold)).foregroundStyle(Theme.ink)
+            #if os(iOS)
+            Text(sizeClass == .compact ? "Tap Add, pick a part, then tap the grid." : "Pick a part, then tap the grid.").foregroundStyle(Theme.muted)
+            #else
+            Text("Pick a part, then click the grid.").foregroundStyle(Theme.muted)
+            #endif
+        }
+        .multilineTextAlignment(.center)
+        .padding(24)
+    }
+
+    /// The type size that shows the widest part of the work (at least a 40-column phone screen) across the view.
+    func fit(width: CGFloat) {
+        #if os(iOS)
+        guard !fitted, width > 0, sizeClass == .compact else { return } // iPad and Mac keep their size
+        #else
+        return
+        #endif
+        fitted = true
+        let cols = max(40, state.elements.filter { !$0.hidden }.map { $0.col + $0.width }.max() ?? 0)
+        let perPoint = CanvasView.cell(14).width / 14
+        let size = (width - 48) / (CGFloat(cols) * perPoint) // the canvas pads 20 a side, plus a little air
+        fontSize = min(Self.maxFontSize, max(Self.minFontSize, size.rounded(.down)))
     }
 }

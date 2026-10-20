@@ -4,6 +4,7 @@ Icelus was called Charwork, Wiretext, Blockframe, Blockprint, Glyphic and Glyphb
 ships on the web, iPhone, iPad and Mac unless it says otherwise.
 
 ## 2026-10-19
+- **55.2.1** On iPhone, a blank canvas shows Boxy and one line on what to do, and the canvas opens zoomed so the whole screen you are working on fits the width.
 - **55.2.0** A new Boxy: a frame still being drawn, its last corner open where the pen is, with text-cursor eyes and selection handles for feet (the old one read as a toy brick). On the web, Settings now holds Profile too: one gear in the header, your account the first row inside.
 - **55.1.0** iPhone layout, rebuilt after Joshua tried it on his phone. The canvas runs edge to edge under Liquid Glass bars: undo and redo top left, Tools, Play and Export top right, and a tab bar with Add, Layers, History and Settings. Profile now lives inside Settings, on every device. Picking a part shows one slim bar instead of taking half the screen, the tutorial no longer covers the parts it points at, and the selection, note dots and picked outlines now show on top of artboards on iPhone, Mac and the web.
 - **55.0.0** Live parts. In Play, checkboxes tick, radios pick one, switches flip, segments and tabs switch, stars rate, sliders slide and fields take typing, just for that run; the design is never changed. Tabs now draw as a real tab strip, and short labels like a star rating no longer cut off with an ellipsis.
