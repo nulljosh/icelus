@@ -40,7 +40,12 @@ export function realPart(el) {
     case 'avatar': return { kind: 'avatar', initials: rowsOfText(el).map(r => r.text).join('').replace(/\W/g, '').slice(0, 2).toUpperCase() };
     case 'image': return { kind: 'image' };
     case 'skeleton': return { kind: 'skeleton' };
-    case 'segmented': return { kind: 'segmented', items: t.replace(/^\[|\]$/g, '').split('|').map(s => s.trim()).filter(Boolean) };
+    case 'segmented': return { kind: 'segmented', items: t.replace(/^\[|\]$/g, '').split('|').map(s => s.trim()).filter(Boolean), at: el.live ?? 0 };
+    case 'tabs': { // the labels on the second row; the open one is under the corners on the first (or the one played)
+      const labels = [...(el.template[1] ?? '').replace(/[│]/g, ' ').matchAll(/\S+(?: \S+)*/g)];
+      const a = t.indexOf('┌'), b = t.indexOf('┐'), open = labels.findIndex(m => m.index > a && m.index < b);
+      if (labels.length) return { kind: 'tabs', items: labels.map(m => m[0]), at: el.live ?? Math.max(0, open), rows: rowsOfText(el).filter(r => r.row > 2) };
+    }
     case 'tags': return { kind: 'tags', items: [...t.matchAll(/\(([^)]+)\)/g)].map(m => m[1].trim()) };
   }
   if (boxed(el)) return { kind: 'box', rows: rowsOfText(el) };

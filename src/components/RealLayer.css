@@ -51,7 +51,7 @@
 
 .real-segmented { gap: 0; padding: 2px; border-radius: 999px; background: var(--surface2); }
 .real-segmented > span { flex: 1; text-align: center; line-height: calc(var(--row) - 4px); border-radius: 999px; }
-.real-segmented > span:first-child { background: var(--color-bg2); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12); font-weight: 600; }
+.real-segmented > span.is-on { background: var(--color-bg2); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12); font-weight: 600; }
 .real-tags > span { padding-inline: 0.6em; line-height: calc(var(--row) - 2px); border-radius: 999px; background: var(--accent-muted); color: var(--accent); }
 
 .real-table { display: grid; align-content: start; align-items: center; gap: 0; border-radius: calc(var(--row) * 0.4);
@@ -69,3 +69,12 @@
 
 /* Hotspot rings and links (hotspots.js), drawn over every artboard. */
 .real-links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; fill: var(--color-bg2); stroke: var(--accent); stroke-width: 1.5; }
+
+/* Tabs: a strip of labels, the open one in the accent with a bar under it, over a card for its content. */
+.real-tabs { display: block; overflow: visible; }
+.real-tabstrip { position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: center; box-shadow: inset 0 -1px 0 var(--color-hairline); }
+.real-tabstrip > span { flex: 1; text-align: center; line-height: calc(var(--row) * 2 - 3px); color: var(--muted); border-bottom: 3px solid transparent; }
+.real-tabstrip > span.is-on { color: var(--accent); font-weight: 600; border-bottom-color: var(--accent); }
+.real-tabbody { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 0 0 calc(var(--row) * 0.6) calc(var(--row) * 0.6); background: var(--paper, var(--color-bg2)); box-shadow: 0 0 0 1px var(--color-hairline); }
+/* Words are labels: a short one can run a little past its cells instead of cutting to "…" (proportional type is wider than the grid). */
+.real-words, .real-words .real-line { overflow: visible; max-width: none; }

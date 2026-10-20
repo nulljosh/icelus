@@ -18,7 +18,10 @@
 .play-screen pre { position: absolute; inset: 0; margin: 0; white-space: pre; color: var(--color-text); }
 .play .play-spot, .play .play-spot:hover { position: absolute; padding: 0; border: 0; background: transparent; border-radius: 8px; cursor: pointer; transition: background 0.2s ease; }
 .play-spot:focus-visible { outline: 4px solid color-mix(in srgb, var(--accent) 30%, transparent); }
-.play .play-screen.is-hint .play-spot { background: color-mix(in srgb, var(--accent) 25%, transparent); }
+.play .play-screen.is-hint .play-spot:not(.play-live) { background: color-mix(in srgb, var(--accent) 25%, transparent); }
 .play .play-spot.is-row { border-radius: 999px; }
 @media (prefers-reduced-motion: reduce) { .play-spot { transition: none; } }
 .play .real-frame-name { display: none; }
+.play .play-field { position: absolute; box-sizing: border-box; margin: 0; padding: 0 0.75em; border: 0; background: transparent; color: var(--color-text); font-family: var(--font); outline: none; border-radius: 8px; }
+.play .play-field.is-multi { padding: 0 0.5em; resize: none; }
+.play .play-field:focus-visible { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }

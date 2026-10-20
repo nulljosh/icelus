@@ -74,6 +74,7 @@ What the three inspirations shipped in 2026 that the roadmap did not cover yet, 
 16. Languages kept side by side and flipped, not one undoable translation (Lokalise for Figma). Found after v52.
 17. More prototype actions: Back, overlays and web links, on press or after a delay (Figma interactions). Found after v53 shipped opens a screen.
 18. Play on a device with live edits (Figma mirror). Found after v54 shipped play mode in the browser and the app.
+19. Prototype variables and conditionals: what you type or tick on one screen shows on the next (Figma variables in prototypes). Found after v55 shipped live parts that forget between runs.
 
 Already level: inline sliders (v21 tweaks), design system from code and checks against it (v24, v23), handoff bundle to Claude Code (v27),
 standalone HTML (v28), decks and PDF (v29), history and actions (v40, v41). Skipped on purpose: shaders, 3D transforms and AI upscale,

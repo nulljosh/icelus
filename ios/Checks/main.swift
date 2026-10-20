@@ -35,7 +35,7 @@ var copied = g53
 copied[0][0] = "X"
 check(g53[0][0] == " ", "grids are value types — mutating a copy leaves the original alone")
 
-// MARK: gridToText / textToGrid
+// MARK: text round trip
 
 var rt = createGrid(cols: 5, rows: 3)
 rt[0][0] = "H"
@@ -354,7 +354,6 @@ runGridChecks()
 runInspectChecks()
 runAccessChecks()
 runCopyChecks()
-runHotspotChecks()
-runPlayChecks()
+runPrototypeChecks()
 
 print("ok — \(checks) checks passed")

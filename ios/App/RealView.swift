@@ -64,13 +64,28 @@ private struct RealPartView: View {
             Circle().fill(paper ?? Theme.accent.opacity(0.15)).overlay(Text(verbatim: initials).fontWeight(.semibold).foregroundStyle(ink ?? Theme.accent))
         case .image: RoundedRectangle(cornerRadius: rowH * 0.4).fill(paper ?? fill).overlay(Image(systemName: "photo").foregroundStyle(Theme.muted))
         case .skeleton: RoundedRectangle(cornerRadius: rowH * 0.3).fill(fill)
-        case .segmented(let items):
+        case .segmented(let items, let at):
             HStack(spacing: 0) {
                 ForEach(Array(items.enumerated()), id: \.offset) { i, s in
-                    Text(verbatim: s).fontWeight(i == 0 ? .semibold : .regular).frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(i == 0 ? Capsule().fill(Theme.canvas) : nil)
+                    Text(verbatim: s).fontWeight(i == at ? .semibold : .regular).frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(i == at ? Capsule().fill(Theme.canvas) : nil)
                 }
             }.padding(2).background(Capsule().fill(fill))
+        case .tabs(let items, let at, let rows): // a tab strip on the first two rows, the open tab's content in a card
+            VStack(spacing: 0) {
+                HStack(spacing: 0) {
+                    ForEach(Array(items.enumerated()), id: \.offset) { i, s in
+                        Text(verbatim: s).fontWeight(i == at ? .semibold : .regular).foregroundStyle(i == at ? Theme.accent : Theme.muted)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .overlay(alignment: .bottom) { if i == at { Rectangle().fill(Theme.accent).frame(height: 3) } }
+                    }
+                }
+                .frame(height: rowH * 2)
+                .overlay(alignment: .bottom) { Rectangle().fill(Theme.rule).frame(height: 1) }
+                UnevenRoundedRectangle(bottomLeadingRadius: rowH * 0.6, bottomTrailingRadius: rowH * 0.6).fill(paper ?? Theme.canvas)
+                    .overlay(UnevenRoundedRectangle(bottomLeadingRadius: rowH * 0.6, bottomTrailingRadius: rowH * 0.6).strokeBorder(Theme.rule))
+            }
+            .overlay(alignment: .topLeading) { words(rows) }
         case .tags(let items):
             HStack(spacing: 4) { ForEach(Array(items.enumerated()), id: \.offset) { _, s in Text(verbatim: s).padding(.horizontal, 6).background(Capsule().fill(Theme.accent.opacity(0.15))).foregroundStyle(Theme.accent) } }
                 .frame(maxHeight: .infinity)

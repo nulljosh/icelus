@@ -42,23 +42,17 @@ struct CanvasView: View {
     // CoreText rather than UIFont so this file compiles unchanged on macOS. NSFont has no
     // `lineHeight` and no shared metric API with UIFont, so the alternative was a #if with
     // two different measurement paths — CTFont is one path that is exact on both.
-    private var font: CTFont {
-        CTFontCreateUIFontForLanguage(.userFixedPitch, fontSize, nil)
-            ?? CTFontCreateWithName("Menlo" as CFString, fontSize, nil)
-    }
-
-    private var charW: CGFloat {
-        let f = font
+    /// One cell at this type size: the advance of a monospace glyph and the line height. Play mode lays fields with it.
+    static func cell(_ fontSize: CGFloat) -> CGSize {
+        let f = CTFontCreateUIFontForLanguage(.userFixedPitch, fontSize, nil) ?? CTFontCreateWithName("Menlo" as CFString, fontSize, nil)
         var char: UniChar = 77 // "M" — monospace, so any glyph gives the same advance
         var glyph = CGGlyph()
-        guard CTFontGetGlyphsForCharacters(f, &char, &glyph, 1) else { return fontSize * 0.6 }
-        return CTFontGetAdvancesForGlyphs(f, .horizontal, &glyph, nil, 1)
+        let w = CTFontGetGlyphsForCharacters(f, &char, &glyph, 1) ? CTFontGetAdvancesForGlyphs(f, .horizontal, &glyph, nil, 1) : fontSize * 0.6
+        return CGSize(width: w, height: CTFontGetAscent(f) + CTFontGetDescent(f) + CTFontGetLeading(f))
     }
-
-    private var charH: CGFloat {
-        let f = font
-        return CTFontGetAscent(f) + CTFontGetDescent(f) + CTFontGetLeading(f)
-    }
+    private var font: CTFont { CTFontCreateUIFontForLanguage(.userFixedPitch, fontSize, nil) ?? CTFontCreateWithName("Menlo" as CFString, fontSize, nil) }
+    private var charW: CGFloat { Self.cell(fontSize).width }
+    private var charH: CGFloat { Self.cell(fontSize).height }
 
     private static let blocks: [Character: (CGFloat, CGFloat)] = ["█": (0, 1), "▀": (0, 0.5), "▄": (0.5, 1)]
     /// Shades fill the whole cell at a strength, so a ramp or a shaded photo reads as tone, not stripes.

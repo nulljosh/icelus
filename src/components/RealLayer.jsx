@@ -43,7 +43,13 @@ function Part({ el, charW, rowH, byId }) {
     case 'avatar': return <div className={cls} style={style}><span>{p.initials}</span></div>;
     case 'image': return <div className={cls} style={style}><span className="real-photo" aria-hidden="true" /></div>;
     case 'skeleton': return <div className={cls} style={style} />;
-    case 'segmented': case 'tags': return <div className={cls} style={style}>{p.items.map((s, i) => <span key={i}>{s}</span>)}</div>;
+    case 'segmented': case 'tags': return <div className={cls} style={style}>{p.items.map((s, i) => <span key={i} className={i === p.at ? 'is-on' : undefined}>{s}</span>)}</div>;
+    case 'tabs': return ( // a tab strip on the first two rows, the open tab's content in a card under it
+      <div className={cls} style={style}>
+        <div className="real-tabstrip" style={{ height: 2 * rowH }}>{p.items.map((s, i) => <span key={i} className={i === p.at ? 'is-on' : undefined}>{s}</span>)}</div>
+        <div className="real-tabbody" style={{ top: 2 * rowH }} />{lines(p.rows)}
+      </div>
+    );
     case 'table': return (
       <div className={cls} style={{ ...style, gridTemplateColumns: `repeat(${p.head.length}, 1fr)` }}>
         {p.head.map((c, i) => <b key={`h${i}`}>{c}</b>)}
