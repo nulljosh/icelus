@@ -43,11 +43,12 @@ extension ContentView {
                 accent: drawn.contains { $0.accent } ? accentMask(drawn, cols: state.cols, rows: state.rows) : nil,
                 colors: hasColor(drawn) ? colorMask(drawn, cols: state.cols, rows: state.rows) : nil,
                 real: look == "real",
-                parts: look == "real" ? shown.elements : state.elements
+                parts: look == "real" ? shown.elements : state.elements,
+                card: !isPhone
             )
-            .padding(20)
+            .padding(isPhone ? 16 : 20)
         }
-        .background(Theme.background)
+        .background(isPhone ? Theme.canvas : Theme.background)
         // A blank canvas says what to do, like the web: Boxy and one line. It never takes a tap.
         .overlay { if state.elements.isEmpty { emptyCanvas.allowsHitTesting(false) } }
         // Fit the work to the width once, so a phone opens on the whole screen, not its top left corner.
@@ -78,7 +79,7 @@ extension ContentView {
         .padding(24)
     }
 
-    /// The type size that shows the widest part of the work (at least a 40-column phone screen) across the view.
+    /// The type size that shows the first screen (or the loose work) across the view.
     func fit(width: CGFloat) {
         #if os(iOS)
         guard !fitted, width > 0, sizeClass == .compact else { return } // iPad and Mac keep their size
@@ -86,9 +87,10 @@ extension ContentView {
         return
         #endif
         fitted = true
-        let cols = max(40, state.elements.filter { !$0.hidden }.map { $0.col + $0.width }.max() ?? 0)
+        // The first screen across the width, or the widest part of loose work (at least a 40-column phone screen).
+        let cols = startScreen(state.elements).map { $0.col + $0.width } ?? max(40, state.elements.filter { !$0.hidden }.map { $0.col + $0.width }.max() ?? 0)
         let perPoint = CanvasView.cell(14).width / 14
-        let size = (width - 48) / (CGFloat(cols) * perPoint) // the canvas pads 20 a side, plus a little air
+        let size = (width - 40) / (CGFloat(cols) * perPoint) // 16 a side, plus a little air
         fontSize = min(Self.maxFontSize, max(Self.minFontSize, size.rounded(.down)))
     }
 }

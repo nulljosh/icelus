@@ -38,6 +38,8 @@ struct CanvasView: View {
     var real = false
     /// The parts, so VoiceOver can reach each one. Activating one selects it, like a tap.
     var parts: [Element] = []
+    /// A card with a hairline round it (iPad, Mac), or edge to edge under the iPhone's glass bars.
+    var card = true
 
     // CoreText rather than UIFont so this file compiles unchanged on macOS. NSFont has no
     // `lineHeight` and no shared metric API with UIFont, so the alternative was a #if with
@@ -72,8 +74,8 @@ struct CanvasView: View {
         .frame(width: canvasSize.width, height: canvasSize.height, alignment: .topLeading)
         .overlay(alignment: .topLeading) { if real { RealLayerView(elements: parts, charW: charW, rowH: charH, fontSize: fontSize) } }
         .overlay(alignment: .topLeading) { overlayMarks }
-        .background(Theme.canvas, in: RoundedRectangle(cornerRadius: Theme.radius))
-        .overlay(RoundedRectangle(cornerRadius: Theme.radius).strokeBorder(Theme.rule, lineWidth: 1))
+        .background(Theme.canvas, in: RoundedRectangle(cornerRadius: card ? Theme.radius : 0))
+        .overlay { if card { RoundedRectangle(cornerRadius: Theme.radius).strokeBorder(Theme.rule, lineWidth: 1) } }
         .gesture(tapGesture)
         // Only claim drags while something is selected, so the scroll view still pans otherwise.
         .simultaneousGesture(dragGesture, including: selected == nil && !drawing && !painting ? .subviews : .all)

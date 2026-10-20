@@ -4,6 +4,14 @@ import SwiftUI
 /// Liquid Glass bars: undo and redo top left, Tools, Play and Export top right, the selected part's row and a tab
 /// bar (Add, Layers, History, Settings) at the bottom. Settings holds Profile. iPad and Mac keep regularLayout.
 extension ContentView {
+    var isPhone: Bool {
+        #if os(iOS)
+        sizeClass == .compact
+        #else
+        false
+        #endif
+    }
+
     @ViewBuilder var layout: some View {
         #if os(iOS)
         if sizeClass == .compact { phoneLayout } else { regularLayout }
