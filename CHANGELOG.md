@@ -4,6 +4,7 @@ Icelus was called Charwork, Wiretext, Blockframe, Blockprint, Glyphic and Glyphb
 ships on the web, iPhone, iPad and Mac unless it says otherwise.
 
 ## 2026-10-19
+- **52.0.0** Copy deck. Open Copy in the inspector to see every word on the canvas in one list and edit any of it there; only those words change. Pick a language and tap Translate to see the whole canvas in it, one step of undo. On iPhone and Mac, Copy is under More (translate is on the web).
 - **51.0.0** Access check. Review now flags controls that keyboard and screen reader focus would visit out of reading order, fields with no label, and controls too narrow to tap or touching each other. Fix Focus Order puts the controls in reading order, screen by screen, in one step.
 - **50.0.0** Inspect. Pick a part and open More: its position, size and the gap to its neighbours or the screen edge on each side, with its own React or SwiftUI code to copy. Era 5 (Figma) done.
 - **49.0.0** Grids. Select a screen and set Columns and Gutter: faint column bands appear inside it, and a part you drag snaps its left or right edge onto a column. Use on Every Screen gives the rest the same grid. The grid saves with the project and never shows in copied text.

@@ -12,6 +12,7 @@ import { autoLayout, constrain, syncTwins, makeSizes, AUTO_MAX } from './layout.
 import { parseLibrary, pullLibrary } from './library.js';
 import { GRID_MAX, gridEverywhere } from './grids.js';
 import { fixFocusOrder } from './access.js';
+import { applyCopy, COPY_MAX } from './copydeck.js';
 import { MODES, VAR_MAX, isVarName, setMode, setVar, canvasVars } from './modes.js';
 import { variations, keepVariation } from './tweaks.js';
 import { removeDistractions } from './critique.js';
@@ -45,6 +46,11 @@ export function editProject(args) {
       const size = op.size === undefined ? 1 : n('size', 1, 5);
       const cells = strokeCells(points, size, project.cols, project.rows);
       elements = op.op === 'paint' ? paint(elements, cells, typeof op.char === 'string' ? op.char : '█') : erase(elements, cells);
+      return;
+    }
+    if (op.op === 'copy') { // words by copy deck key (copydeck.js)
+      if (!op.texts || typeof op.texts !== 'object' || Object.keys(op.texts).length > COPY_MAX) throw new ToolError(`${at}.texts must map at most ${COPY_MAX} copy_deck keys to words`);
+      elements = applyCopy(elements, op.texts);
       return;
     }
     if (op.op === 'focus') { elements = fixFocusOrder(elements); return; } // controls in reading order (access.js)

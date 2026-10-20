@@ -128,13 +128,14 @@ export default function Inspector({
   symbolCount = 0,
   onSymbol,
   historyPanel,
+  copyPanel,
   isOpen,
   onClose,
 }) {
   // A beginner sees the part, Duplicate and Delete. Everything else waits under More, remembered per viewer.
   const toggle = e => { if (e.currentTarget.open !== more) onMore?.(e.currentTarget.open); };
   const el = selectedElement;
-  const [historyOpen, setHistoryOpen] = useState(false); // closed, the step list is not worked out at all
+  const [historyOpen, setHistoryOpen] = useState(false), [copyOpen, setCopyOpen] = useState(false); // closed, the step list is not worked out at all
   return (
     <aside className={`inspector${isOpen ? ' is-open' : ''}`}>
       <div className="inspector-header">
@@ -317,6 +318,15 @@ export default function Inspector({
           <details className="inspector-more" open={historyOpen} onToggle={e => setHistoryOpen(e.currentTarget.open)}>
             <summary>{t('history')}</summary>
             {historyOpen && historyPanel}
+          </details>
+        </section>
+      )}
+
+      {copyPanel && elements.length > 0 && (
+        <section className="inspector-section">
+          <details className="inspector-more" open={copyOpen} onToggle={e => setCopyOpen(e.currentTarget.open)}>
+            <summary>{t('copy_deck')}</summary>
+            {copyOpen && copyPanel}
           </details>
         </section>
       )}

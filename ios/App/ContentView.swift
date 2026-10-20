@@ -40,6 +40,7 @@ struct ContentView: View {
     /// Signed in, or nil. Kept in the Keychain (Account.swift).
     @State var session = SessionStore.load()
     @State var showingLayers = false
+    @State var showingCopy = false
     @State var showingHistory = false
     @State var reviewing = false
     @State var presenting: [Slide]? = nil
@@ -107,6 +108,7 @@ struct ContentView: View {
             ReviewSheet(elements: state.elements, cols: state.cols, rows: state.rows, system: parseSystem(systemRaw), onSelect: { selectedId = $0 }, onRemove: removeParts,
                         onFixFocus: { canvasEdit { fixFocusOrder($0) } })
         }
+        .sheet(isPresented: $showingCopy) { CopySheet(elements: state.elements) { edits in canvasEdit { applyCopy($0, edits) } } }
         .sheet(isPresented: $showingLayers) {
             LayersSheet(elements: state.elements, selectedId: selectedId, onSelect: { selectedId = $0 },
                         onFlag: { el, hidden, locked in flag(el, hidden: hidden, locked: locked) },

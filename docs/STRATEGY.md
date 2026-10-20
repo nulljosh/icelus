@@ -71,6 +71,7 @@ What the three inspirations shipped in 2026 that the roadmap did not cover yet, 
 13. Row grids and named grid styles (Figma grid styles). Found after v49 shipped column grids.
 14. Measure between any two parts (Figma redlines on hover). Found after v50 shipped Inspect's gaps to the nearest neighbour.
 15. Contrast check on ink and paper (Stark in Figma). Found after v51 shipped focus order, labels and touch targets.
+16. Languages kept side by side and flipped, not one undoable translation (Lokalise for Figma). Found after v52.
 
 Already level: inline sliders (v21 tweaks), design system from code and checks against it (v24, v23), handoff bundle to Claude Code (v27),
 standalone HTML (v28), decks and PDF (v29), history and actions (v40, v41). Skipped on purpose: shaders, 3D transforms and AI upscale,

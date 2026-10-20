@@ -5,6 +5,7 @@ import { callTool, ToolError, TOOL_NAMES } from '../../src/lib/tools.js';
 import { readJson, MAX_BODY } from '../body.js';
 import { safePageUrl } from '../../src/lib/capture.js';
 import { describeMessages, cleanReply } from '../../src/lib/describe.js';
+import { translateMessages, cleanTranslation, cleanStrings } from '../../src/lib/copydeck.js';
 
 // The model behind Describe it. Free tier Workers AI; the daily quota is the ceiling on what it can cost.
 const MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
@@ -31,6 +32,7 @@ const ENDPOINTS = {
   'POST /api/edit': '{ project, ops } -> { text, project }. Move, resize, restyle, delete parts and draw arrows.',
   'POST /api/capture': '{ url } -> { source, text, project }. A public web page back as a wireframe.',
   'POST /api/describe': '{ message, current?, history? } -> { source, text, project }. A screen from a sentence, from the app only.',
+  'POST /api/translate': '{ strings, to } -> { strings }. A copy deck in another language, from the app only.',
   'POST /mcp': 'Model Context Protocol, JSON-RPC. The same tools.',
 };
 
@@ -97,6 +99,27 @@ export async function onRequest({ request, env }) {
       if (err instanceof ToolError) return json({ error: err.message }, 422);
       throw err;
     }
+  }
+
+  if (request.method === 'POST' && path === '/api/translate') {
+    if (!APP_ORIGIN.test(request.headers.get('origin') ?? '')) return json({ error: 'Translate works from the Icelus app.' }, 403);
+    if (!env?.AI) return json({ error: 'Translate is not set up here.' }, 503);
+    const { body, bad, tooLarge } = await readJson(request);
+    if (tooLarge) return json({ error: `Body is over ${MAX_BODY} bytes.` }, 413);
+    if (bad) return json({ error: 'Body must be JSON.' }, 400);
+    const strings = cleanStrings(body?.strings);
+    if (!strings) return json({ error: 'strings must be 1 to 200 strings of at most 200 characters, 8000 in all.' }, 400);
+    let language;
+    try { language = /^[a-z]{2,3}(-[A-Za-z]{2,4})?$/.test(body?.to ?? '') && new Intl.DisplayNames(['en'], { type: 'language' }).of(body.to); } catch { language = null; }
+    if (!language || language === body.to) return json({ error: 'to must be a language code like fr or zh-Hans.' }, 400);
+    let reply;
+    try {
+      reply = await env.AI.run(MODEL, { messages: translateMessages(strings, language), max_tokens: 2000, temperature: 0.2 });
+    } catch (err) {
+      return json({ error: /limit|quota|capacity/i.test(String(err)) ? 'Translate is busy. Try again in a minute.' : 'The model did not answer. Try again.' }, 422);
+    }
+    const out = cleanTranslation(reply?.response, strings);
+    return out ? json({ strings: out, language }) : json({ error: 'The model did not translate it. Try again.' }, 422);
   }
 
   if (path === '/api' || path === '/api/') return json({ endpoints: ENDPOINTS, tools: TOOL_NAMES });

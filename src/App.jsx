@@ -16,6 +16,8 @@ import { autoLayout, constrain, syncTwins, makeSizes } from './lib/layout.js';
 import { setMode, setVar } from './lib/modes.js';
 import { gridEverywhere } from './lib/grids.js';
 import { fixFocusOrder } from './lib/access.js';
+import { applyCopy } from './lib/copydeck.js';
+import CopyDeck from './components/CopyDeck.jsx';
 import { makeLibrary, parseLibrary, pullLibrary, libraryPalette } from './lib/library.js';
 import { maxOf } from './lib/extent.js';
 import SelectBar from './components/SelectBar.jsx';
@@ -222,6 +224,14 @@ function edit(state, action) {
     case 'SWAP_SYMBOL': {
       const elements = swapSymbol(state.elements, action.id, action.symbol);
       return elements === state.elements ? state : { ...pushHistory(state), elements, grid: renderElements(elements, state.cols, state.rows) };
+    }
+
+    // Copy deck (copydeck.js): words by key, one undo step for an edit or a whole translation.
+    case 'COPY_EDIT': {
+      const elements = applyCopy(state.elements, action.edits);
+      if (elements === state.elements) return state;
+      const { cols, rows } = fitCanvas(state, elements);
+      return { ...pushHistory(state), cols, rows, elements, grid: renderElements(elements, cols, rows) };
     }
 
     // Access check (access.js): controls back in reading order, one undo step.
@@ -1020,6 +1030,7 @@ export default function App() {
         onCanvas={change => dispatch({ type: 'CANVAS', ...change })}
         onGrid={id => dispatch({ type: 'GRID_EVERYWHERE', id })}
         onFixFocus={() => dispatch({ type: 'FIX_FOCUS' })}
+        copyPanel={<CopyDeck elements={state.elements} onEdit={edits => dispatch({ type: 'COPY_EDIT', edits })} />}
         more={more}
         onMore={setMore}
         onVariations={(id) => dispatch({ type: 'VARIATIONS', id, labels: ['var_stacked', 'var_split', 'var_dense'].map(k => t(k)) })}

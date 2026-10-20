@@ -353,5 +353,6 @@ runLibraryChecks()
 runGridChecks()
 runInspectChecks()
 runAccessChecks()
+runCopyChecks()
 
 print("ok — \(checks) checks passed")

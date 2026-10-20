@@ -4,6 +4,7 @@
 
 import { makeLibrary } from './library.js';
 import { inspectPart } from './inspect.js';
+import { copyEntries } from './copydeck.js';
 import { createGrid, gridToText, textToGrid, stampComponent, renderElements, serializeProject, trimText, parseProject } from './engine.js';
 import { PRESETS as CORE, CATEGORIES as CORE_CATEGORIES, PACKS, PACK_CATEGORIES, getPreset } from './presets.js';
 import { parseSketch, toSketch } from './syntax.js';
@@ -117,6 +118,12 @@ export function callTool(name, rawArgs) {
       if (!project) throw new ToolError('project must be a Icelus project with an elements array');
       const name = typeof args.name === 'string' && args.name.trim() ? args.name.trim().slice(0, 80) : 'Icelus project';
       return { markdown: handoff(project.elements, project.cols, project.rows, name) };
+    }
+
+    case 'copy_deck': {
+      const project = parseProject(JSON.stringify(args.project ?? null));
+      if (!project) throw new ToolError('project must be a Icelus project with an elements array');
+      return { entries: copyEntries(project.elements).map(({ key, part, text, label }) => ({ key, part, label, text })) };
     }
 
     case 'inspect_part': {

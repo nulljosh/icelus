@@ -33,11 +33,13 @@
 		6AFDDFC2C755D8C40049B997 /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4D1BF3518E566E0218FC21 /* Intents.swift */; };
 		740E861DAF72093385A3540E /* Real.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E6246E96397273B086EDFD /* Real.swift */; };
 		791CD2FFB9D06C7BDB840951 /* RealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9100DA6A23FBF1C9B026AE16 /* RealView.swift */; };
+		79D3B31E7F55212AD2FF6660 /* CopySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193908099BC038CE6F29CB38 /* CopySheet.swift */; };
 		7E1BB3C6373C4F3EBADA182C /* Inspect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30990AB7751EFAA45B0C4333 /* Inspect.swift */; };
 		832FE736793C8B78085C49D7 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = F89D7CCF85DF259CB1256554 /* Account.swift */; };
 		870CCC3C3CA65836F9AED7F1 /* TutorialViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E89DB00DF46AF1962B9EE3 /* TutorialViews.swift */; };
 		876D754B93A617CE9E4452FE /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD187040BCC4FBAC60583EF /* Library.swift */; };
 		8CE72A45E7B3D81D8CBE082D /* Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2ACD6B3C69C0F2FA51AEB25 /* Presets.swift */; };
+		8ECB0EB2F0927B327505C711 /* CopyDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662A12644F2CC0F142CD6AB6 /* CopyDeck.swift */; };
 		90CC848B774C1A382F195FC4 /* Syntax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C11522D7900814164153063 /* Syntax.swift */; };
 		99C2CB2359C70C001A837678 /* Critique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F73153BC3FC4399F32F88A1 /* Critique.swift */; };
 		9F38DD0708937750CC2AFDAE /* HistorySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE98A00EF30F92928147522 /* HistorySheet.swift */; };
@@ -68,6 +70,7 @@
 /* Begin PBXFileReference section */
 		0D023F976FC3E7E474C45A2A /* ContentView+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Toolbar.swift"; sourceTree = "<group>"; };
 		133B696A023A11F87F936E4B /* Symbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbols.swift; sourceTree = "<group>"; };
+		193908099BC038CE6F29CB38 /* CopySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopySheet.swift; sourceTree = "<group>"; };
 		1AE98A00EF30F92928147522 /* HistorySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistorySheet.swift; sourceTree = "<group>"; };
 		1C0160D1888F08A01EBF0D54 /* Brush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brush.swift; sourceTree = "<group>"; };
 		1C02085D7634E7A40206A127 /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
@@ -89,6 +92,7 @@
 		5CA97FBAD39B1DA089BCC424 /* Access.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Access.swift; sourceTree = "<group>"; };
 		5DE55F405EF48DA465F09BA1 /* Mask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mask.swift; sourceTree = "<group>"; };
 		5EECD3D9BB67D44DEA7D2CF3 /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
+		662A12644F2CC0F142CD6AB6 /* CopyDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyDeck.swift; sourceTree = "<group>"; };
 		6AE20C0CE94BA0F9C50420FE /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		6C84E6F38B851C0D65D2FE5A /* Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine.swift; sourceTree = "<group>"; };
 		70F5D87144ABF2C8E7E52120 /* Code.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code.swift; sourceTree = "<group>"; };
@@ -161,6 +165,8 @@
 				5084EB91A39CB3AEECD78655 /* ContentView+Brush.swift */,
 				419611A285800EF858E0B507 /* ContentView+Inspector.swift */,
 				0D023F976FC3E7E474C45A2A /* ContentView+Toolbar.swift */,
+				662A12644F2CC0F142CD6AB6 /* CopyDeck.swift */,
+				193908099BC038CE6F29CB38 /* CopySheet.swift */,
 				2F73153BC3FC4399F32F88A1 /* Critique.swift */,
 				57424AF9D748F7E21870DB86 /* Deck.swift */,
 				6C84E6F38B851C0D65D2FE5A /* Engine.swift */,
@@ -319,6 +325,8 @@
 				2D77C4E074B86CF179002254 /* ContentView+Inspector.swift in Sources */,
 				0A93A71612288950460E9431 /* ContentView+Toolbar.swift in Sources */,
 				F7378BAD086F6D70555ADDF4 /* ContentView.swift in Sources */,
+				8ECB0EB2F0927B327505C711 /* CopyDeck.swift in Sources */,
+				79D3B31E7F55212AD2FF6660 /* CopySheet.swift in Sources */,
 				99C2CB2359C70C001A837678 /* Critique.swift in Sources */,
 				08EE5C314D3463BDF50FEBA5 /* Deck.swift in Sources */,
 				10B1C7EEEB167065E800C6D0 /* Engine.swift in Sources */,
@@ -438,7 +446,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 50.0.0;
+				MARKETING_VERSION = 51.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -528,7 +536,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 50.0.0;
+				MARKETING_VERSION = 51.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
