@@ -366,6 +366,10 @@ extension ContentView {
         case "add": addingParts = true
         case "settings": accountTab = "settings"; showingAccount = true
         case "files": showingFiles = true
+        case "layers": showingLayers = true
+        case "history": showingHistory = true
+        case "review": reviewing = true
+        case "copy": showingCopy = true
         case let s? where s.hasPrefix("new-"): createFile(String(s.dropFirst(4))) // `-shot-sheet new-sign-in` makes a file from a template
         default: break
         }

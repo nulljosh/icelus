@@ -16,7 +16,6 @@ struct ReviewSheet: View {
         NavigationStack {
             List {
                 if let system { LabeledContent("Design system", value: system.name) }
-                Button("Check now") { issues = critique(elements, cols: cols, rows: rows, system: system) }
                 if let issues, issues.isEmpty { Text("Nothing to fix").foregroundStyle(Theme.muted) }
                 let distractions = (issues ?? []).filter { $0.rule == "distraction" }.compactMap(\.id)
                 if !distractions.isEmpty {
@@ -39,6 +38,7 @@ struct ReviewSheet: View {
                 }
             }
             .navigationTitle("Review")
+            .task { issues = critique(elements, cols: cols, rows: rows, system: system) } // checks as it opens
             .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } } }
         }
     }
