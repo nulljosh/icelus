@@ -62,7 +62,7 @@ function Part({ el, charW, rowH, byId }) {
 }
 
 // What sits over the artboards, so it is never hidden under one: note dots, outlines round picked parts, and
-// hotspots (hotspots.js), a ring on each one's bottom right and a dashed link to its screen when picked.
+// hotspots (hotspots.js), a node just right of each one and a dashed link to its screen when picked.
 function Marks({ elements, picked, charW, rowH }) {
   const shown = elements.filter(el => !el.hidden);
   const spots = shown.flatMap(el => { const to = opensScreen(elements, el); return to ? [[el, to]] : []; });
@@ -73,11 +73,11 @@ function Marks({ elements, picked, charW, rowH }) {
       {boxes.map(el => <rect key={`b${el.id}`} className="real-pick" x={el.col * charW - 2} y={el.row * rowH - 2} width={el.width * charW + 4} height={el.height * rowH + 4} rx="4" />)}
       {notes.map(el => <circle key={`n${el.id}`} className="real-note" cx={(el.col + el.width) * charW} cy={el.row * rowH} r="4" />)}
       {spots.map(([el, to]) => {
-        const x = (el.col + el.width) * charW, y = (el.row + el.height) * rowH;
+        const x = (el.col + el.width) * charW + 6, y = (el.row + el.height / 2) * rowH; // a node just right of the part, like a prototype link
         return (
           <g key={el.id}>
             {picked.includes(el.id) && <line x1={x} y1={y} x2={to.col * charW} y2={(to.row + 0.5) * rowH} strokeDasharray="4 3" />}
-            <circle cx={x} cy={y} r="3.5" />
+            <circle cx={x} cy={y} r="3" />
           </g>
         );
       })}

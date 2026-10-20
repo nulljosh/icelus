@@ -220,7 +220,7 @@ struct CanvasView: View {
     }
 
     /// What sits over every artboard: note dots, outlines round picked parts and the selection, and hotspots
-    /// (Hotspots.swift), a ring on each one's bottom right and a dashed link to its screen when picked.
+    /// (Hotspots.swift), a node just right of each one and a dashed link to its screen when picked.
     private var overlayMarks: some View {
         Canvas { context, _ in
             // Over the real look, so a note, a picked part and the selection still show on an artboard.
@@ -239,14 +239,14 @@ struct CanvasView: View {
                 context.stroke(Path(roundedRect: box.insetBy(dx: -2, dy: -2), cornerRadius: 4),
                                with: .color(Theme.accent), lineWidth: 2)
             }
-            for el in parts where !el.hidden { // a hotspot wears a ring on its bottom right, and a dashed link to its screen when picked
+            for el in parts where !el.hidden { // a hotspot wears a node just right of it, and a dashed link to its screen when picked
                 guard let to = opensScreen(parts, el) else { continue }
-                let p = CGPoint(x: charW * CGFloat(el.col + el.width), y: charH * CGFloat(el.row + el.height))
+                let p = CGPoint(x: charW * CGFloat(el.col + el.width) + 6, y: charH * (CGFloat(el.row) + CGFloat(el.height) / 2)) // a node just right of the part
                 if el.id == selected?.id {
                     var link = Path(); link.move(to: p); link.addLine(to: CGPoint(x: charW * CGFloat(to.col), y: charH * (CGFloat(to.row) + 0.5)))
                     context.stroke(link, with: .color(Theme.accent), style: StrokeStyle(lineWidth: 1.5, dash: [4, 3]))
                 }
-                let ring = Path(ellipseIn: CGRect(x: p.x - 3.5, y: p.y - 3.5, width: 7, height: 7))
+                let ring = Path(ellipseIn: CGRect(x: p.x - 3, y: p.y - 3, width: 6, height: 6))
                 context.fill(ring, with: .color(Theme.canvas)); context.stroke(ring, with: .color(Theme.accent), lineWidth: 1.5)
             }
         }
