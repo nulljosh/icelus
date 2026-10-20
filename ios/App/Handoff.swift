@@ -23,16 +23,10 @@ func handoff(_ elements: [Element], cols: Int, rows: Int, name: String = "Icelus
     var out = ["# \(name): build brief", "",
                "Build these screens as a working app. Each screen is drawn in plain text below: match its layout, its order and its words. " +
                "The parts list gives each part's kind and where it sits on the character grid (column, row, width by height). " +
-               "Arrows in the Flow section are navigation. States are how a part looks pressed, disabled or in error. " +
+               "Arrows in the Flow section are navigation; the part in parentheses is what you press. States are how a part looks pressed, disabled or in error. " +
                "Notes are open requests from the designer; do them. Use the project file at the end with the Icelus MCP server " +
                "(https://icelus.jaybulb.com/mcp) if you need to change the design.", ""]
-    let holding = { (a: Anchor) in screens.first { a.col >= $0.col && a.col < $0.col + $0.width && a.row >= $0.row && a.row < $0.row + $0.height } }
-    var flow: [String] = []
-    for el in shown where el.presetId == "line" {
-        guard let f = el.from, let t = el.to, let a = holding(f), let b = holding(t), a.id != b.id else { continue }
-        let item = "- \(a.text ?? "Screen") → \(b.text ?? "Screen")"
-        if !flow.contains(item) { flow.append(item) }
-    }
+    let flow = flowLines(shown)
     if !flow.isEmpty { out += ["## Flow", ""] + flow + [""] }
     for g in groups {
         let text: String

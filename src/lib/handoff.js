@@ -4,6 +4,7 @@
 // editing it over MCP. Ported in ios/App/Handoff.swift.
 import { renderElements, gridToText, trimText, serializeProject } from './engine.js';
 import { partsInside } from './lines.js';
+import { flowLines } from './hotspots.js';
 import { toSketch } from './syntax.js';
 import { critique, critiqueMessage } from './critique.js';
 
@@ -19,13 +20,11 @@ export function handoff(elements, cols, rows, name = 'Icelus project') {
   const out = [`# ${name}: build brief`, '',
     'Build these screens as a working app. Each screen is drawn in plain text below: match its layout, its order and its words. ' +
     'The parts list gives each part\'s kind and where it sits on the character grid (column, row, width by height). ' +
-    'Arrows in the Flow section are navigation. States are how a part looks pressed, disabled or in error. ' +
+    'Arrows in the Flow section are navigation; the part in parentheses is what you press. States are how a part looks pressed, disabled or in error. ' +
     'Notes are open requests from the designer; do them. Use the project file at the end with the Icelus MCP server ' +
     '(https://icelus.jaybulb.com/mcp) if you need to change the design.', ''];
-  const holding = p => screens.find(s => p.col >= s.col && p.col < s.col + s.width && p.row >= s.row && p.row < s.row + s.height);
-  const flow = shown.filter(el => el.presetId === 'line' && el.from && el.to).map(el => [holding(el.from), holding(el.to)])
-    .filter(([a, b]) => a && b && a !== b).map(([a, b]) => `- ${a.text || 'Screen'} → ${b.text || 'Screen'}`);
-  if (flow.length) out.push('## Flow', '', ...new Set(flow), '');
+  const flow = flowLines(shown);
+  if (flow.length) out.push('## Flow', '', ...flow, '');
   for (const g of groups) {
     const f = g.frame;
     const text = f ? grid.slice(f.row, f.row + f.height).map(r => r.slice(f.col, f.col + f.width).join('')).join('\n') : gridToText(grid);

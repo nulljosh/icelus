@@ -5,6 +5,7 @@ import { t, partLabel } from '../i18n.js';
 import { drawCell } from '../lib/draw.js';
 import { COLORS } from '../lib/color.js';
 import { gridColumns } from '../lib/grids.js';
+import { opensScreen } from '../lib/hotspots.js';
 
 export function token(name, fallback) {
   const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -67,8 +68,8 @@ export function drawCells(ctx, grid, [r0, r1, c0, c1], charW, charH, fontSize, {
 }
 
 // What sits over the cells: a thin outline round picked and grouped parts, a dashed one round each
-// adjustment's area, and a dot on the top right corner of a part with a note.
-export function drawMarks(ctx, elements, outlinedIds, charW, charH, accent) {
+// adjustment's area, a dot on the top right corner of a part with a note and a ring on a hotspot's bottom right.
+export function drawMarks(ctx, elements, outlinedIds, charW, charH, accent, selectedId) {
   ctx.strokeStyle = ctx.fillStyle = accent;
   ctx.lineWidth = 1;
   ctx.globalAlpha = 0.08; // a screen's column grid (grids.js): faint bands, never in the text
@@ -81,7 +82,13 @@ export function drawMarks(ctx, elements, outlinedIds, charW, charH, accent) {
   for (const el of elements) if (el.presetId === 'adjust' && !el.hidden && !el.canvas) ctx.strokeRect(el.col * charW + 0.5, el.row * charH + 0.5, el.width * charW - 1, el.height * charH - 1);
   ctx.setLineDash([]);
   for (const el of elements) {
-    if (!el.note || el.hidden) continue;
-    ctx.beginPath(); ctx.arc((el.col + el.width) * charW, el.row * charH, 4, 0, Math.PI * 2); ctx.fill();
+    if (el.hidden) continue;
+    if (el.note) { ctx.beginPath(); ctx.arc((el.col + el.width) * charW, el.row * charH, 4, 0, Math.PI * 2); ctx.fill(); }
+    const to = opensScreen(elements, el); // a hotspot: a ring on its bottom right corner, and a dashed link when picked
+    if (!to) continue;
+    const x = (el.col + el.width) * charW, y = (el.row + el.height) * charH;
+    ctx.beginPath(); ctx.arc(x, y, 3.5, 0, Math.PI * 2); ctx.stroke();
+    if (el.id !== selectedId && !outlinedIds.includes(el.id)) continue;
+    ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(to.col * charW, (to.row + 0.5) * charH); ctx.stroke(); ctx.setLineDash([]);
   }
 }

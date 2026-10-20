@@ -77,6 +77,7 @@ struct CanvasView: View {
         }
         .frame(width: canvasSize.width, height: canvasSize.height, alignment: .topLeading)
         .overlay(alignment: .topLeading) { if real { RealLayerView(elements: parts, charW: charW, rowH: charH, fontSize: fontSize) } }
+        .overlay(alignment: .topLeading) { hotspotMarks }
         .background(Theme.canvas, in: RoundedRectangle(cornerRadius: Theme.radius))
         .overlay(RoundedRectangle(cornerRadius: Theme.radius).strokeBorder(Theme.rule, lineWidth: 1))
         .gesture(tapGesture)
@@ -235,6 +236,23 @@ struct CanvasView: View {
             context.stroke(Path(roundedRect: box.insetBy(dx: -2, dy: -2), cornerRadius: 4),
                            with: .color(Theme.accent), lineWidth: 2)
         }
+    }
+
+    /// Hotspots (Hotspots.swift) over every artboard: a ring on each one's bottom right, a dashed link to its screen when picked.
+    private var hotspotMarks: some View {
+        Canvas { context, _ in
+            for el in parts where !el.hidden { // a hotspot wears a ring on its bottom right, and a dashed link to its screen when picked
+                guard let to = opensScreen(parts, el) else { continue }
+                let p = CGPoint(x: charW * CGFloat(el.col + el.width), y: charH * CGFloat(el.row + el.height))
+                if el.id == selected?.id {
+                    var link = Path(); link.move(to: p); link.addLine(to: CGPoint(x: charW * CGFloat(to.col), y: charH * (CGFloat(to.row) + 0.5)))
+                    context.stroke(link, with: .color(Theme.accent), style: StrokeStyle(lineWidth: 1.5, dash: [4, 3]))
+                }
+                let ring = Path(ellipseIn: CGRect(x: p.x - 3.5, y: p.y - 3.5, width: 7, height: 7))
+                context.fill(ring, with: .color(Theme.canvas)); context.stroke(ring, with: .color(Theme.accent), lineWidth: 1.5)
+            }
+        }
+        .allowsHitTesting(false)
     }
 
     private var tapGesture: some Gesture {

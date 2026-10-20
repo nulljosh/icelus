@@ -261,6 +261,7 @@ struct ContentView: View {
                 if noteDraft != (el.note ?? "") { toolButton("Save note", systemImage: "note.text", enabled: true) { setNote(el, noteDraft) } }
                 if el.note != nil { toolButton("Resolve", systemImage: "checkmark.circle", enabled: true) { setNote(el, ""); noteDraft = "" } }
                 screenControls(el)
+                hotspotControls(el)
                 inspectControls(el)
                 pinControls(el)
                 symbolControls(el)

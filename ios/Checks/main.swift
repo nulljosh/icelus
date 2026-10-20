@@ -29,7 +29,7 @@ check(g53.allSatisfy { $0.allSatisfy { $0 == " " } }, "createGrid fills with spa
 let gDefault = createGrid()
 check(gDefault.count == defaultRows && gDefault[0].count == defaultCols, "createGrid defaults")
 
-// MARK: value semantics (the JS cloneGrid tests)
+// MARK: value semantics
 
 var copied = g53
 copied[0][0] = "X"
@@ -354,5 +354,6 @@ runGridChecks()
 runInspectChecks()
 runAccessChecks()
 runCopyChecks()
+runHotspotChecks()
 
 print("ok — \(checks) checks passed")

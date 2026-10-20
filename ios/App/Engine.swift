@@ -196,6 +196,7 @@ struct Element: Equatable, Identifiable {
     var twin: String? = nil, size: String? = nil // sizes of one screen kept in step (Layout.swift)
     var own: [String] = [] // what a symbol copy keeps as its own (Shapes.swift)
     var grid: ColumnGrid? = nil // a screen's column grid (Grids.swift)
+    var opens: String? = nil // the screen a press opens (Hotspots.swift)
     var canvas = false, vars: [String: Int] = [:] // the canvas part: line mode and spacing variables (Modes.swift)
 }
 

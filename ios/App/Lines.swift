@@ -150,22 +150,14 @@ func partsInside(_ elements: [Element], _ frame: Element) -> [Element] {
     }
 }
 
-/// Every screen as one Markdown document: a Flow list of the arrows that run from one screen to another,
+/// Every screen as one Markdown document: a Flow list of the arrows and hotspots that run from one screen to another,
 /// then each screen under its name, cropped to its frame. Nil when there are no screens. Port of screensDocument.
 func screensDocument(_ elements: [Element], cols: Int, rows: Int) -> String? {
     let screens = elements.filter { $0.presetId == "screen" }.sorted { ($0.row, $0.col) < ($1.row, $1.col) }
     guard !screens.isEmpty else { return nil }
     let grid = renderElements(elements, cols: cols, rows: rows)
     let name = { (s: Element) in (s.text ?? "").isEmpty ? "Screen" : s.text! }
-    let holding = { (a: Anchor) in
-        screens.first { a.col >= $0.col && a.col < $0.col + $0.width && a.row >= $0.row && a.row < $0.row + $0.height }
-    }
-    var flow: [String] = []
-    for el in elements where el.presetId == "line" {
-        guard let f = el.from, let t = el.to, let a = holding(f), let b = holding(t), a.id != b.id else { continue }
-        let item = "- \(name(a)) → \(name(b))"
-        if !flow.contains(item) { flow.append(item) }
-    }
+    let flow = flowLines(elements) // arrows and hotspots (Hotspots.swift)
     var out = flow.isEmpty ? [] : ["## Flow", ""] + flow + [""]
     for s in screens {
         let crop = grid[max(0, s.row)..<min(grid.count, s.row + s.height)].map { r in

@@ -12,6 +12,7 @@ import { autoLayout, constrain, syncTwins, makeSizes, AUTO_MAX } from './layout.
 import { parseLibrary, pullLibrary } from './library.js';
 import { GRID_MAX, gridEverywhere } from './grids.js';
 import { fixFocusOrder } from './access.js';
+import { canOpen } from './hotspots.js';
 import { applyCopy, COPY_MAX } from './copydeck.js';
 import { MODES, VAR_MAX, isVarName, setMode, setVar, canvasVars } from './modes.js';
 import { variations, keepVariation } from './tweaks.js';
@@ -128,6 +129,12 @@ export function editProject(args) {
     } else if (op.op === 'variations') elements = variations(elements, id).elements;
     else if (op.op === 'keep') elements = keepVariation(elements, id);
     else if (op.op === 'note') elements = updateElement(elements, id, { note: text(op.note ?? '') });
+    else if (op.op === 'opens') { // a hotspot (hotspots.js): the screen a press on the part opens; screen: null takes it off
+      const to = op.screen === null ? null : ids[int(op.screen, `${at}.screen`, { min: 0, max: ids.length - 1 })];
+      if (!canOpen(elements.find(el => el.id === id))) throw new ToolError(`${at}.index must be a part, not a screen, line, paint or adjustment`);
+      if (to !== null && !elements.some(el => el.id === to && el.presetId === 'screen')) throw new ToolError(`${at}.screen must be the index of a screen`);
+      elements = updateElement(elements, id, { opens: to });
+    }
     else if (op.op === 'adjust') {
       if (!ADJUSTMENTS.includes(op.kind)) throw new ToolError(`${at}.kind must be one of ${ADJUSTMENTS.join(', ')}`);
       elements = updateElement(elements, id, { adjust: op.kind });

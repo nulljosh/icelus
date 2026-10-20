@@ -147,6 +147,19 @@ extension ContentView {
         .accessibilityLabel("Canvas")
     }
 
+    /// A hotspot (v53, Hotspots.swift): the screen a press on this part opens. Shown once the canvas has a screen.
+    @ViewBuilder func hotspotControls(_ el: Element) -> some View {
+        let screens = state.elements.filter { $0.presetId == "screen" }
+        if canOpen(el), !screens.isEmpty {
+            Picker("Opens", selection: Binding(get: { opensScreen(state.elements, el)?.id ?? "" },
+                                               set: { id in canvasEdit { updateElement($0, id: el.id, opens: id.isEmpty ? nil : id) } })) {
+                Text("Nothing").tag("")
+                ForEach(screens, id: \.id) { Text(verbatim: ($0.text ?? "").isEmpty ? "Screen" : $0.text!).tag($0.id) }
+            }
+            .pickerStyle(.menu).fixedSize()
+        }
+    }
+
     func setGrid(_ el: Element, _ grid: ColumnGrid?) { canvasEdit { updateElement($0, id: el.id, grid: grid) } }
 
     func canvasEdit(_ change: ([Element]) -> [Element]) {

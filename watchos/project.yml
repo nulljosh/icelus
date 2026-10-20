@@ -32,6 +32,7 @@ targets:
       - ../ios/App/Symbols.swift
       - ../ios/App/Modes.swift
       - ../ios/App/Grids.swift
+      - ../ios/App/Hotspots.swift
       - ../ios/App/Presets.swift
       - ../ios/App/Store.swift
       - ../ios/App/Theme.swift

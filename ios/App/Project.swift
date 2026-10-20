@@ -43,6 +43,7 @@ private func elementJSON(_ e: Element) -> [String: Any] {
     if let adjust = e.adjust { el["adjust"] = adjust }
     if let m = e.mask { el["mask"] = ["top": m.top, "right": m.right, "bottom": m.bottom, "left": m.left] }
     if let clip = e.clip { el["clip"] = clip }
+    if let opens = e.opens { el["opens"] = opens }
     if let blend = e.blend { el["blend"] = blend }
     if let auto = e.auto { el["auto"] = ["gap": auto.gapVar ?? auto.gap as Any, "pad": auto.padVar ?? auto.pad as Any] }
     if let g = e.grid { el["grid"] = ["cols": g.cols, "gutter": g.gutter] }
@@ -108,6 +109,8 @@ func parseProject(_ json: String) -> EditorState? {
         state.elements[i].twin = (el["twin"] as? String).flatMap { $0.count <= 64 ? $0 : nil }
         if state.elements[i].presetId == "screen" { state.elements[i].size = (el["size"] as? String).flatMap { s in screenSizes.contains { $0.name == s } ? s : nil } }
         if let old = el["clip"] as? String, let id = ids[old], id != fresh[i] { state.elements[i].clip = id }
+        if let old = el["opens"] as? String, let id = ids[old], canOpen(state.elements[i]),
+           valid.contains(where: { $0["id"] as? String == old && $0["presetId"] as? String == "screen" }) { state.elements[i].opens = id }
     }
     state.snapshots = parseSnapshots(project["snapshots"])
     state.actions = parseActions(project["actions"])

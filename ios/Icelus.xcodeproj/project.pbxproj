@@ -56,6 +56,7 @@
 		DE206826F3EACA807830F022 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C657388B467BF20F6C542CE2 /* PaletteView.swift */; };
 		E338AE18AC6B0BA01FDB43B0 /* Mask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE55F405EF48DA465F09BA1 /* Mask.swift */; };
 		E40698AE66185767F25C5FEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95260F9B1A1864439BC31E3D /* Assets.xcassets */; };
+		E7EB8D41AA77B7DBE1C0530D /* Hotspots.swift in Sources */ = {isa = PBXBuildFile; fileRef = C576D88B0C6605194DE6FE8D /* Hotspots.swift */; };
 		E8AC8D1716C4CAE2CD8E9089 /* Lines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1BA5C1AA0F00AB6EB87226 /* Lines.swift */; };
 		E9B8A1083A2CE98F0D979864 /* ReviewSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD1C43C57601DE2743786E0 /* ReviewSheet.swift */; };
 		F0D253732521AD3BAE6B6DC4 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C02085D7634E7A40206A127 /* Palette.swift */; };
@@ -120,6 +121,7 @@
 		BF25801F171E6565367FC00D /* Shapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shapes.swift; sourceTree = "<group>"; };
 		C158F9FBC296CB8C1D1C1481 /* MaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskView.swift; sourceTree = "<group>"; };
 		C17B48AEFACC02D89876BB10 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C576D88B0C6605194DE6FE8D /* Hotspots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hotspots.swift; sourceTree = "<group>"; };
 		C657388B467BF20F6C542CE2 /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 		C8256BF6BED71D9179305726 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		D9E89DB00DF46AF1962B9EE3 /* TutorialViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViews.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				5B20898F035FF1CC8BEDD3A8 /* Heal.swift */,
 				B1150CBEE7464B0AFA89246C /* History.swift */,
 				1AE98A00EF30F92928147522 /* HistorySheet.swift */,
+				C576D88B0C6605194DE6FE8D /* Hotspots.swift */,
 				3BBFA9882B2AF65E1A3AA464 /* HTML.swift */,
 				BCFFCA98F6268FBF726E0EE5 /* IcelusApp.swift */,
 				1E4B4D15F1A1C5622A088962 /* Import.swift */,
@@ -337,6 +340,7 @@
 				2F10D86B5E31A124C3C5E91C /* Heal.swift in Sources */,
 				FFF5BBFF0D24027423283FA3 /* History.swift in Sources */,
 				9F38DD0708937750CC2AFDAE /* HistorySheet.swift in Sources */,
+				E7EB8D41AA77B7DBE1C0530D /* Hotspots.swift in Sources */,
 				D6FB40D2821AD04DD2DCE849 /* IcelusApp.swift in Sources */,
 				30E8169AB4231A4B046F0A61 /* Import.swift in Sources */,
 				7E1BB3C6373C4F3EBADA182C /* Inspect.swift in Sources */,
@@ -446,7 +450,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 51.0.0;
+				MARKETING_VERSION = 52.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -536,7 +540,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 51.0.0;
+				MARKETING_VERSION = 52.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;

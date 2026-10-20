@@ -2,8 +2,9 @@ import { expandChanges } from './heal.js';
 import { MODES, isVarName } from './modes.js';
 import { AUTO_MAX } from './layout.js';
 import { makeLibrary, parseLibrary } from './library.js';
+import { canOpen } from './hotspots.js';
 
-// The live-canvas tools for actions (v41), expand (v42), variables and modes (v47) and libraries (v48), split out of webmcp.js to keep it small.
+// The live-canvas tools for actions (v41), expand (v42), variables and modes (v47), libraries (v48) and hotspots (v53), split out of webmcp.js to keep it small.
 const NUM = { type: 'number' };
 
 export function editTools(get) {
@@ -34,6 +35,20 @@ export function editTools(get) {
           if (v !== null && !(Number.isInteger(v) && v >= 0 && v <= AUTO_MAX)) return { error: `value must be 0 to ${AUTO_MAX} or null` };
           dispatch({ type: 'CANVAS', name: args.name, value: v });
         }
+        return { ok: true };
+      },
+    },
+    {
+      name: 'link_part',
+      description: 'Make the selected part a hotspot: pressing it opens the screen with this name (screen: null takes the link off). One step of undo.',
+      inputSchema: { type: 'object', properties: { screen: { type: ['string', 'null'] } }, required: ['screen'] },
+      execute: async ({ screen }) => {
+        const { state, dispatch } = get();
+        const el = state.elements.find(x => x.id === state.selectedId);
+        if (!canOpen(el)) return { error: 'select a part first (not a screen, line, paint or adjustment)' };
+        const to = screen === null ? null : state.elements.find(s => s.presetId === 'screen' && (s.text || 'Screen') === screen);
+        if (to === undefined) return { error: `no screen named ${screen}` };
+        dispatch({ type: 'UPDATE_ELEMENT', id: el.id, changes: { opens: to?.id ?? null } });
         return { ok: true };
       },
     },

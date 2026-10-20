@@ -3,6 +3,7 @@ import { ADJUSTMENTS, BOX_STYLES, VARIANTS, cleanBlend } from './lines.js';
 import { cleanVars } from './modes.js';
 import { cleanGrid } from './grids.js';
 import { cleanNote, cleanOwn } from './shapes.js';
+import { canOpen } from './hotspots.js';
 import { maxOf } from './extent.js';
 import { cleanColor } from './color.js';
 import { cleanMask } from './mask.js';
@@ -29,6 +30,7 @@ export function parseProject(json) {
   const ids = new Map();
   valid.forEach((el, i) => { if (el.id != null && !ids.has(el.id)) ids.set(el.id, fresh[i]); });
   const int = n => (Number.isInteger(n) ? n : 0);
+  const screens = new Set(valid.filter(el => el.presetId === 'screen' && ids.get(el.id)).map(el => el.id));
   const anchor = a => (a && typeof a === 'object'
     ? { col: int(a.col), row: int(a.row), ...(ids.has(a.id) && { id: ids.get(a.id), dCol: int(a.dCol), dRow: int(a.dRow) }),
         ...(a.edge === true && { edge: true }), ...(['left', 'below'].includes(a.side) && { side: a.side }) }
@@ -60,6 +62,7 @@ export function parseProject(json) {
       ...(typeof el.twin === 'string' && el.twin.length <= 64 && { twin: el.twin }),
       ...(el.presetId === 'screen' && SIZES.some(s => s.name === el.size) && { size: el.size }),
       ...(ids.has(el.clip) && ids.get(el.clip) !== fresh[i] && { clip: ids.get(el.clip) }),
+      ...(screens.has(el.opens) && canOpen(el) && { opens: ids.get(el.opens) }),
       ...(typeof el.group === 'string' && { group: el.group }),
       ...(el.hidden === true && { hidden: true }),
       ...(el.locked === true && { locked: true }),

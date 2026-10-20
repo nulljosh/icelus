@@ -151,7 +151,7 @@ export default function Canvas({
     const ink = token('--color-text', '#000000');
     drawCells(ctx, shownGrid, [r0, r1, c0, c1], charW, charH, fontSize, { accent, color, ink, lit: token('--accent', '#1D4ED8') });
 
-    drawMarks(ctx, elements, outlinedIds, charW, charH, token('--accent', '#1D4ED8'));
+    drawMarks(ctx, elements, outlinedIds, charW, charH, token('--accent', '#1D4ED8'), selectedEl?.id);
     ctx.fillStyle = ink;
     // Selection box around the selected element (or its live drag position).
     if (selectedEl) {
@@ -422,7 +422,7 @@ export default function Canvas({
           onDoubleClick={() => { if (selectedEl) setEditing(true); }}
           onTouchEnd={handleTouchEnd}
         />
-        {look === 'real' && <RealLayer elements={elements} charW={getCharW()} rowH={lineH} fontSize={fontSize} />}
+        {look === 'real' && <RealLayer elements={elements} charW={getCharW()} rowH={lineH} fontSize={fontSize} picked={[...outlinedIds, selectedEl?.id]} />}
         {selectedEl && <ElementOverlay key={selectedEl.id + ':' + selectedEl.template.join('\n')} element={selectedEl} charWidth={getCharW()} rowHeight={lineH} cols={cols} rows={rows} onUpdate={onUpdateElement} editing={editing} onEdit={setEditing} />}
         </div>
       </div>

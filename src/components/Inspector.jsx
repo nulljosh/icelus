@@ -11,6 +11,7 @@ import LayerList from './LayerList.jsx';
 import CanvasPanel from './CanvasPanel.jsx';
 import ScreenGrid from './ScreenGrid.jsx';
 import InspectPanel from './InspectPanel.jsx';
+import HotspotPicker from './HotspotPicker.jsx';
 import { canvasVars, knobValue } from '../lib/modes.js';
 import ReviewList from './ReviewList.jsx';
 import { screenTweaks } from '../lib/tweaks.js';
@@ -194,6 +195,7 @@ export default function Inspector({
           </div>
           <details className="inspector-more" open={more} onToggle={toggle}>
             <summary>{t('more')}</summary>
+            <HotspotPicker el={el} elements={elements} onUpdate={onUpdateElement} />
             <InspectPanel el={el} elements={elements} />
             <NoteField element={el} onUpdate={onUpdateElement} />
             {el.size && (

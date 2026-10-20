@@ -4,6 +4,7 @@ import { COLORS } from '../lib/color.js';
 import { shownBox } from '../lib/mask.js';
 import { createElement } from '../lib/engine.js';
 import { gridColumns } from '../lib/grids.js';
+import { opensScreen } from '../lib/hotspots.js';
 import './RealLayer.css';
 
 // "New here? [Create account]": a bracketed action inside a line of words reads as a link, not brackets.
@@ -54,11 +55,31 @@ function Part({ el, charW, rowH, byId }) {
   }
 }
 
-export default memo(function RealLayer({ elements, charW, rowH, fontSize }) {
+// Hotspots (hotspots.js) over the artboards: a ring on each one's bottom right, and a dashed link to its screen when picked.
+function Links({ elements, picked, charW, rowH }) {
+  const spots = elements.flatMap(el => { const to = !el.hidden && opensScreen(elements, el); return to ? [[el, to]] : []; });
+  if (!spots.length) return null;
+  return (
+    <svg className="real-links">
+      {spots.map(([el, to]) => {
+        const x = (el.col + el.width) * charW, y = (el.row + el.height) * rowH;
+        return (
+          <g key={el.id}>
+            {picked.includes(el.id) && <line x1={x} y1={y} x2={to.col * charW} y2={(to.row + 0.5) * rowH} strokeDasharray="4 3" />}
+            <circle cx={x} cy={y} r="3.5" />
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+export default memo(function RealLayer({ elements, charW, rowH, fontSize, picked = [] }) {
   const byId = new Map(elements.map(el => [el.id, el]));
   return (
     <div className="real-layer" style={{ '--real-size': `${Math.round(fontSize * 0.93)}px`, '--row': `${rowH}px` }} aria-hidden="true">
       {elements.map(el => (el.hidden ? null : <Part key={el.id} el={el} charW={charW} rowH={rowH} byId={byId} />))}
+      <Links elements={elements} picked={picked} charW={charW} rowH={rowH} />
     </div>
   );
 });

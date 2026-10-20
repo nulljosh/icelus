@@ -2,6 +2,7 @@
 // Ported line for line in ios/App/Lines.swift.
 
 import { snapToGrid } from './grids.js';
+import { flowLines } from './hotspots.js';
 import { createGrid, elementAt, newElementId, trimText, asciiChar } from './engine.js';
 export { tableFrame, tableCells, tableText, textCells, CHARTS, SIZED, chartItems, chartFrame, nodeFrame, sequenceFrame, isMessage,
   treeFrame, isTreeLine, contentFrame, syncSymbol, makeSymbol, detachSymbol, symbolUses,
@@ -162,19 +163,16 @@ export function partsInside(elements, frame) {
     && el.col + el.width <= frame.col + frame.width && el.row + el.height <= frame.row + frame.height);
 }
 
-// Every screen as one Markdown document: a Flow list of the arrows that run from one screen to another,
+// Every screen as one Markdown document: a Flow list of the arrows and hotspots that run from one screen to another,
 // then each screen under its name, cropped to its frame. Null when there are no screens.
 export function screensDocument(elements, cols, rows) {
   const screens = elements.filter(el => el.presetId === 'screen').sort((a, b) => a.row - b.row || a.col - b.col);
   if (!screens.length) return null;
   const grid = renderElements(elements, cols, rows);
   const name = s => s.text || 'Screen';
-  const holding = p => screens.find(s => p.col >= s.col && p.col < s.col + s.width && p.row >= s.row && p.row < s.row + s.height);
-  const flow = elements.filter(el => el.presetId === 'line' && el.from && el.to)
-    .map(el => [holding(el.from), holding(el.to)]).filter(([a, b]) => a && b && a !== b)
-    .map(([a, b]) => `- ${name(a)} → ${name(b)}`);
+  const flow = flowLines(elements);
   const crop = s => grid.slice(s.row, s.row + s.height).map(r => r.slice(s.col, s.col + s.width).join('')).join('\n');
-  return [...(flow.length ? ['## Flow', '', ...new Set(flow), ''] : []),
+  return [...(flow.length ? ['## Flow', '', ...flow, ''] : []),
     ...screens.flatMap(s => [`## ${name(s)}`, '', '```', trimText(crop(s)), '```', ''])].join('\n').trimEnd() + '\n';
 }
 
