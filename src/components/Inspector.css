@@ -27,6 +27,9 @@
 .inspector-section-title + .inspector-row { border-radius: var(--r-list) var(--r-list) 0 0; }
 .inspector-row:last-of-type { border-radius: 0 0 var(--r-list) var(--r-list); }
 .inspector-section-title + .inspector-row:last-of-type { border-radius: var(--r-list); }
+/* A layer group (LayerList.jsx) has no title: its screen row is the top of the group. */
+.inspector-section > .layer-row:first-child { border-radius: var(--r-list) var(--r-list) 0 0; }
+.inspector-section > .layer-row:first-child:last-of-type { border-radius: var(--r-list); }
 .inspector-row + .inspector-row::before {
   content: '';
   position: absolute;
@@ -137,6 +140,11 @@
   flex: 1; min-width: 0; text-align: start; border: 0; background: none; padding: 0; color: var(--color-text);
   font: 17px/24px var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer;
 }
+.layer-name { display: grid; gap: 0; }
+.layer-name > span, .layer-name > small { overflow: hidden; text-overflow: ellipsis; }
+.layer-name > small { font-size: 13px; line-height: 18px; color: var(--color-secondary); }
+.layer-row.is-screen .layer-name > span { font-weight: 600; }
+.layer-row.is-child .layer-name { padding-inline-start: var(--sp-4); }
 .layer-row.is-selected .layer-name { color: var(--accent); font-weight: 600; }
 .layer-row.is-hidden .layer-name { color: var(--color-secondary); }
 .layer-tools { display: flex; gap: 0; flex: none; }
