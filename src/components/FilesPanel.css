@@ -1,0 +1,33 @@
+/* Files (FilesPanel.jsx): the Settings card, wider, with a template grid over a grouped list. 8 point grid throughout. */
+.tour-card.files-card { max-width: 600px; max-height: calc(100dvh - 2 * var(--sp-5)); overflow-y: auto; }
+.files-card > * { flex-shrink: 0; } /* scroll the card, never squash its rows */
+.files-head { margin: var(--sp-2) 0 0; font: var(--type-footnote); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-secondary); }
+
+.files-templates { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: var(--sp-3); }
+.file-template { display: grid; gap: var(--sp-2); padding: var(--sp-2); border: 0; border-radius: var(--r-list); background: var(--surface2);
+  color: var(--color-text); font: inherit; font-size: 15px; line-height: 20px; font-weight: 600; text-align: start; cursor: pointer; transition: background 0.2s ease; }
+.file-template > span:last-child { padding: 0 var(--sp-1) var(--sp-1); }
+.file-template:hover { background: color-mix(in srgb, var(--accent) 12%, var(--surface2)); }
+.file-template:focus-visible { outline: none; box-shadow: var(--ring); }
+.file-thumb { display: grid; place-items: center; height: 96px; overflow: hidden; border-radius: 12px; background: var(--color-bg); }
+.file-thumb.is-blank { background: radial-gradient(circle, var(--color-hairline) 1px, transparent 1.5px) 4px 4px / 8px 8px, var(--color-bg); }
+.file-thumb-art { position: relative; flex: none; transform-origin: center; }
+.file-thumb-art .real-layer { inset: 0; }
+
+.files-card .files-list { margin: 0; padding: 0; list-style: none; border-radius: var(--r-list); background: var(--surface2); overflow: hidden; }
+.files-card .file-row { display: flex; align-items: center; gap: var(--sp-2); min-height: 56px; padding: 0 var(--sp-2) 0 var(--sp-4); border-top: 0; }
+.files-card .file-row + .file-row { box-shadow: inset var(--sp-4) 1px 0 var(--surface2), inset 0 1px 0 var(--color-hairline); }
+.file-open { flex: 1; min-width: 0; display: grid; gap: 2px; padding: var(--sp-2) 0; border: 0; background: none; color: inherit; font: inherit; text-align: start; cursor: pointer; }
+.file-open b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 17px; line-height: 22px; font-weight: 400; }
+.file-row.is-open .file-open b { font-weight: 600; }
+.file-open small { font-size: 13px; line-height: 18px; color: var(--color-secondary); }
+.file-row.is-open .file-open small { color: var(--accent); }
+.file-open:focus-visible, .file-icon:focus-visible { outline: none; box-shadow: var(--ring); border-radius: 12px; }
+.file-actions { flex: none; display: flex; align-items: center; gap: var(--sp-1); }
+.files-card .file-actions .btn { width: auto; min-height: 36px; padding: 0 var(--sp-3); font-size: 15px; }
+.file-icon { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: none; color: var(--color-secondary); cursor: pointer; }
+.file-icon:hover { background: var(--surface2); color: var(--color-text); }
+.file-icon.is-danger:hover { color: #D70015; }
+.file-rename { flex: 1; min-width: 0; height: 40px; padding: 0 var(--sp-3); border: 0; border-radius: 12px; background: var(--color-bg2); color: var(--color-text); font: inherit; font-size: 17px; box-shadow: var(--ring); }
+@media (prefers-reduced-motion: reduce) { .file-template { transition: none; } }
+@media (max-width: 480px) { .file-thumb { height: 80px; } .tour-card.files-card { padding: var(--sp-5); } }

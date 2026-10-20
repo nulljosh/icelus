@@ -8,6 +8,7 @@ import Boxy from './components/Boxy.jsx';
 import Tutorial from './components/Tutorial.jsx';
 import Present from './components/Present.jsx';
 import Play from './components/Play.jsx';
+import FilesPanel, { useFiles } from './components/FilesPanel.jsx';
 import { startScreen } from './lib/play.js';
 import BrushBar from './components/BrushBar.jsx';
 import ChatPanel from './components/ChatPanel.jsx';
@@ -305,6 +306,10 @@ function edit(state, action) {
       return { ...pushHistory(state), elements, grid: renderElements(elements, state.cols, state.rows) };
     }
 
+    case 'OPEN_FILE': // another file: its own canvas, snapshots and actions, and a fresh undo history
+      return { ...state, cols: action.cols, rows: action.rows, elements: action.elements, snapshots: action.snapshots ?? [], actions: action.actions ?? [],
+        recording: null, history: [], future: [], grid: renderElements(action.elements, action.cols, action.rows), selectedId: null, selectedPreset: null };
+
     case 'LOAD': {
       const elements = action.elements;
       return {
@@ -496,6 +501,8 @@ export default function App() {
   const [cellSel, setCellSel] = useState([]); // the cells the marquee or wand picked
   const [presenting, setPresenting] = useState(null);
   const [playing, setPlaying] = useState(null); // play mode (play.js): the screen it starts on
+  const files = useFiles(state, dispatch, !DEMO); // files.js: every file, the open one is the canvas
+  const [filesOpen, setFilesOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false); // Describe it // the slides on show, or null
   const [mobileSheet, setMobileSheet] = useState(null); // null | 'components' | 'inspector' | 'more'
   const [darkMode, setDarkMode] = useState(() => {
@@ -886,12 +893,17 @@ export default function App() {
       {lesson !== null && <Tutorial step={lesson} onClose={() => setLesson(null)} />}
       {presenting && <Present slides={presenting} onClose={closePresent} />}
       {playing && <Play elements={state.elements} start={playing} onClose={closePlay} />}
+      {filesOpen && <FilesPanel files={files} onClose={() => setFilesOpen(false)} />}
       {chatOpen && <ChatPanel onClose={() => setChatOpen(false)} current={describedSource} currentName={describedScreen?.text}
         onScreen={source => dispatch({ type: 'PLACE_DESCRIBED', source, replaceId: describedScreen?.id })} />}
       <input ref={photoRef} type="file" accept="image/*" hidden onChange={handlePhoto} />
       <input ref={fileRef} type="file" accept=".icelus,.morphis,.morpheus,.glyphbox,.glyphic,.blockprint,.json,.txt,text/plain,application/json" hidden onChange={handleOpenFile} />
       <header className="app-header">
-        <span className="app-title"><img src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" width="32" height="32" />Icelus</span>
+        {DEMO ? <span className="app-title"><img src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" width="32" height="32" />Icelus</span> : (
+          <button type="button" className="app-title app-file" onClick={() => setFilesOpen(true)} aria-label={`${t('files')}: ${files.name}`}>
+            <img src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" width="32" height="32" /><span>{files.name}</span><span className="app-file-chevron" aria-hidden="true" />
+          </button>
+        )}
 
         {/* Desktop header */}
         <div className="app-header-actions header-desktop">
