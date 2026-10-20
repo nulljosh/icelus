@@ -1,6 +1,6 @@
 <img src="icon.svg" width="80" alt="Icelus">
 
-![version](https://img.shields.io/badge/version-v55.2.0-blue)
+![version](https://img.shields.io/badge/version-v55.3.0-blue)
 ![license](https://img.shields.io/badge/license-Apache%202.0-green)
 
 Describe a screen and it draws. Then edit it like Figma or Photoshop, with real buttons, fields and switches on artboards. Underneath, every screen is text on a character grid, so it pastes into a README, an issue or a chat and stays editable.
@@ -16,6 +16,7 @@ Describe a screen and it draws. Then edit it like Figma or Photoshop, with real 
 - **History and actions.** Every step by name, snapshots, and recorded edits you can play on any part.
 - **Review.** Flags overlaps, cut boxes, placeholder text, missing states, stray marks, focus out of reading order, unlabeled fields and controls too small to tap, and fixes the ones it can in one tap.
 - **Copy.** Every word on the canvas in one list, edited there, and translated into any of the 27 languages in one tap.
+- **Files and templates.** As many files as you like. Start one blank or from Sign in, Onboarding, Settings, Inbox or Checkout, its screens already linked so Play works at once.
 - **Prototype.** Pick a button and choose the screen it opens, then Play to click through your screens like a real app: boxes tick, tabs switch and fields take typing.
 - **Inspect.** Pick a part to see where it sits, its size, the gap on each side and its own React or SwiftUI code.
 - **Hand it off.** A build brief for Claude Code, React or SwiftUI code, a deck, a PDF, HTML, an image or plain text.
@@ -36,7 +37,7 @@ Command line: `printf '"Email"  [Sign in]' | node bin/icelus.js draw`. Terminal 
 The GitHub Action fails a build when a box in a Markdown wireframe no longer closes:
 
 ```yaml
-- uses: nulljosh/icelus@v55.2.0
+- uses: nulljosh/icelus@v55.3.0
   with: { files: "README.md docs/*.md" }
 ```
 

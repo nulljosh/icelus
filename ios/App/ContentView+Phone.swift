@@ -50,7 +50,9 @@ extension ContentView {
                 barButton("Redo", "arrow.uturn.forward", enabled: state.canRedo, action: redo)
             }
             .glass(in: Capsule())
-            Spacer()
+            Spacer(minLength: 8)
+            fileTitle.glass(in: Capsule())
+            Spacer(minLength: 8)
             HStack(spacing: 4) {
                 toolsMenu.frame(width: 44, height: 44)
                 if let first = startScreen(state.elements, selectedId: selectedId) {

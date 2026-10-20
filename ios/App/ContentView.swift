@@ -42,6 +42,8 @@ struct ContentView: View {
     @State var session = SessionStore.load()
     @State var showingLayers = false
     @State var addingParts = false // the iPhone Add sheet
+    @State var library = FileLibrary.loadIndex() // every file; the open one is the canvas (Files.swift)
+    @State var showingFiles = false
     #if os(iOS)
     @Environment(\.horizontalSizeClass) var sizeClass
     #endif
@@ -101,6 +103,7 @@ struct ContentView: View {
             ReviewSheet(elements: state.elements, cols: state.cols, rows: state.rows, system: parseSystem(systemRaw), onSelect: { selectedId = $0 }, onRemove: removeParts,
                         onFixFocus: { canvasEdit { fixFocusOrder($0) } })
         }
+        .sheet(isPresented: $showingFiles) { FilesSheet(library: library, onOpen: openFile, onCreate: createFile, onDuplicate: duplicateFile, onDelete: deleteFile, onRename: renameOpenFile) }
         .sheet(isPresented: $showingCopy) { CopySheet(elements: state.elements) { edits in canvasEdit { applyCopy($0, edits) } } }
         .sheet(isPresented: $showingLayers) {
             LayersSheet(elements: state.elements, selectedId: selectedId, onSelect: { selectedId = $0 },

@@ -5,6 +5,7 @@ extension ContentView {
     /// controls, remembered per device (glyphbox-more), the same split as the web.
     var toolbar: some View {
         HStack(spacing: 16) {
+            fileTitle // the open file; opens Files
             Spacer()
 
             toolButton("Undo", systemImage: "arrow.uturn.backward", enabled: state.canUndo, action: undo)

@@ -51,7 +51,10 @@ extension ContentView {
         // A blank canvas says what to do, like the web: Boxy and one line. It never takes a tap.
         .overlay { if state.elements.isEmpty { emptyCanvas.allowsHitTesting(false) } }
         // Fit the work to the width once, so a phone opens on the whole screen, not its top left corner.
-        .background(GeometryReader { g in Color.clear.onAppear { DispatchQueue.main.async { fit(width: g.size.width) } } }) // after restore
+        .background(GeometryReader { g in // after restore, and again when another file opens
+            Color.clear.onAppear { DispatchQueue.main.async { fit(width: g.size.width) } }
+                .onChange(of: fitted) { if !fitted { fit(width: g.size.width) } }
+        })
         // Pinch zooms by font size, like the zoom buttons.
         .simultaneousGesture(MagnifyGesture()
             .onChanged { value in

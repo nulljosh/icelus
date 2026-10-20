@@ -1,5 +1,5 @@
 /// Era 6, prototype: hotspots, play mode and live parts.
-func runPrototypeChecks() { runHotspotChecks(); runPlayChecks(); runLiveChecks() }
+func runPrototypeChecks() { runHotspotChecks(); runPlayChecks(); runLiveChecks(); runFileChecks() }
 
 func runPlayChecks() {
     func screen(_ col: Int, _ row: Int, _ name: String) -> Element {

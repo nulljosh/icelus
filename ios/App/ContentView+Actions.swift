@@ -365,13 +365,17 @@ extension ContentView {
         switch UserDefaults.standard.string(forKey: "shot-sheet") { // `-shot-sheet add|settings` opens a sheet
         case "add": addingParts = true
         case "settings": accountTab = "settings"; showingAccount = true
+        case "files": showingFiles = true
+        case let s? where s.hasPrefix("new-"): createFile(String(s.dropFirst(4))) // `-shot-sheet new-sign-in` makes a file from a template
         default: break
         }
+        FileLibrary.saveIndex(library); persist() // the first launch files the canvas already open as Untitled
     }
 
     // ponytail: write on every edit — the project is a few KB, so debouncing would be
     // machinery protecting nothing.
     func persist() {
         Store.save(state)
+        if let id = library.current { FileLibrary.save(id, state) } // the open file's copy follows the canvas (Files.swift)
     }
 }
