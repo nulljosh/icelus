@@ -2,28 +2,27 @@
 
 ## What the loop is
 
-A /loop that works `roadmap.md` top to bottom, one item per tick: build the smallest version that works, web first and then the Swift port, test both sides, commit, push, deploy the web, tick the item. Each finished major gets a version bump, a tag and new App Store text. The icon is the box of glyphs and stays. The tick rules, the launch queue and the watch items live in `~/.claude/loops/icelus.md`.
+A /loop that works `roadmap.md` one item per tick: build the smallest version that works, web first and then the Swift port, test both sides, commit, push, deploy the web, tick the item. Each finished major gets a version bump, a tag and new App Store text. The icon is the box of glyphs and stays. Joshua's bar is A+ on every screen, checked in the simulator and in a headless browser. The tick rules, the launch queue and the watch items live in `~/.claude/loops/icelus.md`.
 
 ## Where things stand
 
-- v48.0.0 is in the repo (v38.0.0 was live at icelus.jaybulb.com when this was written). Since v38 the repo has gained blend modes (v39), a history panel with named steps (v40), actions that replay edits (v41), heal and expand (v42), auto layout (v43), constraints (v44), phone, tablet and desktop sizes (v45), properties (v46), variables and modes (v47) and libraries that update linked copies (v48).
-- v38.0.0 was live at icelus.jaybulb.com. The direction changed on 2026-10-19: Icelus is a real design tool (Figma and Photoshop with real elements) with a chat that draws a screen from a sentence. The text look is a Settings switch, not the pitch.
-- v38 shipped masks: hide part of a part without cutting it, or clip one part to the shape of another. The template is never cut.
-- The landing's store links open the iPhone listing, the hero says iPhone and iPad, and the Mac card says the Mac app is coming and opens the web app.
-- Shipped this stretch, all on web and native unless noted: code export (v28), decks (v29), the agent kit with MCP resources and prompts (v30), brush and eraser (v31), selections (v32), gradients (v33), color and ANSI (v34), adjustment layers (v35), the design pass with native dark mode (v35.1), the real canvas (v36, default look, `src/lib/real.js`), and Describe it (v37, web only).
-- Describe it is a chat panel (`ChatPanel.jsx`) over `POST /api/describe`: Workers AI writes typed lines (`src/lib/describe.js`), the existing parser draws them, and the route answers only the app's own origin. Checked live: it returns 403 to any other caller.
-- Tests: 259 on the web (35 files), plus the Swift checks (`swiftc` command in CLAUDE.md). Mac and iOS build clean. `node tools/code-check.mjs` compiles every part as React and SwiftUI.
-- Store: iOS 12.0.0 is live (App Store Connect says ready for sale). The next native batch is v37; its text is `docs/store/37.0.0.md`, with the Describe paragraph held back until the native chat exists.
-- Docs and landing were synced to v37 on this date. The landing deploys with the app: `npm run build` copies `landing/` into `dist/`, then `npx wrangler pages deploy` (a push deploys nothing).
-- GitHub Actions is still stalled account-wide. Local tests are the gate.
+- The repo is at 55.3.0. Shipped this stretch: hotspots (a button opens another screen), play mode (click through linked screens), live parts (boxes tick, tabs switch, fields take typing), an iPhone layout with glass bars and a bottom tab bar where Settings holds Profile, a tutorial that stays out of the way, a slim selection bar, Files for many files with six linked templates, and layers grouped by screen with Review checks on open.
+- Boxy is the new original mascot. It is still being drawn: the frame is not finished and the eyes follow the cursor.
+- The web is live at icelus.jaybulb.com.
+- Native: iOS 50.0.0 is waiting for review. The 55.x native build compiles and looks right in the simulator but has not been submitted. Nothing newer has reached the App Store.
+- The asc CLI hung this session, so store state was not re-read. Put a timeout on every asc call and check `asc versions list --app 6794988951` before any submit. Only one store build in review at a time.
+- Old private tags leaked to the public repo through a `--tags` push and were deleted. Push tags by name only: `git push origin main vN.0.0`. Never push anything from icelus-private, and never push private-main to origin. Commit by exact path.
 
 ## Next, in order
 
-1. Native Describe chat: the same panel on iPhone, iPad and Mac, calling `/api/describe`. Then put its paragraph back in the store text.
-2. Bring your own Claude key: a setting that lets Describe it call Claude with the person's own key, so the free Workers AI quota stops being the ceiling.
-3. Real palette previews: the palette and inspector show each part as its real control, not its characters.
-4. Store batch: bump the native build, apply the store text for the current version, retake the screenshots in the real look, run `asc workflow run ship-ios VERSION:<version>`.
-5. Waiting on Joshua: App Store privacy answers (accounts, and Describe sending text to Workers AI), cloud projects (a new jaybulb-api table), a rate limit on /api/capture and /api/describe, iCloud, the share extension, npm, the MCP registry, and the public repo.
+1. iPhone inspector row: show the tools as icons only. The More control is a long sideways strip, so fix that first.
+2. History sheet: it feels empty. Fill it with the named steps and a clear way to jump back.
+3. Add sheet: the Text area and Date picker thumbnails are blank. Draw them.
+4. Regrade every screen to A. Each screen gets a headless walk in light, dark and 390 wide, and a look at the screenshots.
+5. Native: TestFlight 55.x. Then pull 50.0.0 from review and submit 55.x, once asc responds.
+6. v56 Transitions (push, sheet and fade between screens, plus Motion), then v57 Prototype links, then v58 Flow map.
+
+Waiting on Joshua: App Store privacy answers for accounts, rate limits on /api/capture and /api/describe, the pay decision that Describe it and Make need, and the share extension and iCloud items.
 
 ## Restart prompt
 
