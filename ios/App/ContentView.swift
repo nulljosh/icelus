@@ -258,6 +258,7 @@ struct ContentView: View {
                 if noteDraft != (el.note ?? "") { toolButton("Save note", systemImage: "note.text", enabled: true) { setNote(el, noteDraft) } }
                 if el.note != nil { toolButton("Resolve", systemImage: "checkmark.circle", enabled: true) { setNote(el, ""); noteDraft = "" } }
                 screenControls(el)
+                inspectControls(el)
                 pinControls(el)
                 symbolControls(el)
                 Picker("State", selection: Binding(get: { el.variant ?? "default" }, set: { setVariant(el, $0) })) {

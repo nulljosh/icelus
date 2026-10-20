@@ -10,6 +10,7 @@ import { PIN_X, PIN_Y } from '../lib/layout.js';
 import LayerList from './LayerList.jsx';
 import CanvasPanel from './CanvasPanel.jsx';
 import ScreenGrid from './ScreenGrid.jsx';
+import InspectPanel from './InspectPanel.jsx';
 import { canvasVars, knobValue } from '../lib/modes.js';
 import ReviewList from './ReviewList.jsx';
 import { screenTweaks } from '../lib/tweaks.js';
@@ -191,14 +192,7 @@ export default function Inspector({
           </div>
           <details className="inspector-more" open={more} onToggle={toggle}>
             <summary>{t('more')}</summary>
-            <div className="inspector-row">
-              <span className="inspector-key">{t('position')}</span>
-              <span className="inspector-value">{el.col}, {el.row}</span>
-            </div>
-            <div className="inspector-row">
-              <span className="inspector-key">{t('size')}</span>
-              <span className="inspector-value">{el.width}×{el.height}</span>
-            </div>
+            <InspectPanel el={el} elements={elements} />
             <NoteField element={el} onUpdate={onUpdateElement} />
             {el.size && (
               <div className="inspector-row">

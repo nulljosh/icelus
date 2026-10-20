@@ -1,6 +1,6 @@
 # Icelus
 
-v49.0.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
+v50.0.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
 like Figma or Photoshop, and underneath every screen is text on a character grid that pastes anywhere. Web (Vite + React 19) at icelus.jaybulb.com, native SwiftUI for
 iPhone, iPad and Mac (ASC app 6794988951, $0.99), plus a Watch app and a terminal companion.
 
@@ -23,7 +23,7 @@ Ex-Charwork, ex-Wiretext, ex-Blockframe, ex-Blockprint, ex-Glyphic, ex-Glyphbox,
 npm install && npm run dev        # :5173
 npm test && npm run build
 npm run build && npx wrangler pages deploy   # a push deploys nothing; ships the app and landing/ together
-swiftc -o /tmp/wtcheck ios/App/Engine.swift ios/App/Lines.swift ios/App/Shapes.swift ios/App/Presets.swift ios/App/Syntax.swift ios/App/Photo.swift ios/App/Palette.swift ios/App/HTML.swift ios/App/Import.swift ios/App/Tweaks.swift ios/App/Critique.swift ios/App/Tutorial.swift ios/App/Account.swift ios/App/Handoff.swift ios/App/Code.swift ios/App/Deck.swift ios/App/Brush.swift ios/App/Select.swift ios/App/Gradient.swift ios/App/Color.swift ios/App/Real.swift ios/App/Mask.swift ios/App/History.swift ios/App/Project.swift ios/App/Actions.swift ios/App/Heal.swift ios/App/Layout.swift ios/App/Symbols.swift ios/App/Modes.swift ios/App/Grids.swift ios/App/Library.swift ios/Checks/*.swift && /tmp/wtcheck
+swiftc -o /tmp/wtcheck ios/App/Engine.swift ios/App/Lines.swift ios/App/Shapes.swift ios/App/Presets.swift ios/App/Syntax.swift ios/App/Photo.swift ios/App/Palette.swift ios/App/HTML.swift ios/App/Import.swift ios/App/Tweaks.swift ios/App/Critique.swift ios/App/Tutorial.swift ios/App/Account.swift ios/App/Handoff.swift ios/App/Code.swift ios/App/Deck.swift ios/App/Brush.swift ios/App/Select.swift ios/App/Gradient.swift ios/App/Color.swift ios/App/Real.swift ios/App/Mask.swift ios/App/History.swift ios/App/Project.swift ios/App/Actions.swift ios/App/Heal.swift ios/App/Layout.swift ios/App/Symbols.swift ios/App/Modes.swift ios/App/Grids.swift ios/App/Library.swift ios/App/Inspect.swift ios/Checks/*.swift && /tmp/wtcheck
 ```
 
 Mac build check (no signing, run in the background, never next to another heavy job):
@@ -62,6 +62,7 @@ file is `{blockprint: 1, cols, rows, elements}` (the old key stays so every save
 - `src/lib/modes.js` + `ios/App/Modes.swift`: variables and modes (v47). One canvas part (`presetId: 'adjust', canvas: true`) holds the line mode (`adjust`, drawn over the whole grid last by renderElements, kept out of screens and selections) and `vars` (named spacing 0-8, at most 12). A screen's `auto.gap`/`pad` may be a var name (Swift `gapVar`/`padVar`), resolved in autoLayout; removing a var leaves its last value
 - `src/lib/library.js` + `ios/App/Library.swift` (app only): libraries (v48). `makeLibrary` writes one part per symbol (`{icelusLibrary: 1, name, parts: [{symbol, label, presetId, template, text?, style?}]}`); `libraryPalette` puts them in Mine with `symbol`, which `createElement` copies, so placed parts stay linked; `pullLibrary` runs symbolFields over linked copies. Web: Open a library file, Export > Download library. Native: Paste, Export > Copy library. API `project_to_library`, edit op `pull`
 - `src/lib/grids.js` + `ios/App/Grids.swift`: grids (v49). A screen's `grid: {cols 1-24, gutter 0-8}`; `gridColumns` gives the bands, `snapToGrid` runs at the end of `snapPosition` (left or right edge onto a band), `gridEverywhere` copies one screen's grid to all. Bands draw in drawMarks / CanvasView at 8 percent accent, never in the text
+- `src/lib/inspect.js` + `ios/App/Inspect.swift` (app only): Inspect (v50). `partSpacing` is the gap left, right, top and bottom to the nearest part sharing rows or columns, or the screen's inner edge (null when none); `partSnippet(el, format)` in code.js / Code.swift is one part's JSX or SwiftUI. Web `InspectPanel.jsx` under More, native `inspectControls`; API `inspect_part`
 - `src/lib/editProject.js`: the edit_project ops, split from tools.js; argument checks in `toolArgs.js`
 - `ios/Checks/main.swift`: the JS tests as plain asserts
 - `landing/`: the landing page (static, no build step of its own; `npm run build` copies it to `dist/` and `wrangler pages deploy` publishes it with the app), which embeds the real app at `/app/?demo` (no storage writes), and the ad

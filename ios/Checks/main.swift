@@ -351,5 +351,6 @@ runPropertyChecks()
 runModeChecks()
 runLibraryChecks()
 runGridChecks()
+runInspectChecks()
 
 print("ok — \(checks) checks passed")

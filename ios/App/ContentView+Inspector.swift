@@ -154,4 +154,19 @@ extension ContentView {
         state.elements = change(state.elements)
         persist()
     }
+
+    /// Inspect (v50, Inspect.swift): the gap to the neighbours on each side, and this part's own code.
+    @ViewBuilder func inspectControls(_ el: Element) -> some View {
+        if let gap = partSpacing(state.elements, id: el.id) {
+            let side = { (v: Int?) in v.map(String.init) ?? "–" }
+            Text(verbatim: "←\(side(gap.left)) →\(side(gap.right)) ↑\(side(gap.top)) ↓\(side(gap.bottom))")
+                .foregroundStyle(Theme.muted).fixedSize()
+                .accessibilityLabel("Spacing left \(side(gap.left)), right \(side(gap.right)), top \(side(gap.top)), bottom \(side(gap.bottom))")
+        }
+        Menu("Code") {
+            Button("Copy React") { copyToClipboard(partSnippet(el, format: "react")) }
+            Button("Copy SwiftUI") { copyToClipboard(partSnippet(el, format: "swiftui")) }
+        }
+        .fixedSize()
+    }
 }

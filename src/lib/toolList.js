@@ -164,6 +164,20 @@ export const TOOLS = [
     },
   },
   {
+    name: 'inspect_part',
+    description:
+      'Inspect one part, like Figma Dev Mode: its column, row, width and height in cells, the gap to the nearest part or ' +
+      'screen edge on each side (null where there is none), and its own React and SwiftUI code.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'object', description: 'A Icelus project: { blockprint: 1, cols, rows, elements }.' },
+        index: { type: 'integer', description: 'Which part, by its place in elements.' },
+      },
+      required: ['project', 'index'],
+    },
+  },
+  {
     name: 'project_to_library',
     description:
       'Publish a Icelus project\'s symbols as a part library (JSON: { icelusLibrary: 1, name, parts }). Each part keeps its ' +

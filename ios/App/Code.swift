@@ -90,6 +90,17 @@ private func css(_ cols: Int) -> String {
 }
 
 /// One .jsx file: a React component that renders the layout, its plain CSS in a <style> beside it.
+/// One part on its own, for Inspect (Inspect.swift): the JSX or SwiftUI that toReact and toSwiftUI place.
+func partSnippet(_ el: Element, format: String = "react") -> String {
+    let p = readPart(el)
+    if format == "swiftui" {
+        if case .screen(let title) = p { return "RoundedRectangle(cornerRadius: 8).stroke() // \(title)" }
+        return swiftUI(p)
+    }
+    if case .screen(let title) = p { return "<section className=\"screen\" aria-label={\(js(title))}><h2>{\(js(title))}</h2></section>" }
+    return jsx(p)
+}
+
 func toReact(_ elements: [Element], cols: Int, rows: Int, name: String = "Layout") -> String {
     let id = componentName(name)
     let parts = elements.map { el -> String in

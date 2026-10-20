@@ -69,6 +69,13 @@ const CSS = cols => `.icelus { --row: 1.5em; position: relative; font: 14px/1.5 
 .icelus table { border-collapse: collapse; width: 100%; }
 .icelus th, .icelus td { border: 1px solid currentColor; padding: 0 1ch; text-align: left; }`;
 
+/** One part on its own, for Inspect (inspect.js): the JSX or SwiftUI that toReact and toSwiftUI place. */
+export function partSnippet(el, format = 'react') {
+  const p = readPart(el);
+  if (format === 'swiftui') return p.kind === 'screen' ? `RoundedRectangle(cornerRadius: 8).stroke() // ${p.title}` : swiftUI(p);
+  return p.kind === 'screen' ? `<section className="screen" aria-label={${js(p.title)}}><h2>{${js(p.title)}}</h2></section>` : jsx(p);
+}
+
 /** One .jsx file: a React component that renders the layout, its plain CSS in a <style> beside it. */
 export function toReact(elements, cols, rows, name = 'Layout') {
   const id = componentName(name);

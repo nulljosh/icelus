@@ -3,6 +3,7 @@
 // wireframe goes in, a wireframe comes out, so there is no database, session store or Durable Object.
 
 import { makeLibrary } from './library.js';
+import { inspectPart } from './inspect.js';
 import { createGrid, gridToText, textToGrid, stampComponent, renderElements, serializeProject, trimText, parseProject } from './engine.js';
 import { PRESETS as CORE, CATEGORIES as CORE_CATEGORIES, PACKS, PACK_CATEGORIES, getPreset } from './presets.js';
 import { parseSketch, toSketch } from './syntax.js';
@@ -116,6 +117,14 @@ export function callTool(name, rawArgs) {
       if (!project) throw new ToolError('project must be a Icelus project with an elements array');
       const name = typeof args.name === 'string' && args.name.trim() ? args.name.trim().slice(0, 80) : 'Icelus project';
       return { markdown: handoff(project.elements, project.cols, project.rows, name) };
+    }
+
+    case 'inspect_part': {
+      const project = parseProject(JSON.stringify(args.project ?? null));
+      if (!project) throw new ToolError('project must be a Icelus project with an elements array');
+      const i = args.index;
+      if (!Number.isInteger(i) || i < 0 || i >= project.elements.length) throw new ToolError(`index must be 0 to ${project.elements.length - 1}`);
+      return inspectPart(project.elements, project.elements[i].id);
     }
 
     case 'project_to_library': {
