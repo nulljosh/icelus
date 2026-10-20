@@ -66,6 +66,7 @@ func critique(_ elements: [Element], cols: Int, rows: Int, system: DesignSystem?
         }
     }
     for el in shown { if let note = el.note { var issue = at("open_note", el); issue.note = note; issues.append(issue) } }
+    for a in accessIssues(shown) { var issue = at(a.rule, a.el); issue.kind = a.kind; issues.append(issue) } // access check (Access.swift)
     // Distractions, the way Photoshop finds them: a few stray painted marks or paint off every screen, and parts with nothing to show.
     let screens = shown.filter { $0.presetId == "screen" }
     for el in shown where !el.locked {
@@ -95,6 +96,9 @@ func critiqueMessage(_ i: CritiqueIssue, part: String? = nil, other: String? = n
     case "no_empty_state": return "\(p) \(at) has no empty state: add a screen for when it has nothing in it"
     case "no_error_state": return "\(p) \(at) has no error state: show what a wrong entry looks like"
     case "off_system": return "\(p) \(at) is off the \(i.style ?? "") style"
+    case "focus_order": return "\(p) \(at) comes out of reading order, so keyboard and screen reader focus jumps"
+    case "no_label": return "\(p) \(at) has no label: put words in it or just before it"
+    case "small_target": return "\(p) \(at) is \(i.kind == "narrow" ? "too narrow to tap: make it at least 5 cells wide" : "touching another control: leave a gap between them")"
     case "distraction": return "\(p) \(at) is a distraction: \(i.kind == "stray" ? "a few stray marks" : "it shows nothing")"
     default: return "Note on \(p) \(at): \(i.note ?? "")"
     }

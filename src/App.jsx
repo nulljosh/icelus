@@ -15,6 +15,7 @@ import { harmonize } from './lib/heal.js';
 import { autoLayout, constrain, syncTwins, makeSizes } from './lib/layout.js';
 import { setMode, setVar } from './lib/modes.js';
 import { gridEverywhere } from './lib/grids.js';
+import { fixFocusOrder } from './lib/access.js';
 import { makeLibrary, parseLibrary, pullLibrary, libraryPalette } from './lib/library.js';
 import { maxOf } from './lib/extent.js';
 import SelectBar from './components/SelectBar.jsx';
@@ -220,6 +221,12 @@ function edit(state, action) {
 
     case 'SWAP_SYMBOL': {
       const elements = swapSymbol(state.elements, action.id, action.symbol);
+      return elements === state.elements ? state : { ...pushHistory(state), elements, grid: renderElements(elements, state.cols, state.rows) };
+    }
+
+    // Access check (access.js): controls back in reading order, one undo step.
+    case 'FIX_FOCUS': {
+      const elements = fixFocusOrder(state.elements);
       return elements === state.elements ? state : { ...pushHistory(state), elements, grid: renderElements(elements, state.cols, state.rows) };
     }
 
@@ -1012,6 +1019,7 @@ export default function App() {
         onSwap={(id, symbol) => dispatch({ type: 'SWAP_SYMBOL', id, symbol })}
         onCanvas={change => dispatch({ type: 'CANVAS', ...change })}
         onGrid={id => dispatch({ type: 'GRID_EVERYWHERE', id })}
+        onFixFocus={() => dispatch({ type: 'FIX_FOCUS' })}
         more={more}
         onMore={setMore}
         onVariations={(id) => dispatch({ type: 'VARIATIONS', id, labels: ['var_stacked', 'var_split', 'var_dense'].map(k => t(k)) })}

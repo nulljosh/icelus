@@ -352,5 +352,6 @@ runModeChecks()
 runLibraryChecks()
 runGridChecks()
 runInspectChecks()
+runAccessChecks()
 
 print("ok — \(checks) checks passed")

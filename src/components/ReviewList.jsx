@@ -4,7 +4,7 @@ import { t, partLabel } from '../i18n.js';
 
 // Review: run the critique and list what to fix. Tap an issue to select its part. The list clears on any edit,
 // so it never shows a fixed problem.
-export default function ReviewList({ elements, cols, rows, system, onClearSystem, onSelect, onRemove }) {
+export default function ReviewList({ elements, cols, rows, system, onClearSystem, onSelect, onRemove, onFixFocus }) {
   const [issues, setIssues] = useState(null);
   useEffect(() => setIssues(null), [elements, system]);
   if (!elements.length) return null;
@@ -32,6 +32,9 @@ export default function ReviewList({ elements, cols, rows, system, onClearSystem
           </button>
         </div>
       ))}
+      {onFixFocus && issues?.some(i => i.rule === 'focus_order') && (
+        <button type="button" className="btn history-take" onClick={onFixFocus}>{t('fix_focus_order')}</button>
+      )}
       {onRemove && distractions.length > 0 && (
         <button type="button" className="btn history-take" onClick={() => onRemove(distractions)}>{t('remove_distractions', { n: distractions.length })}</button>
       )}

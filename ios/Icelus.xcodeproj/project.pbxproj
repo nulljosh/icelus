@@ -61,6 +61,7 @@
 		F2DF33282BEA4AEF6C67CE7A /* Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF25801F171E6565367FC00D /* Shapes.swift */; };
 		F57CA2D2751F665F013C0863 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8256BF6BED71D9179305726 /* Project.swift */; };
 		F7378BAD086F6D70555ADDF4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17B48AEFACC02D89876BB10 /* ContentView.swift */; };
+		FD01862A3DB41C54F10A345E /* Access.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA97FBAD39B1DA089BCC424 /* Access.swift */; };
 		FFF5BBFF0D24027423283FA3 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1150CBEE7464B0AFA89246C /* History.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +86,7 @@
 		57424AF9D748F7E21870DB86 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		5B20898F035FF1CC8BEDD3A8 /* Heal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heal.swift; sourceTree = "<group>"; };
 		5C770C89F3EE0FB3F0F7FDE2 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		5CA97FBAD39B1DA089BCC424 /* Access.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Access.swift; sourceTree = "<group>"; };
 		5DE55F405EF48DA465F09BA1 /* Mask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mask.swift; sourceTree = "<group>"; };
 		5EECD3D9BB67D44DEA7D2CF3 /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		6AE20C0CE94BA0F9C50420FE /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 		B74120DCC762ABCCC69961D4 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				5CA97FBAD39B1DA089BCC424 /* Access.swift */,
 				F89D7CCF85DF259CB1256554 /* Account.swift */,
 				B0D528D271C7A7EFF4B44177 /* AccountSheet.swift */,
 				8486456F46744CFE0E98E96B /* Actions.swift */,
@@ -302,6 +305,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD01862A3DB41C54F10A345E /* Access.swift in Sources */,
 				832FE736793C8B78085C49D7 /* Account.swift in Sources */,
 				CE9F4BD3B8C5C9AE684FBB8E /* AccountSheet.swift in Sources */,
 				67301F8C194AA2C7BFE6274C /* Actions.swift in Sources */,
@@ -420,7 +424,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 202610191715;
+				CURRENT_PROJECT_VERSION = 202610191230;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -504,7 +508,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 202610191715;
+				CURRENT_PROJECT_VERSION = 202610191230;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;

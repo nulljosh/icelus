@@ -11,6 +11,7 @@ import { expandChanges, harmonize } from './heal.js';
 import { autoLayout, constrain, syncTwins, makeSizes, AUTO_MAX } from './layout.js';
 import { parseLibrary, pullLibrary } from './library.js';
 import { GRID_MAX, gridEverywhere } from './grids.js';
+import { fixFocusOrder } from './access.js';
 import { MODES, VAR_MAX, isVarName, setMode, setVar, canvasVars } from './modes.js';
 import { variations, keepVariation } from './tweaks.js';
 import { removeDistractions } from './critique.js';
@@ -46,6 +47,7 @@ export function editProject(args) {
       elements = op.op === 'paint' ? paint(elements, cells, typeof op.char === 'string' ? op.char : '█') : erase(elements, cells);
       return;
     }
+    if (op.op === 'focus') { elements = fixFocusOrder(elements); return; } // controls in reading order (access.js)
     if (op.op === 'pull') { // a library's newer parts into every linked copy (library.js)
       const library = parseLibrary(op.library);
       if (!library) throw new ToolError(`${at}.library must be a library from project_to_library`);

@@ -119,6 +119,7 @@ export default function Inspector({
   onSwap,
   onCanvas,
   onGrid,
+  onFixFocus,
   more = false,
   onMore,
   onVariations,
@@ -326,7 +327,7 @@ export default function Inspector({
           <summary>{t('layers')}</summary>
           <LayerList elements={elements} selectedId={el?.id} onSelect={onSelectElement}
             onUpdate={onUpdateElement} onReorder={onReorder} />
-          <ReviewList elements={elements} cols={cols} rows={rows} system={system} onClearSystem={onClearSystem} onSelect={onSelectElement} onRemove={onRemoveParts} />
+          <ReviewList elements={elements} cols={cols} rows={rows} system={system} onClearSystem={onClearSystem} onSelect={onSelectElement} onRemove={onRemoveParts} onFixFocus={onFixFocus} />
           <CanvasPanel elements={elements} cursor={cursor} cols={cols} rows={rows} onCanvas={onCanvas} />
         </details>
         </section>

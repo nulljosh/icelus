@@ -8,6 +8,7 @@ struct ReviewSheet: View {
     var system: DesignSystem? = nil
     let onSelect: (String) -> Void
     var onRemove: ([String]) -> Void = { _ in }
+    var onFixFocus: () -> Void = {}
     @State private var issues: [CritiqueIssue]?
     @Environment(\.dismiss) private var dismiss
 
@@ -20,6 +21,9 @@ struct ReviewSheet: View {
                 let distractions = (issues ?? []).filter { $0.rule == "distraction" }.compactMap(\.id)
                 if !distractions.isEmpty {
                     Button("Remove \(distractions.count) distractions") { onRemove(distractions); dismiss() }.foregroundStyle(Theme.accent)
+                }
+                if (issues ?? []).contains(where: { $0.rule == "focus_order" }) {
+                    Button("Fix Focus Order") { onFixFocus(); dismiss() }.foregroundStyle(Theme.accent)
                 }
                 ForEach(Array((issues ?? []).enumerated()), id: \.offset) { _, issue in
                     Button { if let id = issue.id { onSelect(id); dismiss() } } label: {

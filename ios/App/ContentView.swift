@@ -104,7 +104,8 @@ struct ContentView: View {
             TextSheet(title: "Edit text", hint: nil, action: "Save", text: $editDraft, onDone: saveText)
         }
         .sheet(isPresented: $reviewing) {
-            ReviewSheet(elements: state.elements, cols: state.cols, rows: state.rows, system: parseSystem(systemRaw), onSelect: { selectedId = $0 }, onRemove: removeParts)
+            ReviewSheet(elements: state.elements, cols: state.cols, rows: state.rows, system: parseSystem(systemRaw), onSelect: { selectedId = $0 }, onRemove: removeParts,
+                        onFixFocus: { canvasEdit { fixFocusOrder($0) } })
         }
         .sheet(isPresented: $showingLayers) {
             LayersSheet(elements: state.elements, selectedId: selectedId, onSelect: { selectedId = $0 },
