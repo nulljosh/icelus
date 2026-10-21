@@ -3,6 +3,10 @@
 Icelus was called Charwork, Wiretext, Blockframe, Blockprint, Glyphic and Glyphbox before. Every release
 ships on the web, iPhone, iPad and Mac unless it says otherwise.
 
+## 2026-10-21
+
+- **55.4.0** Contrast check. Review now flags a part whose ink reads below 4.5 to 1 on its paper, and names the nearest terminal color that passes. Web and native.
+
 ## 2026-10-19
 - **55.3.0** Files. Tap the file name at the top to see every file and start a new one: blank, or from Sign in, Onboarding, Settings, Inbox or Checkout, each a few screens with their buttons already linked, so Play walks the flow at once. Rename, duplicate and delete. The canvas you had becomes your first file.
 - **55.2.1** On iPhone, a blank canvas shows Boxy and one line on what to do, and the canvas opens zoomed so the whole screen you are working on fits the width.
