@@ -9,7 +9,7 @@ const SEE_THROUGH = new Set(['line', 'text', 'banner', 'screen', 'fill', 'paint'
 const VAGUE = new Set(['click', 'here', 'button', 'label', 'text', 'title', 'option', 'lorem', 'ipsum', 'todo', 'tbd', 'xxx', 'untitled', 'placeholder']);
 const LISTS = new Set(['list', 'table', 'ios-list']);
 const INPUTS = new Set(['input', 'textarea', 'select', 'search', 'datepicker']);
-export const CRITIQUE_RULES = ['off_grid', 'overlap', 'broken_box', 'vague_label', 'no_empty_state', 'no_error_state', 'off_system', 'open_note', 'distraction', 'focus_order', 'no_label', 'small_target'];
+export const CRITIQUE_RULES = ['off_grid', 'overlap', 'broken_box', 'vague_label', 'no_empty_state', 'no_error_state', 'off_system', 'open_note', 'distraction', 'focus_order', 'no_label', 'small_target', 'low_contrast'];
 
 const marks = el => el.template.join('').replace(/\s/gu, '').length;
 const tokens = el => (el.text ?? el.template.join(' ')).split(/[^\p{L}\p{N}']+/u).filter(Boolean);
@@ -61,7 +61,7 @@ export function critique(elements, cols, rows, system = null) {
     }
   }
   for (const el of shown) if (el.note) issues.push(at('open_note', el, { note: el.note }));
-  for (const a of accessIssues(shown)) issues.push(at(a.rule, a.el, a.kind ? { kind: a.kind } : {})); // access check (access.js)
+  for (const { rule, el, ...extra } of accessIssues(shown)) issues.push(at(rule, el, extra)); // access check (access.js)
   // Distractions, the way Photoshop finds them: a few stray painted marks or paint off every screen, and parts with nothing to show.
   const screens = shown.filter(el => el.presetId === 'screen');
   for (const el of shown) {
@@ -92,6 +92,7 @@ export function critiqueMessage(i) {
     distraction: `${part} ${where(i)} is a distraction: ${i.kind === 'stray' ? 'a few stray marks' : 'it shows nothing'}`,
     focus_order: `${part} ${where(i)} comes out of reading order, so keyboard and screen reader focus jumps`,
     no_label: `${part} ${where(i)} has no label: put words in it or just before it`,
+    low_contrast: `${part} ${where(i)} is hard to read on its paper: try ${i.color} ink`,
     small_target: `${part} ${where(i)} is ${i.kind === 'narrow' ? 'too narrow to tap: make it at least 5 cells wide' : 'touching another control: leave a gap between them'}`,
   }[i.rule];
 }

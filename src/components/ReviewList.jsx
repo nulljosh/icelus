@@ -28,7 +28,7 @@ export default function ReviewList({ elements, cols, rows, system, onClearSystem
         <div key={k} className="inspector-row review-row">
           <button type="button" disabled={!i.id} onClick={() => onSelect(i.id)}>
             <span className={`review-dot review-dot--${i.severity}`} aria-hidden="true" />
-            <span>{t(`crit_${i.rule}${i.kind ? `_${i.kind}` : ''}`, { part: name(i.id), other: name(i.otherId), word: i.word, note: i.note, style: i.style })}</span>
+            <span>{t(`crit_${i.rule}${i.kind ? `_${i.kind}` : ''}`, { part: name(i.id), other: name(i.otherId), word: i.word, note: i.note, style: i.style, color: i.color })}</span>
           </button>
         </div>
       ))}

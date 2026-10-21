@@ -58,6 +58,7 @@ struct ReviewSheet: View {
         case "no_empty_state": return Text("\(part) has no empty state")
         case "no_error_state": return Text("\(part) has no error state")
         case "off_system": return Text("\(part) is off the \(i.style ?? "") style")
+        case "low_contrast": return Text("\(part) is hard to read on its paper: try \(i.color ?? "") ink")
         case "distraction": return i.kind == "stray" ? Text("\(part): a few stray marks") : Text("\(part) shows nothing")
         default: return Text("Note on \(part): \(i.note ?? "")")
         }

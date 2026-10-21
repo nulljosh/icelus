@@ -1,9 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { createElement, updateElement, serializeProject } from './engine.js';
 import { getPreset, SCREEN_TOOL } from './presets.js';
-import { accessIssues, fixFocusOrder } from './access.js';
+import { accessIssues, fixFocusOrder, contrast, nearestReadable } from './access.js';
 import { critique, critiqueMessage } from './critique.js';
 import { callTool } from './tools.js';
+import { COLORS } from './color.js';
 
 describe('access check', () => {
   const part = (id, col, row) => createElement(getPreset(id), col, row);
@@ -42,6 +43,18 @@ describe('access check', () => {
     expect(rules([a, b])).toEqual(['small_target:crowded']);
     expect(rules([a, part('button', 9, 2)])).toEqual([]);
     expect(rules([a, part('button', 2, 3)])).toEqual(['small_target:crowded']); // the row right under it
+  });
+
+  it('wants ink to read on its paper, at 4.5 to 1', () => {
+    const ok = { ...say('Hi', 2, 2), ink: 0, paper: 15 }, low = { ...say('Hi', 2, 2), ink: 8, paper: 7 };
+    expect(contrast('#000000', '#FFFFFF')).toBeCloseTo(21, 5);
+    expect(rules([ok])).toEqual([]);
+    expect(rules([low])).toEqual(['low_contrast']);
+    const found = accessIssues([low]).find(i => i.rule === 'low_contrast');
+    const pick = COLORS.findIndex(c => c.name === found.color);
+    expect(contrast(COLORS[pick].hex, COLORS[7].hex)).toBeGreaterThanOrEqual(4.5);
+    expect(pick).toBe(nearestReadable(8, 7));
+    expect(rules([{ ...say('Hi', 2, 2), ink: 3 }])).toEqual([]); // no paper, nothing to check
   });
 
   it('shows in Review and the API', () => {

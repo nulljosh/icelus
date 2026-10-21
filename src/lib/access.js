@@ -1,10 +1,29 @@
 // Access check (v51): Review also checks that a screen works for everyone. Focus moves through controls in the
 // order they appear in the project, so it must match reading order; a field needs words that name it; a control
-// needs room to be tapped. ios/App/Access.swift is the twin.
+// needs room to be tapped; ink on its paper must read at 4.5 to 1. ios/App/Access.swift is the twin.
+import { COLORS, cleanColor } from './color.js';
+
 export const CONTROLS = new Set(['button', 'input', 'select', 'checkbox', 'radio', 'toggle', 'search', 'segmented', 'slider',
   'textarea', 'stepper', 'datepicker', 'rating', 'ios-switch', 'md-fab', 'email-button']);
 const FIELDS = new Set(['input', 'select', 'search', 'textarea', 'datepicker']);
 export const MIN_TARGET = 5; // cells: about 44 points at the default size
+export const MIN_CONTRAST = 4.5; // WCAG AA for text
+
+const rgb = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
+const linear = c => (c /= 255) <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+const luminance = hex => { const [r, g, b] = rgb(hex).map(linear); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+/** WCAG contrast ratio of two hex colors, 1 to 21. */
+export function contrast(a, b) {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+}
+/** The terminal color nearest the ink (by RGB) that reads at 4.5 to 1 or better on the paper. Black or white always does. */
+export function nearestReadable(ink, paper) {
+  const from = rgb(COLORS[ink].hex), paperHex = COLORS[paper].hex;
+  const dist = i => rgb(COLORS[i].hex).reduce((s, v, k) => s + (v - from[k]) ** 2, 0);
+  const passing = COLORS.map((_, i) => i).filter(i => contrast(COLORS[i].hex, paperHex) >= MIN_CONTRAST);
+  return passing.reduce((best, i) => (dist(i) < dist(best) ? i : best));
+}
 
 const words = el => /[\p{L}\p{N}]/u.test(el.template.join('').replace(/[▾]/gu, ''));
 const reading = (a, b) => a.row - b.row || a.col - b.col;
@@ -29,6 +48,12 @@ export function accessIssues(shown) {
   const issues = [], controls = shown.filter(el => CONTROLS.has(el.presetId)), order = byScreen(shown);
   const out = controls.find((el, i) => i > 0 && order(controls[i - 1], el) > 0);
   if (out) issues.push({ rule: 'focus_order', el: out });
+  for (const el of shown) {
+    const ink = cleanColor(el.ink), paper = cleanColor(el.paper);
+    if (ink !== undefined && paper !== undefined && contrast(COLORS[ink].hex, COLORS[paper].hex) < MIN_CONTRAST) {
+      issues.push({ rule: 'low_contrast', el, color: COLORS[nearestReadable(ink, paper)].name });
+    }
+  }
   for (const el of controls) {
     if (FIELDS.has(el.presetId) && !named(el, shown)) issues.push({ rule: 'no_label', el });
     if (el.width < MIN_TARGET) issues.push({ rule: 'small_target', el, kind: 'narrow' });

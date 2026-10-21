@@ -2,11 +2,30 @@ import Foundation
 
 /// Access check (v51): Review also checks that a screen works for everyone. Focus moves through controls in
 /// the order they appear in the project, so it must match reading order; a field needs words that name it; a
-/// control needs room to be tapped. src/lib/access.js is the twin.
+/// control needs room to be tapped; ink on its paper must read at 4.5 to 1. src/lib/access.js is the twin.
 let accessControls: Set<String> = ["button", "input", "select", "checkbox", "radio", "toggle", "search", "segmented", "slider",
                                    "textarea", "stepper", "datepicker", "rating", "ios-switch", "md-fab", "email-button"]
 private let fields: Set<String> = ["input", "select", "search", "textarea", "datepicker"]
 let minTarget = 5 // cells: about 44 points at the default size
+let minContrast = 4.5 // WCAG AA for text
+
+private func rgbParts(_ hex: String) -> [Double] { [1, 3, 5].map { Double(Int(hex.dropFirst($0).prefix(2), radix: 16) ?? 0) } }
+private func luminance(_ hex: String) -> Double {
+    let c = rgbParts(hex).map { v -> Double in let s = v / 255; return s <= 0.03928 ? s / 12.92 : pow((s + 0.055) / 1.055, 2.4) }
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+}
+/// WCAG contrast ratio of two hex colors, 1 to 21.
+func contrast(_ a: String, _ b: String) -> Double {
+    let (la, lb) = (luminance(a), luminance(b))
+    return (max(la, lb) + 0.05) / (min(la, lb) + 0.05)
+}
+/// The terminal color nearest the ink (by RGB) that reads at 4.5 to 1 or better on the paper. Black or white always does.
+func nearestReadable(_ ink: Int, _ paper: Int) -> Int {
+    let from = rgbParts(terminalColors[ink].hex), paperHex = terminalColors[paper].hex
+    func dist(_ i: Int) -> Double { zip(rgbParts(terminalColors[i].hex), from).reduce(0) { $0 + ($1.0 - $1.1) * ($1.0 - $1.1) } }
+    let passing = terminalColors.indices.filter { contrast(terminalColors[$0].hex, paperHex) >= minContrast }
+    return passing.dropFirst().reduce(passing[0]) { dist($1) < dist($0) ? $1 : $0 }
+}
 
 private func hasWords(_ el: Element) -> Bool { el.template.joined().contains { ($0.isLetter || $0.isNumber) && $0 != "▾" } }
 private func reading(_ a: Element, _ b: Element) -> Int { a.row != b.row ? a.row - b.row : a.col - b.col }
@@ -31,16 +50,21 @@ private func named(_ el: Element, _ shown: [Element]) -> Bool {
     }
 }
 
-func accessIssues(_ shown: [Element]) -> [(rule: String, el: Element, kind: String?)] {
+func accessIssues(_ shown: [Element]) -> [(rule: String, el: Element, kind: String?, color: String?)] {
     let controls = shown.filter { accessControls.contains($0.presetId) }, order = byScreen(shown)
-    var issues: [(rule: String, el: Element, kind: String?)] = []
-    if let out = controls.indices.dropFirst().first(where: { order(controls[$0 - 1], controls[$0]) > 0 }) { issues.append(("focus_order", controls[out], nil)) }
+    var issues: [(rule: String, el: Element, kind: String?, color: String?)] = []
+    if let out = controls.indices.dropFirst().first(where: { order(controls[$0 - 1], controls[$0]) > 0 }) { issues.append(("focus_order", controls[out], nil, nil)) }
+    for el in shown {
+        if let ink = cleanColor(el.ink), let paper = cleanColor(el.paper), contrast(terminalColors[ink].hex, terminalColors[paper].hex) < minContrast {
+            issues.append(("low_contrast", el, nil, terminalColors[nearestReadable(ink, paper)].name))
+        }
+    }
     for el in controls {
-        if fields.contains(el.presetId) && !named(el, shown) { issues.append(("no_label", el, nil)) }
-        if el.width < minTarget { issues.append(("small_target", el, "narrow")) }
+        if fields.contains(el.presetId) && !named(el, shown) { issues.append(("no_label", el, nil, nil)) }
+        if el.width < minTarget { issues.append(("small_target", el, "narrow", nil)) }
         else if controls.contains(where: { o in o.id != el.id && reading(o, el) < 0
             && ((rowsMeet(o, el) && (el.col == o.col + o.width || o.col == el.col + el.width)) || (colsMeet(o, el) && el.row == o.row + o.height)) }) {
-            issues.append(("small_target", el, "crowded"))
+            issues.append(("small_target", el, "crowded", nil))
         }
     }
     return issues

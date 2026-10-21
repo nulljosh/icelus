@@ -9,7 +9,7 @@ private let inputs: Set<String> = ["input", "textarea", "select", "search", "dat
 struct CritiqueIssue: Equatable {
     let rule: String
     let col: Int, row: Int
-    var id: String? = nil, part: String? = nil, otherId: String? = nil, word: String? = nil, note: String? = nil, style: String? = nil, kind: String? = nil
+    var id: String? = nil, part: String? = nil, otherId: String? = nil, word: String? = nil, note: String? = nil, style: String? = nil, kind: String? = nil, color: String? = nil
     var severity: String { ["off_grid", "broken_box"].contains(rule) ? "error" : rule == "open_note" ? "info" : "warn" }
 }
 
@@ -66,7 +66,7 @@ func critique(_ elements: [Element], cols: Int, rows: Int, system: DesignSystem?
         }
     }
     for el in shown { if let note = el.note { var issue = at("open_note", el); issue.note = note; issues.append(issue) } }
-    for a in accessIssues(shown) { var issue = at(a.rule, a.el); issue.kind = a.kind; issues.append(issue) } // access check (Access.swift)
+    for a in accessIssues(shown) { var issue = at(a.rule, a.el); issue.kind = a.kind; issue.color = a.color; issues.append(issue) } // access check (Access.swift)
     // Distractions, the way Photoshop finds them: a few stray painted marks or paint off every screen, and parts with nothing to show.
     let screens = shown.filter { $0.presetId == "screen" }
     for el in shown where !el.locked {
@@ -98,6 +98,7 @@ func critiqueMessage(_ i: CritiqueIssue, part: String? = nil, other: String? = n
     case "off_system": return "\(p) \(at) is off the \(i.style ?? "") style"
     case "focus_order": return "\(p) \(at) comes out of reading order, so keyboard and screen reader focus jumps"
     case "no_label": return "\(p) \(at) has no label: put words in it or just before it"
+    case "low_contrast": return "\(p) \(at) is hard to read on its paper: try \(i.color ?? "") ink"
     case "small_target": return "\(p) \(at) is \(i.kind == "narrow" ? "too narrow to tap: make it at least 5 cells wide" : "touching another control: leave a gap between them")"
     case "distraction": return "\(p) \(at) is a distraction: \(i.kind == "stray" ? "a few stray marks" : "it shows nothing")"
     default: return "Note on \(p) \(at): \(i.note ?? "")"

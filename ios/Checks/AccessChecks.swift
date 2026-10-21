@@ -21,4 +21,8 @@ func runAccessChecks() {
     check(rules([tiny]) == ["small_target:narrow"] && rules([a2, part("button", 8, 2)]) == ["small_target:crowded"]
           && rules([a2, part("button", 9, 2)]).isEmpty && rules([a2, part("button", 2, 3)]) == ["small_target:crowded"], "access: room to tap")
     check(critique([part("button", 2, 6), part("button", 2, 2)], cols: 40, rows: 20).contains { $0.rule == "focus_order" }, "access: shows in Review")
+    var ink = say("Hi", 2, 2); ink.ink = 8; ink.paper = 7
+    var readable = say("Hi", 2, 2); readable.ink = 0; readable.paper = 15
+    check(rules([readable]).isEmpty && rules([ink]) == ["low_contrast"], "access: ink reads on its paper")
+    check(nearestReadable(8, 7) == 1 && contrast(terminalColors[1].hex, terminalColors[7].hex) >= 4.5, "access: nearest readable ink passes")
 }

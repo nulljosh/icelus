@@ -41,7 +41,7 @@ wedge: every new feature is also an API and MCP tool on the day it ships.
 - [ ] Shared libraries by link: publish a library to a URL and projects check it for updates on open, with a list of what changed (Figma library updates).
 - [ ] Row grids and named grid styles: baseline rows as well as columns, saved by name and picked per screen (Figma grid styles).
 - [ ] Measure between any two parts: hold a key over another part to see the gap between them (Figma redlines).
-- [ ] Contrast check: flag ink on paper pairs below 4.5 to 1, with the nearest terminal color that passes (Figma and Stark contrast checks).
+- [x] Contrast check: flag ink on paper pairs below 4.5 to 1, with the nearest terminal color that passes (Figma and Stark contrast checks). Done 2026-10-21: `low_contrast` in access.js and Access.swift, 361 JS tests and 823 Swift checks green; ships with the next version.
 - [ ] More prototype actions: Back, open as an overlay, and open a web link, on press or after a delay (Figma interactions).
 - [ ] Play on a device: open a prototype on a phone from the canvas and see edits land while it plays (Figma mirror).
 - [ ] Variables in play: a typed field or a ticked box sets a value that other screens read and show (Figma prototype variables and conditionals).
