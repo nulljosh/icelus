@@ -3,7 +3,7 @@ import { ADJUSTMENTS, BOX_STYLES, VARIANTS, cleanBlend } from './lines.js';
 import { cleanVars } from './modes.js';
 import { cleanGrid } from './grids.js';
 import { cleanNote, cleanOwn } from './shapes.js';
-import { canOpen } from './hotspots.js';
+import { canOpen, cleanMove } from './hotspots.js';
 import { maxOf } from './extent.js';
 import { cleanColor } from './color.js';
 import { cleanMask } from './mask.js';
@@ -63,6 +63,7 @@ export function parseProject(json) {
       ...(el.presetId === 'screen' && SIZES.some(s => s.name === el.size) && { size: el.size }),
       ...(ids.has(el.clip) && ids.get(el.clip) !== fresh[i] && { clip: ids.get(el.clip) }),
       ...(screens.has(el.opens) && canOpen(el) && { opens: ids.get(el.opens) }),
+      ...(screens.has(el.opens) && canOpen(el) && cleanMove(el.move) && { move: el.move }),
       ...(typeof el.group === 'string' && { group: el.group }),
       ...(el.hidden === true && { hidden: true }),
       ...(el.locked === true && { locked: true }),

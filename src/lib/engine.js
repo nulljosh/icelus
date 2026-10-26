@@ -6,7 +6,7 @@ import { cleanGrid } from './grids.js';
 import { FILLS, cleanNote, cleanOwn, symbolFields, SYMBOL_FIELDS } from './shapes.js';
 import { tweakScreen } from './tweaks.js';
 import { closeLines } from './heal.js';
-import { setOpens } from './hotspots.js';
+import { setOpens, setMove } from './hotspots.js';
 import { cleanAuto, cleanPin } from './layout.js';
 import { ADJUSTMENTS, renderElements, routeLines, shiftLine, bannerText, BOX_STYLES, screenFrame, partsInside, carry, groupMates, tableFrame, textCells, SIZED, nodeFrame, contentFrame, syncSymbol, VARIANTS, cleanBlend } from './lines.js';
 import { maxOf } from './extent.js';
@@ -227,6 +227,7 @@ export function resizeTemplate(template, width, height) {
 export function updateElement(elements, id, changes) {
   if (changes.tweak) return tweakScreen(elements, id, changes.tweak);
   if (changes.opens !== undefined) return setOpens(elements, id, changes.opens); // hotspots.js
+  if (changes.move !== undefined) return setMove(elements, id, changes.move); // transitions, hotspots.js
   // Owning words or style on a symbol copy; letting go pulls the shared ones back in from another copy.
   if (changes.own !== undefined) {
     const out = elements.map(el => { if (el.id !== id) return el; const { own, ...rest } = el, o = cleanOwn(changes.own); return o.length ? { ...rest, own: o } : rest; });

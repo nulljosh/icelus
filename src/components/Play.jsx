@@ -14,11 +14,12 @@ import './Present.css';
 // (v55) work while you play: boxes tick, switches flip, tabs switch and fields take typing, for this session only.
 export default function Play({ elements, start, onClose }) {
   const [trail, setTrail] = useState([start]);
+  const [arrive, setArrive] = useState(null); // how the shown screen came in, from the hotspot's move
   const [hint, setHint] = useState(false);
   const [live, setLive] = useState({});
   const [size, setSize] = useState({ w: innerWidth, h: innerHeight });
   const view = useMemo(() => playView(elements, trail.at(-1)), [elements, trail]);
-  const back = () => setTrail(tr => (tr.length > 1 ? tr.slice(0, -1) : tr));
+  const back = () => { setArrive(null); setTrail(tr => (tr.length > 1 ? tr.slice(0, -1) : tr)); };
   useEffect(() => {
     const key = e => {
       if (e.target.closest?.('.play-field')) return; // typing in a field
@@ -42,7 +43,7 @@ export default function Play({ elements, start, onClose }) {
   return createPortal(
     <div className="present play" role="dialog" aria-modal="true" aria-label={t('play')}>
       <div className="play-stage">
-        <div className={`play-screen${hint ? ' is-hint' : ''}`} style={{ width: view.cols * charW, height: view.rows * rowH }} onClick={miss} aria-label={view.title}>
+        <div key={trail.length + view.id} className={`play-screen${hint ? ' is-hint' : ''}${arrive ? ` move-${arrive}` : ''}`} style={{ width: view.cols * charW, height: view.rows * rowH }} onClick={miss} aria-label={view.title}>
           <pre style={{ fontSize: font, lineHeight: `${rowH}px`, fontFamily: FONT_FAMILY() }}>{text}</pre>
           <RealLayer elements={shown} charW={charW} rowH={rowH} fontSize={font} />
           {shown.filter(el => !spotIds.has(el.id) && liveKind(el)).map(el => <Live key={el.id} el={el} value={live[el.id]} box={box(el)} charW={charW} rowH={rowH} font={font}
@@ -50,7 +51,7 @@ export default function Play({ elements, start, onClose }) {
           {view.spots.map(s => (
             <button key={s.id} type="button" className={`play-spot${s.height === 1 ? ' is-row' : ''}`} aria-label={s.label}
               style={box(s)}
-              onClick={e => { e.stopPropagation(); setTrail(tr => [...tr, s.to].slice(-50)); }} />
+              onClick={e => { e.stopPropagation(); setArrive(s.move ?? null); setTrail(tr => [...tr, s.to].slice(-50)); }} />
           ))}
         </div>
       </div>

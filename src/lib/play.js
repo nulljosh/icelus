@@ -22,7 +22,7 @@ export function playView(elements, screenId) {
   const inside = partsInside(elements, screen).filter(el => !el.hidden).map(shift);
   const spots = inside.flatMap(el => {
     const to = canOpen(el) && opensScreen(elements, el);
-    return to && !to.hidden && to.id !== screen.id ? [{ id: el.id, col: el.col, row: el.row, width: el.width, height: el.height, to: to.id, label: partWords(el) }] : [];
+    return to && !to.hidden && to.id !== screen.id ? [{ id: el.id, col: el.col, row: el.row, width: el.width, height: el.height, to: to.id, label: partWords(el), ...(el.move && { move: el.move }) }] : [];
   });
   return { id: screen.id, title: screen.text || 'Screen', cols: screen.width, rows: screen.height, spots,
     elements: [shift(screen), ...inside, ...elements.filter(el => el.canvas)] };

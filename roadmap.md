@@ -48,6 +48,7 @@ wedge: every new feature is also an API and MCP tool on the day it ships.
 
 ### Era 6: Figma, prototype (51 to 60)
 - [ ] **v56 Transitions.** Push, sheet and fade between screens, plus Motion: a part keyframed across screens.
+  - 2026-10-26 web slice committed, not deployed: a hotspot's `move` (push, sheet, fade), saved with the project, an Arrives picker, an `edit_project` op `move`, and the play animation (reduced motion gets a cut). Tests and build pass. Still to do: the headless walk (light, dark, 390 wide) before deploy, the Swift twin (`ios/App/Hotspots.swift`, `Play.swift`, `PlayView.swift`, `ios/Checks/PlayChecks.swift`, held back because free memory was under 500 MB so no Xcode), then Motion (a part keyframed across screens).
 - [ ] **v57 Prototype links.** Share a playable prototype with one link.
 - [ ] **v58 Flow map.** Every screen and link on one map, drawn for you.
 - [ ] **v59 Present.** Play a prototype full screen, step by step, for a meeting.

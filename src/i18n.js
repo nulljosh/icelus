@@ -57,7 +57,7 @@ export const en = {
   lesson_edit: 'Press Edit text under the button, type new words like Sign up, then Save.',
   lesson_move: 'Now drag the button to a new spot.',
   lesson_copy: 'Open Export and choose Copy text.', lesson_copy_phone: 'Tap More, then Copy text.',
-  lesson_done: 'Done. Your screen is plain text now. Paste it into a chat, a doc or a pull request.', opens: 'Opens', opens_none: 'Nothing', note: 'Note', note_hint: 'A note for you or an agent', resolve: 'Resolve',
+  lesson_done: 'Done. Your screen is plain text now. Paste it into a chat, a doc or a pull request.', opens: 'Opens', opens_none: 'Nothing', move: 'Arrives', move_cut: 'Cut', move_push: 'Push', move_sheet: 'Sheet', move_fade: 'Fade', note: 'Note', note_hint: 'A note for you or an agent', resolve: 'Resolve',
   review: 'Review', review_run: 'Check now', review_clean: 'Nothing to fix',
   crit_off_grid: '{part} runs off the grid', crit_overlap: '{part} overlaps {other}', crit_broken_box: 'A box here is cut open',
   crit_vague_label: '{part} says "{word}", which is placeholder text', crit_no_empty_state: '{part} has no empty state',

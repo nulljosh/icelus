@@ -121,3 +121,15 @@ describe('live parts', () => {
     expect(pressLive(view, st, 'nope', 0)).toBe(st);
   });
 });
+
+describe('play transitions (v56)', () => {
+  it('a hotspot carries its move to play, and a cut carries none', async () => {
+    const { createElement, updateElement } = await import('./engine.js');
+    const { getPreset, SCREEN_TOOL } = await import('./presets.js');
+    const a = createElement(SCREEN_TOOL, 0, 0);
+    const b = createElement(SCREEN_TOOL, 40, 0), btn = createElement(getPreset('button'), 2, 4);
+    const els = updateElement([a, b, btn], btn.id, { opens: b.id });
+    expect(playView(els, a.id).spots[0].move).toBeUndefined();
+    expect(playView(updateElement(els, btn.id, { move: 'fade' }), a.id).spots[0].move).toBe('fade');
+  });
+});

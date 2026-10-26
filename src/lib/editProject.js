@@ -12,7 +12,7 @@ import { autoLayout, constrain, syncTwins, makeSizes, AUTO_MAX } from './layout.
 import { parseLibrary, pullLibrary } from './library.js';
 import { GRID_MAX, gridEverywhere } from './grids.js';
 import { fixFocusOrder } from './access.js';
-import { canOpen } from './hotspots.js';
+import { canOpen, MOVES } from './hotspots.js';
 import { applyCopy, COPY_MAX } from './copydeck.js';
 import { MODES, VAR_MAX, isVarName, setMode, setVar, canvasVars } from './modes.js';
 import { variations, keepVariation } from './tweaks.js';
@@ -134,6 +134,10 @@ export function editProject(args) {
       if (!canOpen(elements.find(el => el.id === id))) throw new ToolError(`${at}.index must be a part, not a screen, line, paint or adjustment`);
       if (to !== null && !elements.some(el => el.id === to && el.presetId === 'screen')) throw new ToolError(`${at}.screen must be the index of a screen`);
       elements = updateElement(elements, id, { opens: to });
+    } else if (op.op === 'move') { // transitions (hotspots.js): how the opened screen arrives; move: null is a plain cut
+      if (op.move !== null && !MOVES.includes(op.move)) throw new ToolError(`${at}.move must be one of ${MOVES.join(', ')} or null`);
+      if (!elements.find(el => el.id === id)?.opens) throw new ToolError(`${at}.index must be a part that opens a screen`);
+      elements = updateElement(elements, id, { move: op.move });
     }
     else if (op.op === 'adjust') {
       if (!ADJUSTMENTS.includes(op.kind)) throw new ToolError(`${at}.kind must be one of ${ADJUSTMENTS.join(', ')}`);

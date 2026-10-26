@@ -74,3 +74,40 @@ describe('hotspots', () => {
     expect(() => callTool('edit_project', { project, ops: [{ op: 'opens', index: 2, screen: 99 }] })).toThrow();
   });
 });
+
+describe('transitions (v56)', () => {
+  const screen = (col, name) => { const s = createElement(SCREEN_TOOL, col, 0); return updateElement([s], s.id, { text: name, width: 30, height: 12 })[0]; };
+  const login = screen(0, 'Login'), home = screen(40, 'Home');
+  const btn = { ...createElement(getPreset('button'), 2, 4), text: 'Sign in' };
+  const linked = updateElement([login, home, btn], btn.id, { opens: home.id });
+
+  it('sets how a screen arrives and takes it off again', () => {
+    const pushed = updateElement(linked, btn.id, { move: 'push' });
+    expect(pushed[2].move).toBe('push');
+    expect(updateElement(pushed, btn.id, { move: null })[2].move).toBeUndefined();
+    expect(updateElement(pushed, btn.id, { move: 'push' })).toBe(pushed); // no change, same list
+  });
+
+  it('refuses an unknown move and a part that opens nothing', () => {
+    expect(updateElement(linked, btn.id, { move: 'spin' })).toBe(linked);
+    const bare = [login, home, btn];
+    expect(updateElement(bare, btn.id, { move: 'fade' })).toBe(bare);
+  });
+
+  it('is never in the text, and goes when the link goes', () => {
+    const sheet = updateElement(linked, btn.id, { move: 'sheet' });
+    expect(gridToText(renderElements(sheet, 80, 14))).toBe(gridToText(renderElements(linked, 80, 14)));
+    expect(updateElement(sheet, btn.id, { opens: null })[2].move).toBeUndefined();
+    const gone = deleteElement(sheet, home.id);
+    const back = parseProject(serializeProject({ cols: 80, rows: 14, elements: gone })).elements;
+    expect(back.find(e => e.id === btn.id || e.presetId === 'button').move).toBeUndefined();
+  });
+
+  it('saves with the link and refuses a forged move', () => {
+    const sheet = updateElement(linked, btn.id, { move: 'sheet' });
+    expect(parseProject(serializeProject({ cols: 80, rows: 14, elements: sheet })).elements[2].move).toBe('sheet');
+    const forged = JSON.parse(serializeProject({ cols: 80, rows: 14, elements: sheet }));
+    forged.elements[2].move = 'spin';
+    expect(parseProject(JSON.stringify(forged)).elements[2].move).toBeUndefined();
+  });
+});

@@ -25,3 +25,12 @@
 .play .play-field { position: absolute; box-sizing: border-box; margin: 0; padding: 0 0.75em; border: 0; background: transparent; color: var(--color-text); font-family: var(--font); outline: none; border-radius: 8px; }
 .play .play-field.is-multi { padding: 0 0.5em; resize: none; }
 .play .play-field:focus-visible { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
+
+/* Transitions (v56): how a hotspot's screen arrives. Cut is no animation; reduced motion gets a cut too. */
+@keyframes move-push { from { transform: translateX(8%); opacity: 0; } }
+@keyframes move-sheet { from { transform: translateY(12%); opacity: 0; } }
+@keyframes move-fade { from { opacity: 0; } }
+.play-screen.move-push { animation: move-push 0.28s ease-out; }
+.play-screen.move-sheet { animation: move-sheet 0.28s ease-out; }
+.play-screen.move-fade { animation: move-fade 0.28s ease-out; }
+@media (prefers-reduced-motion: reduce) { .play-screen[class*='move-'] { animation: none; } }
