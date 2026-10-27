@@ -1,3 +1,5 @@
+import Foundation
+
 func runHotspotChecks() {
     func screen(_ col: Int, _ name: String) -> Element {
         Element(id: "s\(col)", presetId: "screen", label: "Screen", template: screenFrame(name, width: 30, height: 12), width: 30, height: 12, col: col, row: 0, text: name)
@@ -28,4 +30,19 @@ func runHotspotChecks() {
     check(flowLines(linked) == ["- Login → Home (Sign in)"] && flowLines(els).isEmpty, "hotspots: in the flow, named by the part")
     check(screensDocument(linked, cols: 80, rows: 14)?.contains("## Flow\n\n- Login → Home (Sign in)\n") == true, "hotspots: in Copy all screens")
     check(handoff(linked, cols: 80, rows: 14).contains("- Login → Home (Sign in)"), "hotspots: in the build brief")
+    // Transitions (v56): how the screen a hotspot opens arrives.
+    let pushed = updateElement(linked, id: btn.id, move: "push")
+    check(pushed[2].move == "push" && updateElement(pushed, id: btn.id, move: nil)[2].move == nil, "transitions: set and taken off")
+    check(updateElement(linked, id: btn.id, move: "spin")[2].move == nil && updateElement(els, id: btn.id, move: "fade")[2].move == nil, "transitions: unknown move and a part that opens nothing refused")
+    check(updateElement(updateElement(linked, id: btn.id, move: "sheet"), id: btn.id, opens: nil)[2].move == nil, "transitions: goes when the link goes")
+    state.elements = updateElement(linked, id: btn.id, move: "sheet")
+    check(parseProject(serializeProject(state))!.elements[2].move == "sheet", "transitions: saved with the link")
+    var forgedMove = try! JSONSerialization.jsonObject(with: Data(serializeProject(state).utf8)) as! [String: Any]
+    var forgedEls = forgedMove["elements"] as! [[String: Any]]
+    forgedEls[2]["move"] = "spin"
+    forgedMove["elements"] = forgedEls
+    let forgedJSON = String(data: try! JSONSerialization.data(withJSONObject: forgedMove), encoding: .utf8)!
+    check(parseProject(forgedJSON)!.elements[2].move == nil, "transitions: a forged move is refused")
+    check(gridToText(renderElements(pushed, cols: 80, rows: 14)) == gridToText(renderElements(linked, cols: 80, rows: 14)), "transitions: never in the text")
+    check(playView(pushed, login.id)?.spots.first?.move == "push" && playView(linked, login.id)?.spots.first?.move == nil, "transitions: play carries the move")
 }

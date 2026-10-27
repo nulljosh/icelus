@@ -157,6 +157,14 @@ extension ContentView {
                 ForEach(screens, id: \.id) { Text(verbatim: ($0.text ?? "").isEmpty ? "Screen" : $0.text!).tag($0.id) }
             }
             .pickerStyle(.menu).fixedSize()
+            if opensScreen(state.elements, el) != nil { // v56: how that screen arrives
+                Picker("Arrives", selection: Binding(get: { el.move ?? "" },
+                                                     set: { m in canvasEdit { updateElement($0, id: el.id, move: m.isEmpty ? nil : m) } })) {
+                    Text("Cut").tag("")
+                    ForEach(moves, id: \.self) { Text(verbatim: $0.capitalized).tag($0) }
+                }
+                .pickerStyle(.menu).fixedSize()
+            }
         }
     }
 

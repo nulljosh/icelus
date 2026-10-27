@@ -197,6 +197,7 @@ struct Element: Equatable, Identifiable {
     var own: [String] = [] // what a symbol copy keeps as its own (Shapes.swift)
     var grid: ColumnGrid? = nil // a screen's column grid (Grids.swift)
     var opens: String? = nil // the screen a press opens (Hotspots.swift)
+    var move: String? = nil // how that screen arrives: push, sheet or fade; nil is a cut (Hotspots.swift)
     var live: Int? = nil // a played choice (Play.swift), never saved
     var canvas = false, vars: [String: Int] = [:] // the canvas part: line mode and spacing variables (Modes.swift)
 }

@@ -9,6 +9,8 @@ struct PlayView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var trail: [String] = []
     @State private var hint = false
+    @State private var arrive: String? = nil // how the shown screen came in, from the hotspot's move
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var live: [String: LiveValue] = [:]
 
     var body: some View {
@@ -24,10 +26,12 @@ struct PlayView: View {
                     .overlay(alignment: .topLeading) { fields(shown, cell: CanvasView.cell(font), font: font) }
                     .fixedSize()
                     .frame(width: geo.size.width, height: geo.size.height)
+                    .id(trail.last ?? start)
+                    .transition(.asymmetric(insertion: arriveTransition, removal: .identity))
                 }
             }
             HStack(spacing: 8) {
-                Button("Back") { trail.removeLast() }.disabled(trail.count < 2)
+                Button("Back") { arrive = nil; trail.removeLast() }.disabled(trail.count < 2)
                     .keyboardShortcut(.leftArrow, modifiers: [])
                 Text(verbatim: view?.title ?? "").foregroundStyle(Theme.muted).frame(minWidth: 64)
                 Button("Done") { dismiss() }.keyboardShortcut(.cancelAction)
@@ -42,7 +46,11 @@ struct PlayView: View {
     }
 
     private func tap(_ view: PlayScreen, _ shown: [Element], _ col: Int, _ row: Int) {
-        if let s = spotAt(view, col: col, row: row) { trail = (trail.isEmpty ? [start] : trail) + [s.to]; return }
+        if let s = spotAt(view, col: col, row: row) {
+            arrive = s.move
+            withAnimation(reduceMotion || s.move == nil ? nil : .easeOut(duration: 0.28)) { trail = (trail.isEmpty ? [start] : trail) + [s.to] }
+            return
+        }
         let hit = shown.last { liveKind($0) != nil && liveKind($0) != "type" && col >= $0.col && col < $0.col + $0.width && row >= $0.row && row < $0.row + $0.height }
         if let el = hit { live = pressLive(view, live, id: el.id, dCol: col - el.col) } else { flash() }
     }
@@ -59,6 +67,16 @@ struct PlayView: View {
                     .frame(width: cell.width * CGFloat(el.width - 2 * inset), height: cell.height * CGFloat(max(1, el.height - 2 * inset)), alignment: multi ? .topLeading : .leading)
                     .offset(x: cell.width * CGFloat(el.col + inset), y: cell.height * CGFloat(el.row + inset))
             }
+        }
+    }
+
+    /// Transitions (v56): push slides the new screen in, sheet lifts it, fade fades it; a cut has none.
+    private var arriveTransition: AnyTransition {
+        switch arrive {
+        case "push": .move(edge: .trailing).combined(with: .opacity)
+        case "sheet": .move(edge: .bottom).combined(with: .opacity)
+        case "fade": .opacity
+        default: .identity
         }
     }
 

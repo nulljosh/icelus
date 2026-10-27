@@ -7,6 +7,10 @@ func canOpen(_ el: Element?) -> Bool {
     return !["screen", "line", "paint", "adjust"].contains(el.presetId)
 }
 
+/// Transitions (v56): how the screen a hotspot opens arrives. Nothing set means a plain cut. src/lib/hotspots.js is the twin.
+let moves = ["push", "sheet", "fade"]
+func cleanMove(_ m: String?) -> String? { m.flatMap { moves.contains($0) ? $0 : nil } }
+
 /// The screen a part opens, or nil when it opens none or that screen is gone.
 func opensScreen(_ elements: [Element], _ el: Element) -> Element? {
     guard let id = el.opens else { return nil }
@@ -21,7 +25,21 @@ func updateElement(_ elements: [Element], id: String, opens screenId: String?) -
         guard x.id == id else { return x }
         var next = x
         next.opens = screenId
+        if screenId == nil { next.move = nil }
         return next
+    }
+}
+
+/// Set how a hotspot's screen arrives, or nil for a cut. Refused on a part that opens nothing.
+func updateElement(_ elements: [Element], id: String, move: String?) -> [Element] {
+    guard let el = elements.first(where: { $0.id == id }), opensScreen(elements, el) != nil else { return elements }
+    let next = cleanMove(move)
+    guard (move == nil || next != nil), el.move != next else { return elements }
+    return elements.map { x in
+        guard x.id == id else { return x }
+        var n = x
+        n.move = next
+        return n
     }
 }
 
