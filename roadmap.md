@@ -47,7 +47,6 @@ wedge: every new feature is also an API and MCP tool on the day it ships.
 - [ ] Languages side by side: keep each translation as its own copy of the words and flip between them without undo (Figma and Lokalise copy variants).
 
 ### Era 6: Figma, prototype (51 to 60)
-- [ ] **v56 Transitions.** Push, sheet and fade between screens, plus Motion: a part keyframed across screens.
   - 2026-10-27 web slice DEPLOYED and walked headless (light, dark, 390 wide, reduced motion: push class applies, animation runs, reduced motion gets a cut, Arrives picker sits under More). Swift twin written (`Hotspots.swift`, `Project.swift`, `Play.swift`, `PlayView.swift`, inspector Arrives picker, `HotspotChecks.swift`), 830 swiftc checks pass; the Mac build result is in the commit note. Still to do: Motion (a part keyframed across screens), and a look at the SwiftUI push, sheet and fade on a real device.
 - [ ] **v57 Prototype links.** Share a playable prototype with one link.
 - [ ] **v58 Flow map.** Every screen and link on one map, drawn for you.
