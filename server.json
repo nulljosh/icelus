@@ -1,8 +1,13 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
   "name": "com.jaybulb.icelus/icelus",
-  "description": "Sketch UI screens as plain-text wireframes: typed lines in, box-drawing text and an editable project out.",
-  "version": "38.0.0",
+  "description": "Sketch UI screens as plain-text wireframes: typed lines in, box-drawing text out.",
+  "version": "55.4.0",
   "websiteUrl": "https://icelus.jaybulb.com",
-  "remotes": [{ "type": "streamable-http", "url": "https://icelus.jaybulb.com/mcp" }]
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://icelus.jaybulb.com/mcp"
+    }
+  ]
 }
