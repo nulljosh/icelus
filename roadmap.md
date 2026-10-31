@@ -121,3 +121,7 @@ wedge: every new feature is also an API and MCP tool on the day it ships.
 ## Open questions for Joshua
 - Public repo: say the word and it flips.
 - Price stays $0.99 on the App Store, free on the web (the $1 rule).
+
+## Ingested 2026-10-30
+- [ ] Needs better name
+- [ ] README is spammy
