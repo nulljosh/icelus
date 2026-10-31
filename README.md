@@ -5,7 +5,7 @@
 
 Describe a screen and it draws. Then edit it like Figma or Photoshop, with real buttons, fields and switches on artboards. Underneath, every screen is text on a character grid, so it pastes into a README, an issue or a chat and stays editable.
 
-**Live:** [icelus.jaybulb.com](https://icelus.jaybulb.com). Free on the web, $0.99 on the App Store for iPhone, iPad and Mac, plus Apple Watch and the terminal. One project file opens everywhere.
+Free on the web, $0.99 on the App Store for iPhone, iPad and Mac, plus Apple Watch and the terminal. One project file opens everywhere.
 
 ## Features
 
