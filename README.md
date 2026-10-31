@@ -3,25 +3,13 @@
 ![version](https://img.shields.io/badge/version-v55.4.0-blue)
 ![license](https://img.shields.io/badge/license-Apache%202.0-green)
 
-Describe a screen and it draws. Then edit it like Figma or Photoshop, with real buttons, fields and switches on artboards. Underneath, every screen is text on a character grid, so it pastes into a README, an issue or a chat and stays editable.
+Describe a screen and it draws. Then edit it like Figma, with real buttons, fields and switches. Underneath, every screen is text on a character grid, so it pastes into a README or a chat and stays editable.
 
-Free on the web, $0.99 on the App Store for iPhone, iPad and Mac, plus Apple Watch and the terminal. One project file opens everywhere.
+Free on the web, $0.99 on the App Store for iPhone, iPad and Mac.
 
 ## Features
 
-- **Describe it.** Say what a screen is for and it appears. Pick a screen and say what to change.
-- **A real canvas.** 38 parts, from Button to Table and Tab bar, in iOS, Material, terminal and email styles.
-- **Layout like Figma.** Symbols with per-copy words, style and swap, auto layout, constraints, named spacing, one switch for ASCII, light or heavy lines, part libraries that update every linked copy, column grids parts snap to, and phone, tablet and desktop sizes kept in step.
-- **Paint like Photoshop.** Brush, selections, gradients, 16 colors, masks, blend modes and adjustment layers.
-- **History and actions.** Every step by name, snapshots, and recorded edits you can play on any part.
-- **Review.** Flags overlaps, cut boxes, placeholder text, missing states, stray marks, focus out of reading order, unlabeled fields and controls too small to tap, and fixes the ones it can in one tap.
-- **Copy.** Every word on the canvas in one list, edited there, and translated into any of the 27 languages in one tap.
-- **Files and templates.** As many files as you like. Start one blank or from Sign in, Onboarding, Settings, Inbox or Checkout, its screens already linked so Play works at once.
-- **Prototype.** Pick a button and choose the screen it opens, then Play to click through your screens like a real app: boxes tick, tabs switch and fields take typing.
-- **Inspect.** Pick a part to see where it sits, its size, the gap on each side and its own React or SwiftUI code.
-- **Hand it off.** A build brief for Claude Code, React or SwiftUI code, a deck, a PDF, HTML, an image or plain text.
-- **For agents.** An API, an MCP server, Shortcuts actions and a GitHub Action.
-- Every key works, VoiceOver reads it, 27 languages. Works without an account.
+Say what a screen is for and it appears. Edit it on a canvas with 38 parts, auto layout, symbols and grids, or paint over it with brushes and masks. Link buttons to screens and press Play to click through it like a real app. Review flags overlaps, unlabeled fields and taps that are too small, and fixes what it can. When it's done, hand it off as React or SwiftUI code, a build brief for Claude Code, a PDF or plain text. 27 languages, no account needed.
 
 ## Run
 
@@ -30,20 +18,9 @@ npm install && npm run dev
 npm test
 ```
 
-Command line: `printf '"Email"  [Sign in]' | node bin/icelus.js draw`. Terminal app: `swift build`, then `icelus-tui render sketch.json`. Describe it needs the Workers AI binding, so it runs on the deployed site, not under `npm run dev`. API and tools: [docs/API.md](docs/API.md).
+Agents get an API, an MCP server and a GitHub Action that fails a build when a wireframe box stops closing. See [docs/API.md](docs/API.md).
 
-## Check wireframes in CI
-
-The GitHub Action fails a build when a box in a Markdown wireframe no longer closes:
-
-```yaml
-- uses: nulljosh/icelus@v55.4.0
-  with: { files: "README.md docs/*.md" }
-```
-
-## More
-
-[Whitepaper](WHITEPAPER.md) · [Architecture](docs/ARCHITECTURE.md) · [API](docs/API.md) · [Examples](docs/EXAMPLES.md) · [Roadmap](roadmap.md) · [Brand](brand/BRAND.md) · [Privacy](PRIVACY.md)
+[Whitepaper](WHITEPAPER.md) · [Architecture](docs/ARCHITECTURE.md) · [Roadmap](roadmap.md) · [Privacy](PRIVACY.md)
 
 ## License
 

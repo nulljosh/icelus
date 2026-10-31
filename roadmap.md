@@ -124,4 +124,4 @@ wedge: every new feature is also an API and MCP tool on the day it ships.
 
 ## Ingested 2026-10-30
 - [ ] Needs better name
-- [ ] README is spammy
+- [x] README is spammy
