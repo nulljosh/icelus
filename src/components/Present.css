@@ -32,5 +32,8 @@
 @keyframes move-fade { from { opacity: 0; } }
 .play-screen.move-push { animation: move-push 0.28s ease-out; }
 .play-screen.move-sheet { animation: move-sheet 0.28s ease-out; }
+@keyframes move-overlay { from { transform: scale(0.96); opacity: 0; } }
+.play-screen.move-overlay { animation: move-overlay 0.22s ease-out; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.24); position: relative; z-index: 1; }
+.play-under { position: absolute; margin: 0; opacity: 0.3; filter: blur(1px); pointer-events: none; }
 .play-screen.move-fade { animation: move-fade 0.28s ease-out; }
 @media (prefers-reduced-motion: reduce) { .play-screen[class*='move-'] { animation: none; } }

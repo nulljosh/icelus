@@ -9,6 +9,7 @@ struct PlayView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     @State private var trail: [String] = []
+    @State private var arrivals: [String?] = [] // how each screen on the trail arrived; an overlay keeps the one before showing
     @State private var hint = false
     @State private var arrive: String? = nil // how the shown screen came in, from the hotspot's move
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -22,6 +23,11 @@ struct PlayView: View {
                     let font = min(28, geo.size.width * 0.92 / CGFloat(view.cols) / 0.6, geo.size.height * 0.92 / CGFloat(view.rows) / 1.2)
                     let shown = view.elements.map { liveElement($0, live) }
                     let grid = renderElements(shown.filter { realPart($0) == nil }, cols: view.cols, rows: view.rows)
+                    if arrivals.last == "overlay", trail.count > 1, let under = playView(elements, trail[trail.count - 2]) { // the screen before, dimmed
+                        CanvasView(grid: renderElements(under.elements.filter { realPart($0) == nil }, cols: under.cols, rows: under.rows), fontSize: font, onTap: { _, _ in }, real: true, parts: under.elements)
+                            .fixedSize().opacity(0.3).blur(radius: 1).allowsHitTesting(false)
+                            .frame(width: geo.size.width, height: geo.size.height)
+                    }
                     CanvasView(grid: grid, fontSize: font, onTap: { col, row in tap(view, shown, col, row) }, real: true, parts: shown)
                     .overlay { if hint { hintMarks(view, geo: geo, font: font) } }
                     .overlay(alignment: .topLeading) { fields(shown, cell: CanvasView.cell(font), font: font) }
@@ -32,7 +38,7 @@ struct PlayView: View {
                 }
             }
             HStack(spacing: 8) {
-                Button("Back") { arrive = nil; trail.removeLast() }.disabled(trail.count < 2)
+                Button("Back") { arrive = nil; trail.removeLast(); if !arrivals.isEmpty { arrivals.removeLast() } }.disabled(trail.count < 2)
                     .keyboardShortcut(.leftArrow, modifiers: [])
                 Text(verbatim: view?.title ?? "").foregroundStyle(Theme.muted).frame(minWidth: 64)
                 Button("Done") { dismiss() }.keyboardShortcut(.cancelAction)
@@ -49,9 +55,9 @@ struct PlayView: View {
     private func tap(_ view: PlayScreen, _ shown: [Element], _ col: Int, _ row: Int) {
         if let s = spotAt(view, col: col, row: row) {
             if isLink(s.to), let url = URL(string: s.to) { openURL(url); return }
-            if s.to == backTarget { arrive = nil; if trail.count > 1 { trail.removeLast() }; return }
+            if s.to == backTarget { arrive = nil; if trail.count > 1 { trail.removeLast(); if !arrivals.isEmpty { arrivals.removeLast() } }; return }
             arrive = s.move
-            withAnimation(reduceMotion || s.move == nil ? nil : .easeOut(duration: 0.28)) { trail = (trail.isEmpty ? [start] : trail) + [s.to] }
+            withAnimation(reduceMotion || s.move == nil ? nil : .easeOut(duration: 0.28)) { trail = (trail.isEmpty ? [start] : trail) + [s.to]; arrivals.append(s.move) }
             return
         }
         let hit = shown.last { liveKind($0) != nil && liveKind($0) != "type" && col >= $0.col && col < $0.col + $0.width && row >= $0.row && row < $0.row + $0.height }
@@ -78,6 +84,7 @@ struct PlayView: View {
         switch arrive {
         case "push": .move(edge: .trailing).combined(with: .opacity)
         case "sheet": .move(edge: .bottom).combined(with: .opacity)
+        case "overlay": .scale(scale: 0.96).combined(with: .opacity)
         case "fade": .opacity
         default: .identity
         }

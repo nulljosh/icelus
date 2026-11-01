@@ -84,6 +84,7 @@ describe('transitions (v56)', () => {
   it('sets how a screen arrives and takes it off again', () => {
     const pushed = updateElement(linked, btn.id, { move: 'push' });
     expect(pushed[2].move).toBe('push');
+    expect(updateElement(linked, btn.id, { move: 'overlay' })[2].move).toBe('overlay'); // drawn over the screen before
     expect(updateElement(pushed, btn.id, { move: null })[2].move).toBeUndefined();
     expect(updateElement(pushed, btn.id, { move: 'push' })).toBe(pushed); // no change, same list
   });

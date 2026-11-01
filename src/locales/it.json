@@ -311,7 +311,7 @@
  "next": "Successiva",
  "slide_count": "{n} di {of}",
  "save_pdf": "Salva come PDF",
- "download_deck": "Scarica presentazione", "download_pptx": "Scarica PowerPoint", "measure_to": "Misura fino a", "web_link": "Link web", "grid_baseline": "Linea di base",
+ "download_deck": "Scarica presentazione", "download_pptx": "Scarica PowerPoint", "measure_to": "Misura fino a", "web_link": "Link web", "grid_baseline": "Linea di base", "move_overlay": "Sovrapposizione",
  "no_slides": "Disegna prima una schermata",
  "part_brush": "Pennello",
  "part_eraser": "Gomma",

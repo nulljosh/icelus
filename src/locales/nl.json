@@ -311,7 +311,7 @@
  "next": "Volgende",
  "slide_count": "{n} van {of}",
  "save_pdf": "Bewaar als pdf",
- "download_deck": "Presentatie downloaden", "download_pptx": "PowerPoint downloaden", "measure_to": "Meten tot", "web_link": "Weblink", "grid_baseline": "Basislijn",
+ "download_deck": "Presentatie downloaden", "download_pptx": "PowerPoint downloaden", "measure_to": "Meten tot", "web_link": "Weblink", "grid_baseline": "Basislijn", "move_overlay": "Overlay",
  "no_slides": "Teken eerst een scherm",
  "part_brush": "Penseel",
  "part_eraser": "Gum",

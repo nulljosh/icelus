@@ -13,6 +13,7 @@ func runHotspotChecks() {
     var backBtn = createElement(presets.first { $0.id == "button" }!, col: 42, row: 4)
     backBtn.text = "Back"
     let flow = updateElement(updateElement(linked + [backBtn], id: backBtn.id, opens: backTarget), id: btn.id, opens: home.id)
+    check(cleanMove("overlay") == "overlay" && cleanMove("spin") == nil, "hotspots: overlay is a move")
     let linked2 = updateElement(flow, id: backBtn.id, opens: "https://example.com/help")
     check(opensLink(linked2[3]) == "https://example.com/help" && updateElement(flow, id: backBtn.id, opens: "javascript:alert(1)")[3].opens == backTarget && !isLink("https://a b"), "hotspots: a web link, https only")
     check(opensBack(flow[3]) && playPath(flow, start: login.id, presses: [btn.id, backBtn.id]).path.map(\.title) == ["Login", "Home", "Login"], "hotspots: Back returns to the screen before")

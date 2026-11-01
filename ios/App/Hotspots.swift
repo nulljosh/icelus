@@ -8,7 +8,7 @@ func canOpen(_ el: Element?) -> Bool {
 }
 
 /// Transitions (v56): how the screen a hotspot opens arrives. Nothing set means a plain cut. src/lib/hotspots.js is the twin.
-let moves = ["push", "sheet", "fade"]
+let moves = ["push", "sheet", "fade", "overlay"] // overlay: drawn over the screen before, dimmed underneath
 func cleanMove(_ m: String?) -> String? { m.flatMap { moves.contains($0) ? $0 : nil } }
 
 /// The screen a part opens, or nil when it opens none or that screen is gone.

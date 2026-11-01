@@ -14,12 +14,14 @@ import './Present.css';
 // (v55) work while you play: boxes tick, switches flip, tabs switch and fields take typing, for this session only.
 export default function Play({ elements, start, onClose }) {
   const [trail, setTrail] = useState([start]);
+  const [moves, setMoves] = useState([null]); // how each screen on the trail arrived; an overlay keeps the one before showing
   const [arrive, setArrive] = useState(null); // how the shown screen came in, from the hotspot's move
   const [hint, setHint] = useState(false);
   const [live, setLive] = useState({});
   const [size, setSize] = useState({ w: innerWidth, h: innerHeight });
   const view = useMemo(() => playView(elements, trail.at(-1)), [elements, trail]);
-  const back = () => { setArrive(null); setTrail(tr => (tr.length > 1 ? tr.slice(0, -1) : tr)); };
+  const back = () => { setArrive(null); setTrail(tr => (tr.length > 1 ? tr.slice(0, -1) : tr)); setMoves(m => (m.length > 1 ? m.slice(0, -1) : m)); };
+  const under = useMemo(() => (moves.at(-1) === 'overlay' && trail.length > 1 ? playView(elements, trail.at(-2)) : null), [elements, trail, moves]);
   useEffect(() => {
     const key = e => {
       if (e.target.closest?.('.play-field')) return; // typing in a field
@@ -43,6 +45,7 @@ export default function Play({ elements, start, onClose }) {
   return createPortal(
     <div className="present play" role="dialog" aria-modal="true" aria-label={t('play')}>
       <div className="play-stage">
+        {under && <pre className="play-under" aria-hidden="true" style={{ fontSize: font, lineHeight: `${rowH}px`, fontFamily: FONT_FAMILY() }}>{gridToText(renderElements(under.elements.filter(el => !realPart(el)), under.cols, under.rows))}</pre>}
         <div key={trail.length + view.id} className={`play-screen${hint ? ' is-hint' : ''}${arrive ? ` move-${arrive}` : ''}`} style={{ width: view.cols * charW, height: view.rows * rowH }} onClick={miss} aria-label={view.title}>
           <pre style={{ fontSize: font, lineHeight: `${rowH}px`, fontFamily: FONT_FAMILY() }}>{text}</pre>
           <RealLayer elements={shown} charW={charW} rowH={rowH} fontSize={font} />
@@ -51,7 +54,7 @@ export default function Play({ elements, start, onClose }) {
           {view.spots.map(s => (
             <button key={s.id} type="button" className={`play-spot${s.height === 1 ? ' is-row' : ''}`} aria-label={s.label}
               style={box(s)}
-              onClick={e => { e.stopPropagation(); if (s.back) { back(); return; } if (s.link) { open(s.link, '_blank', 'noopener'); return; } setArrive(s.move ?? null); setTrail(tr => [...tr, s.to].slice(-50)); }} />
+              onClick={e => { e.stopPropagation(); if (s.back) { back(); return; } if (s.link) { open(s.link, '_blank', 'noopener'); return; } setArrive(s.move ?? null); setTrail(tr => [...tr, s.to].slice(-50)); setMoves(m => [...m, s.move ?? null].slice(-50)); }} />
           ))}
         </div>
       </div>

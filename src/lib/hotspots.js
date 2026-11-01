@@ -4,7 +4,7 @@ const NEVER = new Set(['screen', 'line', 'paint', 'adjust']);
 export const canOpen = el => !!el && !NEVER.has(el.presetId);
 // Transitions (v56): how the screen a hotspot opens arrives. Nothing set means a plain cut. Only a part that
 // opens a screen carries one. ios/App/Hotspots.swift is the twin.
-export const MOVES = ['push', 'sheet', 'fade'];
+export const MOVES = ['push', 'sheet', 'fade', 'overlay']; // overlay: drawn over the screen before, which stays dimmed underneath
 export const cleanMove = m => (MOVES.includes(m) ? m : undefined);
 
 // Back (prototype actions): `opens: 'back'` returns to the screen before, like a navigation bar's back button.
