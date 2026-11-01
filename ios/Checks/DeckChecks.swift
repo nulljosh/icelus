@@ -16,4 +16,8 @@ func runDeckChecks() {
     check(!html.contains("<script>alert") && html.contains("&lt;script&gt;") && html.contains("<title>&lt;b&gt;</title>")
           && html.contains("break-after: page"), "deck: escaped, prints a page a slide")
     check(toDeck([], cols: 10, rows: 5).contains("No screens yet."), "deck: empty deck says so")
+    let parts = pptxParts([screen("One", 0, 0), screen("Two", 40, 0)], cols: 80, rows: 10)
+    let zip = toPptx([screen("One", 0, 0)], cols: 40, rows: 10)
+    check(parts.filter { $0.0.hasPrefix("ppt/slides/slide") && $0.0.hasSuffix(".xml") }.count == 2 && parts.contains { $0.0 == "ppt/slides/slide1.xml" && $0.1.contains("One") }
+          && Array(zip.prefix(2)) == [0x50, 0x4B] && fitPt(10, 3) == 28 && fitPt(200, 60) < 10, "deck: PowerPoint parts, zip and fitted type")
 }

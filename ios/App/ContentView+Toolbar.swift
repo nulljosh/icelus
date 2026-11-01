@@ -79,6 +79,9 @@ extension ContentView {
             Divider()
             ShareLink("Share text", item: trimText(state.text))
             ShareLink("Share image", item: Snapshot(text: state.text), preview: SharePreview("Icelus wireframe"))
+            if !deck.isEmpty {
+                ShareLink("Share PowerPoint", item: PptxDeck(data: toPptx(state.elements, cols: state.cols, rows: state.rows)), preview: SharePreview("Icelus deck"))
+            }
         } label: {
             Label("Export", systemImage: "square.and.arrow.up")
                 .labelStyle(.iconOnly)

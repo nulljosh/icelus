@@ -312,6 +312,15 @@ struct ContentView: View {
 }
 
 /// The trimmed canvas as a PNG, rendered only when someone actually shares it.
+/// The deck as a PowerPoint file (Pptx.swift), for the Export menu's share sheet.
+struct PptxDeck: Transferable {
+    let data: Data
+    static var transferRepresentation: some TransferRepresentation {
+        DataRepresentation(exportedContentType: UTType("org.openxmlformats.presentationml.presentation") ?? .data) { $0.data }
+            .suggestedFileName("deck.pptx")
+    }
+}
+
 struct Snapshot: Transferable {
     let text: String
 

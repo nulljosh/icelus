@@ -51,6 +51,7 @@
 		99C2CB2359C70C001A837678 /* Critique.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F73153BC3FC4399F32F88A1 /* Critique.swift */; };
 		9F38DD0708937750CC2AFDAE /* HistorySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE98A00EF30F92928147522 /* HistorySheet.swift */; };
 		AD75027F9AFB926E213A0E1B /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE20C0CE94BA0F9C50420FE /* Gradient.swift */; };
+		B5B1A72CF94589CFA7935754 /* Pptx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93C2B3F6B039B1A235150C5 /* Pptx.swift */; };
 		BA4A4078EAE8AB7707AA1157 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = A642337AC42F35C1900D4829 /* Store.swift */; };
 		BA7F011C782872931FC14596 /* PresentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F4241AD7BFA3A38496EAF0 /* PresentView.swift */; };
 		BDB3184294C6205E719A4C0C /* Symbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133B696A023A11F87F936E4B /* Symbols.swift */; };
@@ -142,6 +143,7 @@
 		D9E89DB00DF46AF1962B9EE3 /* TutorialViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialViews.swift; sourceTree = "<group>"; };
 		E2ACD6B3C69C0F2FA51AEB25 /* Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presets.swift; sourceTree = "<group>"; };
 		E778F13789C0DE585808F6A1 /* BoxyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxyView.swift; sourceTree = "<group>"; };
+		E93C2B3F6B039B1A235150C5 /* Pptx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pptx.swift; sourceTree = "<group>"; };
 		F0E6246E96397273B086EDFD /* Real.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Real.swift; sourceTree = "<group>"; };
 		F5441750CB41A52DE5C4A7E9 /* Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
 		F89D7CCF85DF259CB1256554 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				725719DC47ECE7175907E74D /* Photo.swift */,
 				1BCB7273566AC60729B50D94 /* Play.swift */,
 				B4C5128A0DFD1D4C18F02DD8 /* PlayView.swift */,
+				E93C2B3F6B039B1A235150C5 /* Pptx.swift */,
 				49F4241AD7BFA3A38496EAF0 /* PresentView.swift */,
 				E2ACD6B3C69C0F2FA51AEB25 /* Presets.swift */,
 				C8256BF6BED71D9179305726 /* Project.swift */,
@@ -387,6 +390,7 @@
 				C01E0FF1FB7A7B1F62B54E60 /* Photo.swift in Sources */,
 				DF415A31F973FA8DBF17044E /* Play.swift in Sources */,
 				0293B48C0C567F6F44A6E26E /* PlayView.swift in Sources */,
+				B5B1A72CF94589CFA7935754 /* Pptx.swift in Sources */,
 				BA7F011C782872931FC14596 /* PresentView.swift in Sources */,
 				8CE72A45E7B3D81D8CBE082D /* Presets.swift in Sources */,
 				F57CA2D2751F665F013C0863 /* Project.swift in Sources */,
@@ -482,7 +486,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 55.2.0;
+				MARKETING_VERSION = 55.4.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -572,7 +576,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 55.2.0;
+				MARKETING_VERSION = 55.4.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
