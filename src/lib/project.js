@@ -1,6 +1,6 @@
 import { newElementId, DEFAULT_COLS, DEFAULT_ROWS } from './engine.js';
 import { ADJUSTMENTS, BOX_STYLES, VARIANTS, cleanBlend } from './lines.js';
-import { cleanVars, cleanGrids } from './modes.js';
+import { cleanVars, cleanGrids, cleanColorVars, cleanWidthVars, isVarName } from './modes.js';
 import { cleanGrid } from './grids.js';
 import { cleanNote, cleanOwn } from './shapes.js';
 import { canOpen, cleanMove, BACK, isLink } from './hotspots.js';
@@ -51,7 +51,9 @@ export function parseProject(json) {
       ...(BOX_STYLES.includes(el.style) && el.style !== 'single' && { style: el.style }),
       ...(el.accent === true && { accent: true }),
       ...(el.presetId === 'adjust' && ADJUSTMENTS.includes(el.adjust) && { adjust: el.adjust }),
-      ...(el.presetId === 'adjust' && el.canvas === true && { canvas: true, ...(cleanVars(el.vars) && { vars: cleanVars(el.vars) }), ...(cleanGrids(el.grids) && { grids: cleanGrids(el.grids) }) }),
+      ...(el.presetId === 'adjust' && el.canvas === true && { canvas: true, ...(cleanVars(el.vars) && { vars: cleanVars(el.vars) }), ...(cleanGrids(el.grids) && { grids: cleanGrids(el.grids) }),
+        ...(cleanColorVars(el.colors) && { colors: cleanColorVars(el.colors) }), ...(cleanWidthVars(el.widths) && { widths: cleanWidthVars(el.widths) }), ...(el.colorMode === 'dark' && { colorMode: 'dark' }) }),
+      ...Object.fromEntries(['inkVar', 'paperVar', 'widthVar'].filter(k => isVarName(el[k])).map(k => [k, el[k]])),
       ...(cleanColor(el.ink) !== undefined && { ink: el.ink }),
       ...(cleanColor(el.paper) !== undefined && { paper: el.paper }),
       ...(cleanMask(el.mask) && { mask: cleanMask(el.mask) }),

@@ -155,16 +155,29 @@ extension ContentView {
             state.elements = updateElement(state.elements, id: el.id, mask: mask, clip: clip)
             persist()
         }
-        ForEach([("Ink", el.ink, true), ("Paper", el.paper, false)], id: \.0) { label, value, isInk in
-            Picker(LocalizedStringKey(label), selection: Binding(get: { value ?? -1 }, set: { v in
+        // A color variable (Modes.swift) sits above the 16 colors; picking one binds the part, a plain color lets go.
+        ForEach([("Ink", el.ink, el.inkVar, "ink"), ("Paper", el.paper, el.paperVar, "paper")], id: \.0) { label, value, bound, key in
+            Picker(LocalizedStringKey(label), selection: Binding(get: { bound.map { "v:\($0)" } ?? value.map { "c:\($0)" } ?? "" }, set: { v in
                 state.pushHistory()
-                state.elements = updateElement(state.elements, id: el.id, ink: isInk ? v : nil, paper: isInk ? nil : v)
+                if v.hasPrefix("v:") { state.elements = bindVar(state.elements, id: el.id, key: key, name: String(v.dropFirst(2))) } else {
+                    let n = Int(v.dropFirst(2)) ?? -1
+                    state.elements = updateElement(state.elements, id: el.id, ink: key == "ink" ? n : nil, paper: key == "ink" ? nil : n)
+                }
                 persist()
             })) {
-                Text("None").tag(-1)
+                Text("None").tag("")
+                ForEach(canvasColors(state.elements).keys.sorted(), id: \.self) { Text(verbatim: $0).tag("v:\($0)") }
                 ForEach(0..<terminalColors.count, id: \.self) { i in
-                    Text(i < 8 ? LocalizedStringKey(terminalColors[i].name) : "Bright \(String(localized: String.LocalizationValue(terminalColors[i - 8].name)))").tag(i)
+                    Text(i < 8 ? LocalizedStringKey(terminalColors[i].name) : "Bright \(String(localized: String.LocalizationValue(terminalColors[i - 8].name)))").tag("c:\(i)")
                 }
+            }
+            .pickerStyle(.menu)
+            .fixedSize()
+        }
+        if !canvasWidths(state.elements).isEmpty {
+            Picker("Width Variable", selection: Binding(get: { el.widthVar ?? "" }, set: { v in canvasEdit { bindVar($0, id: el.id, key: "width", name: v.isEmpty ? nil : v) } })) {
+                Text("None").tag("")
+                ForEach(canvasWidths(state.elements).keys.sorted(), id: \.self) { Text(verbatim: $0).tag($0) }
             }
             .pickerStyle(.menu)
             .fixedSize()

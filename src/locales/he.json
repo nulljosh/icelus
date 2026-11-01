@@ -373,5 +373,6 @@
  "describe_drew": "ציירתי את זה",
  "describe_changing": "משנה את {name}",
  "describe_new": "מסך חדש",
- "describe_failed": "לא התקבלה תשובה. נסו שוב."
+ "describe_failed": "לא התקבלה תשובה. נסו שוב.",
+ "color_mode": "מצב צבע", "add_color_var": "הוספת צבע", "add_width_var": "הוספת רוחב", "width_var": "משתנה רוחב"
 }

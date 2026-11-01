@@ -373,5 +373,6 @@
  "describe_drew": "วาดแบบนี้",
  "describe_changing": "กำลังแก้ {name}",
  "describe_new": "หน้าจอใหม่",
- "describe_failed": "ไม่มีคำตอบ ลองอีกครั้ง"
+ "describe_failed": "ไม่มีคำตอบ ลองอีกครั้ง",
+ "color_mode": "โหมดสี", "add_color_var": "เพิ่มสี", "add_width_var": "เพิ่มความกว้าง", "width_var": "ตัวแปรความกว้าง"
 }

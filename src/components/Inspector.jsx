@@ -14,12 +14,11 @@ import CanvasPanel from './CanvasPanel.jsx';
 import ScreenGrid from './ScreenGrid.jsx';
 import InspectPanel from './InspectPanel.jsx';
 import HotspotPicker from './HotspotPicker.jsx';
-import { canvasVars, knobValue } from '../lib/modes.js';
+import { canvasVars, knobValue, canvasColors } from '../lib/modes.js';
+import { colorName, WidthBind } from './CanvasVars.jsx';
 import ReviewList from './ReviewList.jsx';
 import { screenTweaks } from '../lib/tweaks.js';
 
-// A terminal color's name: the base name, with Bright for the second eight.
-const colorName = i => (i < 8 ? t(`color_${i}`) : t('color_bright', { name: t(`color_${i - 8}`) }));
 
 const LINE_CHARS = /[─│┌┐└┘├┤┬┴┼]/u;
 
@@ -262,13 +261,15 @@ export default function Inspector({
             {['ink', 'paper'].map(key => (
               <div className="inspector-row" key={key}>
                 <label className="inspector-key" htmlFor={key}>{t(`color_${key}`)}</label>
-                <select id={key} className="inspector-select" value={el[key] ?? ''}
-                  onChange={e => onUpdateElement(el.id, { [key]: e.target.value === '' ? null : Number(e.target.value) })}>
+                <select id={key} className="inspector-select" value={el[`${key}Var`] ? `v:${el[`${key}Var`]}` : el[key] ?? ''}
+                  onChange={e => { const v = e.target.value; onUpdateElement(el.id, v.startsWith('v:') ? { bind: { key, name: v.slice(2) } } : { [key]: v === '' ? null : Number(v) }); }}>
                   <option value="">{t('color_none')}</option>
+                  {Object.keys(canvasColors(elements)).map(n => <option key={n} value={`v:${n}`}>{n}</option>)}
                   {COLORS.map((c, i) => <option key={i} value={i}>{colorName(i)}</option>)}
                 </select>
               </div>
             ))}
+            <WidthBind el={el} elements={elements} onUpdate={onUpdateElement} />
             <div className="inspector-row">
               <label className="inspector-key" htmlFor="blend">{t('blend')}</label>
               <select id="blend" className="inspector-select" value={el.blend ?? 'join'} onChange={e => onUpdateElement(el.id, { blend: e.target.value })}>

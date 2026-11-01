@@ -178,6 +178,7 @@ extension ContentView {
             if !names.isEmpty {
                 Menu("Remove") { ForEach(names, id: \.self) { name in Button(name) { canvasEdit { setVar($0, name, nil) } } } }
             }
+            CanvasVarsMenu(elements: state.elements, edit: canvasEdit)
         } label: {
             Label("Canvas", systemImage: "square.grid.3x3")
                 .labelStyle(.iconOnly)

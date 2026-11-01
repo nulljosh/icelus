@@ -373,5 +373,6 @@
  "describe_drew": "Ini yang kugambar",
  "describe_changing": "Mengubah {name}",
  "describe_new": "Layar baru",
- "describe_failed": "Tidak ada jawaban. Coba lagi."
+ "describe_failed": "Tidak ada jawaban. Coba lagi.",
+ "color_mode": "Mode warna", "add_color_var": "Tambah warna", "add_width_var": "Tambah lebar", "width_var": "Variabel lebar"
 }

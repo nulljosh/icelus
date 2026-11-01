@@ -1,6 +1,7 @@
 import { t } from '../i18n.js';
 import { MODES, VAR_MAX, canvasMode, canvasVars } from '../lib/modes.js';
 import { AUTO_MAX } from '../lib/layout.js';
+import CanvasVars from './CanvasVars.jsx';
 
 // The canvas as a whole (v47): its line mode over every part, and named spacing that auto layout screens use.
 export default function CanvasPanel({ elements, cursor, cols, rows, onCanvas }) {
@@ -30,6 +31,7 @@ export default function CanvasPanel({ elements, cursor, cols, rows, onCanvas }) 
       {names.length < VAR_MAX && (
         <button type="button" className="btn history-take" onClick={() => onCanvas({ name: fresh(), value: 1 })}>{t('add_var')}</button>
       )}
+      <CanvasVars elements={elements} onCanvas={onCanvas} />
       <div className="inspector-row"><span className="inspector-key">{t('col')}</span><span className="inspector-value">{cursor.col}</span></div>
       <div className="inspector-row"><span className="inspector-key">{t('row')}</span><span className="inspector-value">{cursor.row}</span></div>
       <div className="inspector-row"><span className="inspector-key">{t('size')}</span><span className="inspector-value">{cols}×{rows}</span></div>

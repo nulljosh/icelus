@@ -373,5 +373,6 @@
  "describe_drew": "Dibujé esto",
  "describe_changing": "Cambiando {name}",
  "describe_new": "Una pantalla nueva",
- "describe_failed": "No hubo respuesta. Inténtalo de nuevo."
+ "describe_failed": "No hubo respuesta. Inténtalo de nuevo.",
+ "color_mode": "Modo de color", "add_color_var": "Añadir color", "add_width_var": "Añadir ancho", "width_var": "Variable de ancho"
 }

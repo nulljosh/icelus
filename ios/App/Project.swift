@@ -41,6 +41,9 @@ private func elementJSON(_ e: Element) -> [String: Any] {
     if let take = e.take { el["take"] = take }
     if let ink = e.ink { el["ink"] = ink }
     if let paper = e.paper { el["paper"] = paper }
+    if let v = e.inkVar { el["inkVar"] = v }
+    if let v = e.paperVar { el["paperVar"] = v }
+    if let v = e.widthVar { el["widthVar"] = v }
     if let adjust = e.adjust { el["adjust"] = adjust }
     if let m = e.mask { el["mask"] = ["top": m.top, "right": m.right, "bottom": m.bottom, "left": m.left] }
     if let clip = e.clip { el["clip"] = clip }
@@ -54,6 +57,9 @@ private func elementJSON(_ e: Element) -> [String: Any] {
     if let g = e.grid { var d: [String: Any] = ["cols": g.cols, "gutter": g.gutter]; if g.baseline > 0 { d["baseline"] = g.baseline }; el["grid"] = d }
     if e.canvas {
         el["canvas"] = true; if !e.vars.isEmpty { el["vars"] = e.vars }
+        if !e.colors.isEmpty { el["colors"] = e.colors }
+        if !e.widths.isEmpty { el["widths"] = e.widths }
+        if let m = e.colorMode { el["colorMode"] = m }
         if !e.grids.isEmpty { el["grids"] = e.grids.mapValues { g -> [String: Int] in var d = ["cols": g.cols, "gutter": g.gutter]; if g.baseline > 0 { d["baseline"] = g.baseline }; return d } }
     }
     if let pin = e.pin { el["pin"] = [("x", pin.x), ("y", pin.y)].reduce(into: [String: String]()) { if let v = $1.1 { $0[$1.0] = v } } }
@@ -112,7 +118,10 @@ func parseProject(_ json: String) -> EditorState? {
         state.elements[i].blend = cleanBlend(el["blend"])
         if state.elements[i].presetId == "screen" { state.elements[i].auto = cleanAuto(el["auto"]); state.elements[i].grid = cleanGrid(el["grid"]) }
         state.elements[i].pin = cleanPin(el["pin"])
-        if state.elements[i].presetId == "adjust" && el["canvas"] as? Bool == true { state.elements[i].canvas = true; state.elements[i].vars = cleanVars(el["vars"]); state.elements[i].grids = cleanGrids(el["grids"]) }
+        state.elements[i].inkVar = (el["inkVar"] as? String).flatMap { isVarName($0) ? $0 : nil }
+        state.elements[i].paperVar = (el["paperVar"] as? String).flatMap { isVarName($0) ? $0 : nil }
+        state.elements[i].widthVar = (el["widthVar"] as? String).flatMap { isVarName($0) ? $0 : nil }
+        if state.elements[i].presetId == "adjust" && el["canvas"] as? Bool == true { state.elements[i].canvas = true; state.elements[i].vars = cleanVars(el["vars"]); state.elements[i].grids = cleanGrids(el["grids"]); state.elements[i].colors = cleanColorVars(el["colors"]); state.elements[i].widths = cleanWidthVars(el["widths"]); state.elements[i].colorMode = el["colorMode"] as? String == "dark" ? "dark" : nil }
         if state.elements[i].symbol != nil {
             state.elements[i].own = cleanOwn(el["own"])
             state.elements[i].hideLines = ((el["hideLines"] as? [Any]) ?? []).compactMap { ($0 as? NSNumber)?.intValue }.filter { $0 >= 0 && $0 < 200 }.prefix(50).map { $0 }

@@ -373,5 +373,6 @@
  "describe_drew": "Dit heb ik getekend",
  "describe_changing": "{name} wordt gewijzigd",
  "describe_new": "Een nieuw scherm",
- "describe_failed": "Geen antwoord. Probeer het opnieuw."
+ "describe_failed": "Geen antwoord. Probeer het opnieuw.",
+ "color_mode": "Kleurmodus", "add_color_var": "Kleur toevoegen", "add_width_var": "Breedte toevoegen", "width_var": "Breedtevariabele"
 }

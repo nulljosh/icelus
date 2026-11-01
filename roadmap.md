@@ -37,7 +37,7 @@ wedge: every new feature is also an API and MCP tool on the day it ships.
 - [x] (11-01: an auto screen can run left to right, wrap at the frame and align rows top, middle or bottom; web and native) Auto layout across: stacks that run left to right, with alignment and wrap (Figma auto layout).
 - [ ] Live code parts: a part that runs a small sandboxed HTML snippet in the real look.
 - [x] (11-01: a symbol copy hides lines of itself, Show lines in the inspector on web and native, saved in project files) Show and hide per copy: a symbol copy hides a line of itself without detaching (Figma boolean properties).
-- [ ] Color and width variables: name an ink or a width once and every part using it follows, with a light and a dark set (Figma color variables and modes).
+- [x] Color and width variables: name an ink or a width once and every part using it follows, with a light and a dark set (Figma color variables and modes). Done 2026-11-01: canvas panel and native Canvas menu hold named colors (light and dark), the color mode and named widths; ink, paper and width bind in the inspector; edit ops color_var, width_var, color_mode, bind; 26 locales; 384 web tests, 852 Swift checks, Mac build.
 - [ ] Shared libraries by link: publish a library to a URL and projects check it for updates on open, with a list of what changed (Figma library updates).
 - [x] (11-01: baseline rows and named grid styles, web and native) Row grids and named grid styles: baseline rows as well as columns, saved by name and picked per screen (Figma grid styles).
 - [x] (11-01: Inspect "Measure to" on web and native shows the gap across and down; inspect_part takes `to`) Measure between any two parts: hold a key over another part to see the gap between them (Figma redlines).

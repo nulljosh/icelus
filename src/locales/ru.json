@@ -373,5 +373,6 @@
  "describe_drew": "Нарисовал вот это",
  "describe_changing": "Меняю {name}",
  "describe_new": "Новый экран",
- "describe_failed": "Нет ответа. Попробуйте снова."
+ "describe_failed": "Нет ответа. Попробуйте снова.",
+ "color_mode": "Цветовой режим", "add_color_var": "Добавить цвет", "add_width_var": "Добавить ширину", "width_var": "Переменная ширины"
 }

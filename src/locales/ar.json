@@ -373,5 +373,6 @@
  "describe_drew": "رسمت هذا",
  "describe_changing": "تغيير {name}",
  "describe_new": "شاشة جديدة",
- "describe_failed": "لم يصل رد. حاول مجددًا."
+ "describe_failed": "لم يصل رد. حاول مجددًا.",
+ "color_mode": "وضع الألوان", "add_color_var": "إضافة لون", "add_width_var": "إضافة عرض", "width_var": "متغير العرض"
 }

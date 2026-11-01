@@ -202,6 +202,8 @@ struct Element: Equatable, Identifiable {
     var live: Int? = nil // a played choice (Play.swift), never saved
     var canvas = false, vars: [String: Int] = [:] // the canvas part: line mode and spacing variables (Modes.swift)
     var grids: [String: ColumnGrid] = [:] // the canvas part: named grid styles (Modes.swift)
+    var colors: [String: [Int]] = [:], widths: [String: Int] = [:], colorMode: String? = nil // the canvas part: color and width variables (Modes.swift)
+    var inkVar: String? = nil, paperVar: String? = nil, widthVar: String? = nil // bound to a variable (Modes.swift)
 }
 
 private var nextElementId = 1

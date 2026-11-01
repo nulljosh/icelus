@@ -373,5 +373,6 @@
  "describe_drew": "Bunu çizdim",
  "describe_changing": "{name} değiştiriliyor",
  "describe_new": "Yeni bir ekran",
- "describe_failed": "Yanıt gelmedi. Tekrar deneyin."
+ "describe_failed": "Yanıt gelmedi. Tekrar deneyin.",
+ "color_mode": "Renk modu", "add_color_var": "Renk ekle", "add_width_var": "Genişlik ekle", "width_var": "Genişlik değişkeni"
 }

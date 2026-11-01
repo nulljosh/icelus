@@ -21,8 +21,8 @@ func updateElement(_ elements: [Element], id: String, ink: Int?, paper: Int?) ->
     elements.map { el in
         guard el.id == id else { return el }
         var next = el
-        if let ink { next.ink = cleanColor(ink) }
-        if let paper { next.paper = cleanColor(paper) }
+        if let ink { next.ink = cleanColor(ink); next.inkVar = nil } // a color picked by hand lets go of its variable
+        if let paper { next.paper = cleanColor(paper); next.paperVar = nil }
         return next
     }
 }

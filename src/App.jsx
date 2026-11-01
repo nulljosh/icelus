@@ -16,7 +16,7 @@ import HistoryList from './components/HistoryList.jsx';
 import { recordAction, saveAction, playAction, cleanActionName } from './lib/actions.js';
 import { harmonize } from './lib/heal.js';
 import { autoLayout, constrain, syncTwins, makeSizes } from './lib/layout.js';
-import { setMode, setVar, setGridStyle } from './lib/modes.js';
+import { setMode, setVar, setGridStyle, setColorVar, setWidthVar, setColorMode } from './lib/modes.js';
 import { gridEverywhere } from './lib/grids.js';
 import { fixFocusOrder } from './lib/access.js';
 import { applyCopy } from './lib/copydeck.js';
@@ -257,7 +257,7 @@ function edit(state, action) {
 
     // Variables and modes (modes.js): the canvas line set, or a named spacing value; one undo step each.
     case 'CANVAS': {
-      const elements = 'mode' in action ? setMode(state.elements, action.mode) : 'gridStyle' in action ? setGridStyle(state.elements, action.gridStyle, action.grid) : setVar(state.elements, action.name, action.value);
+      const elements = 'colorVar' in action ? setColorVar(state.elements, action.colorVar, action.pair) : 'widthVar' in action ? setWidthVar(state.elements, action.widthVar, action.width) : 'colorMode' in action ? setColorMode(state.elements, action.colorMode) : 'mode' in action ? setMode(state.elements, action.mode) : 'gridStyle' in action ? setGridStyle(state.elements, action.gridStyle, action.grid) : setVar(state.elements, action.name, action.value);
       return { ...pushHistory(state), elements, grid: renderElements(elements, state.cols, state.rows) };
     }
 

@@ -36,4 +36,32 @@ func runModeChecks() {
     var gs = EditorState(cols: 20, rows: 10)
     gs.elements = styled
     check(parseProject(serializeProject(gs))?.elements.first { $0.canvas }?.grids["phone"] == ColumnGrid(cols: 4, gutter: 1, baseline: 2), "modes: grid styles survive a save")
+
+    // Color and width variables: bound parts follow, the mode flips them, removing lets go and keeps the value.
+    let c1 = part("card", 2, 2), c2 = part("card", 20, 2)
+    var cv = setColorVar([c1, c2], "brand", [4, 12])
+    cv = bindVar(cv, id: c1.id, key: "ink", name: "brand")
+    cv = bindVar(cv, id: c2.id, key: "paper", name: "brand")
+    check(cv.first { $0.id == c1.id }!.ink == 4 && cv.first { $0.id == c2.id }!.paper == 4, "color vars: binding sets the color")
+    cv = setColorVar(cv, "brand", [1, 9])
+    check(cv.first { $0.id == c1.id }!.ink == 1, "color vars: changing the color repaints bound parts")
+    cv = setColorMode(cv, "dark")
+    check(colorMode(cv) == "dark" && cv.first { $0.id == c1.id }!.ink == 9 && cv.first { $0.id == c2.id }!.paper == 9, "color vars: dark mode flips bound parts")
+    let byHand = updateElement(cv, id: c1.id, ink: 2, paper: nil)
+    check(byHand.first { $0.id == c1.id }!.ink == 2 && byHand.first { $0.id == c1.id }!.inkVar == nil, "color vars: a hand-picked color lets go")
+    let gone = setColorVar(setColorMode(cv, "light"), "brand", nil)
+    check(gone.first { $0.id == c1.id }!.ink == 1 && gone.first { $0.id == c1.id }!.inkVar == nil && !gone.contains { $0.canvas }, "color vars: removing keeps the value and drops the empty canvas part")
+    check(setColorVar([c1], "x", [1, 99]) == [c1] && bindVar([c1], id: c1.id, key: "ink", name: "nope") == [c1], "color vars: bad colors and unknown names are refused")
+    var wv = bindVar(setWidthVar([c1], "col", 30), id: c1.id, key: "width", name: "col")
+    check(wv.first { $0.id == c1.id }!.width == 30, "width vars: binding resizes")
+    wv = setWidthVar(wv, "col", 18)
+    check(wv.first { $0.id == c1.id }!.width == 18 && wv.first { $0.id == c1.id }!.template.allSatisfy { $0.count <= 18 }, "width vars: changing the width resizes bound parts")
+    var vs = EditorState(cols: 60, rows: 20)
+    vs.elements = setColorMode(bindVar(setMode(cv, "heavy"), id: c1.id, key: "ink", name: "brand"), "dark")
+    vs.elements = bindVar(setWidthVar(vs.elements, "col", 24), id: c1.id, key: "width", name: "col")
+    let vb = parseProject(serializeProject(vs))?.elements ?? []
+    let p1 = vb.first { !$0.canvas && $0.inkVar != nil }
+    check(canvasColors(vb) == ["brand": [1, 9]] && canvasWidths(vb) == ["col": 24] && colorMode(vb) == "dark" && canvasMode(vb) == "heavy", "variables: canvas fields survive a save")
+    check(p1?.inkVar == "brand" && p1?.widthVar == "col" && p1?.ink == 9 && p1?.width == 24, "variables: bindings survive a save")
+    check(cleanColorVars(["ok": [1, 2], "bad": [1, 99], "Bad Name": [1, 2], "flag": [true, 1]]) == ["ok": [1, 2]] && cleanWidthVars(["w": 10, "z": 0, "big": 900]) == ["w": 10], "variables: files are cleaned")
 }

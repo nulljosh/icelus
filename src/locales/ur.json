@@ -373,5 +373,6 @@
  "describe_drew": "یہ بنایا",
  "describe_changing": "{name} بدل رہی ہے",
  "describe_new": "نئی اسکرین",
- "describe_failed": "جواب نہیں آیا۔ دوبارہ کوشش کریں۔"
+ "describe_failed": "جواب نہیں آیا۔ دوبارہ کوشش کریں۔",
+ "color_mode": "رنگ موڈ", "add_color_var": "رنگ شامل کریں", "add_width_var": "چوڑائی شامل کریں", "width_var": "چوڑائی متغیر"
 }

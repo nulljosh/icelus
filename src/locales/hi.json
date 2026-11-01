@@ -373,5 +373,6 @@
  "describe_drew": "यह बनाया",
  "describe_changing": "{name} बदल रहा है",
  "describe_new": "नई स्क्रीन",
- "describe_failed": "जवाब नहीं आया। फिर कोशिश करें।"
+ "describe_failed": "जवाब नहीं आया। फिर कोशिश करें।",
+ "color_mode": "रंग मोड", "add_color_var": "रंग जोड़ें", "add_width_var": "चौड़ाई जोड़ें", "width_var": "चौड़ाई वेरिएबल"
 }

@@ -373,5 +373,6 @@
  "describe_drew": "Narysowałem to",
  "describe_changing": "Zmieniam {name}",
  "describe_new": "Nowy ekran",
- "describe_failed": "Brak odpowiedzi. Spróbuj ponownie."
+ "describe_failed": "Brak odpowiedzi. Spróbuj ponownie.",
+ "color_mode": "Tryb kolorów", "add_color_var": "Dodaj kolor", "add_width_var": "Dodaj szerokość", "width_var": "Zmienna szerokości"
 }

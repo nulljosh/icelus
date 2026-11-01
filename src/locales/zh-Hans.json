@@ -373,5 +373,6 @@
  "describe_drew": "画好了这个",
  "describe_changing": "正在修改 {name}",
  "describe_new": "一个新屏幕",
- "describe_failed": "没有回应，请再试一次。"
+ "describe_failed": "没有回应，请再试一次。",
+ "color_mode": "颜色模式", "add_color_var": "添加颜色", "add_width_var": "添加宽度", "width_var": "宽度变量"
 }

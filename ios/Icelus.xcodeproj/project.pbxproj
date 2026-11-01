@@ -52,6 +52,7 @@
 		9F38DD0708937750CC2AFDAE /* HistorySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE98A00EF30F92928147522 /* HistorySheet.swift */; };
 		AD75027F9AFB926E213A0E1B /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE20C0CE94BA0F9C50420FE /* Gradient.swift */; };
 		B5B1A72CF94589CFA7935754 /* Pptx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93C2B3F6B039B1A235150C5 /* Pptx.swift */; };
+		BA48D882D6FD8A7CE40016E4 /* CanvasVarsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EEAFE70C5CC44FE1266EF7F /* CanvasVarsMenu.swift */; };
 		BA4A4078EAE8AB7707AA1157 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = A642337AC42F35C1900D4829 /* Store.swift */; };
 		BA7F011C782872931FC14596 /* PresentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F4241AD7BFA3A38496EAF0 /* PresentView.swift */; };
 		BDB3184294C6205E719A4C0C /* Symbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133B696A023A11F87F936E4B /* Symbols.swift */; };
@@ -96,6 +97,7 @@
 		4B3A0BEDA608AA6302988DB0 /* Grids.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grids.swift; sourceTree = "<group>"; };
 		4D37A240FE1660EB61CBCCD5 /* TextSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSheet.swift; sourceTree = "<group>"; };
 		4E39EFE31CF675EC3B86E17A /* Icelus-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "Icelus-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4EEAFE70C5CC44FE1266EF7F /* CanvasVarsMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasVarsMenu.swift; sourceTree = "<group>"; };
 		5084EB91A39CB3AEECD78655 /* ContentView+Brush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Brush.swift"; sourceTree = "<group>"; };
 		5484773E47EA73A7F1F10210 /* Tweaks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweaks.swift; sourceTree = "<group>"; };
 		57424AF9D748F7E21870DB86 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				95260F9B1A1864439BC31E3D /* Assets.xcassets */,
 				E778F13789C0DE585808F6A1 /* BoxyView.swift */,
 				1C0160D1888F08A01EBF0D54 /* Brush.swift */,
+				4EEAFE70C5CC44FE1266EF7F /* CanvasVarsMenu.swift */,
 				B98DC5AC64DFE409A1E386DD /* CanvasView.swift */,
 				AB82A1819790FF3B556BAF26 /* CaptureSheet.swift */,
 				70F5D87144ABF2C8E7E52120 /* Code.swift */,
@@ -347,6 +350,7 @@
 				67301F8C194AA2C7BFE6274C /* Actions.swift in Sources */,
 				8DB9B98CDB8E52C923E52DA9 /* BoxyView.swift in Sources */,
 				56C2371FE9D859BF349036D1 /* Brush.swift in Sources */,
+				BA48D882D6FD8A7CE40016E4 /* CanvasVarsMenu.swift in Sources */,
 				D50E2FDCB15BD6BBE878A0D1 /* CanvasView.swift in Sources */,
 				45B3213F3D750D367ACF3010 /* CaptureSheet.swift in Sources */,
 				5685E8846049CF92EDCCEB66 /* Code.swift in Sources */,

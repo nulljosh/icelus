@@ -9,7 +9,8 @@ ROOT = os.getcwd()
 WEB = {"Undo": "undo", "Redo": "redo", "Clear": "clear", "Stop tracing": "stop_tracing", "Save to palette": "save_to_palette",
        "Edit text": "edit_text", "Duplicate": "duplicate", "Delete": "delete", "Highlight": "highlight", "Box style": "box_style",
        "Export": "export", "Copy text": "copy_text", "Copy as typed lines": "copy_lines", "Copy as Markdown": "copy_markdown",
-       "Copy all screens": "copy_screens", "Cancel": "cancel", "Save": "save", "Draw it": "draw_it", "Type a screen": "type_title"}
+       "Copy all screens": "copy_screens", "Cancel": "cancel", "Save": "save", "Draw it": "draw_it", "Type a screen": "type_title",
+       "Color Mode": "color_mode", "Add Color": "add_color_var", "Add Width": "add_width_var", "Width Variable": "width_var"}
 
 # Part labels and categories: the web keys them part_<id> and cat_<name>; the apps by their English text.
 en = json.loads(subprocess.run(["node", "-e", """

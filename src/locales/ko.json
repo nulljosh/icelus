@@ -373,5 +373,6 @@
  "describe_drew": "이렇게 그렸어요",
  "describe_changing": "{name} 바꾸는 중",
  "describe_new": "새 화면",
- "describe_failed": "응답이 없어요. 다시 시도하세요."
+ "describe_failed": "응답이 없어요. 다시 시도하세요.",
+ "color_mode": "색상 모드", "add_color_var": "색상 추가", "add_width_var": "너비 추가", "width_var": "너비 변수"
 }

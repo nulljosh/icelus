@@ -14,7 +14,7 @@ import { GRID_MAX, gridEverywhere } from './grids.js';
 import { fixFocusOrder } from './access.js';
 import { canOpen, MOVES, isLink } from './hotspots.js';
 import { applyCopy, COPY_MAX } from './copydeck.js';
-import { MODES, VAR_MAX, isVarName, setMode, setVar, canvasVars } from './modes.js';
+import { MODES, VAR_MAX, WIDTH_MAX, isVarName, setMode, setVar, canvasVars, setColorVar, setWidthVar, setColorMode, canvasColors, canvasWidths } from './modes.js';
 import { variations, keepVariation } from './tweaks.js';
 import { removeDistractions } from './critique.js';
 import { strokeCells, paint, paintMarks, erase } from './brush.js';
@@ -72,6 +72,21 @@ export function editProject(args) {
       elements = setVar(elements, op.name, op.value === null ? null : n('value', 0, AUTO_MAX));
       return;
     }
+    if (op.op === 'color_var') { // a named color, [light, dark] (modes.js); light: null removes it and its parts keep the color
+      if (!isVarName(op.name)) throw new ToolError(`${at}.name must be lowercase letters, digits or dashes, at most 16`);
+      if (op.light === null) { elements = setColorVar(elements, op.name, null); return; }
+      for (const key of ['light', 'dark']) if (cleanColor(op[key]) === undefined) throw new ToolError(`${at}.${key} must be a color 0 to 15`);
+      if (Object.keys(canvasColors(elements)).length >= VAR_MAX && canvasColors(elements)[op.name] === undefined) throw new ToolError(`a project holds at most ${VAR_MAX} colors`);
+      elements = setColorVar(elements, op.name, [op.light, op.dark]);
+      return;
+    }
+    if (op.op === 'width_var') { // a named width in columns; width: null removes it
+      if (!isVarName(op.name)) throw new ToolError(`${at}.name must be lowercase letters, digits or dashes, at most 16`);
+      if (op.width !== null && Object.keys(canvasWidths(elements)).length >= VAR_MAX && canvasWidths(elements)[op.name] === undefined) throw new ToolError(`a project holds at most ${VAR_MAX} widths`);
+      elements = setWidthVar(elements, op.name, op.width === null ? null : n('width', 1, WIDTH_MAX));
+      return;
+    }
+    if (op.op === 'color_mode') { elements = setColorMode(elements, op.mode); return; } // light or dark, for every bound part
     if (op.op === 'adjust' && op.index === undefined) {
       // A new adjustment layer over an area: invert, dim, ascii or a box style for everything under it.
       if (!ADJUSTMENTS.includes(op.kind)) throw new ToolError(`${at}.kind must be one of ${ADJUSTMENTS.join(', ')}`);
@@ -146,6 +161,11 @@ export function editProject(args) {
     } else if (op.op === 'color') {
       for (const key of ['ink', 'paper']) if (op[key] !== undefined && op[key] !== null && cleanColor(op[key]) === undefined) throw new ToolError(`${at}.${key} must be a color 0 to 15, or null to clear it`);
       elements = updateElement(elements, id, { ink: op.ink, paper: op.paper });
+    } else if (op.op === 'bind') { // a part's ink, paper or width follows a variable; name: null lets go
+      if (!['ink', 'paper', 'width'].includes(op.key)) throw new ToolError(`${at}.key must be ink, paper or width`);
+      const known = op.key === 'width' ? canvasWidths(elements) : canvasColors(elements);
+      if (op.name !== null && known[op.name] === undefined) throw new ToolError(`${at}.name must be a ${op.key === 'width' ? 'width' : 'color'} variable in the project, or null`);
+      elements = updateElement(elements, id, { bind: { key: op.key, name: op.name } });
     } else if (op.op === 'mask') {
       // Insets crop the part; clip names another part by index to show it only inside that part's box.
       const clip = op.clip === undefined ? undefined : op.clip === null ? null : ids[int(op.clip, `${at}.clip`, { min: 0, max: ids.length - 1 })];
