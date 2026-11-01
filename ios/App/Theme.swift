@@ -13,7 +13,7 @@ enum Theme {
     static let canvas = adaptive(0xFFFFFF, 0x1C1C1E)                   // card and canvas
     static let accent = adaptive(0x1D4ED8, 0x5B9BFF)                   // blueprint blue
     static let ink = adaptive(0x1D1D1F, 0xF5F5F7)
-    static let muted = ink.opacity(0.6)
+    static let muted = ink.opacity(0.64) // brand/tokens.css --color-secondary; .6 was just under 4.5:1
     static let rule = adaptive(0x3C3C43, 0xFFFFFF, light: 0.18, dark: 0.16) // hairline
     static let radius: CGFloat = 10
 

@@ -405,7 +405,7 @@ export default function Canvas({
       aria-label={t('canvas_label')}
       onFocus={() => { if (!hoverRef.current) { hoverRef.current = cursorRef.current; draw(hoverRef.current); } }}>
       <div className="sr-only" aria-live="polite">{spoken}</div>
-      <div className="canvas-scroll" ref={scrollRef}>
+      <div className="canvas-scroll" ref={scrollRef} tabIndex={0}>
         <div className="canvas-stage">
         <canvas
           ref={canvasRef}

@@ -39,7 +39,7 @@
   --color-bg:        #F5F5F7;   /* page ground */
   --color-bg2:       #FFFFFF;   /* cards, and the canvas fill read by Canvas.jsx */
   --color-text:      #1D1D1F;
-  --color-secondary: rgba(29, 29, 31, 0.60);
+  --color-secondary: rgba(29, 29, 31, 0.64); /* .60 was 4.46:1 on white; mirrored in ios/App/Theme.swift muted */
   --color-soft:      rgba(29, 29, 31, 0.80);
   --color-hairline:  rgba(60, 60, 67, 0.18);
   --color-code-bg:   #F5F5F7;

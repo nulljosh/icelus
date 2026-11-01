@@ -887,7 +887,7 @@ export default function App() {
 
       {showTour && (
         <div className="tour-overlay" onClick={dismissTour}>
-          <div className="tour-card" onClick={(e) => e.stopPropagation()}>
+          <div className="tour-card" role="dialog" aria-modal="true" aria-label={t('tour_title')} onClick={(e) => e.stopPropagation()}>
             <Boxy size={96} />
             <h2>{t('tour_title')}</h2>
             <p className="tour-lead">{t('tour_lead')}</p>

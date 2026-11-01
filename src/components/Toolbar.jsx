@@ -42,7 +42,7 @@ export default function Toolbar({ selectedPreset, onSelectPreset, isOpen, mine =
     : null;
 
   return (
-    <aside className={`toolbar${isOpen ? ' toolbar--mobile-open' : ''}`}>
+    <aside className={`toolbar${isOpen ? ' toolbar--mobile-open' : ''}`} aria-label={t('add')}>
       <div className="toolbar-search">
         <input
           className="toolbar-search-input"
