@@ -200,6 +200,7 @@ export const TOOLS = [
       properties: {
         project: { type: 'object', description: 'A Icelus project: { blockprint: 1, cols, rows, elements }.' },
         index: { type: 'integer', description: 'Which part, by its place in elements.' },
+        to: { type: 'integer', description: 'Optional second part: adds gap {across, down}, the empty cells between the two (0 where they overlap on that axis).' },
       },
       required: ['project', 'index'],
     },

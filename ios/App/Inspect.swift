@@ -20,3 +20,11 @@ func partSpacing(_ elements: [Element], id: String) -> Spacing? {
         top: near(down.map { el.row - ($0.row + $0.height) }, screen.map { el.row - ($0.row + 1) }),
         bottom: near(down.map { $0.row - (el.row + el.height) }, screen.map { $0.row + $0.height - 1 - (el.row + el.height) }))
 }
+
+/// Measure between any two parts (Figma redlines): empty cells across and down between their boxes, 0 where they
+/// overlap on that axis. Nil when either part is gone. partGap in src/lib/inspect.js is the twin.
+func partGap(_ elements: [Element], _ aId: String, _ bId: String) -> (across: Int, down: Int)? {
+    guard aId != bId, let a = elements.first(where: { $0.id == aId }), let b = elements.first(where: { $0.id == bId }) else { return nil }
+    func gap(_ p: Int, _ ps: Int, _ q: Int, _ qs: Int) -> Int { max(0, q - (p + ps), p - (q + qs)) }
+    return (gap(a.col, a.width, b.col, b.width), gap(a.row, a.height, b.row, b.height))
+}

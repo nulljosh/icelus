@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { t } from '../i18n.js';
-import { partSpacing } from '../lib/inspect.js';
+import { partSpacing, partGap } from '../lib/inspect.js';
 import { partSnippet } from '../lib/code.js';
 
 // Inspect (v50): where the part sits, its size, the gap to its neighbours on each side, and its own code.
 export default function InspectPanel({ el, elements }) {
-  const [format, setFormat] = useState('react'), [copied, setCopied] = useState(false);
+  const [format, setFormat] = useState('react'), [copied, setCopied] = useState(false), [to, setTo] = useState('');
+  const others = elements.filter(o => o.id !== el.id && !o.hidden && !['line', 'adjust', 'paint'].includes(o.presetId));
+  const measured = to ? partGap(elements, el.id, to) : null;
   const gap = partSpacing(elements, el.id), code = partSnippet(el, format);
   const side = v => (v === null ? '–' : v);
   const copy = async () => { try { await navigator.clipboard.writeText(code); setCopied(true); setTimeout(() => setCopied(false), 1500); } catch { /* no clipboard */ } };
@@ -19,6 +21,14 @@ export default function InspectPanel({ el, elements }) {
           ←{side(gap.left)} →{side(gap.right)} ↑{side(gap.top)} ↓{side(gap.bottom)}
         </span>
       </div>
+      <div className="inspector-row">
+        <label className="inspector-key" htmlFor="inspect-to">{t('measure_to')}</label>
+        <select id="inspect-to" className="inspector-select" value={to} onChange={e => setTo(e.target.value)}>
+          <option value="">–</option>
+          {others.map(o => <option key={o.id} value={o.id}>{o.text || o.label}</option>)}
+        </select>
+      </div>
+      {measured && <div className="inspector-row"><span className="inspector-key" /><span className="inspector-value">↔{measured.across} ↕{measured.down}</span></div>}
       <div className="inspector-row">
         <label className="inspector-key" htmlFor="inspect-code">{t('code')}</label>
         <select id="inspect-code" className="inspector-select" value={format} onChange={e => setFormat(e.target.value)}>

@@ -20,6 +20,15 @@ export function partSpacing(elements, id) {
   };
 }
 
+/** Measure between any two parts (Figma redlines): empty cells across and down between their boxes, 0 where they
+ *  overlap on that axis. Null when either part is gone. */
+export function partGap(elements, aId, bId) {
+  const a = elements.find(x => x.id === aId), b = elements.find(x => x.id === bId);
+  if (!a || !b || a === b) return null;
+  const gap = (p, ps, q, qs) => Math.max(0, q - (p + ps), p - (q + qs));
+  return { across: gap(a.col, a.width, b.col, b.width), down: gap(a.row, a.height, b.row, b.height) };
+}
+
 export function inspectPart(elements, id) {
   const el = elements.find(x => x.id === id);
   if (!el) return null;

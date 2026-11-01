@@ -6,6 +6,8 @@ func runInspectChecks() {
     let els = [screen, btn, input, below]
     check(partSpacing(els, id: btn.id) == Spacing(left: 4, right: 9, top: 3, bottom: 5), "inspect: gaps to the nearest part or screen edge")
     check(partSpacing(els, id: input.id)?.left == 9 && partSpacing([btn], id: btn.id) == Spacing() && partSpacing(els, id: "nope") == nil, "inspect: nothing around, no part")
+    let g = partGap(els, btn.id, input.id), d = partGap(els, btn.id, below.id)
+    check(g?.across == 9 && g?.down == 0 && d?.across == 0 && d?.down == 5 && partGap(els, btn.id, btn.id) == nil && partGap(els, btn.id, "nope") == nil, "inspect: measure between two parts")
     check(partSnippet(btn) == "<button type=\"button\">{\"OK\"}</button>" && partSnippet(btn, format: "swiftui").contains("Button {} label: { Text(verbatim: \"OK\") }"), "inspect: one part's code")
     check(partSnippet(screen).contains("<section"), "inspect: a screen's code")
     let evil = updateElement([btn], id: btn.id, text: "\"}</button><script>")[0]

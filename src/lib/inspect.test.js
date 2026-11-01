@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { createElement, updateElement, serializeProject } from './engine.js';
 import { getPreset, SCREEN_TOOL } from './presets.js';
-import { partSpacing, inspectPart } from './inspect.js';
+import { partSpacing, inspectPart, partGap } from './inspect.js';
 import { callTool } from './tools.js';
 
 describe('inspect', () => {
@@ -15,6 +15,16 @@ describe('inspect', () => {
     expect(partSpacing(els, input.id).left).toBe(20 - 11);
     expect(partSpacing([btn], btn.id)).toEqual({ left: null, right: null, top: null, bottom: null }); // nothing around
     expect(partSpacing(els, 'nope')).toBeNull();
+  });
+
+  it('measures between any two parts', () => {
+    expect(partGap(els, btn.id, input.id)).toEqual({ across: 20 - 11, down: 0 });
+    expect(partGap(els, btn.id, below.id)).toEqual({ across: 0, down: 10 - 5 });
+    expect(partGap(els, btn.id, btn.id)).toBeNull();
+    expect(partGap(els, btn.id, 'nope')).toBeNull();
+    const project = JSON.parse(serializeProject({ cols: 60, rows: 30, elements: els }));
+    expect(callTool('inspect_part', { project, index: 1, to: 2 }).gap).toEqual({ across: 9, down: 0 });
+    expect(() => callTool('inspect_part', { project, index: 1, to: 1 })).toThrow();
   });
 
   it('gives the code for one part', () => {

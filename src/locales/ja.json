@@ -311,7 +311,7 @@
  "next": "次へ",
  "slide_count": "{n} / {of}",
  "save_pdf": "PDFとして保存",
- "download_deck": "プレゼンをダウンロード", "download_pptx": "PowerPointをダウンロード",
+ "download_deck": "プレゼンをダウンロード", "download_pptx": "PowerPointをダウンロード", "measure_to": "距離を測る",
  "no_slides": "まず画面を描いてください",
  "part_brush": "ブラシ",
  "part_eraser": "消しゴム",

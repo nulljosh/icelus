@@ -3,7 +3,7 @@
 // wireframe goes in, a wireframe comes out, so there is no database, session store or Durable Object.
 
 import { makeLibrary } from './library.js';
-import { inspectPart } from './inspect.js';
+import { inspectPart, partGap } from './inspect.js';
 import { copyEntries } from './copydeck.js';
 import { startScreen, playPath } from './play.js';
 import { createGrid, gridToText, textToGrid, stampComponent, renderElements, serializeProject, trimText, parseProject } from './engine.js';
@@ -148,7 +148,11 @@ export function callTool(name, rawArgs) {
       if (!project) throw new ToolError('project must be a Icelus project with an elements array');
       const i = args.index;
       if (!Number.isInteger(i) || i < 0 || i >= project.elements.length) throw new ToolError(`index must be 0 to ${project.elements.length - 1}`);
-      return inspectPart(project.elements, project.elements[i].id);
+      const out = inspectPart(project.elements, project.elements[i].id);
+      if (args.to === undefined) return out;
+      const j = args.to;
+      if (!Number.isInteger(j) || j < 0 || j >= project.elements.length || j === i) throw new ToolError(`to must be another part, 0 to ${project.elements.length - 1}`);
+      return { ...out, gap: partGap(project.elements, project.elements[i].id, project.elements[j].id) };
     }
 
     case 'project_to_library': {
