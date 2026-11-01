@@ -51,7 +51,7 @@ export default function Play({ elements, start, onClose }) {
           {view.spots.map(s => (
             <button key={s.id} type="button" className={`play-spot${s.height === 1 ? ' is-row' : ''}`} aria-label={s.label}
               style={box(s)}
-              onClick={e => { e.stopPropagation(); setArrive(s.move ?? null); setTrail(tr => [...tr, s.to].slice(-50)); }} />
+              onClick={e => { e.stopPropagation(); if (s.back) { back(); return; } setArrive(s.move ?? null); setTrail(tr => [...tr, s.to].slice(-50)); }} />
           ))}
         </div>
       </div>

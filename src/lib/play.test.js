@@ -13,6 +13,20 @@ describe('play mode', () => {
   const plain = createElement(getPreset('button'), 42, 8);
   const els = [login, home, hidden, btn, backBtn, plain];
 
+  it('a Back hotspot returns to the screen before, and survives a save', async () => {
+    const goBack = button(4, 26, 'Back', 'back');
+    const all = [...els, goBack];
+    const spot = playView(all, home.id).spots.find(sp => sp.id === goBack.id);
+    expect(spot.back).toBe(true);
+    expect(playPath(all, login.id, [btn.id, goBack.id]).path.map(v => v.title)).toEqual(['Login', 'Home', 'Login']);
+    expect(playPath(all, home.id, [goBack.id]).path.map(v => v.title)).toEqual(['Home', 'Home']); // nothing before: stays
+    const { setOpens } = await import('./hotspots.js');
+    expect(setOpens([plain], plain.id, 'back')[0].opens).toBe('back');
+    const { parseProject } = await import('./engine.js');
+    const back = parseProject(serializeProject({ cols: 120, rows: 40, elements: all })).elements.find(e => e.opens === 'back');
+    expect(back.presetId).toBe('button');
+  });
+
   it('orders screens and picks where to start', () => {
     expect(playScreens(els).map(s => s.text)).toEqual(['Login', 'Home']); // top first, hidden left out
     expect(startScreen(els).id).toBe(login.id);

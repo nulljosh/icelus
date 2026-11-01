@@ -47,6 +47,7 @@ struct PlayView: View {
 
     private func tap(_ view: PlayScreen, _ shown: [Element], _ col: Int, _ row: Int) {
         if let s = spotAt(view, col: col, row: row) {
+            if s.to == backTarget { arrive = nil; if trail.count > 1 { trail.removeLast() }; return }
             arrive = s.move
             withAnimation(reduceMotion || s.move == nil ? nil : .easeOut(duration: 0.28)) { trail = (trail.isEmpty ? [start] : trail) + [s.to] }
             return

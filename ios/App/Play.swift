@@ -23,6 +23,7 @@ func playView(_ elements: [Element], _ screenId: String) -> PlayScreen? {
     guard let screen = elements.first(where: { $0.id == screenId && $0.presetId == "screen" && !$0.hidden }) else { return nil }
     let inside = partsInside(elements, screen).filter { !$0.hidden }.map { carry($0, dCol: -screen.col, dRow: -screen.row) }
     let spots = inside.compactMap { el -> Spot? in
+        if opensBack(el) { return Spot(id: el.id, col: el.col, row: el.row, width: el.width, height: el.height, to: backTarget, label: partWords(el)) }
         guard canOpen(el), let to = opensScreen(elements, el), !to.hidden, to.id != screen.id else { return nil }
         return Spot(id: el.id, col: el.col, row: el.row, width: el.width, height: el.height, to: to.id, label: partWords(el), move: cleanMove(el.move))
     }
@@ -39,12 +40,17 @@ func spotAt(_ view: PlayScreen?, col: Int, row: Int) -> Spot? {
 /// a press was not a hotspot on the screen shown at the time.
 func playPath(_ elements: [Element], start: String, presses: [String]) -> (path: [PlayScreen], error: String?) {
     guard var view = playView(elements, start) else { return ([], "start must be a screen that is shown") }
-    var path = [view]
+    var path = [view], stack = [view]
     for (i, id) in presses.enumerated() {
-        guard let spot = view.spots.first(where: { $0.id == id }), let next = playView(elements, spot.to) else {
-            return (path, "press \(i) is not a hotspot on \(view.title)")
+        guard let spot = view.spots.first(where: { $0.id == id }) else { return (path, "press \(i) is not a hotspot on \(view.title)") }
+        if spot.to == backTarget {
+            if stack.count > 1 { stack.removeLast() }
+            view = stack.last!
+        } else {
+            guard let next = playView(elements, spot.to) else { return (path, "press \(i) is not a hotspot on \(view.title)") }
+            view = next
+            stack.append(view)
         }
-        view = next
         path.append(view)
     }
     return (path, nil)

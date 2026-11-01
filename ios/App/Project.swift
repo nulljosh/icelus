@@ -109,6 +109,7 @@ func parseProject(_ json: String) -> EditorState? {
         state.elements[i].twin = (el["twin"] as? String).flatMap { $0.count <= 64 ? $0 : nil }
         if state.elements[i].presetId == "screen" { state.elements[i].size = (el["size"] as? String).flatMap { s in screenSizes.contains { $0.name == s } ? s : nil } }
         if let old = el["clip"] as? String, let id = ids[old], id != fresh[i] { state.elements[i].clip = id }
+        if el["opens"] as? String == backTarget, canOpen(state.elements[i]) { state.elements[i].opens = backTarget }
         if let old = el["opens"] as? String, let id = ids[old], canOpen(state.elements[i]),
            valid.contains(where: { $0["id"] as? String == old && $0["presetId"] as? String == "screen" }) {
             state.elements[i].opens = id

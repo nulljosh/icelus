@@ -17,15 +17,19 @@ func opensScreen(_ elements: [Element], _ el: Element) -> Element? {
     return elements.first { $0.id == id && $0.presetId == "screen" }
 }
 
-/// Point a part at a screen, or nil to take the link off. Anything but a part and a screen is refused.
+/// Back (prototype actions): `opens == backTarget` returns to the screen before. src/lib/hotspots.js is the twin.
+let backTarget = "back"
+func opensBack(_ el: Element) -> Bool { canOpen(el) && el.opens == backTarget }
+
+/// Point a part at a screen, at backTarget, or nil to take the link off. Anything but a part and a screen is refused.
 func updateElement(_ elements: [Element], id: String, opens screenId: String?) -> [Element] {
     guard let el = elements.first(where: { $0.id == id }), canOpen(el), el.opens != screenId else { return elements }
-    if let screenId, !elements.contains(where: { $0.id == screenId && $0.presetId == "screen" }) { return elements }
+    if let screenId, screenId != backTarget, !elements.contains(where: { $0.id == screenId && $0.presetId == "screen" }) { return elements }
     return elements.map { x in
         guard x.id == id else { return x }
         var next = x
         next.opens = screenId
-        if screenId == nil { next.move = nil }
+        if screenId == nil || screenId == backTarget { next.move = nil }
         return next
     }
 }

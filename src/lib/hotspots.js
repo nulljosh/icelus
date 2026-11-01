@@ -7,6 +7,10 @@ export const canOpen = el => !!el && !NEVER.has(el.presetId);
 export const MOVES = ['push', 'sheet', 'fade'];
 export const cleanMove = m => (MOVES.includes(m) ? m : undefined);
 
+// Back (prototype actions): `opens: 'back'` returns to the screen before, like a navigation bar's back button.
+export const BACK = 'back';
+export const opensBack = el => canOpen(el) && el.opens === BACK;
+
 const isScreen = (elements, id) => elements.some(s => s.id === id && s.presetId === 'screen');
 
 // The screen a part opens, or null when it opens none or that screen is gone.
@@ -19,6 +23,7 @@ export function setOpens(elements, id, screenId) {
   const el = elements.find(x => x.id === id);
   if (!canOpen(el) || el.opens === screenId) return elements;
   if (screenId == null) { const { opens, move, ...rest } = el; return elements.map(x => (x === el ? rest : x)); }
+  if (screenId === BACK) { const { move, ...rest } = el; return elements.map(x => (x === el ? { ...rest, opens: BACK } : x)); }
   return isScreen(elements, screenId) ? elements.map(x => (x === el ? { ...el, opens: screenId } : x)) : elements;
 }
 

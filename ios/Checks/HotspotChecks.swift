@@ -10,6 +10,10 @@ func runHotspotChecks() {
     let els = [login, home, btn]
     let linked = updateElement(els, id: btn.id, opens: home.id)
     check(linked[2].opens == home.id && opensScreen(linked, linked[2])?.id == home.id, "hotspots: a part opens a screen")
+    var backBtn = createElement(presets.first { $0.id == "button" }!, col: 42, row: 4)
+    backBtn.text = "Back"
+    let flow = updateElement(updateElement(linked + [backBtn], id: backBtn.id, opens: backTarget), id: btn.id, opens: home.id)
+    check(opensBack(flow[3]) && playPath(flow, start: login.id, presses: [btn.id, backBtn.id]).path.map(\.title) == ["Login", "Home", "Login"], "hotspots: Back returns to the screen before")
     check(updateElement(linked, id: btn.id, opens: nil)[2].opens == nil, "hotspots: the link comes off")
     check(updateElement(els, id: btn.id, opens: btn.id)[2].opens == nil && updateElement(els, id: btn.id, opens: "nope")[2].opens == nil, "hotspots: only a screen can be opened")
     check(updateElement(els, id: login.id, opens: home.id)[0].opens == nil && !canOpen(nil), "hotspots: screens open nothing")

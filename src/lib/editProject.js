@@ -130,9 +130,9 @@ export function editProject(args) {
     else if (op.op === 'keep') elements = keepVariation(elements, id);
     else if (op.op === 'note') elements = updateElement(elements, id, { note: text(op.note ?? '') });
     else if (op.op === 'opens') { // a hotspot (hotspots.js): the screen a press on the part opens; screen: null takes it off
-      const to = op.screen === null ? null : ids[int(op.screen, `${at}.screen`, { min: 0, max: ids.length - 1 })];
+      const to = op.screen === null ? null : op.screen === 'back' ? 'back' : ids[int(op.screen, `${at}.screen`, { min: 0, max: ids.length - 1 })];
       if (!canOpen(elements.find(el => el.id === id))) throw new ToolError(`${at}.index must be a part, not a screen, line, paint or adjustment`);
-      if (to !== null && !elements.some(el => el.id === to && el.presetId === 'screen')) throw new ToolError(`${at}.screen must be the index of a screen`);
+      if (to !== null && to !== 'back' && !elements.some(el => el.id === to && el.presetId === 'screen')) throw new ToolError(`${at}.screen must be the index of a screen`);
       elements = updateElement(elements, id, { opens: to });
     } else if (op.op === 'move') { // transitions (hotspots.js): how the opened screen arrives; move: null is a plain cut
       if (op.move !== null && !MOVES.includes(op.move)) throw new ToolError(`${at}.move must be one of ${MOVES.join(', ')} or null`);

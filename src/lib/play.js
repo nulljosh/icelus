@@ -1,5 +1,5 @@
 import { partsInside, carry } from './lines.js';
-import { canOpen, opensScreen, partWords } from './hotspots.js';
+import { canOpen, opensScreen, opensBack, partWords } from './hotspots.js';
 import { realPart } from './real.js';
 
 // Play mode (v54): click through linked screens like a real app. One screen is shown on its own, moved to the
@@ -21,6 +21,7 @@ export function playView(elements, screenId) {
   const shift = el => carry(el, -screen.col, -screen.row);
   const inside = partsInside(elements, screen).filter(el => !el.hidden).map(shift);
   const spots = inside.flatMap(el => {
+    if (opensBack(el)) return [{ id: el.id, col: el.col, row: el.row, width: el.width, height: el.height, back: true, label: partWords(el) }];
     const to = canOpen(el) && opensScreen(elements, el);
     return to && !to.hidden && to.id !== screen.id ? [{ id: el.id, col: el.col, row: el.row, width: el.width, height: el.height, to: to.id, label: partWords(el), ...(el.move && { move: el.move }) }] : [];
   });
@@ -36,11 +37,11 @@ export const spotAt = (view, col, row) => view?.spots.findLast(s => col >= s.col
 export function playPath(elements, startId, presses) {
   let view = playView(elements, startId);
   if (!view) return { error: 'start must be a screen that is shown' };
-  const path = [view];
+  const path = [view], stack = [view];
   for (const [i, id] of presses.entries()) {
     const spot = view.spots.find(s => s.id === id);
     if (!spot) return { path, error: `press ${i} is not a hotspot on ${view.title}` };
-    view = playView(elements, spot.to);
+    if (spot.back) { if (stack.length > 1) stack.pop(); view = stack.at(-1); } else { view = playView(elements, spot.to); stack.push(view); }
     path.push(view);
   }
   return { path };
