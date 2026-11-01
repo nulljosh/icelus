@@ -23,6 +23,7 @@ func playView(_ elements: [Element], _ screenId: String) -> PlayScreen? {
     guard let screen = elements.first(where: { $0.id == screenId && $0.presetId == "screen" && !$0.hidden }) else { return nil }
     let inside = partsInside(elements, screen).filter { !$0.hidden }.map { carry($0, dCol: -screen.col, dRow: -screen.row) }
     let spots = inside.compactMap { el -> Spot? in
+        if let url = opensLink(el) { return Spot(id: el.id, col: el.col, row: el.row, width: el.width, height: el.height, to: url, label: partWords(el)) }
         if opensBack(el) { return Spot(id: el.id, col: el.col, row: el.row, width: el.width, height: el.height, to: backTarget, label: partWords(el)) }
         guard canOpen(el), let to = opensScreen(elements, el), !to.hidden, to.id != screen.id else { return nil }
         return Spot(id: el.id, col: el.col, row: el.row, width: el.width, height: el.height, to: to.id, label: partWords(el), move: cleanMove(el.move))
@@ -43,6 +44,7 @@ func playPath(_ elements: [Element], start: String, presses: [String]) -> (path:
     var path = [view], stack = [view]
     for (i, id) in presses.enumerated() {
         guard let spot = view.spots.first(where: { $0.id == id }) else { return (path, "press \(i) is not a hotspot on \(view.title)") }
+        if isLink(spot.to) { continue } // a web link leaves the prototype; the flow stays where it is
         if spot.to == backTarget {
             if stack.count > 1 { stack.removeLast() }
             view = stack.last!

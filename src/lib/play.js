@@ -1,5 +1,5 @@
 import { partsInside, carry } from './lines.js';
-import { canOpen, opensScreen, opensBack, partWords } from './hotspots.js';
+import { canOpen, opensScreen, opensBack, opensLink, partWords } from './hotspots.js';
 import { realPart } from './real.js';
 
 // Play mode (v54): click through linked screens like a real app. One screen is shown on its own, moved to the
@@ -22,6 +22,7 @@ export function playView(elements, screenId) {
   const inside = partsInside(elements, screen).filter(el => !el.hidden).map(shift);
   const spots = inside.flatMap(el => {
     if (opensBack(el)) return [{ id: el.id, col: el.col, row: el.row, width: el.width, height: el.height, back: true, label: partWords(el) }];
+    if (opensLink(el)) return [{ id: el.id, col: el.col, row: el.row, width: el.width, height: el.height, link: el.opens, label: partWords(el) }];
     const to = canOpen(el) && opensScreen(elements, el);
     return to && !to.hidden && to.id !== screen.id ? [{ id: el.id, col: el.col, row: el.row, width: el.width, height: el.height, to: to.id, label: partWords(el), ...(el.move && { move: el.move }) }] : [];
   });
@@ -41,6 +42,7 @@ export function playPath(elements, startId, presses) {
   for (const [i, id] of presses.entries()) {
     const spot = view.spots.find(s => s.id === id);
     if (!spot) return { path, error: `press ${i} is not a hotspot on ${view.title}` };
+    if (spot.link) continue; // a web link leaves the prototype; the flow stays where it is
     if (spot.back) { if (stack.length > 1) stack.pop(); view = stack.at(-1); } else { view = playView(elements, spot.to); stack.push(view); }
     path.push(view);
   }

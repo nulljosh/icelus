@@ -25,6 +25,13 @@ describe('play mode', () => {
     const { parseProject } = await import('./engine.js');
     const back = parseProject(serializeProject({ cols: 120, rows: 40, elements: all })).elements.find(e => e.opens === 'back');
     expect(back.presetId).toBe('button');
+    const web = setOpens([plain], plain.id, 'https://example.com/help')[0];
+    expect(web.opens).toBe('https://example.com/help');
+    expect(setOpens([plain], plain.id, 'javascript:alert(1)')[0].opens).toBeUndefined();
+    const withLink = [...all, { ...goBack, id: 'w', opens: 'https://example.com/help' }];
+    expect(playView(withLink, home.id).spots.find(sp => sp.id === 'w').link).toBe('https://example.com/help');
+    expect(playPath(withLink, home.id, ['w']).path).toHaveLength(1); // a link leaves; the flow stays put
+    expect(parseProject(serializeProject({ cols: 120, rows: 40, elements: [web] })).elements[0].opens).toBe('https://example.com/help');
   });
 
   it('orders screens and picks where to start', () => {

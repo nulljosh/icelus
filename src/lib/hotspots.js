@@ -10,6 +10,9 @@ export const cleanMove = m => (MOVES.includes(m) ? m : undefined);
 // Back (prototype actions): `opens: 'back'` returns to the screen before, like a navigation bar's back button.
 export const BACK = 'back';
 export const opensBack = el => canOpen(el) && el.opens === BACK;
+// Web link (prototype actions): `opens` may be an https address, opened in a new tab while playing.
+export const isLink = v => typeof v === 'string' && v.length <= 500 && /^https:\/\/[^\s<>"']+$/.test(v);
+export const opensLink = el => (canOpen(el) && isLink(el.opens) ? el.opens : null);
 
 const isScreen = (elements, id) => elements.some(s => s.id === id && s.presetId === 'screen');
 
@@ -23,7 +26,7 @@ export function setOpens(elements, id, screenId) {
   const el = elements.find(x => x.id === id);
   if (!canOpen(el) || el.opens === screenId) return elements;
   if (screenId == null) { const { opens, move, ...rest } = el; return elements.map(x => (x === el ? rest : x)); }
-  if (screenId === BACK) { const { move, ...rest } = el; return elements.map(x => (x === el ? { ...rest, opens: BACK } : x)); }
+  if (screenId === BACK || isLink(screenId)) { const { move, ...rest } = el; return elements.map(x => (x === el ? { ...rest, opens: screenId } : x)); }
   return isScreen(elements, screenId) ? elements.map(x => (x === el ? { ...el, opens: screenId } : x)) : elements;
 }
 

@@ -311,7 +311,7 @@
  "next": "Sonraki",
  "slide_count": "{n} / {of}",
  "save_pdf": "PDF olarak kaydet",
- "download_deck": "Sunumu indir", "download_pptx": "PowerPoint indir", "measure_to": "Şuna ölç",
+ "download_deck": "Sunumu indir", "download_pptx": "PowerPoint indir", "measure_to": "Şuna ölç", "web_link": "Web bağlantısı",
  "no_slides": "Önce bir ekran çizin",
  "part_brush": "Fırça",
  "part_eraser": "Silgi",

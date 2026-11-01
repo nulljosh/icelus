@@ -20,16 +20,22 @@ func opensScreen(_ elements: [Element], _ el: Element) -> Element? {
 /// Back (prototype actions): `opens == backTarget` returns to the screen before. src/lib/hotspots.js is the twin.
 let backTarget = "back"
 func opensBack(_ el: Element) -> Bool { canOpen(el) && el.opens == backTarget }
+/// Web link: `opens` may be an https address, opened in the browser while playing.
+func isLink(_ v: String?) -> Bool {
+    guard let v, v.count <= 500, v.hasPrefix("https://"), v.count > 8 else { return false }
+    return !v.contains(where: { $0.isWhitespace || "<>\"'".contains($0) })
+}
+func opensLink(_ el: Element) -> String? { canOpen(el) && isLink(el.opens) ? el.opens : nil }
 
 /// Point a part at a screen, at backTarget, or nil to take the link off. Anything but a part and a screen is refused.
 func updateElement(_ elements: [Element], id: String, opens screenId: String?) -> [Element] {
     guard let el = elements.first(where: { $0.id == id }), canOpen(el), el.opens != screenId else { return elements }
-    if let screenId, screenId != backTarget, !elements.contains(where: { $0.id == screenId && $0.presetId == "screen" }) { return elements }
+    if let screenId, screenId != backTarget, !isLink(screenId), !elements.contains(where: { $0.id == screenId && $0.presetId == "screen" }) { return elements }
     return elements.map { x in
         guard x.id == id else { return x }
         var next = x
         next.opens = screenId
-        if screenId == nil || screenId == backTarget { next.move = nil }
+        if screenId == nil || screenId == backTarget || isLink(screenId) { next.move = nil }
         return next
     }
 }

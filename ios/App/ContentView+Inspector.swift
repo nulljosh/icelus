@@ -151,10 +151,11 @@ extension ContentView {
     @ViewBuilder func hotspotControls(_ el: Element) -> some View {
         let screens = state.elements.filter { $0.presetId == "screen" }
         if canOpen(el), !screens.isEmpty {
-            Picker("Opens", selection: Binding(get: { opensBack(el) ? backTarget : opensScreen(state.elements, el)?.id ?? "" },
+            Picker("Opens", selection: Binding(get: { opensLink(el) ?? (opensBack(el) ? backTarget : opensScreen(state.elements, el)?.id ?? "") },
                                                set: { id in canvasEdit { updateElement($0, id: el.id, opens: id.isEmpty ? nil : id) } })) {
                 Text("Nothing").tag("")
                 Text("Back").tag(backTarget)
+                if let url = opensLink(el) { Text(verbatim: url).tag(url) } // set on the web or by an agent; native editing comes later
                 ForEach(screens, id: \.id) { Text(verbatim: ($0.text ?? "").isEmpty ? "Screen" : $0.text!).tag($0.id) }
             }
             .pickerStyle(.menu).fixedSize()

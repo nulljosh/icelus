@@ -7,6 +7,7 @@ struct PlayView: View {
     let elements: [Element]
     let start: String
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
     @State private var trail: [String] = []
     @State private var hint = false
     @State private var arrive: String? = nil // how the shown screen came in, from the hotspot's move
@@ -47,6 +48,7 @@ struct PlayView: View {
 
     private func tap(_ view: PlayScreen, _ shown: [Element], _ col: Int, _ row: Int) {
         if let s = spotAt(view, col: col, row: row) {
+            if isLink(s.to), let url = URL(string: s.to) { openURL(url); return }
             if s.to == backTarget { arrive = nil; if trail.count > 1 { trail.removeLast() }; return }
             arrive = s.move
             withAnimation(reduceMotion || s.move == nil ? nil : .easeOut(duration: 0.28)) { trail = (trail.isEmpty ? [start] : trail) + [s.to] }
