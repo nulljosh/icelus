@@ -311,7 +311,7 @@
  "next": "Suivant",
  "slide_count": "{n} sur {of}",
  "save_pdf": "Enregistrer en PDF",
- "download_deck": "Télécharger la présentation", "download_pptx": "Télécharger en PowerPoint", "measure_to": "Mesurer jusqu’à", "web_link": "Lien web", "grid_baseline": "Ligne de base", "move_overlay": "Superposition",
+ "download_deck": "Télécharger la présentation", "download_pptx": "Télécharger en PowerPoint", "measure_to": "Mesurer jusqu’à", "web_link": "Lien web", "grid_baseline": "Ligne de base", "grid_style": "Style de grille", "save_grid_style": "Enregistrer sous", "move_overlay": "Superposition",
  "no_slides": "Dessinez d'abord un écran",
  "part_brush": "Pinceau",
  "part_eraser": "Gomme",

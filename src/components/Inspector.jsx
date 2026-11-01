@@ -204,7 +204,7 @@ export default function Inspector({
                 <span className="inspector-value">{t(`size_${el.size.toLowerCase()}`)}</span>
               </div>
             )}
-            {el.presetId === 'screen' && <><Tweaks element={el} elements={elements} onUpdate={onUpdateElement} /><ScreenGrid element={el} onUpdate={onUpdateElement} onEverywhere={onGrid} /></>}
+            {el.presetId === 'screen' && <><Tweaks element={el} elements={elements} onUpdate={onUpdateElement} /><ScreenGrid element={el} elements={elements} onUpdate={onUpdateElement} onEverywhere={onGrid} onCanvas={onCanvas} /></>}
             {el.presetId === 'screen' && (
               <div className="inspector-actions">
                 {onVariations && <button className="btn" onClick={() => onVariations(el.id)}>{t('show_variations')}</button>}

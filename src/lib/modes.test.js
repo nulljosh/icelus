@@ -80,4 +80,15 @@ describe('variables and modes', () => {
     expect((await tool.execute({ name: 'space', value: 1.5 })).error).toBeTruthy();
     expect(sent).toHaveLength(2);
   });
+
+  it('saves a grid under a name on the canvas part, and the name survives a save', async () => {
+    const { setGridStyle, canvasGrids } = await import('./modes.js');
+    const { parseProject, serializeProject } = await import('./engine.js');
+    const styled = setGridStyle([], 'phone', { cols: 4, gutter: 1, baseline: 2 });
+    expect(canvasGrids(styled)).toEqual({ phone: { cols: 4, gutter: 1, baseline: 2 } });
+    expect(canvasGrids(setGridStyle(styled, 'phone', null))).toEqual({});
+    expect(setGridStyle([], 'Bad Name', { cols: 2, gutter: 1 })).toEqual([]);
+    const back = parseProject(serializeProject({ cols: 20, rows: 10, elements: styled }));
+    expect(canvasGrids(back.elements)).toEqual({ phone: { cols: 4, gutter: 1, baseline: 2 } });
+  });
 });

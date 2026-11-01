@@ -37,6 +37,17 @@ extension ContentView {
                         onDecrement: { setGrid(el, ColumnGrid(cols: g.cols, gutter: g.gutter, baseline: max(0, g.baseline - 1))) })
                     .fixedSize()
                 Button("Use on Every Screen") { canvasEdit { gridEverywhere($0, id: el.id) } }
+                let styles = canvasGrids(state.elements)
+                Menu("Grid Style") {
+                    ForEach(styles.keys.sorted(), id: \.self) { k in Button(k) { setGrid(el, styles[k]) } }
+                    if !styles.values.contains(g) {
+                        Button("Save as Style") {
+                            let name = (1...99).map { "grid-\($0)" }.first { styles[$0] == nil } ?? "grid"
+                            canvasEdit { setGridStyle($0, name, g) }
+                        }
+                    }
+                }
+                .fixedSize()
             }
             Picker("Every box", selection: Binding(get: { el.style ?? "single" }, set: { tweak(el, style: $0) })) {
                 ForEach(boxStyles, id: \.self) { Text($0.capitalized).tag($0) }

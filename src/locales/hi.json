@@ -311,7 +311,7 @@
  "next": "अगला",
  "slide_count": "{of} में से {n}",
  "save_pdf": "PDF के रूप में सहेजें",
- "download_deck": "प्रस्तुति डाउनलोड करें", "download_pptx": "PowerPoint डाउनलोड करें", "measure_to": "तक नापें", "web_link": "वेब लिंक", "grid_baseline": "बेसलाइन", "move_overlay": "ओवरले",
+ "download_deck": "प्रस्तुति डाउनलोड करें", "download_pptx": "PowerPoint डाउनलोड करें", "measure_to": "तक नापें", "web_link": "वेब लिंक", "grid_baseline": "बेसलाइन", "grid_style": "ग्रिड शैली", "save_grid_style": "इस नाम से सहेजें", "move_overlay": "ओवरले",
  "no_slides": "पहले एक स्क्रीन बनाएं",
  "part_brush": "ब्रश",
  "part_eraser": "इरेज़र",

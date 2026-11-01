@@ -1,5 +1,6 @@
 import { adjustLayer } from './lines.js';
 import { AUTO_MAX } from './layout.js';
+import { cleanGrid } from './grids.js';
 
 // Variables and modes (v47), after Figma's. One canvas part (an adjustment with `canvas: true`) holds the
 // project's line mode, drawn over everything (renderElements), and its named spacing, which a screen's auto
@@ -19,14 +20,32 @@ export function cleanVars(v) {
 export const canvasPart = elements => elements.find(el => el.canvas);
 export const canvasMode = elements => canvasPart(elements)?.adjust ?? null;
 export const canvasVars = elements => canvasPart(elements)?.vars ?? {};
+export const canvasGrids = elements => canvasPart(elements)?.grids ?? {};
+
+// Named grid styles: a screen's grid saved by name on the canvas part, picked for any screen later. At most 12.
+export function cleanGrids(v) {
+  if (!v || typeof v !== 'object' || Array.isArray(v)) return null;
+  const out = Object.entries(v).sort(([a], [b]) => (a < b ? -1 : 1)).filter(([k, g]) => isVarName(k) && cleanGrid(g)).slice(0, VAR_MAX)
+    .map(([k, g]) => [k, cleanGrid(g)]);
+  return out.length ? Object.fromEntries(out) : null;
+}
 
 // Put the canvas part's mode and vars back; it goes away when it holds neither.
-function withCanvas(elements, mode, vars) {
+function withCanvas(elements, mode, vars, grids = cleanGrids(canvasGrids(elements))) {
   const part = canvasPart(elements), rest = elements.filter(el => !el.canvas);
-  if (!mode && !vars) return part ? rest : elements;
+  if (!mode && !vars && !grids) return part ? rest : elements;
   const base = part ?? { ...adjustLayer(0, 0, 1, 1), label: 'Canvas', canvas: true };
-  const { adjust, vars: _, ...plain } = base;
-  return [...rest, { ...plain, ...(mode && { adjust: mode }), ...(vars && { vars }) }];
+  const { adjust, vars: _, grids: __, ...plain } = base;
+  return [...rest, { ...plain, ...(mode && { adjust: mode }), ...(vars && { vars }), ...(grids && { grids }) }];
+}
+
+// Save a grid under a name, or null to remove the name. Screens that picked it keep their own copy.
+export function setGridStyle(elements, name, grid) {
+  if (!isVarName(name)) return elements;
+  const grids = { ...canvasGrids(elements) };
+  if (grid === null) delete grids[name];
+  else { const g = cleanGrid(grid); if (!g || (grids[name] === undefined && Object.keys(grids).length >= VAR_MAX)) return elements; grids[name] = g; }
+  return withCanvas(elements, canvasMode(elements), cleanVars(canvasVars(elements)), cleanGrids(grids));
 }
 
 export function setMode(elements, mode) {

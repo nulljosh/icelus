@@ -311,7 +311,7 @@
  "next": "Inayofuata",
  "slide_count": "{n} kati ya {of}",
  "save_pdf": "Hifadhi kama PDF",
- "download_deck": "Pakua wasilisho", "download_pptx": "Pakua PowerPoint", "measure_to": "Pima hadi", "web_link": "Kiungo cha wavuti", "grid_baseline": "Mstari wa msingi", "move_overlay": "Juu yake",
+ "download_deck": "Pakua wasilisho", "download_pptx": "Pakua PowerPoint", "measure_to": "Pima hadi", "web_link": "Kiungo cha wavuti", "grid_baseline": "Mstari wa msingi", "grid_style": "Mtindo wa gridi", "save_grid_style": "Hifadhi kama", "move_overlay": "Juu yake",
  "no_slides": "Chora skrini kwanza",
  "part_brush": "Brashi",
  "part_eraser": "Kifutio",

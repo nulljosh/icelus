@@ -311,7 +311,7 @@
  "next": "Далее",
  "slide_count": "{n} из {of}",
  "save_pdf": "Сохранить как PDF",
- "download_deck": "Скачать презентацию", "download_pptx": "Скачать PowerPoint", "measure_to": "Измерить до", "web_link": "Веб-ссылка", "grid_baseline": "Базовая линия", "move_overlay": "Поверх",
+ "download_deck": "Скачать презентацию", "download_pptx": "Скачать PowerPoint", "measure_to": "Измерить до", "web_link": "Веб-ссылка", "grid_baseline": "Базовая линия", "grid_style": "Стиль сетки", "save_grid_style": "Сохранить как", "move_overlay": "Поверх",
  "no_slides": "Сначала нарисуйте экран",
  "part_brush": "Кисть",
  "part_eraser": "Ластик",

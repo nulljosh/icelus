@@ -31,4 +31,9 @@ func runModeChecks() {
     check(canvasMode(back) == "rounded" && canvasVars(back) == ["gutter": 2], "modes: mode and vars survive a save")
     state.elements = updateElement([screen], id: "s", auto: AutoLayout(gap: 1, pad: 2, gapVar: "gutter"))
     check(parseProject(serializeProject(state))?.elements[0].auto == AutoLayout(gap: 1, pad: 2, gapVar: "gutter"), "modes: a bound gap survives a save")
+    let styled = setGridStyle([], "phone", ColumnGrid(cols: 4, gutter: 1, baseline: 2))
+    check(canvasGrids(styled)["phone"]?.baseline == 2 && canvasGrids(setGridStyle(styled, "phone", nil)).isEmpty && setGridStyle([], "Bad Name", ColumnGrid()).isEmpty, "modes: named grid styles")
+    var gs = EditorState(cols: 20, rows: 10)
+    gs.elements = styled
+    check(parseProject(serializeProject(gs))?.elements.first { $0.canvas }?.grids["phone"] == ColumnGrid(cols: 4, gutter: 1, baseline: 2), "modes: grid styles survive a save")
 }

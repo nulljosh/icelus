@@ -200,6 +200,7 @@ struct Element: Equatable, Identifiable {
     var move: String? = nil // how that screen arrives: push, sheet or fade; nil is a cut (Hotspots.swift)
     var live: Int? = nil // a played choice (Play.swift), never saved
     var canvas = false, vars: [String: Int] = [:] // the canvas part: line mode and spacing variables (Modes.swift)
+    var grids: [String: ColumnGrid] = [:] // the canvas part: named grid styles (Modes.swift)
 }
 
 private var nextElementId = 1

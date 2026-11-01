@@ -20,14 +20,32 @@ func cleanVars(_ value: Any?) -> [String: Int] {
 
 func canvasMode(_ elements: [Element]) -> String? { elements.first { $0.canvas }?.adjust }
 func canvasVars(_ elements: [Element]) -> [String: Int] { elements.first { $0.canvas }?.vars ?? [:] }
+func canvasGrids(_ elements: [Element]) -> [String: ColumnGrid] { elements.first { $0.canvas }?.grids ?? [:] }
+
+/// Named grid styles: a screen's grid saved by name on the canvas part, picked for any screen later. At most 12.
+func cleanGrids(_ value: Any?) -> [String: ColumnGrid] {
+    guard let d = value as? [String: Any] else { return [:] }
+    var out: [String: ColumnGrid] = [:]
+    for k in d.keys.sorted() where isVarName(k) && out.count < varMax { if let g = cleanGrid(d[k]) { out[k] = g } }
+    return out
+}
 
 /// Put the canvas part's mode and vars back; it goes away when it holds neither.
-private func withCanvas(_ elements: [Element], _ mode: String?, _ vars: [String: Int]) -> [Element] {
+private func withCanvas(_ elements: [Element], _ mode: String?, _ vars: [String: Int], _ grids: [String: ColumnGrid]? = nil) -> [Element] {
+    let grids = grids ?? canvasGrids(elements)
     let part = elements.first { $0.canvas }, rest = elements.filter { !$0.canvas }
-    guard mode != nil || !vars.isEmpty else { return part == nil ? elements : rest }
+    guard mode != nil || !vars.isEmpty || !grids.isEmpty else { return part == nil ? elements : rest }
     var next = part ?? adjustLayer(col: 0, row: 0, width: 1, height: 1, adjust: "")
-    next.label = "Canvas"; next.canvas = true; next.adjust = mode; next.vars = vars
+    next.label = "Canvas"; next.canvas = true; next.adjust = mode; next.vars = vars; next.grids = grids
     return rest + [next]
+}
+
+/// Save a grid under a name, or nil to remove the name. Screens that picked it keep their own copy.
+func setGridStyle(_ elements: [Element], _ name: String, _ grid: ColumnGrid?) -> [Element] {
+    guard isVarName(name) else { return elements }
+    var grids = canvasGrids(elements)
+    if let grid { guard grids[name] != nil || grids.count < varMax else { return elements }; grids[name] = grid } else { grids[name] = nil }
+    return withCanvas(elements, canvasMode(elements), canvasVars(elements), grids)
 }
 
 func setMode(_ elements: [Element], _ mode: String?) -> [Element] {
