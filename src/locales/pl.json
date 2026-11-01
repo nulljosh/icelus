@@ -311,7 +311,7 @@
  "next": "Następny",
  "slide_count": "{n} z {of}",
  "save_pdf": "Zapisz jako PDF",
- "download_deck": "Pobierz prezentację", "download_pptx": "Pobierz PowerPoint", "measure_to": "Zmierz do", "web_link": "Link do strony",
+ "download_deck": "Pobierz prezentację", "download_pptx": "Pobierz PowerPoint", "measure_to": "Zmierz do", "web_link": "Link do strony", "grid_baseline": "Linia bazowa",
  "no_slides": "Najpierw narysuj ekran",
  "part_brush": "Pędzel",
  "part_eraser": "Gumka",

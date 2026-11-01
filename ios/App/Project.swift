@@ -46,7 +46,7 @@ private func elementJSON(_ e: Element) -> [String: Any] {
     if let opens = e.opens { el["opens"] = opens; if let move = e.move { el["move"] = move } }
     if let blend = e.blend { el["blend"] = blend }
     if let auto = e.auto { el["auto"] = ["gap": auto.gapVar ?? auto.gap as Any, "pad": auto.padVar ?? auto.pad as Any] }
-    if let g = e.grid { el["grid"] = ["cols": g.cols, "gutter": g.gutter] }
+    if let g = e.grid { var d: [String: Any] = ["cols": g.cols, "gutter": g.gutter]; if g.baseline > 0 { d["baseline"] = g.baseline }; el["grid"] = d }
     if e.canvas { el["canvas"] = true; if !e.vars.isEmpty { el["vars"] = e.vars } }
     if let pin = e.pin { el["pin"] = [("x", pin.x), ("y", pin.y)].reduce(into: [String: String]()) { if let v = $1.1 { $0[$1.0] = v } } }
     return el

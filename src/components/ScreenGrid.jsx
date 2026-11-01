@@ -4,7 +4,7 @@ import { GRID_MAX } from '../lib/grids.js';
 // A screen's column grid (v49): columns (0 is off) and the gutter, and one tap to give every screen the same grid.
 export default function ScreenGrid({ element, onUpdate, onEverywhere }) {
   const g = element.grid, cols = g?.cols ?? 0;
-  const set = changes => onUpdate(element.id, { grid: { cols, gutter: g?.gutter ?? 1, ...changes } });
+  const set = changes => onUpdate(element.id, { grid: { cols, gutter: g?.gutter ?? 1, ...(g?.baseline && { baseline: g.baseline }), ...changes } });
   return (
     <>
       <div className="inspector-row">
@@ -19,6 +19,14 @@ export default function ScreenGrid({ element, onUpdate, onEverywhere }) {
           <input id="grid-gutter" className="inspector-range" type="range" min="0" max="8" value={g.gutter}
             onChange={e => set({ gutter: Number(e.target.value) })} />
           <span className="inspector-value">{g.gutter}</span>
+        </div>
+      )}
+      {g && (
+        <div className="inspector-row">
+          <label className="inspector-key" htmlFor="grid-baseline">{t('grid_baseline')}</label>
+          <input id="grid-baseline" className="inspector-range" type="range" min="0" max="8" value={g.baseline ?? 0}
+            onChange={e => set({ baseline: Number(e.target.value) })} />
+          <span className="inspector-value">{g.baseline || t('grid_off')}</span>
         </div>
       )}
       {g && onEverywhere && <button type="button" className="btn history-take" onClick={() => onEverywhere(element.id)}>{t('grid_everywhere')}</button>}

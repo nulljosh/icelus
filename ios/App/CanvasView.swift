@@ -212,6 +212,10 @@ struct CanvasView: View {
                 context.fill(Path(CGRect(x: charW * CGFloat(b.col), y: rowHeight * CGFloat(s.row + 1), width: charW * CGFloat(b.width),
                                          height: rowHeight * CGFloat(s.height - 2))), with: .color(Theme.accent.opacity(0.08)))
             }
+            for r in gridRows(s) { // baselines
+                context.fill(Path(CGRect(x: charW * CGFloat(s.col + 1), y: rowHeight * CGFloat(r), width: charW * CGFloat(s.width - 2),
+                                         height: max(1, rowHeight * 0.08))), with: .color(Theme.accent.opacity(0.16)))
+            }
         }
         for el in parts where el.presetId == "adjust" && !el.hidden && !el.canvas { // an adjustment's area, dashed
             let area = CGRect(x: charW * CGFloat(el.col), y: rowHeight * CGFloat(el.row), width: charW * CGFloat(el.width), height: rowHeight * CGFloat(el.height))

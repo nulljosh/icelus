@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { createElement, updateElement, serializeProject, parseProject, renderElements, gridToText } from './engine.js';
 import { getPreset, SCREEN_TOOL } from './presets.js';
-import { cleanGrid, gridColumns, snapToGrid, gridEverywhere } from './grids.js';
+import { cleanGrid, gridColumns, gridRows, snapToGrid, gridEverywhere } from './grids.js';
 import { snapPosition } from './lines.js';
 import { callTool } from './tools.js';
 
@@ -15,6 +15,19 @@ describe('grids', () => {
     expect(gridColumns(withGrid)).toEqual([{ col: 4, width: 7 }, { col: 13, width: 7 }, { col: 22, width: 7 }, { col: 31, width: 7 }]);
     expect(gridColumns(screen)).toEqual([]);
     expect(gridColumns({ ...withGrid, grid: { cols: 24, gutter: 8 } })).toEqual([]); // does not fit
+  });
+
+  it('baseline rows: every n rows inside the frame, the top of a part snaps to one, they survive a save', () => {
+    const rows = updateElement([screen], screen.id, { grid: { cols: 4, gutter: 2, baseline: 4 } })[0];
+    expect(gridRows(rows)).toEqual([5, 9, 13, 17]); // frame rows 0 and 19, inner 1 to 18
+    expect(gridRows(withGrid)).toEqual([]);
+    expect(cleanGrid({ cols: 4, gutter: 2, baseline: 9 })).toEqual({ cols: 4, gutter: 2 }); // out of range is off
+    const btn = createElement(getPreset('button'), 20, 8);
+    const snapped = snapToGrid([rows, btn], btn.id, { col: 20, row: 8, guideCols: [], guideRows: [] });
+    expect(snapped.row).toBe(9);
+    expect(snapped.guideRows).toContain(9);
+    const back = parseProject(serializeProject({ cols: 60, rows: 30, elements: [rows] }));
+    expect(back.elements[0].grid).toEqual({ cols: 4, gutter: 2, baseline: 4 });
   });
 
   it('cleans bad grids', () => {

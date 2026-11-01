@@ -311,7 +311,7 @@
  "next": "Tiếp",
  "slide_count": "{n} / {of}",
  "save_pdf": "Lưu dạng PDF",
- "download_deck": "Tải bản trình chiếu", "download_pptx": "Tải PowerPoint", "measure_to": "Đo đến", "web_link": "Liên kết web",
+ "download_deck": "Tải bản trình chiếu", "download_pptx": "Tải PowerPoint", "measure_to": "Đo đến", "web_link": "Liên kết web", "grid_baseline": "Đường cơ sở",
  "no_slides": "Hãy vẽ một màn hình trước",
  "part_brush": "Cọ",
  "part_eraser": "Tẩy",

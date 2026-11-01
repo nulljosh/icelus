@@ -1,12 +1,14 @@
 // Grids (v49), after Figma's layout grids. A screen with `grid: {cols, gutter}` shows that many column bands
 // inside its frame, `gutter` cells apart and from the edges, and a dragged part snaps its left or right edge
-// to a band. The grid is never drawn into the text. ios/App/Grids.swift is the twin.
+// to a band. `baseline` (1-8, 0 off) adds rows every that many cells, and a dragged part's top snaps to one.
+// The grid is never drawn into the text. ios/App/Grids.swift is the twin.
 export const GRID_MAX = 24;
 
 export function cleanGrid(g) {
   if (!g || typeof g !== 'object') return null;
   const n = (v, min, max, d) => (Number.isInteger(v) && v >= min && v <= max ? v : d);
-  return { cols: n(g.cols, 1, GRID_MAX, 4), gutter: n(g.gutter, 0, 8, 1) };
+  const baseline = n(g.baseline, 0, 8, 0);
+  return { cols: n(g.cols, 1, GRID_MAX, 4), gutter: n(g.gutter, 0, 8, 1), ...(baseline && { baseline }) };
 }
 
 // The column bands of a screen, in canvas cells: [{col, width}]. Empty when the bands would not fit.
@@ -17,6 +19,15 @@ export function gridColumns(screen) {
   if (width < 1) return [];
   const start = screen.col + 1 + g.gutter + Math.floor((inner - width * g.cols - g.gutter * (g.cols + 1)) / 2); // centred
   return Array.from({ length: g.cols }, (_, i) => ({ col: start + i * (width + g.gutter), width }));
+}
+
+// The baseline rows of a screen, in canvas cells: every `baseline` rows inside the frame. Empty when off.
+export function gridRows(screen) {
+  const b = screen.grid && cleanGrid(screen.grid)?.baseline;
+  if (!b) return [];
+  const out = [];
+  for (let r = screen.row + 1 + b; r < screen.row + screen.height - 1; r += b) out.push(r);
+  return out;
 }
 
 // After snapPosition: a part whose left or right edge comes within reach of a band edge on its screen moves onto it.
@@ -34,7 +45,11 @@ export function snapToGrid(elements, id, snap, reach = 2) {
       if (d <= reach && (!best || d < best.d)) best = { d, col, guide };
     }
   }
-  return best ? { ...snap, col: best.col, guideCols: [...snap.guideCols, best.guide] } : snap;
+  let out = best ? { ...snap, col: best.col, guideCols: [...snap.guideCols, best.guide] } : snap;
+  let row = null;
+  for (const r of gridRows(screen)) { const d = Math.abs(snap.row - r); if (d <= reach && (!row || d < row.d)) row = { d, r }; }
+  if (row) out = { ...out, row: row.r, guideRows: [...(out.guideRows || []), row.r] };
+  return out;
 }
 
 // Every screen takes this screen's grid, or loses its own when it has none.

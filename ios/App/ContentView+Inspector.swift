@@ -25,12 +25,16 @@ extension ContentView {
             }
             let g = el.grid
             Stepper(g.map { "Columns \($0.cols)" } ?? String(localized: "Columns off"),
-                    onIncrement: { setGrid(el, ColumnGrid(cols: min(gridMax, (g?.cols ?? 0) + 1), gutter: g?.gutter ?? 1)) },
-                    onDecrement: { setGrid(el, g.flatMap { $0.cols > 1 ? ColumnGrid(cols: $0.cols - 1, gutter: $0.gutter) : nil }) })
+                    onIncrement: { setGrid(el, ColumnGrid(cols: min(gridMax, (g?.cols ?? 0) + 1), gutter: g?.gutter ?? 1, baseline: g?.baseline ?? 0)) },
+                    onDecrement: { setGrid(el, g.flatMap { $0.cols > 1 ? ColumnGrid(cols: $0.cols - 1, gutter: $0.gutter, baseline: $0.baseline) : nil }) })
                 .fixedSize()
             if let g {
-                Stepper("Gutter \(g.gutter)", onIncrement: { setGrid(el, ColumnGrid(cols: g.cols, gutter: min(8, g.gutter + 1))) },
-                        onDecrement: { setGrid(el, ColumnGrid(cols: g.cols, gutter: max(0, g.gutter - 1))) })
+                Stepper("Gutter \(g.gutter)", onIncrement: { setGrid(el, ColumnGrid(cols: g.cols, gutter: min(8, g.gutter + 1), baseline: g.baseline)) },
+                        onDecrement: { setGrid(el, ColumnGrid(cols: g.cols, gutter: max(0, g.gutter - 1), baseline: g.baseline)) })
+                    .fixedSize()
+                Stepper(g.baseline > 0 ? "Baseline \(g.baseline)" : String(localized: "Baseline off"),
+                        onIncrement: { setGrid(el, ColumnGrid(cols: g.cols, gutter: g.gutter, baseline: min(8, g.baseline + 1))) },
+                        onDecrement: { setGrid(el, ColumnGrid(cols: g.cols, gutter: g.gutter, baseline: max(0, g.baseline - 1))) })
                     .fixedSize()
                 Button("Use on Every Screen") { canvasEdit { gridEverywhere($0, id: el.id) } }
             }

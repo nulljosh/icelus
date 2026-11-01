@@ -3,7 +3,7 @@ import { realPart } from '../lib/real.js';
 import { COLORS } from '../lib/color.js';
 import { shownBox } from '../lib/mask.js';
 import { createElement } from '../lib/engine.js';
-import { gridColumns } from '../lib/grids.js';
+import { gridColumns, gridRows } from '../lib/grids.js';
 import { opensScreen } from '../lib/hotspots.js';
 import './RealLayer.css';
 
@@ -29,6 +29,7 @@ function Part({ el, charW, rowH, byId }) {
     case 'screen': return ( // with its column grid (grids.js) as faint bands on the artboard
       <div className={cls} style={style}><span className="real-frame-name">{p.title}</span>
         {gridColumns(el).map(g => <span key={g.col} className="real-band" style={{ left: (g.col - el.col) * charW, top: rowH, width: g.width * charW, height: (el.height - 2) * rowH }} />)}
+        {gridRows(el).map(r => <span key={`r${r}`} className="real-band" style={{ left: charW, top: (r - el.row) * rowH, width: (el.width - 2) * charW, height: Math.max(1, rowH * 0.08) }} />)}
       </div>
     );
     case 'button': return <div className={cls} style={style}>{p.label}</div>;

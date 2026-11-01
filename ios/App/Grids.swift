@@ -8,6 +8,7 @@ let gridMax = 24
 struct ColumnGrid: Equatable {
     var cols = 4
     var gutter = 1
+    var baseline = 0 // rows every this many cells, 0 off
 }
 
 func cleanGrid(_ value: Any?) -> ColumnGrid? {
@@ -16,7 +17,7 @@ func cleanGrid(_ value: Any?) -> ColumnGrid? {
         guard let v = g[k] as? NSNumber, CFGetTypeID(v) != CFBooleanGetTypeID(), let i = Int(exactly: v.doubleValue), range.contains(i) else { return d }
         return i
     }
-    return ColumnGrid(cols: n("cols", 1...gridMax, 4), gutter: n("gutter", 0...8, 1))
+    return ColumnGrid(cols: n("cols", 1...gridMax, 4), gutter: n("gutter", 0...8, 1), baseline: n("baseline", 0...8, 0))
 }
 
 /// The column bands of a screen, in canvas cells. Empty when the bands would not fit.
@@ -26,6 +27,12 @@ func gridColumns(_ screen: Element) -> [(col: Int, width: Int)] {
     guard width >= 1 else { return [] }
     let start = screen.col + 1 + g.gutter + (screen.width - 2 - width * g.cols - g.gutter * (g.cols + 1)) / 2 // centred
     return (0..<g.cols).map { (start + $0 * (width + g.gutter), width) }
+}
+
+/// The baseline rows of a screen, in canvas cells: every `baseline` rows inside the frame. Empty when off.
+func gridRows(_ screen: Element) -> [Int] {
+    guard let b = screen.grid?.baseline, b > 0 else { return [] }
+    return Array(stride(from: screen.row + 1 + b, to: screen.row + screen.height - 1, by: b))
 }
 
 /// After snapPosition: a part whose left or right edge comes within reach of a band edge on its screen moves onto it.
@@ -42,15 +49,19 @@ func snapToGrid(_ elements: [Element], id: String, _ snap: (col: Int, row: Int, 
             if d <= reach && (best == nil || d < best!.d) { best = (d, col, guide) }
         }
     }
-    guard let best else { return snap }
-    return (best.col, snap.row, snap.guideCols + [best.guide], snap.guideRows)
+    var out = snap
+    if let best { out = (best.col, snap.row, snap.guideCols + [best.guide], snap.guideRows) }
+    if let r = gridRows(screen).min(by: { abs(snap.row - $0) < abs(snap.row - $1) }), abs(snap.row - r) <= reach {
+        out = (out.col, r, out.guideCols, out.guideRows + [r])
+    }
+    return out
 }
 
 func updateElement(_ elements: [Element], id: String, grid: ColumnGrid?) -> [Element] {
     elements.map { el in
         guard el.id == id, el.presetId == "screen" else { return el }
         var next = el
-        next.grid = grid.map { ColumnGrid(cols: max(1, min(gridMax, $0.cols)), gutter: max(0, min(8, $0.gutter))) }
+        next.grid = grid.map { ColumnGrid(cols: max(1, min(gridMax, $0.cols)), gutter: max(0, min(8, $0.gutter)), baseline: max(0, min(8, $0.baseline))) }
         return next
     }
 }

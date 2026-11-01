@@ -311,7 +311,7 @@
  "next": "다음",
  "slide_count": "{n} / {of}",
  "save_pdf": "PDF로 저장",
- "download_deck": "발표 자료 다운로드", "download_pptx": "PowerPoint 다운로드", "measure_to": "거리 측정", "web_link": "웹 링크",
+ "download_deck": "발표 자료 다운로드", "download_pptx": "PowerPoint 다운로드", "measure_to": "거리 측정", "web_link": "웹 링크", "grid_baseline": "기준선",
  "no_slides": "먼저 화면을 그리세요",
  "part_brush": "브러시",
  "part_eraser": "지우개",

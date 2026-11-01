@@ -311,7 +311,7 @@
  "next": "Siguiente",
  "slide_count": "{n} de {of}",
  "save_pdf": "Guardar como PDF",
- "download_deck": "Descargar presentación", "download_pptx": "Descargar PowerPoint", "measure_to": "Medir hasta", "web_link": "Enlace web",
+ "download_deck": "Descargar presentación", "download_pptx": "Descargar PowerPoint", "measure_to": "Medir hasta", "web_link": "Enlace web", "grid_baseline": "Línea base",
  "no_slides": "Dibuja una pantalla primero",
  "part_brush": "Pincel",
  "part_eraser": "Borrador",

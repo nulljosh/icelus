@@ -4,6 +4,10 @@ func runGridChecks() {
     }
     let plain = screen(0, 42)
     let gridded = updateElement([plain], id: plain.id, grid: ColumnGrid(cols: 4, gutter: 2))[0]
+    let lined = updateElement([plain], id: plain.id, grid: ColumnGrid(cols: 4, gutter: 2, baseline: 4))[0]
+    let lineBtn = createElement(presets.first { $0.id == "button" }!, col: 20, row: 8)
+    let snapped = snapToGrid([lined, lineBtn], id: lineBtn.id, (20, 8, [], []))
+    check(gridRows(lined) == [5, 9, 13, 17] && gridRows(gridded).isEmpty && snapped.row == 9 && snapped.guideRows.contains(9) && cleanGrid(["cols": 4, "gutter": 2, "baseline": 9])?.baseline == 0, "grids: baseline rows and snapping")
     check(gridColumns(gridded).map(\.col) == [4, 13, 22, 31] && gridColumns(gridded).allSatisfy { $0.width == 7 }, "grids: column bands inside the frame")
     check(gridColumns(plain).isEmpty && gridColumns(updateElement([plain], id: plain.id, grid: ColumnGrid(cols: 24, gutter: 8))[0]).isEmpty, "grids: no bands when off or when they do not fit")
     check(cleanGrid(["cols": 99, "gutter": -1]) == ColumnGrid(cols: 4, gutter: 1) && cleanGrid("3") == nil && cleanGrid(["cols": true]) == ColumnGrid(), "grids: bad grids cleaned")

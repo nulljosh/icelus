@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { t, partLabel } from '../i18n.js';
 import { drawCell } from '../lib/draw.js';
 import { COLORS } from '../lib/color.js';
-import { gridColumns } from '../lib/grids.js';
+import { gridColumns, gridRows } from '../lib/grids.js';
 import { opensScreen } from '../lib/hotspots.js';
 
 export function token(name, fallback) {
@@ -74,6 +74,7 @@ export function drawMarks(ctx, elements, outlinedIds, charW, charH, accent, sele
   ctx.lineWidth = 1;
   ctx.globalAlpha = 0.08; // a screen's column grid (grids.js): faint bands, never in the text
   for (const s of elements) if (s.presetId === 'screen' && !s.hidden) for (const b of gridColumns(s)) ctx.fillRect(b.col * charW, (s.row + 1) * charH, b.width * charW, (s.height - 2) * charH);
+  for (const s of elements) if (s.presetId === 'screen' && !s.hidden) for (const r of gridRows(s)) ctx.fillRect((s.col + 1) * charW, r * charH, (s.width - 2) * charW, Math.max(1, charH * 0.08)); // baselines
   ctx.globalAlpha = 1;
   for (const el of elements) {
     if (outlinedIds.includes(el.id)) ctx.strokeRect(el.col * charW - 1.5, el.row * charH - 1.5, el.width * charW + 3, el.height * charH + 3);
