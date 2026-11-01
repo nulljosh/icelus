@@ -1,6 +1,7 @@
 import { partsInside, carry } from './lines.js';
 import { canOpen, opensScreen, opensBack, opensLink, partWords } from './hotspots.js';
 import { realPart } from './real.js';
+import { isVarName } from './modes.js';
 
 // Play mode (v54): click through linked screens like a real app. One screen is shown on its own, moved to the
 // top left, and a press on a hotspot (hotspots.js) opens the screen it names. ios/App/Play.swift is the twin.
@@ -114,4 +115,35 @@ export function liveElement(el, state) {
     case 'type': return v ? { ...el, template: el.template.map(l => l.replace(/[^\s─│┌┐└┘[\]()_]/g, ' ')) } : el;
     default: return el;
   }
+}
+
+// Variables in play: a live part with `sets: name` puts its value under that name, and words written {name} on
+// any screen show it while playing. A part nobody touched yet shows its starting value. Never saved.
+export function playVars(elements, state) {
+  const out = {};
+  for (const el of elements) if (el.sets && liveKind(el)) out[el.sets] = liveText(el, now(el, state));
+  return out;
+}
+function liveText(el, v) {
+  switch (liveKind(el)) {
+    case 'tick': case 'pick': case 'flip': return v ? 'Yes' : 'No';
+    case 'choose': return realPart(el)?.items?.[v] ?? String(v);
+    case 'slide': return `${Math.round((v / Math.max(1, [...(el.template[0] ?? '')].length - 1)) * 100)}%`;
+    default: return String(v); // a rating's count, or the typed words
+  }
+}
+// {name} takes the spaces after it as room, so a box's right edge never moves. An unknown name stays as written.
+export function fillVars(el, vars) {
+  if (!el.template.some(l => l.includes('{'))) return el;
+  const template = el.template.map(l => l.replace(/\{([a-z][a-z0-9-]{0,15})\}( *)/g, (m, k, pad) => {
+    if (!(k in vars)) return m;
+    const room = [...m].length, v = [...String(vars[k])].slice(0, room);
+    return v.join('') + ' '.repeat(room - v.length);
+  }));
+  return { ...el, template };
+}
+
+// A live part's variable name; anything that is not a name clears it.
+export function setSets(elements, id, name) {
+  return elements.map(el => { if (el.id !== id) return el; const { sets: _, ...rest } = el; return isVarName(name) ? { ...rest, sets: name } : rest; });
 }

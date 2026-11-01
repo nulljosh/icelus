@@ -374,5 +374,5 @@
  "describe_changing": "Đang sửa {name}",
  "describe_new": "Một màn hình mới",
  "describe_failed": "Không có phản hồi. Thử lại nhé.",
- "color_mode": "Chế độ màu", "add_color_var": "Thêm màu", "add_width_var": "Thêm chiều rộng", "width_var": "Biến chiều rộng"
+ "color_mode": "Chế độ màu", "add_color_var": "Thêm màu", "add_width_var": "Thêm chiều rộng", "width_var": "Biến chiều rộng", "sets_var": "Đặt biến"
 }

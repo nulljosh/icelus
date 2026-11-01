@@ -43,7 +43,7 @@ wedge: every new feature is also an API and MCP tool on the day it ships.
 - [x] (11-01: Inspect "Measure to" on web and native shows the gap across and down; inspect_part takes `to`) Measure between any two parts: hold a key over another part to see the gap between them (Figma redlines).
 - [x] (11-01: Back, web links and Overlay, web and native) More prototype actions: Back, open as an overlay, and open a web link, on press or after a delay (Figma interactions).
 - [ ] Play on a device: open a prototype on a phone from the canvas and see edits land while it plays (Figma mirror).
-- [ ] Variables in play: a typed field or a ticked box sets a value that other screens read and show (Figma prototype variables and conditionals).
+- [x] Variables in play: a typed field or a ticked box sets a value that other screens read and show (Figma prototype variables and conditionals). Done 2026-11-01: a live part gets a Sets Variable name; while playing, words written {name} on any screen show its value (typed words, Yes/No, the chosen item, stars, slider percent), web and native, edit op sets, 26 locales; 387 web tests, 857 Swift checks. Conditionals not done.
 - [ ] Languages side by side: keep each translation as its own copy of the words and flip between them without undo (Figma and Lokalise copy variants).
 
 ### Era 6: Figma, prototype (51 to 60)

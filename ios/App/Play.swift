@@ -154,3 +154,51 @@ func liveElement(_ el: Element, _ state: [String: LiveValue]) -> Element {
     default: return el
     }
 }
+
+/// Variables in play: a live part with `sets` puts its value under that name, and words written {name} on any
+/// screen show it while playing. A part nobody touched yet shows its starting value. Never saved. play.js is the twin.
+func playVars(_ elements: [Element], _ state: [String: LiveValue]) -> [String: String] {
+    var out: [String: String] = [:]
+    for el in elements {
+        guard let name = el.sets, let kind = liveKind(el), let v = state[el.id] ?? liveStart(el) else { continue }
+        switch (kind, v) {
+        case (_, .on(let on)): out[name] = on ? "Yes" : "No"
+        case ("choose", .at(let i)):
+            switch realPart(el) {
+            case .segmented(let items, _), .tabs(let items, _, _): out[name] = i < items.count ? items[i] : String(i)
+            default: out[name] = String(i)
+            }
+        case ("slide", .at(let i)): out[name] = "\(Int((Double(i) / Double(max(1, (el.template.first ?? "").count - 1)) * 100).rounded()))%"
+        case (_, .at(let i)): out[name] = String(i)
+        case (_, .words(let w)): out[name] = w
+        }
+    }
+    return out
+}
+
+/// {name} takes the spaces after it as room, so a box's right edge never moves. An unknown name stays as written.
+func fillVars(_ el: Element, _ vars: [String: String]) -> Element {
+    guard el.template.contains(where: { $0.contains("{") }) else { return el }
+    let re = try! NSRegularExpression(pattern: #"\{([a-z][a-z0-9-]{0,15})\}( *)"#)
+    var out = el
+    out.template = el.template.map { line in
+        var s = line
+        for m in re.matches(in: line, range: NSRange(line.startIndex..., in: line)).reversed() {
+            guard let whole = Range(m.range, in: line), let key = Range(m.range(at: 1), in: line), let v = vars[String(line[key])] else { continue }
+            let room = line[whole].count, shown = String(v.prefix(room))
+            s.replaceSubrange(Range(m.range, in: s)!, with: shown + String(repeating: " ", count: room - shown.count))
+        }
+        return s
+    }
+    return out
+}
+
+/// A live part's variable name, or nil (or anything that is not a name) to clear it.
+func setSets(_ elements: [Element], id: String, _ name: String?) -> [Element] {
+    elements.map { el in
+        guard el.id == id else { return el }
+        var out = el
+        out.sets = name.flatMap { isVarName($0) ? $0 : nil }
+        return out
+    }
+}

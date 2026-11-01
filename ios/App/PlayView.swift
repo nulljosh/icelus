@@ -21,7 +21,7 @@ struct PlayView: View {
             GeometryReader { geo in
                 if let view {
                     let font = min(28, geo.size.width * 0.92 / CGFloat(view.cols) / 0.6, geo.size.height * 0.92 / CGFloat(view.rows) / 1.2)
-                    let shown = view.elements.map { liveElement($0, live) }
+                    let vars = playVars(elements, live), shown = view.elements.map { fillVars(liveElement($0, live), vars) }
                     let grid = renderElements(shown.filter { realPart($0) == nil }, cols: view.cols, rows: view.rows)
                     if arrivals.last == "overlay", trail.count > 1, let under = playView(elements, trail[trail.count - 2]) { // the screen before, dimmed
                         CanvasView(grid: renderElements(under.elements.filter { realPart($0) == nil }, cols: under.cols, rows: under.rows), fontSize: font, onTap: { _, _ in }, real: true, parts: under.elements)

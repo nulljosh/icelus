@@ -374,5 +374,5 @@
  "describe_changing": "Mengubah {name}",
  "describe_new": "Skrin baharu",
  "describe_failed": "Tiada jawapan. Cuba lagi.",
- "color_mode": "Mod warna", "add_color_var": "Tambah warna", "add_width_var": "Tambah lebar", "width_var": "Pemboleh ubah lebar"
+ "color_mode": "Mod warna", "add_color_var": "Tambah warna", "add_width_var": "Tambah lebar", "width_var": "Pemboleh ubah lebar", "sets_var": "Menetapkan pemboleh ubah"
 }

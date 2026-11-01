@@ -13,6 +13,7 @@ import { maxOf } from './extent.js';
 import { cleanColor } from './color.js';
 import { cleanMask } from './mask.js';
 import { bindVar } from './modes.js';
+import { setSets } from './play.js';
 export { serializeProject, parseProject } from './project.js';
 export { ADJUSTMENTS, adjustChar, adjustLayer, renderElements, joinChar, bannerText, lineShape, createLine, routeLines, BOX_STYLES, styleChar, snapPosition, screenFrame, partsInside, screensDocument, accentMask, tableFrame, tableCells, tableText, textCells, CHARTS, chartFrame, chartItems, nodeFrame, SIZED, sequenceFrame, isMessage, treeFrame, isTreeLine, contentFrame,
   groupMates, groupElements, ungroupElements, syncSymbol, makeSymbol, detachSymbol, symbolUses, freshTag, VARIANTS, variantChar } from './lines.js';
@@ -230,7 +231,8 @@ export function updateElement(elements, id, changes) {
   if (changes.opens !== undefined) return setOpens(elements, id, changes.opens); // hotspots.js
   if (changes.move !== undefined) return setMove(elements, id, changes.move); // transitions, hotspots.js
   if (changes.hideLines !== undefined) return setHideLines(elements, id, changes.hideLines); // lines.js
-  if (changes.bind) return bindVar(elements, id, changes.bind.key, changes.bind.name); // color and width variables, modes.js
+  if (changes.bind) return bindVar(elements, id, changes.bind.key, changes.bind.name); // modes.js
+  if (changes.sets !== undefined) return setSets(elements, id, changes.sets); // play.js
   // Owning words or style on a symbol copy; letting go pulls the shared ones back in from another copy.
   if (changes.own !== undefined) {
     const out = elements.map(el => { if (el.id !== id) return el; const { own, ...rest } = el, o = cleanOwn(changes.own); return o.length ? { ...rest, own: o } : rest; });
@@ -257,7 +259,7 @@ function updateOne(elements, id, changes) {
         if (changes[key] === undefined) continue;
         const v = cleanColor(changes[key]);
         if (v === undefined) delete next[key]; else next[key] = v;
-        delete next[`${key}Var`]; // a color picked by hand lets go of its variable (modes.js)
+        delete next[`${key}Var`]; // picked by hand: unbound
       }
       return next;
     }

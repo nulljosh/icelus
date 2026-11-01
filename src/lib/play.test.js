@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { createElement, updateElement, serializeProject } from './engine.js';
+import { createElement, updateElement, serializeProject, parseProject } from './engine.js';
 import { getPreset, SCREEN_TOOL } from './presets.js';
-import { playScreens, startScreen, playView, spotAt, playPath, liveKind, liveStart, pressLive, typeLive, liveElement, TYPE_MAX } from './play.js';
+import { playScreens, startScreen, playView, spotAt, playPath, liveKind, liveStart, pressLive, typeLive, liveElement, TYPE_MAX, playVars, fillVars } from './play.js';
 import { realPart } from './real.js';
 import { callTool } from './tools.js';
 
@@ -152,5 +152,33 @@ describe('play transitions (v56)', () => {
     const els = updateElement([a, b, btn], btn.id, { opens: b.id });
     expect(playView(els, a.id).spots[0].move).toBeUndefined();
     expect(playView(updateElement(els, btn.id, { move: 'fade' }), a.id).spots[0].move).toBe('fade');
+  });
+});
+
+describe('variables in play', () => {
+  const part = (presetId, template, extra = {}) => ({ id: presetId + extra.id, presetId, label: presetId, template, width: [...template[0]].length, height: template.length, col: 0, row: 0, ...extra });
+  const box = part('checkbox', ['[ ] Send me news'], { id: 1, sets: 'news' });
+  const field = part('input', ['┌──────────┐', '│          │', '└──────────┘'], { id: 2, sets: 'name' });
+  const words = part('text', ['Hi {name}    !', 'News: {news}'], { id: 3 });
+
+  it('a live part puts its value under its name, starting value before any press', () => {
+    expect(playVars([box, field, words], {})).toEqual({ news: 'No', name: '' });
+    expect(playVars([box, field, words], { [box.id]: true, [field.id]: 'Ada' })).toEqual({ news: 'Yes', name: 'Ada' });
+  });
+
+  it('{name} shows the value and keeps the line the same width', () => {
+    const out = fillVars(words, { name: 'Ada', news: 'Yes' });
+    expect(out.template[0]).toBe('Hi Ada       !');
+    expect([...out.template[0]].length).toBe([...words.template[0]].length);
+    expect(out.template[1]).toBe('News: Yes   ');
+    expect(fillVars(words, {}).template).toEqual(words.template); // unknown names stay as written
+    expect(fillVars(words, { name: 'A very long name' }).template[0]).toBe('Hi A very lon!');
+  });
+
+  it('a part with no live kind sets nothing, and a project file keeps the name', () => {
+    expect(playVars([{ ...words, sets: 'x' }], {})).toEqual({});
+    const back = parseProject(JSON.stringify({ blockprint: 1, cols: 30, rows: 10, elements: [box, { ...words, sets: 'Bad Name' }] })).elements;
+    expect(back[0].sets).toBe('news');
+    expect(back[1].sets).toBeUndefined();
   });
 });

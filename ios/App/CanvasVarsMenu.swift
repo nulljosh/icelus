@@ -55,3 +55,28 @@ struct CanvasVarsMenu: View {
         return (2...99).map { "\(base)-\($0)" }.first { !set.contains($0) } ?? "\(base)-0"
     }
 }
+
+/// A live part's variable name for play (Play.swift). Saved on Return or when focus leaves, so typing is one undo step.
+struct SetsField: View {
+    let value: String?
+    let save: (String?) -> Void
+    @State private var draft = ""
+    @FocusState private var focused: Bool
+
+    var body: some View {
+        TextField("Sets Variable", text: $draft, prompt: Text(verbatim: "name"))
+            .textFieldStyle(.roundedBorder)
+            .frame(maxWidth: 160)
+            .autocorrectionDisabled()
+            .focused($focused)
+            .onAppear { draft = value ?? "" }
+            .onChange(of: value) { _, v in draft = v ?? "" }
+            .onSubmit(commit)
+            .onChange(of: focused) { _, on in if !on { commit() } }
+    }
+
+    private func commit() {
+        let v = draft.trimmingCharacters(in: .whitespaces).lowercased()
+        if v != (value ?? "") { save(v.isEmpty ? nil : v) }
+    }
+}

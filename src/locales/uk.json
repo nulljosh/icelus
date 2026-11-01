@@ -374,5 +374,5 @@
  "describe_changing": "Змінюю {name}",
  "describe_new": "Новий екран",
  "describe_failed": "Немає відповіді. Спробуйте ще раз.",
- "color_mode": "Режим кольору", "add_color_var": "Додати колір", "add_width_var": "Додати ширину", "width_var": "Змінна ширини"
+ "color_mode": "Режим кольору", "add_color_var": "Додати колір", "add_width_var": "Додати ширину", "width_var": "Змінна ширини", "sets_var": "Задає змінну"
 }

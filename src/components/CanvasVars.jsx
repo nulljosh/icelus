@@ -1,6 +1,7 @@
 import { t } from '../i18n.js';
 import { VAR_MAX, WIDTH_MAX, canvasColors, canvasWidths, colorMode } from '../lib/modes.js';
 import { COLORS } from '../lib/color.js';
+import { liveKind } from '../lib/play.js';
 
 // Color and width variables (modes.js): named colors with a light and a dark value, the color mode that picks
 // between them, and named widths. Parts bind to them in the inspector.
@@ -53,17 +54,24 @@ export default function CanvasVars({ elements, onCanvas }) {
   );
 }
 
-// A part's width bound to a named width, shown only once the project has one.
-export function WidthBind({ el, elements, onUpdate }) {
+// A part's width bound to a named width, shown once the project has one, and for a live part the variable it
+// sets while playing (play.js), which words written {name} on any screen show.
+export function VarRows({ el, elements, onUpdate }) {
   const names = Object.keys(canvasWidths(elements));
-  if (!names.length) return null;
   return (
-    <div className="inspector-row">
-      <label className="inspector-key" htmlFor="width-var">{t('width_var')}</label>
-      <select id="width-var" className="inspector-select" value={el.widthVar ?? ''} onChange={e => onUpdate(el.id, { bind: { key: 'width', name: e.target.value || null } })}>
-        <option value="">{t('color_none')}</option>
-        {names.map(n => <option key={n} value={n}>{n}</option>)}
-      </select>
-    </div>
+    <>
+      {names.length > 0 && <div className="inspector-row">
+        <label className="inspector-key" htmlFor="width-var">{t('width_var')}</label>
+        <select id="width-var" className="inspector-select" value={el.widthVar ?? ''} onChange={e => onUpdate(el.id, { bind: { key: 'width', name: e.target.value || null } })}>
+          <option value="">{t('color_none')}</option>
+          {names.map(n => <option key={n} value={n}>{n}</option>)}
+        </select>
+      </div>}
+      {liveKind(el) && <div className="inspector-row">
+        <label className="inspector-key" htmlFor="sets-var">{t('sets_var')}</label>
+        <input key={el.id} id="sets-var" className="inspector-input" defaultValue={el.sets ?? ''} placeholder="name" maxLength={16} spellCheck={false}
+          onBlur={e => { const v = e.target.value.trim().toLowerCase(); if (v !== (el.sets ?? '')) onUpdate(el.id, { sets: v || null }); }} />
+      </div>}
+    </>
   );
 }

@@ -374,5 +374,5 @@
  "describe_changing": "تغییر {name}",
  "describe_new": "یک صفحهٔ تازه",
  "describe_failed": "پاسخی نیامد. دوباره امتحان کنید.",
- "color_mode": "حالت رنگ", "add_color_var": "افزودن رنگ", "add_width_var": "افزودن عرض", "width_var": "متغیر عرض"
+ "color_mode": "حالت رنگ", "add_color_var": "افزودن رنگ", "add_width_var": "افزودن عرض", "width_var": "متغیر عرض", "sets_var": "متغیر را تنظیم می‌کند"
 }

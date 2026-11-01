@@ -15,7 +15,7 @@ import ScreenGrid from './ScreenGrid.jsx';
 import InspectPanel from './InspectPanel.jsx';
 import HotspotPicker from './HotspotPicker.jsx';
 import { canvasVars, knobValue, canvasColors } from '../lib/modes.js';
-import { colorName, WidthBind } from './CanvasVars.jsx';
+import { colorName, VarRows } from './CanvasVars.jsx';
 import ReviewList from './ReviewList.jsx';
 import { screenTweaks } from '../lib/tweaks.js';
 
@@ -269,7 +269,7 @@ export default function Inspector({
                 </select>
               </div>
             ))}
-            <WidthBind el={el} elements={elements} onUpdate={onUpdateElement} />
+            <VarRows el={el} elements={elements} onUpdate={onUpdateElement} />
             <div className="inspector-row">
               <label className="inspector-key" htmlFor="blend">{t('blend')}</label>
               <select id="blend" className="inspector-select" value={el.blend ?? 'join'} onChange={e => onUpdateElement(el.id, { blend: e.target.value })}>

@@ -44,6 +44,7 @@ private func elementJSON(_ e: Element) -> [String: Any] {
     if let v = e.inkVar { el["inkVar"] = v }
     if let v = e.paperVar { el["paperVar"] = v }
     if let v = e.widthVar { el["widthVar"] = v }
+    if let v = e.sets { el["sets"] = v }
     if let adjust = e.adjust { el["adjust"] = adjust }
     if let m = e.mask { el["mask"] = ["top": m.top, "right": m.right, "bottom": m.bottom, "left": m.left] }
     if let clip = e.clip { el["clip"] = clip }
@@ -121,6 +122,7 @@ func parseProject(_ json: String) -> EditorState? {
         state.elements[i].inkVar = (el["inkVar"] as? String).flatMap { isVarName($0) ? $0 : nil }
         state.elements[i].paperVar = (el["paperVar"] as? String).flatMap { isVarName($0) ? $0 : nil }
         state.elements[i].widthVar = (el["widthVar"] as? String).flatMap { isVarName($0) ? $0 : nil }
+        state.elements[i].sets = (el["sets"] as? String).flatMap { isVarName($0) ? $0 : nil }
         if state.elements[i].presetId == "adjust" && el["canvas"] as? Bool == true { state.elements[i].canvas = true; state.elements[i].vars = cleanVars(el["vars"]); state.elements[i].grids = cleanGrids(el["grids"]); state.elements[i].colors = cleanColorVars(el["colors"]); state.elements[i].widths = cleanWidthVars(el["widths"]); state.elements[i].colorMode = el["colorMode"] as? String == "dark" ? "dark" : nil }
         if state.elements[i].symbol != nil {
             state.elements[i].own = cleanOwn(el["own"])

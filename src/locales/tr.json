@@ -374,5 +374,5 @@
  "describe_changing": "{name} değiştiriliyor",
  "describe_new": "Yeni bir ekran",
  "describe_failed": "Yanıt gelmedi. Tekrar deneyin.",
- "color_mode": "Renk modu", "add_color_var": "Renk ekle", "add_width_var": "Genişlik ekle", "width_var": "Genişlik değişkeni"
+ "color_mode": "Renk modu", "add_color_var": "Renk ekle", "add_width_var": "Genişlik ekle", "width_var": "Genişlik değişkeni", "sets_var": "Değişkeni ayarlar"
 }

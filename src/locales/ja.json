@@ -374,5 +374,5 @@
  "describe_changing": "{name} を変更中",
  "describe_new": "新しい画面",
  "describe_failed": "応答がありません。もう一度お試しください。",
- "color_mode": "カラーモード", "add_color_var": "色を追加", "add_width_var": "幅を追加", "width_var": "幅の変数"
+ "color_mode": "カラーモード", "add_color_var": "色を追加", "add_width_var": "幅を追加", "width_var": "幅の変数", "sets_var": "変数を設定"
 }

@@ -53,7 +53,7 @@ export function parseProject(json) {
       ...(el.presetId === 'adjust' && ADJUSTMENTS.includes(el.adjust) && { adjust: el.adjust }),
       ...(el.presetId === 'adjust' && el.canvas === true && { canvas: true, ...(cleanVars(el.vars) && { vars: cleanVars(el.vars) }), ...(cleanGrids(el.grids) && { grids: cleanGrids(el.grids) }),
         ...(cleanColorVars(el.colors) && { colors: cleanColorVars(el.colors) }), ...(cleanWidthVars(el.widths) && { widths: cleanWidthVars(el.widths) }), ...(el.colorMode === 'dark' && { colorMode: 'dark' }) }),
-      ...Object.fromEntries(['inkVar', 'paperVar', 'widthVar'].filter(k => isVarName(el[k])).map(k => [k, el[k]])),
+      ...Object.fromEntries(['inkVar', 'paperVar', 'widthVar', 'sets'].filter(k => isVarName(el[k])).map(k => [k, el[k]])),
       ...(cleanColor(el.ink) !== undefined && { ink: el.ink }),
       ...(cleanColor(el.paper) !== undefined && { paper: el.paper }),
       ...(cleanMask(el.mask) && { mask: cleanMask(el.mask) }),

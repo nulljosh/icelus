@@ -161,6 +161,9 @@ export function editProject(args) {
     } else if (op.op === 'color') {
       for (const key of ['ink', 'paper']) if (op[key] !== undefined && op[key] !== null && cleanColor(op[key]) === undefined) throw new ToolError(`${at}.${key} must be a color 0 to 15, or null to clear it`);
       elements = updateElement(elements, id, { ink: op.ink, paper: op.paper });
+    } else if (op.op === 'sets') { // a live part's variable for play: {name} words show its value; name: null clears it
+      if (op.name !== null && !isVarName(op.name)) throw new ToolError(`${at}.name must be lowercase letters, digits or dashes, at most 16, or null`);
+      elements = updateElement(elements, id, { sets: op.name });
     } else if (op.op === 'bind') { // a part's ink, paper or width follows a variable; name: null lets go
       if (!['ink', 'paper', 'width'].includes(op.key)) throw new ToolError(`${at}.key must be ink, paper or width`);
       const known = op.key === 'width' ? canvasWidths(elements) : canvasColors(elements);

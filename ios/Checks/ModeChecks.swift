@@ -64,4 +64,15 @@ func runModeChecks() {
     check(canvasColors(vb) == ["brand": [1, 9]] && canvasWidths(vb) == ["col": 24] && colorMode(vb) == "dark" && canvasMode(vb) == "heavy", "variables: canvas fields survive a save")
     check(p1?.inkVar == "brand" && p1?.widthVar == "col" && p1?.ink == 9 && p1?.width == 24, "variables: bindings survive a save")
     check(cleanColorVars(["ok": [1, 2], "bad": [1, 99], "Bad Name": [1, 2], "flag": [true, 1]]) == ["ok": [1, 2]] && cleanWidthVars(["w": 10, "z": 0, "big": 900]) == ["w": 10], "variables: files are cleaned")
+    // Variables in play (Play.swift): a live part puts its value under its name; {name} shows it, same width.
+    var vbox = part("checkbox", 0, 0); vbox.sets = "news"
+    let vwords = Element(id: "w", presetId: "text", label: "Text", template: ["Hi {name}    !", "News: {news}"], width: 14, height: 2, col: 0, row: 3)
+    check(playVars([vbox, vwords], [:]) == ["news": "Yes"] && playVars([vbox], [vbox.id: .on(false)]) == ["news": "No"], "play vars: start value (the preset starts ticked), then the pressed value")
+    let filled = fillVars(vwords, ["name": "Ada", "news": "Yes"])
+    check(filled.template == ["Hi Ada       !", "News: Yes   "], "play vars: {name} shows the value and keeps the width")
+    check(fillVars(vwords, [:]).template == vwords.template && fillVars(vwords, ["name": "A very long name"]).template[0] == "Hi A very lon!", "play vars: unknown names stay, long values are cut to the room")
+    check(setSets([vbox], id: vbox.id, "Bad Name")[0].sets == nil && setSets([vbox], id: vbox.id, "who")[0].sets == "who", "play vars: names are checked")
+    var ps = EditorState(cols: 30, rows: 10)
+    ps.elements = [vbox]
+    check(parseProject(serializeProject(ps))?.elements[0].sets == "news", "play vars: the name survives a save")
 }

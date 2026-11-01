@@ -4,7 +4,7 @@ import RealLayer from './RealLayer.jsx';
 import { FONT_FAMILY, measureCharWidth } from './canvasHelpers.js';
 import { renderElements, gridToText } from '../lib/engine.js';
 import { realPart } from '../lib/real.js';
-import { playView, liveKind, liveStart, liveElement, pressLive, typeLive, TYPE_MAX } from '../lib/play.js';
+import { playView, liveKind, liveStart, liveElement, pressLive, typeLive, TYPE_MAX, playVars, fillVars } from '../lib/play.js';
 import { partWords } from '../lib/hotspots.js';
 import { t } from '../i18n.js';
 import './Present.css';
@@ -36,7 +36,7 @@ export default function Play({ elements, start, onClose }) {
   const base = measureCharWidth(14, FONT_FAMILY()) / 14; // a character's width per point of type
   const font = Math.min(28, (size.w - 32) / view.cols / base, (size.h - 128) / view.rows / (20 / 14));
   const charW = base * font, rowH = font * 20 / 14;
-  const shown = view.elements.map(el => liveElement(el, live));
+  const vars = playVars(elements, live), shown = view.elements.map(el => fillVars(liveElement(el, live), vars));
   const text = gridToText(renderElements(shown.filter(el => !realPart(el)), view.cols, view.rows));
   const spotIds = new Set(view.spots.map(s => s.id));
   const box = el => ({ left: el.col * charW, width: el.width * charW, ...(el.height === 1 // as tall as the real one-row control

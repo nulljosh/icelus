@@ -204,6 +204,7 @@ struct Element: Equatable, Identifiable {
     var grids: [String: ColumnGrid] = [:] // the canvas part: named grid styles (Modes.swift)
     var colors: [String: [Int]] = [:], widths: [String: Int] = [:], colorMode: String? = nil // the canvas part: color and width variables (Modes.swift)
     var inkVar: String? = nil, paperVar: String? = nil, widthVar: String? = nil // bound to a variable (Modes.swift)
+    var sets: String? = nil // a live part's variable while playing (Play.swift)
 }
 
 private var nextElementId = 1
