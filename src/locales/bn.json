@@ -374,5 +374,5 @@
  "describe_changing": "{name} বদলাচ্ছি",
  "describe_new": "নতুন স্ক্রিন",
  "describe_failed": "উত্তর আসেনি। আবার চেষ্টা করুন।",
- "color_mode": "রঙের মোড", "add_color_var": "রঙ যোগ করুন", "add_width_var": "প্রস্থ যোগ করুন", "width_var": "প্রস্থ ভেরিয়েবল", "sets_var": "ভেরিয়েবল সেট করে", "describe_area": "বাছাই করা জায়গায়, {w} বাই {h}"
+ "color_mode": "রঙের মোড", "add_color_var": "রঙ যোগ করুন", "add_width_var": "প্রস্থ যোগ করুন", "width_var": "প্রস্থ ভেরিয়েবল", "sets_var": "ভেরিয়েবল সেট করে", "describe_area": "বাছাই করা জায়গায়, {w} বাই {h}", "describe_notes": "Claude-এর জন্য {n}টি নোট সঙ্গে যাবে"
 }

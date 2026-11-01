@@ -374,5 +374,5 @@
  "describe_changing": "Ninabadilisha {name}",
  "describe_new": "Skrini mpya",
  "describe_failed": "Hakuna jibu. Jaribu tena.",
- "color_mode": "Hali ya rangi", "add_color_var": "Ongeza rangi", "add_width_var": "Ongeza upana", "width_var": "Kigeu cha upana", "sets_var": "Huweka kigeu", "describe_area": "Ndani ya eneo lililochaguliwa, {w} kwa {h}"
+ "color_mode": "Hali ya rangi", "add_color_var": "Ongeza rangi", "add_width_var": "Ongeza upana", "width_var": "Kigeu cha upana", "sets_var": "Huweka kigeu", "describe_area": "Ndani ya eneo lililochaguliwa, {w} kwa {h}", "describe_notes": "Maelezo {n} kwa Claude yanaenda pamoja"
 }

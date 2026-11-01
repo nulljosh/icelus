@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { describeMessages, cleanReply, MAX_MESSAGE, cellArea, areaHint, intoArea } from './describe.js';
+import { describeMessages, cleanReply, MAX_MESSAGE, cellArea, areaHint, intoArea, claudeNotes, notesAsk } from './describe.js';
 
 describe('describe it', () => {
   it('builds the rules, recent turns and the ask', () => {
@@ -49,5 +49,17 @@ describe('describe into a selection, server side', () => {
     expect(sys).toMatch(/23 columns and 6 rows/);
     expect(sys).not.toMatch(/every form an error/);
     expect(describeMessages('two buttons', { area: { width: 'x', height: 6 } })[0].content).toMatch(/every form an error/); // bad area, normal rules
+  });
+});
+
+describe('notes Claude acts on', () => {
+  const parts = [{ note: '@claude make this a dropdown' }, { note: 'Claude: add a Forgot password link' }, { note: 'ask Ada about copy' }, {}];
+  it('only notes addressed to Claude are picked, without the address', () => {
+    expect(claudeNotes(parts)).toEqual(['make this a dropdown', 'add a Forgot password link']);
+  });
+  it('they ride along with the ask, or are the ask when nothing was typed', () => {
+    expect(notesAsk('make it dark', ['add a link'])).toBe('make it dark\nAlso do what these notes on the screen ask:\n- add a link');
+    expect(notesAsk('', ['add a link'])).toBe('Also do what these notes on the screen ask:\n- add a link');
+    expect(notesAsk('make it dark', [])).toBe('make it dark');
   });
 });

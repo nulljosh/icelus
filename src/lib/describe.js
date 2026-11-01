@@ -61,3 +61,10 @@ export function intoArea(all, area) {
   const dCol = area.col - Math.min(...parts.map(p => p.col)), dRow = area.row - Math.min(...parts.map(p => p.row));
   return parts.map(p => ({ ...p, col: p.col + dCol, row: p.row + dRow }));
 }
+
+// Notes Claude acts on: a note on the screen being changed that starts "@claude" or "Claude:" is sent with the ask.
+// Describe redraws the whole screen, so the noted parts are replaced and the notes are resolved by the change itself.
+const FOR_CLAUDE = /^\s*(?:@claude\b[:,]?|claude[:,])\s*/i;
+export const claudeNotes = parts => parts.filter(p => FOR_CLAUDE.test(p.note ?? '')).map(p => p.note.replace(FOR_CLAUDE, '').trim()).filter(Boolean);
+export const notesAsk = (message, notes) => [String(message ?? '').trim(),
+  ...(notes.length ? [`Also do what these notes on the screen ask:\n${notes.map(n => `- ${n}`).join('\n')}`] : [])].filter(Boolean).join('\n');

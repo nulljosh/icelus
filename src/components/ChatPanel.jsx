@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
-import { areaHint } from '../lib/describe.js';
+import { areaHint, notesAsk } from '../lib/describe.js';
 import { t } from '../i18n.js';
 import './ChatPanel.css';
 
 // Describe it: say what a screen is for and a model draws it. With a screen picked, say what to change and
 // it redraws that screen. Each answer is typed lines the app parses, so it lands like any screen template.
-export default function ChatPanel({ onClose, onScreen, current, currentName, area }) {
+export default function ChatPanel({ onClose, onScreen, current, currentName, area, notes = [] }) {
   const [turns, setTurns] = useState([]); // [{ role, content }], content is typed lines for the assistant
   const [draft, setDraft] = useState('');
   const [busy, setBusy] = useState(false);
@@ -15,7 +15,7 @@ export default function ChatPanel({ onClose, onScreen, current, currentName, are
 
   async function send(e) {
     e.preventDefault();
-    const message = draft.trim();
+    const todo = area ? [] : notes, message = notesAsk(draft, todo); // notes for Claude ride along (describe.js)
     if (!message || busy) return;
     setBusy(true); setProblem('');
     const history = turns.slice(-6);
@@ -55,7 +55,8 @@ export default function ChatPanel({ onClose, onScreen, current, currentName, are
         <p className="chat-target">{area ? t('describe_area', { w: area.width, h: area.height }) : currentName ? t('describe_changing', { name: currentName }) : t('describe_new')}</p>
         <textarea id="chat-input" className="chat-input" rows={3} maxLength={2000} value={draft} placeholder={t('describe_placeholder')}
           onChange={e => setDraft(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) send(e); }} aria-label={t('describe_title')} />
-        <button type="submit" className="btn btn-primary" disabled={busy || !draft.trim()}>{t('send')}</button>
+        {!area && notes.length > 0 && <p className="chat-target">{t('describe_notes', { n: notes.length })}</p>}
+        <button type="submit" className="btn btn-primary" disabled={busy || (!draft.trim() && (area || !notes.length))}>{t('send')}</button>
       </form>
     </aside>
   );

@@ -374,5 +374,5 @@
  "describe_changing": "กำลังแก้ {name}",
  "describe_new": "หน้าจอใหม่",
  "describe_failed": "ไม่มีคำตอบ ลองอีกครั้ง",
- "color_mode": "โหมดสี", "add_color_var": "เพิ่มสี", "add_width_var": "เพิ่มความกว้าง", "width_var": "ตัวแปรความกว้าง", "sets_var": "ตั้งค่าตัวแปร", "describe_area": "ลงในพื้นที่ที่เลือก {w} × {h}"
+ "color_mode": "โหมดสี", "add_color_var": "เพิ่มสี", "add_width_var": "เพิ่มความกว้าง", "width_var": "ตัวแปรความกว้าง", "sets_var": "ตั้งค่าตัวแปร", "describe_area": "ลงในพื้นที่ที่เลือก {w} × {h}", "describe_notes": "โน้ตถึง Claude {n} รายการจะส่งไปด้วย"
 }

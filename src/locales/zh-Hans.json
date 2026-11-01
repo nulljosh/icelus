@@ -374,5 +374,5 @@
  "describe_changing": "正在修改 {name}",
  "describe_new": "一个新屏幕",
  "describe_failed": "没有回应，请再试一次。",
- "color_mode": "颜色模式", "add_color_var": "添加颜色", "add_width_var": "添加宽度", "width_var": "宽度变量", "sets_var": "设置变量", "describe_area": "放进选中的区域，{w} × {h}"
+ "color_mode": "颜色模式", "add_color_var": "添加颜色", "add_width_var": "添加宽度", "width_var": "宽度变量", "sets_var": "设置变量", "describe_area": "放进选中的区域，{w} × {h}", "describe_notes": "{n} 条给 Claude 的便签会一起发送"
 }

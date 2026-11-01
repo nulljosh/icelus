@@ -374,5 +374,5 @@
  "describe_changing": "Ändrar {name}",
  "describe_new": "En ny skärm",
  "describe_failed": "Inget svar. Försök igen.",
- "color_mode": "Färgläge", "add_color_var": "Lägg till färg", "add_width_var": "Lägg till bredd", "width_var": "Breddvariabel", "sets_var": "Sätter variabel", "describe_area": "I det valda området, {w} gånger {h}"
+ "color_mode": "Färgläge", "add_color_var": "Lägg till färg", "add_width_var": "Lägg till bredd", "width_var": "Breddvariabel", "sets_var": "Sätter variabel", "describe_area": "I det valda området, {w} gånger {h}", "describe_notes": "{n} anteckningar till Claude följer med"
 }

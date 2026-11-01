@@ -374,5 +374,5 @@
  "describe_changing": "{name} wordt gewijzigd",
  "describe_new": "Een nieuw scherm",
  "describe_failed": "Geen antwoord. Probeer het opnieuw.",
- "color_mode": "Kleurmodus", "add_color_var": "Kleur toevoegen", "add_width_var": "Breedte toevoegen", "width_var": "Breedtevariabele", "sets_var": "Zet variabele", "describe_area": "In het gekozen gebied, {w} bij {h}"
+ "color_mode": "Kleurmodus", "add_color_var": "Kleur toevoegen", "add_width_var": "Breedte toevoegen", "width_var": "Breedtevariabele", "sets_var": "Zet variabele", "describe_area": "In het gekozen gebied, {w} bij {h}", "describe_notes": "{n} notities voor Claude gaan mee"
 }

@@ -374,5 +374,5 @@
  "describe_changing": "正在修改 {name}",
  "describe_new": "一個新畫面",
  "describe_failed": "沒有回應，請再試一次。",
- "color_mode": "顏色模式", "add_color_var": "新增顏色", "add_width_var": "新增寬度", "width_var": "寬度變數", "sets_var": "設定變數", "describe_area": "放進選取的區域，{w} × {h}"
+ "color_mode": "顏色模式", "add_color_var": "新增顏色", "add_width_var": "新增寬度", "width_var": "寬度變數", "sets_var": "設定變數", "describe_area": "放進選取的區域，{w} × {h}", "describe_notes": "{n} 則給 Claude 的便條會一起送出"
 }

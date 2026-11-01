@@ -32,7 +32,7 @@ wedge: every new feature is also an API and MCP tool on the day it ships.
 
 ### Gaps, round two (docs/STRATEGY.md, one per tick between versions)
 - [x] Describe into a selection: marquee an area and type what goes there. Done 2026-11-01 (web, where Describe lives): with cells picked, Describe tells the model the area size and places the parts with their top left on the area, no new screen frame; describe.js cellArea/areaHint/intoArea with tests, 26 locales. Walked live: marquee 23 by 6, "two buttons, Save and Cancel" placed two buttons there; area asks get their own model rules (only what was asked, sized to the area) and the # title banner is dropped.
-- [ ] Notes Claude acts on: a note addressed to Claude is read by Describe it and resolved when done.
+- [x] Notes Claude acts on: a note addressed to Claude is read by Describe it and resolved when done. Done 2026-11-01 (web): notes starting "@claude" or "Claude:" on the picked screen ride along with the ask (or are the ask when nothing is typed); Describe redraws the screen, so the noted parts and their notes go. describe.js claudeNotes/notesAsk with tests, 26 locales. Panel opens live; the notes path was not run against the model.
 - [x] (11-01: web Export > Download PowerPoint, native Export > Share PowerPoint; both open in python-pptx) PowerPoint export: the deck as a .pptx.
 - [x] (11-01: an auto screen can run left to right, wrap at the frame and align rows top, middle or bottom; web and native) Auto layout across: stacks that run left to right, with alignment and wrap (Figma auto layout).
 - [ ] Live code parts: a part that runs a small sandboxed HTML snippet in the real look.

@@ -374,5 +374,5 @@
  "describe_changing": "Modifico {name}",
  "describe_new": "Una nuova schermata",
  "describe_failed": "Nessuna risposta. Riprova.",
- "color_mode": "Modalità colore", "add_color_var": "Aggiungi colore", "add_width_var": "Aggiungi larghezza", "width_var": "Variabile di larghezza", "sets_var": "Imposta variabile", "describe_area": "Nell'area scelta, {w} per {h}"
+ "color_mode": "Modalità colore", "add_color_var": "Aggiungi colore", "add_width_var": "Aggiungi larghezza", "width_var": "Variabile di larghezza", "sets_var": "Imposta variabile", "describe_area": "Nell'area scelta, {w} per {h}", "describe_notes": "{n} note per Claude vanno insieme"
 }

@@ -17,7 +17,7 @@ import { recordAction, saveAction, playAction, cleanActionName } from './lib/act
 import { harmonize } from './lib/heal.js';
 import { autoLayout, constrain, syncTwins, makeSizes } from './lib/layout.js';
 import { setMode, setVar, setGridStyle, setColorVar, setWidthVar, setColorMode } from './lib/modes.js';
-import { cellArea, intoArea } from './lib/describe.js';
+import { cellArea, intoArea, claudeNotes } from './lib/describe.js';
 import { gridEverywhere } from './lib/grids.js';
 import { fixFocusOrder } from './lib/access.js';
 import { applyCopy } from './lib/copydeck.js';
@@ -806,6 +806,7 @@ export default function App() {
   // Describe it changes the picked screen, read back as typed lines; with no screen picked it draws a new one.
   const describedScreen = state.elements.find(e => e.id === state.selectedId && e.presetId === 'screen') ?? null;
   const describedSource = useMemo(() => (describedScreen ? toSketch(partsInside(state.elements, describedScreen)).source : ''), [describedScreen, state.elements]);
+  const describedNotes = useMemo(() => (describedScreen ? claudeNotes(partsInside(state.elements, describedScreen)) : []), [describedScreen, state.elements]);
   const handleDownloadDeck = useCallback(() => download('deck.html', new Blob([toDeck(state.elements, state.cols, state.rows)], { type: 'text/html' })), [state.elements, state.cols, state.rows]);
   const handleDownloadPptx = useCallback(() => download('deck.pptx', new Blob([toPptx(state.elements, state.cols, state.rows)], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' })), [state.elements, state.cols, state.rows]);
   const handleDownloadHTML = useCallback(() => {
@@ -904,7 +905,7 @@ export default function App() {
       {playing && <Play elements={state.elements} start={playing} onClose={closePlay} />}
       {filesOpen && <FilesPanel files={files} onClose={() => setFilesOpen(false)} />}
       {chatOpen && <ChatPanel onClose={() => setChatOpen(false)} current={describedSource} currentName={describedScreen?.text}
-        area={cellArea(cellSel)} onScreen={source => { dispatch({ type: 'PLACE_DESCRIBED', source, replaceId: describedScreen?.id, area: cellArea(cellSel) }); setCellSel([]); }} />}
+        area={cellArea(cellSel)} notes={describedNotes} onScreen={source => { dispatch({ type: 'PLACE_DESCRIBED', source, replaceId: describedScreen?.id, area: cellArea(cellSel) }); setCellSel([]); }} />}
       <input ref={photoRef} type="file" accept="image/*" hidden onChange={handlePhoto} />
       <input ref={fileRef} type="file" accept=".icelus,.morphis,.morpheus,.glyphbox,.glyphic,.blockprint,.json,.txt,text/plain,application/json" hidden onChange={handleOpenFile} />
       <header className="app-header">
