@@ -1,0 +1,13 @@
+/* Hero: the character-grid canvas fills the field and draws itself; a field-coloured scrim keeps the headline clean,
+   a bottom fade hides the edge on scroll. */
+.hero { min-height: calc(100svh - 72px); display: grid; place-items: center; text-align: center; padding: var(--sp-8) var(--wide); }
+.hero::before { right: auto; top: 0; left: 0; width: 100%; height: 100%; aspect-ratio: auto; z-index: 1; background: radial-gradient(ellipse 56% 50% at 50% 50%, var(--field) 50%, transparent 100%); }
+.hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 28%; z-index: 1; pointer-events: none; background: linear-gradient(transparent, var(--field)); }
+.hero .hero-copy { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+.hero h1 { font-weight: 700; max-width: 11ch; margin-inline: auto; }
+.hero .lead { margin-inline: auto; }
+.hero .cta { justify-content: center; }
+.hero .hero-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; transform: translate3d(0, var(--py, 0), 0); will-change: transform; }
+.cgrid { position: absolute; inset: 0; margin: 0; padding: var(--sp-4); overflow: hidden; white-space: pre; font: 15px/20px ui-monospace, "SF Mono", Menlo, monospace; color: #9DBBFF; opacity: .55;
+  background-image: radial-gradient(circle, rgba(157, 187, 255, .22) 1px, transparent 1.4px); background-size: 18px 20px; }
+@media (max-width: 600px) { .cgrid { font-size: 12px; line-height: 16px; opacity: .4; } .hero::before { background: radial-gradient(ellipse 120% 44% at 50% 50%, var(--field) 62%, transparent 100%); } }

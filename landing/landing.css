@@ -46,7 +46,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; background: var(--fiel
 body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 17px; line-height: 24px; -webkit-font-smoothing: antialiased; overflow-x: hidden; min-height: 100vh; }
 a { color: inherit; }
 h1, h2, h3 { text-wrap: balance; }
-h1, h2 { font-family: var(--serif); font-weight: 400; }
+h1, h2 { font-family: var(--serif); font-weight: 700; }
 .wrap { max-width: 1160px; margin: 0 auto; padding: 0 var(--sp-5); }
 .wrap.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-8); align-items: center; }
 .wrap.center { text-align: center; }
@@ -132,10 +132,10 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
 .card { background: var(--card); border: 1px solid var(--hair); border-radius: var(--r-card); padding: var(--sp-5); display: flex; flex-direction: column; gap: var(--sp-2); transition: transform .25s ease, border-color .25s ease; }
 .card:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--accent) 45%, var(--hair)); }
 .ic { width: 24px; height: 24px; fill: none; stroke: var(--accent); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; margin-bottom: var(--sp-3); }
-.card h3 { font-family: var(--serif); font-weight: 400; font-size: 32px; line-height: 36px; letter-spacing: -0.02em; color: var(--accent); }
+.card h3 { font-family: var(--serif); font-weight: 700; font-size: 32px; line-height: 36px; letter-spacing: -0.02em; color: var(--accent); }
 .card p { color: var(--soft); font-size: 15px; line-height: 22px; }
 .also { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-5); margin-top: var(--sp-7); padding-top: var(--sp-6); border-top: 1px solid var(--hair); }
-.also h3 { font-family: var(--serif); font-weight: 400; font-size: 24px; line-height: 32px; letter-spacing: -0.01em; margin-bottom: var(--sp-1); }
+.also h3 { font-family: var(--serif); font-weight: 700; font-size: 24px; line-height: 32px; letter-spacing: -0.01em; margin-bottom: var(--sp-1); }
 .also p { color: var(--sub); font-size: 15px; line-height: 22px; }
 
 /* The character grid card: the one place monospace lives, because the grid is the product */
@@ -151,7 +151,7 @@ h1, h2 { font-family: var(--serif); font-weight: 400; }
 .plat-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-6); max-width: 960px; margin: 0 auto; }
 .plat-row > div { display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); }
 .plat-row small { font-size: 13px; line-height: 16px; color: var(--on-soft); }
-.plat-row b { font-family: var(--serif); font-weight: 400; font-size: 40px; line-height: 44px; letter-spacing: -0.02em; }
+.plat-row b { font-family: var(--serif); font-weight: 700; font-size: 40px; line-height: 44px; letter-spacing: -0.02em; }
 .plat-row p { color: var(--on-dim); font-size: 15px; line-height: 22px; max-width: 28ch; margin-bottom: var(--sp-3); flex: 1; }
 
 /* Footer: three engraved tiles, round glyph buttons, the engraved wordmark, one fine line */
