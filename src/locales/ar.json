@@ -311,7 +311,7 @@
  "next": "التالي",
  "slide_count": "{n} من {of}",
  "save_pdf": "حفظ كملف PDF",
- "download_deck": "تنزيل العرض", "download_pptx": "تنزيل PowerPoint", "measure_to": "قياس إلى", "web_link": "رابط ويب", "grid_baseline": "خط الأساس", "grid_style": "نمط الشبكة", "save_grid_style": "حفظ باسم", "move_overlay": "تراكب",
+ "download_deck": "تنزيل العرض", "download_pptx": "تنزيل PowerPoint", "measure_to": "قياس إلى", "web_link": "رابط ويب", "grid_baseline": "خط الأساس", "grid_style": "نمط الشبكة", "show_lines": "إظهار الأسطر", "save_grid_style": "حفظ باسم", "move_overlay": "تراكب",
  "no_slides": "ارسم شاشة أولاً",
  "part_brush": "فرشاة",
  "part_eraser": "ممحاة",

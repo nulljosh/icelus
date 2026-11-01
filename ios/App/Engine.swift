@@ -195,6 +195,7 @@ struct Element: Equatable, Identifiable {
     var pin: Pin? = nil // how it follows a resized screen (Layout.swift)
     var twin: String? = nil, size: String? = nil // sizes of one screen kept in step (Layout.swift)
     var own: [String] = [] // what a symbol copy keeps as its own (Shapes.swift)
+    var hideLines: [Int] = [] // template rows this symbol copy leaves out (Lines.swift hiddenLines)
     var grid: ColumnGrid? = nil // a screen's column grid (Grids.swift)
     var opens: String? = nil // the screen a press opens (Hotspots.swift)
     var move: String? = nil // how that screen arrives: push, sheet or fade; nil is a cut (Hotspots.swift)

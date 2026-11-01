@@ -69,8 +69,8 @@ func renderElements(_ elements: [Element], cols: Int, rows: Int) -> Grid {
     for el in withMasks(elements) where !el.hidden && !el.canvas {
         if el.presetId == "adjust" { adjustGrid(&grid, el); continue }
         // Lines, text and banners are see-through: only their marks land on what is underneath (lands()).
-        let plain = el.blend == "over" || el.blend == "knockout"
-        for (dy, line) in el.template.enumerated() {
+        let plain = el.blend == "over" || el.blend == "knockout", hide = hiddenLines(el)
+        for (dy, line) in el.template.enumerated() where !hide.contains(dy) {
             let r = el.row + dy
             guard r >= 0 && r < rows else { continue }
             for (dx, ch) in line.enumerated() {

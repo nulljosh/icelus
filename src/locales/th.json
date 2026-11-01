@@ -311,7 +311,7 @@
  "next": "ถัดไป",
  "slide_count": "{n} จาก {of}",
  "save_pdf": "บันทึกเป็น PDF",
- "download_deck": "ดาวน์โหลดงานนำเสนอ", "download_pptx": "ดาวน์โหลด PowerPoint", "measure_to": "วัดระยะถึง", "web_link": "ลิงก์เว็บ", "grid_baseline": "เส้นฐาน", "grid_style": "สไตล์กริด", "save_grid_style": "บันทึกเป็น", "move_overlay": "ซ้อนทับ",
+ "download_deck": "ดาวน์โหลดงานนำเสนอ", "download_pptx": "ดาวน์โหลด PowerPoint", "measure_to": "วัดระยะถึง", "web_link": "ลิงก์เว็บ", "grid_baseline": "เส้นฐาน", "grid_style": "สไตล์กริด", "show_lines": "แสดงบรรทัด", "save_grid_style": "บันทึกเป็น", "move_overlay": "ซ้อนทับ",
  "no_slides": "วาดหน้าจอก่อน",
  "part_brush": "แปรง",
  "part_eraser": "ยางลบ",

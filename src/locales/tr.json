@@ -311,7 +311,7 @@
  "next": "Sonraki",
  "slide_count": "{n} / {of}",
  "save_pdf": "PDF olarak kaydet",
- "download_deck": "Sunumu indir", "download_pptx": "PowerPoint indir", "measure_to": "Şuna ölç", "web_link": "Web bağlantısı", "grid_baseline": "Taban çizgisi", "grid_style": "Izgara stili", "save_grid_style": "Farklı kaydet", "move_overlay": "Katman",
+ "download_deck": "Sunumu indir", "download_pptx": "PowerPoint indir", "measure_to": "Şuna ölç", "web_link": "Web bağlantısı", "grid_baseline": "Taban çizgisi", "grid_style": "Izgara stili", "show_lines": "Satırları göster", "save_grid_style": "Farklı kaydet", "move_overlay": "Katman",
  "no_slides": "Önce bir ekran çizin",
  "part_brush": "Fırça",
  "part_eraser": "Silgi",

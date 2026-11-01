@@ -12,7 +12,7 @@ struct RealLayerView: View {
         let byId = Dictionary(elements.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
         ZStack(alignment: .topLeading) {
             ForEach(elements.filter { !$0.hidden }) { el in
-                if let p = realPart(el) {
+                if let p = realPart(shownPart(el)) {
                     let part = RealPartView(el: el, part: p, charW: charW, rowH: rowH)
                         .frame(width: CGFloat(el.width) * charW, height: CGFloat(el.height) * rowH, alignment: .topLeading)
                     // A crop or clip (Mask.swift) hides the rest of the control; it never changes the control.

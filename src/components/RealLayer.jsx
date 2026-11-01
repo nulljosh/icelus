@@ -1,3 +1,4 @@
+import { shownPart } from '../lib/lines.js';
 import { memo } from 'react';
 import { realPart } from '../lib/real.js';
 import { COLORS } from '../lib/color.js';
@@ -13,7 +14,7 @@ const linked = text => text.split(/\[([^[\]]{2,})\]/).map((s, i) => (i % 2 ? <sp
 // The real look: every part with a real twin drawn as an actual control, placed on the same grid the
 // canvas uses, so selecting, dragging and resizing work unchanged (this layer never takes a click).
 function Part({ el, charW, rowH, byId }) {
-  const p = realPart(el);
+  const p = realPart(shownPart(el));
   if (!p) return null;
   const b = shownBox(el, byId); // a mask or clip crops the control, it never changes it
   const at = (col, row) => ({ left: col * charW, top: row * rowH });

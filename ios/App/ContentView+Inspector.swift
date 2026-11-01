@@ -95,6 +95,19 @@ extension ContentView {
                     persist()
                 })).fixedSize()
             }
+            if el.template.count > 1 { // show and hide per copy
+                Menu("Show Lines") {
+                    ForEach(el.template.indices, id: \.self) { i in
+                        let label = el.template[i].replacingOccurrences(of: "[│┃║┌┐└┘╭╮╰╯┏┓┗┛─━═]", with: " ", options: .regularExpression).trimmingCharacters(in: .whitespaces)
+                        Toggle(label.isEmpty ? "\(i + 1)" : String(label.prefix(24)), isOn: Binding(get: { !el.hideLines.contains(i) }, set: { on in
+                            state.pushHistory()
+                            state.elements = updateElement(state.elements, id: el.id, hideLines: on ? el.hideLines.filter { $0 != i } : el.hideLines + [i])
+                            persist()
+                        }))
+                    }
+                }
+                .fixedSize()
+            }
             let others = Dictionary(state.elements.compactMap { e in e.symbol.flatMap { $0 != symbol ? ($0, e) : nil } }, uniquingKeysWith: { a, _ in a })
             if !others.isEmpty {
                 Menu("Swap") {

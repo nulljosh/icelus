@@ -12,4 +12,9 @@ func runSymbolChecks() {
     var state = EditorState(); state.elements = copied.elements
     let back = parseProject(serializeProject(state))?.elements ?? []
     check(back.count == 2 && back[0].symbol != nil && back[0].symbol == back[1].symbol, "symbols: the link survives the project file")
+    var copy = Element(id: "h", presetId: "card", label: "Card", template: ["┌────┐", "│ Hi │", "│ Yo │", "└────┘"], width: 6, height: 4, col: 0, row: 0)
+    copy.symbol = "s1"
+    let hid = updateElement([copy], id: "h", hideLines: [2])
+    let drawn = renderElements(hid, cols: 6, rows: 4).map { String($0) }.joined(separator: "\n")
+    check(hid[0].hideLines == [2] && drawn.contains("Hi") && !drawn.contains("Yo") && updateElement([copy], id: "h", hideLines: [0, 1, 2, 3])[0].hideLines.isEmpty, "symbols: a copy hides a line of itself")
 }

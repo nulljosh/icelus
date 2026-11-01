@@ -215,3 +215,6 @@
 .inspector-input { flex: 1; min-width: 0; margin-inline-start: var(--sp-3); font: inherit; color: var(--color-text); background: var(--surface2);
   border: 0; border-radius: var(--r-pill); padding: var(--sp-1) var(--sp-3); text-align: end; }
 .inspector-input:focus-visible { outline: none; box-shadow: var(--ring); }
+
+/* Show lines on a symbol copy: one checkbox per line, wrapped. */
+.inspector-check { display: inline-flex; align-items: center; gap: 4px; margin: 0 8px 4px 0; font-size: 12px; white-space: nowrap; }

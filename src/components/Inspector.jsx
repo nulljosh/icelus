@@ -1,3 +1,4 @@
+import ShowLines from './ShowLines.jsx';
 import './Inspector.css';
 import { expandChanges } from '../lib/heal.js';
 import { useState, useEffect } from 'react';
@@ -235,6 +236,7 @@ export default function Inspector({
                   onChange={e => onUpdateElement(el.id, { own: e.target.checked ? [...(el.own ?? []), key] : (el.own ?? []).filter(k => k !== key) })} />
               </div>
             ))}
+            {symbolCount > 1 && <ShowLines el={el} onUpdate={onUpdateElement} />}
             {symbolCount > 0 && onSwap && (() => {
               const others = [...new Map(elements.filter(x => x.symbol && x.symbol !== el.symbol).map(x => [x.symbol, x])).values()];
               return others.length > 0 && (

@@ -35,6 +35,7 @@ private func elementJSON(_ e: Element) -> [String: Any] {
     if let twin = e.twin { el["twin"] = twin }
     if let size = e.size { el["size"] = size }
     if e.symbol != nil && !e.own.isEmpty { el["own"] = e.own }
+    if e.symbol != nil && !e.hideLines.isEmpty { el["hideLines"] = e.hideLines }
     if let variant = e.variant { el["variant"] = variant }
     if let note = e.note { el["note"] = note }
     if let take = e.take { el["take"] = take }
@@ -108,7 +109,10 @@ func parseProject(_ json: String) -> EditorState? {
         if state.elements[i].presetId == "screen" { state.elements[i].auto = cleanAuto(el["auto"]); state.elements[i].grid = cleanGrid(el["grid"]) }
         state.elements[i].pin = cleanPin(el["pin"])
         if state.elements[i].presetId == "adjust" && el["canvas"] as? Bool == true { state.elements[i].canvas = true; state.elements[i].vars = cleanVars(el["vars"]); state.elements[i].grids = cleanGrids(el["grids"]) }
-        if state.elements[i].symbol != nil { state.elements[i].own = cleanOwn(el["own"]) }
+        if state.elements[i].symbol != nil {
+            state.elements[i].own = cleanOwn(el["own"])
+            state.elements[i].hideLines = ((el["hideLines"] as? [Any]) ?? []).compactMap { ($0 as? NSNumber)?.intValue }.filter { $0 >= 0 && $0 < 200 }.prefix(50).map { $0 }
+        }
         state.elements[i].twin = (el["twin"] as? String).flatMap { $0.count <= 64 ? $0 : nil }
         if state.elements[i].presetId == "screen" { state.elements[i].size = (el["size"] as? String).flatMap { s in screenSizes.contains { $0.name == s } ? s : nil } }
         if let old = el["clip"] as? String, let id = ids[old], id != fresh[i] { state.elements[i].clip = id }

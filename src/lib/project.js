@@ -70,6 +70,7 @@ export function parseProject(json) {
       ...(el.locked === true && { locked: true }),
       ...(typeof el.symbol === 'string' && { symbol: el.symbol }),
       ...(typeof el.symbol === 'string' && cleanOwn(el.own).length && { own: cleanOwn(el.own) }),
+      ...(typeof el.symbol === 'string' && Array.isArray(el.hideLines) && el.hideLines.length && { hideLines: el.hideLines.filter(i => Number.isInteger(i) && i >= 0 && i < 200).slice(0, 50) }),
       ...(VARIANTS.includes(el.variant) && el.variant !== 'default' && { variant: el.variant }),
       ...(cleanNote(typeof el.note === 'string' ? el.note : '') && { note: cleanNote(el.note) }),
       ...(typeof el.take === 'string' && el.take.length <= 64 && { take: el.take }),

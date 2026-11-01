@@ -311,7 +311,7 @@
  "next": "Volgende",
  "slide_count": "{n} van {of}",
  "save_pdf": "Bewaar als pdf",
- "download_deck": "Presentatie downloaden", "download_pptx": "PowerPoint downloaden", "measure_to": "Meten tot", "web_link": "Weblink", "grid_baseline": "Basislijn", "grid_style": "Rasterstijl", "save_grid_style": "Bewaar als", "move_overlay": "Overlay",
+ "download_deck": "Presentatie downloaden", "download_pptx": "PowerPoint downloaden", "measure_to": "Meten tot", "web_link": "Weblink", "grid_baseline": "Basislijn", "grid_style": "Rasterstijl", "show_lines": "Regels tonen", "save_grid_style": "Bewaar als", "move_overlay": "Overlay",
  "no_slides": "Teken eerst een scherm",
  "part_brush": "Penseel",
  "part_eraser": "Gum",

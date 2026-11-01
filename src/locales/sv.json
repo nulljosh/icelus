@@ -311,7 +311,7 @@
  "next": "Nästa",
  "slide_count": "{n} av {of}",
  "save_pdf": "Spara som PDF",
- "download_deck": "Hämta presentation", "download_pptx": "Ladda ned PowerPoint", "measure_to": "Mät till", "web_link": "Webblänk", "grid_baseline": "Baslinje", "grid_style": "Rutnätsstil", "save_grid_style": "Spara som", "move_overlay": "Överlägg",
+ "download_deck": "Hämta presentation", "download_pptx": "Ladda ned PowerPoint", "measure_to": "Mät till", "web_link": "Webblänk", "grid_baseline": "Baslinje", "grid_style": "Rutnätsstil", "show_lines": "Visa rader", "save_grid_style": "Spara som", "move_overlay": "Överlägg",
  "no_slides": "Rita en skärm först",
  "part_brush": "Pensel",
  "part_eraser": "Suddgummi",

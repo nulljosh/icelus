@@ -25,6 +25,17 @@ func syncSymbol(_ elements: [Element], id: String) -> [Element] {
     }
 }
 
+/// Hide lines of a symbol copy (Lines.swift hiddenLines); never every line.
+func updateElement(_ elements: [Element], id: String, hideLines: [Int]) -> [Element] {
+    elements.map { el in
+        guard el.id == id, el.symbol != nil else { return el }
+        var e = el
+        let h = Array(Set(hideLines.filter { $0 >= 0 && $0 < el.template.count })).sorted()
+        e.hideLines = h.count < el.template.count ? h : []
+        return e
+    }
+}
+
 /// Owning words or style on a copy; letting go pulls the shared ones back in from another copy.
 func updateElement(_ elements: [Element], id: String, own: [String]) -> [Element] {
     let out = elements.map { el -> Element in var e = el; if e.id == id { e.own = ownKeys.filter(own.contains) }; return e }
@@ -51,4 +62,17 @@ func detachSymbol(_ elements: [Element], id: String) -> [Element] {
 func symbolUses(_ elements: [Element], _ el: Element?) -> Int {
     guard let symbol = el?.symbol else { return 0 }
     return elements.filter { $0.symbol == symbol }.count
+}
+
+/// Show and hide per copy: a symbol copy can hide lines of itself without detaching. src/lib/lines.js is the twin.
+func hiddenLines(_ el: Element) -> Set<Int> {
+    el.symbol == nil ? [] : Set(el.hideLines.filter { $0 >= 0 && $0 < el.template.count })
+}
+/// The part as it is drawn: hidden lines turned to blanks, so the real look sees what the text shows.
+func shownPart(_ el: Element) -> Element {
+    let hide = hiddenLines(el)
+    guard !hide.isEmpty else { return el }
+    var e = el
+    e.template = el.template.enumerated().map { hide.contains($0.offset) ? String(repeating: " ", count: $0.element.count) : $0.element }
+    return e
 }

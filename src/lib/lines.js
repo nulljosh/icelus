@@ -79,14 +79,34 @@ export function accentMask(elements, cols, rows) {
   return mask;
 }
 
+// Show and hide per copy (Figma boolean properties): a symbol copy can hide lines of itself without detaching.
+// `hideLines` holds row indexes into its template; the symbol's own lines stay, only this copy leaves them out.
+export const hiddenLines = el => new Set(el.symbol && Array.isArray(el.hideLines) ? el.hideLines.filter(i => Number.isInteger(i) && i >= 0 && i < el.template.length) : []);
+// The part as it is drawn: hidden lines turned to blanks, so the real look and exports see what the text shows.
+export function shownPart(el) {
+  const hide = hiddenLines(el);
+  return hide.size ? { ...el, template: el.template.map((l, i) => (hide.has(i) ? ' '.repeat([...l].length) : l)) } : el;
+}
+
+// Set the hidden lines of a symbol copy; only a copy has them, and never every line.
+export function setHideLines(elements, id, list) {
+  return elements.map(el => {
+    if (el.id !== id || !el.symbol) return el;
+    const { hideLines, ...rest } = el;
+    const h = [...new Set((list ?? []).filter(i => Number.isInteger(i) && i >= 0 && i < el.template.length))].sort((a, b) => a - b);
+    return h.length && h.length < el.template.length ? { ...rest, hideLines: h } : rest;
+  });
+}
+
 export function renderElements(elements, cols, rows) {
   const grid = createGrid(cols, rows);
   for (const el of withMasks(elements)) {
     if (el.hidden || el.canvas) continue;
     if (el.presetId === 'adjust') { adjustGrid(grid, el); continue; }
     // Lines, text and banners are see-through: only their marks land on what is underneath (lands()).
-    const plain = el.blend === 'over' || el.blend === 'knockout';
+    const plain = el.blend === 'over' || el.blend === 'knockout', hide = hiddenLines(el);
     el.template.forEach((line, dy) => {
+      if (hide.has(dy)) return; // hidden on this copy
       const r = el.row + dy;
       if (r < 0 || r >= rows) return;
       [...line].forEach((ch, dx) => {

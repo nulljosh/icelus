@@ -311,7 +311,7 @@
  "next": "পরের",
  "slide_count": "{of} এর {n}",
  "save_pdf": "PDF হিসেবে সংরক্ষণ",
- "download_deck": "উপস্থাপনা ডাউনলোড", "download_pptx": "PowerPoint ডাউনলোড করুন", "measure_to": "মাপুন পর্যন্ত", "web_link": "ওয়েব লিংক", "grid_baseline": "বেসলাইন", "grid_style": "গ্রিড স্টাইল", "save_grid_style": "নামে সংরক্ষণ", "move_overlay": "ওভারলে",
+ "download_deck": "উপস্থাপনা ডাউনলোড", "download_pptx": "PowerPoint ডাউনলোড করুন", "measure_to": "মাপুন পর্যন্ত", "web_link": "ওয়েব লিংক", "grid_baseline": "বেসলাইন", "grid_style": "গ্রিড স্টাইল", "show_lines": "লাইন দেখান", "save_grid_style": "নামে সংরক্ষণ", "move_overlay": "ওভারলে",
  "no_slides": "আগে একটি স্ক্রিন আঁকুন",
  "part_brush": "ব্রাশ",
  "part_eraser": "ইরেজার",
