@@ -29,6 +29,7 @@ import { colorMask, hasColor, toAnsi } from './lib/color.js';
 import { drawCells } from './components/canvasHelpers.js';
 import { cutCells, fillCells, moveCells, shiftCells, cellText } from './lib/select.js';
 import { slides, toDeck } from './lib/deck.js';
+import { toPptx } from './lib/pptx.js';
 import AccountPanel, { useAccount } from './components/AccountPanel.jsx';
 import { TUTORIAL, lessonSnapshot, stepDone, newestButton } from './lib/tutorial.js';
 import { variations, keepVariation } from './lib/tweaks.js';
@@ -799,6 +800,7 @@ export default function App() {
   const describedScreen = state.elements.find(e => e.id === state.selectedId && e.presetId === 'screen') ?? null;
   const describedSource = useMemo(() => (describedScreen ? toSketch(partsInside(state.elements, describedScreen)).source : ''), [describedScreen, state.elements]);
   const handleDownloadDeck = useCallback(() => download('deck.html', new Blob([toDeck(state.elements, state.cols, state.rows)], { type: 'text/html' })), [state.elements, state.cols, state.rows]);
+  const handleDownloadPptx = useCallback(() => download('deck.pptx', new Blob([toPptx(state.elements, state.cols, state.rows)], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' })), [state.elements, state.cols, state.rows]);
   const handleDownloadHTML = useCallback(() => {
     download('layout.html', new Blob([toHTML(state.elements, state.cols, state.rows)], { type: 'text/html' }));
   }, [state.elements, state.cols, state.rows, state.snapshots]);
@@ -930,6 +932,7 @@ export default function App() {
               <button role="menuitem" onClick={(e) => { handleExport(); closeMenu(e); }}>{t('download_txt')}</button>
               <button role="menuitem" onClick={(e) => { handleDownloadHTML(); closeMenu(e); }}>{t('download_html')}</button>
               <button role="menuitem" onClick={(e) => { handleDownloadDeck(); closeMenu(e); }}>{t('download_deck')}</button>
+              <button role="menuitem" onClick={(e) => { handleDownloadPptx(); closeMenu(e); }}>{t('download_pptx')}</button>
               <button role="menuitem" onClick={(e) => { handleDownloadHandoff(); closeMenu(e); }}>{t('download_handoff')}</button>
               <button role="menuitem" onClick={(e) => { handleSaveProject(); closeMenu(e); }}>{t('save_project')}</button>
               {state.elements.some(el => el.symbol) && <button role="menuitem" onClick={(e) => { handleDownloadLibrary(); closeMenu(e); }}>{t('download_library')}</button>}

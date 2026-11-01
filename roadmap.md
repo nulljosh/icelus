@@ -33,7 +33,7 @@ wedge: every new feature is also an API and MCP tool on the day it ships.
 ### Gaps, round two (docs/STRATEGY.md, one per tick between versions)
 - [ ] Describe into a selection: marquee an area and type what goes there.
 - [ ] Notes Claude acts on: a note addressed to Claude is read by Describe it and resolved when done.
-- [ ] PowerPoint export: the deck as a .pptx.
+- [x] (11-01: web, Export > Download PowerPoint, opens in python-pptx; native Deck.swift twin still to port) PowerPoint export: the deck as a .pptx.
 - [ ] Auto layout across: stacks that run left to right, with alignment and wrap (Figma auto layout).
 - [ ] Live code parts: a part that runs a small sandboxed HTML snippet in the real look.
 - [ ] Show and hide per copy: a symbol copy hides a line of itself without detaching (Figma boolean properties).
@@ -124,3 +124,6 @@ wedge: every new feature is also an API and MCP tool on the day it ships.
 
 ## Ingested 2026-10-30
 - [ ] Needs better name
+
+## Ingested 2026-10-31
+- [ ] Bloated semver: App Store Connect shows 50.0.0 on iOS, status Not Applicable, What's New empty (notes/attachments/2026-10-31/icelus-1.png). Apply honest semver (feature = minor, fix = patch, major only on Joshua's call) and reset the store version line.
