@@ -141,7 +141,7 @@
  "part_tooltip": "Tooltip",
  "part_tags": "Tag",
  "part_chart": "Carta bar",
- "part_code": "Blok kod",
+ "part_livecode": "Blok kod",
  "part_ios-nav": "Bar navigasi",
  "part_ios-list": "Senarai dalam",
  "part_ios-switch": "Baris suis",
@@ -374,5 +374,5 @@
  "describe_changing": "Mengubah {name}",
  "describe_new": "Skrin baharu",
  "describe_failed": "Tiada jawapan. Cuba lagi.",
- "color_mode": "Mod warna", "add_color_var": "Tambah warna", "add_width_var": "Tambah lebar", "width_var": "Pemboleh ubah lebar", "sets_var": "Menetapkan pemboleh ubah", "describe_area": "Ke kawasan yang dipilih, {w} kali {h}", "describe_notes": "{n} nota untuk Claude turut dihantar"
+ "color_mode": "Mod warna", "add_color_var": "Tambah warna", "add_width_var": "Tambah lebar", "width_var": "Pemboleh ubah lebar", "sets_var": "Menetapkan pemboleh ubah", "describe_area": "Ke kawasan yang dipilih, {w} kali {h}", "describe_notes": "{n} nota untuk Claude turut dihantar", "part_livecode": "Kod langsung", "code_html": "HTML"
 }

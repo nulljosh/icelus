@@ -161,6 +161,9 @@ export function editProject(args) {
     } else if (op.op === 'color') {
       for (const key of ['ink', 'paper']) if (op[key] !== undefined && op[key] !== null && cleanColor(op[key]) === undefined) throw new ToolError(`${at}.${key} must be a color 0 to 15, or null to clear it`);
       elements = updateElement(elements, id, { ink: op.ink, paper: op.paper });
+    } else if (op.op === 'html') { // a live code part's HTML, run sandboxed in the real look (play.js)
+      if (typeof op.html !== 'string') throw new ToolError(`${at}.html must be a string`);
+      elements = updateElement(elements, id, { html: op.html });
     } else if (op.op === 'sets') { // a live part's variable for play: {name} words show its value; name: null clears it
       if (op.name !== null && !isVarName(op.name)) throw new ToolError(`${at}.name must be lowercase letters, digits or dashes, at most 16, or null`);
       elements = updateElement(elements, id, { sets: op.name });

@@ -141,7 +141,7 @@
  "part_tooltip": "툴팁",
  "part_tags": "태그",
  "part_chart": "막대 차트",
- "part_code": "코드 블록",
+ "part_livecode": "코드 블록",
  "part_ios-nav": "내비게이션 바",
  "part_ios-list": "인셋 목록",
  "part_ios-switch": "스위치 행",
@@ -374,5 +374,5 @@
  "describe_changing": "{name} 바꾸는 중",
  "describe_new": "새 화면",
  "describe_failed": "응답이 없어요. 다시 시도하세요.",
- "color_mode": "색상 모드", "add_color_var": "색상 추가", "add_width_var": "너비 추가", "width_var": "너비 변수", "sets_var": "변수 설정", "describe_area": "선택한 영역에, {w} × {h}", "describe_notes": "Claude에게 남긴 메모 {n}개도 함께 보냅니다"
+ "color_mode": "색상 모드", "add_color_var": "색상 추가", "add_width_var": "너비 추가", "width_var": "너비 변수", "sets_var": "변수 설정", "describe_area": "선택한 영역에, {w} × {h}", "describe_notes": "Claude에게 남긴 메모 {n}개도 함께 보냅니다", "part_livecode": "라이브 코드", "code_html": "HTML"
 }

@@ -158,6 +158,21 @@ export const PRESETS = [
     height: 1,
   },
   {
+    // Live code (play.js / real.js): its `html` runs sandboxed in the real look; the characters are its stand-in.
+    id: 'livecode',
+    label: 'Live code',
+    category: 'Media',
+    template: [
+      '╔══════════════╗',
+      '║              ║',
+      '║   </> live   ║',
+      '║              ║',
+      '╚══════════════╝',
+    ],
+    width: 16,
+    height: 5,
+  },
+  {
     id: 'image',
     label: 'Image',
     category: 'Media',

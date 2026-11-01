@@ -7,6 +7,9 @@
 
 import Foundation
 
+/// The most HTML a live code part keeps (src/lib/play.js HTML_MAX).
+let htmlMax = 20_000
+
 typealias Grid = [[Character]]
 
 let defaultCols = 100
@@ -205,6 +208,7 @@ struct Element: Equatable, Identifiable {
     var colors: [String: [Int]] = [:], widths: [String: Int] = [:], colorMode: String? = nil // the canvas part: color and width variables (Modes.swift)
     var inkVar: String? = nil, paperVar: String? = nil, widthVar: String? = nil // bound to a variable (Modes.swift)
     var sets: String? = nil // a live part's variable while playing (Play.swift)
+    var html: String? = nil // a live code part's HTML, run sandboxed in the real look (Play.swift)
 }
 
 private var nextElementId = 1

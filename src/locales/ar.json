@@ -141,7 +141,7 @@
  "part_tooltip": "تلميح",
  "part_tags": "الوسوم",
  "part_chart": "مخطط أعمدة",
- "part_code": "كتلة كود",
+ "part_livecode": "كتلة كود",
  "part_ios-nav": "شريط التنقل",
  "part_ios-list": "قائمة مجمّعة",
  "part_ios-switch": "صف بمفتاح تبديل",
@@ -374,5 +374,5 @@
  "describe_changing": "تغيير {name}",
  "describe_new": "شاشة جديدة",
  "describe_failed": "لم يصل رد. حاول مجددًا.",
- "color_mode": "وضع الألوان", "add_color_var": "إضافة لون", "add_width_var": "إضافة عرض", "width_var": "متغير العرض", "sets_var": "يضبط متغيرًا", "describe_area": "في المنطقة المحددة، {w} في {h}", "describe_notes": "{n} ملاحظات لـClaude ترافق الطلب"
+ "color_mode": "وضع الألوان", "add_color_var": "إضافة لون", "add_width_var": "إضافة عرض", "width_var": "متغير العرض", "sets_var": "يضبط متغيرًا", "describe_area": "في المنطقة المحددة، {w} في {h}", "describe_notes": "{n} ملاحظات لـClaude ترافق الطلب", "part_livecode": "شيفرة حية", "code_html": "HTML"
 }

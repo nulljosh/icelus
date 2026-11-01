@@ -141,7 +141,7 @@
  "part_tooltip": "راهنما",
  "part_tags": "برچسب‌ها",
  "part_chart": "نمودار ستونی",
- "part_code": "بلوک کد",
+ "part_livecode": "بلوک کد",
  "part_ios-nav": "نوار ناوبری",
  "part_ios-list": "فهرست گروه‌بندی‌شده",
  "part_ios-switch": "ردیف با کلید",
@@ -374,5 +374,5 @@
  "describe_changing": "تغییر {name}",
  "describe_new": "یک صفحهٔ تازه",
  "describe_failed": "پاسخی نیامد. دوباره امتحان کنید.",
- "color_mode": "حالت رنگ", "add_color_var": "افزودن رنگ", "add_width_var": "افزودن عرض", "width_var": "متغیر عرض", "sets_var": "متغیر را تنظیم می‌کند", "describe_area": "در ناحیه انتخاب‌شده، {w} در {h}", "describe_notes": "{n} یادداشت برای Claude همراهش می‌رود"
+ "color_mode": "حالت رنگ", "add_color_var": "افزودن رنگ", "add_width_var": "افزودن عرض", "width_var": "متغیر عرض", "sets_var": "متغیر را تنظیم می‌کند", "describe_area": "در ناحیه انتخاب‌شده، {w} در {h}", "describe_notes": "{n} یادداشت برای Claude همراهش می‌رود", "part_livecode": "کد زنده", "code_html": "HTML"
 }

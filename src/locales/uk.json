@@ -141,7 +141,7 @@
  "part_tooltip": "Підказка",
  "part_tags": "Теги",
  "part_chart": "Стовпчаста діаграма",
- "part_code": "Блок коду",
+ "part_livecode": "Блок коду",
  "part_ios-nav": "Панель навігації",
  "part_ios-list": "Згрупований список",
  "part_ios-switch": "Рядок з перемикачем",
@@ -374,5 +374,5 @@
  "describe_changing": "Змінюю {name}",
  "describe_new": "Новий екран",
  "describe_failed": "Немає відповіді. Спробуйте ще раз.",
- "color_mode": "Режим кольору", "add_color_var": "Додати колір", "add_width_var": "Додати ширину", "width_var": "Змінна ширини", "sets_var": "Задає змінну", "describe_area": "У вибрану ділянку, {w} на {h}", "describe_notes": "{n} нотаток для Claude підуть разом"
+ "color_mode": "Режим кольору", "add_color_var": "Додати колір", "add_width_var": "Додати ширину", "width_var": "Змінна ширини", "sets_var": "Задає змінну", "describe_area": "У вибрану ділянку, {w} на {h}", "describe_notes": "{n} нотаток для Claude підуть разом", "part_livecode": "Живий код", "code_html": "HTML"
 }

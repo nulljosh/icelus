@@ -67,6 +67,12 @@ export function VarRows({ el, elements, onUpdate }) {
           {names.map(n => <option key={n} value={n}>{n}</option>)}
         </select>
       </div>}
+      {el.presetId === 'livecode' && <div className="inspector-row">
+        <label className="inspector-key" htmlFor="code-html">{t('code_html')}</label>
+        <textarea key={el.id} id="code-html" className="inspector-input" rows={6} defaultValue={el.html ?? ''} spellCheck={false} maxLength={20000}
+          placeholder="<button onclick=&quot;this.textContent='Hi'&quot;>Press</button>"
+          onBlur={e => { if (e.target.value !== (el.html ?? '')) onUpdate(el.id, { html: e.target.value }); }} />
+      </div>}
       {liveKind(el) && <div className="inspector-row">
         <label className="inspector-key" htmlFor="sets-var">{t('sets_var')}</label>
         <input key={el.id} id="sets-var" className="inspector-input" defaultValue={el.sets ?? ''} placeholder="name" maxLength={16} spellCheck={false}

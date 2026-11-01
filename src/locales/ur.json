@@ -141,7 +141,7 @@
  "part_tooltip": "ٹول ٹپ",
  "part_tags": "ٹیگز",
  "part_chart": "بار چارٹ",
- "part_code": "کوڈ بلاک",
+ "part_livecode": "کوڈ بلاک",
  "part_ios-nav": "نیویگیشن بار",
  "part_ios-list": "انسیٹ فہرست",
  "part_ios-switch": "سوئچ والی قطار",
@@ -374,5 +374,5 @@
  "describe_changing": "{name} بدل رہی ہے",
  "describe_new": "نئی اسکرین",
  "describe_failed": "جواب نہیں آیا۔ دوبارہ کوشش کریں۔",
- "color_mode": "رنگ موڈ", "add_color_var": "رنگ شامل کریں", "add_width_var": "چوڑائی شامل کریں", "width_var": "چوڑائی متغیر", "sets_var": "متغیر سیٹ کرتا ہے", "describe_area": "منتخب حصے میں، {w} ضرب {h}", "describe_notes": "Claude کے لیے {n} نوٹ ساتھ جائیں گے"
+ "color_mode": "رنگ موڈ", "add_color_var": "رنگ شامل کریں", "add_width_var": "چوڑائی شامل کریں", "width_var": "چوڑائی متغیر", "sets_var": "متغیر سیٹ کرتا ہے", "describe_area": "منتخب حصے میں، {w} ضرب {h}", "describe_notes": "Claude کے لیے {n} نوٹ ساتھ جائیں گے", "part_livecode": "لائیو کوڈ", "code_html": "HTML"
 }

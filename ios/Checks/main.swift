@@ -294,7 +294,7 @@ check(parseProject("not json") == nil && parseProject(#"{"cols":10}"#) == nil, "
 // MARK: presets
 
 check(!presets.isEmpty, "presets exist")
-check(presets.count == 38, "all 38 presets ported from presets.js")
+check(presets.count == 39, "all 39 presets ported from presets.js")
 check(Set(presets.map(\.id)).count == presets.count, "preset ids are unique")
 for p in presets {
     check(!p.id.isEmpty && !p.label.isEmpty && !p.category.isEmpty, "preset \(p.id) has its labels")

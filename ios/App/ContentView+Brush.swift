@@ -177,6 +177,9 @@ extension ContentView {
         if liveKind(el) != nil {
             SetsField(value: el.sets) { v in canvasEdit { setSets($0, id: el.id, v) } }
         }
+        if el.presetId == "livecode" {
+            HtmlField(value: el.html) { v in canvasEdit { setHtml($0, id: el.id, v) } }
+        }
         if !canvasWidths(state.elements).isEmpty {
             Picker("Width Variable", selection: Binding(get: { el.widthVar ?? "" }, set: { v in canvasEdit { bindVar($0, id: el.id, key: "width", name: v.isEmpty ? nil : v) } })) {
                 Text("None").tag("")

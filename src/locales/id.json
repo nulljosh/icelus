@@ -141,7 +141,7 @@
  "part_tooltip": "Tooltip",
  "part_tags": "Tag",
  "part_chart": "Diagram batang",
- "part_code": "Blok kode",
+ "part_livecode": "Blok kode",
  "part_ios-nav": "Bilah navigasi",
  "part_ios-list": "Daftar inset",
  "part_ios-switch": "Baris sakelar",
@@ -374,5 +374,5 @@
  "describe_changing": "Mengubah {name}",
  "describe_new": "Layar baru",
  "describe_failed": "Tidak ada jawaban. Coba lagi.",
- "color_mode": "Mode warna", "add_color_var": "Tambah warna", "add_width_var": "Tambah lebar", "width_var": "Variabel lebar", "sets_var": "Mengatur variabel", "describe_area": "Ke area yang dipilih, {w} kali {h}", "describe_notes": "{n} catatan untuk Claude ikut dikirim"
+ "color_mode": "Mode warna", "add_color_var": "Tambah warna", "add_width_var": "Tambah lebar", "width_var": "Variabel lebar", "sets_var": "Mengatur variabel", "describe_area": "Ke area yang dipilih, {w} kali {h}", "describe_notes": "{n} catatan untuk Claude ikut dikirim", "part_livecode": "Kode langsung", "code_html": "HTML"
 }

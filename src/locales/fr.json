@@ -141,7 +141,7 @@
  "part_tooltip": "Info-bulle",
  "part_tags": "Étiquettes",
  "part_chart": "Graphique à barres",
- "part_code": "Bloc de code",
+ "part_livecode": "Bloc de code",
  "part_ios-nav": "Barre de navigation",
  "part_ios-list": "Liste groupée",
  "part_ios-switch": "Ligne avec interrupteur",
@@ -374,5 +374,5 @@
  "describe_changing": "Modification de {name}",
  "describe_new": "Un nouvel écran",
  "describe_failed": "Pas de réponse. Réessayez.",
- "color_mode": "Mode de couleur", "add_color_var": "Ajouter une couleur", "add_width_var": "Ajouter une largeur", "width_var": "Variable de largeur", "sets_var": "Définit la variable", "describe_area": "Dans la zone choisie, {w} sur {h}", "describe_notes": "{n} notes pour Claude sont jointes"
+ "color_mode": "Mode de couleur", "add_color_var": "Ajouter une couleur", "add_width_var": "Ajouter une largeur", "width_var": "Variable de largeur", "sets_var": "Définit la variable", "describe_area": "Dans la zone choisie, {w} sur {h}", "describe_notes": "{n} notes pour Claude sont jointes", "part_livecode": "Code en direct", "code_html": "HTML"
 }

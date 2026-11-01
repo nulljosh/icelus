@@ -141,7 +141,7 @@
  "part_tooltip": "Chú giải công cụ",
  "part_tags": "Thẻ gắn",
  "part_chart": "Biểu đồ cột",
- "part_code": "Khối mã",
+ "part_livecode": "Khối mã",
  "part_ios-nav": "Thanh điều hướng",
  "part_ios-list": "Danh sách lồng",
  "part_ios-switch": "Dòng công tắc",
@@ -374,5 +374,5 @@
  "describe_changing": "Đang sửa {name}",
  "describe_new": "Một màn hình mới",
  "describe_failed": "Không có phản hồi. Thử lại nhé.",
- "color_mode": "Chế độ màu", "add_color_var": "Thêm màu", "add_width_var": "Thêm chiều rộng", "width_var": "Biến chiều rộng", "sets_var": "Đặt biến", "describe_area": "Vào vùng đã chọn, {w} x {h}", "describe_notes": "{n} ghi chú cho Claude sẽ gửi kèm"
+ "color_mode": "Chế độ màu", "add_color_var": "Thêm màu", "add_width_var": "Thêm chiều rộng", "width_var": "Biến chiều rộng", "sets_var": "Đặt biến", "describe_area": "Vào vùng đã chọn, {w} x {h}", "describe_notes": "{n} ghi chú cho Claude sẽ gửi kèm", "part_livecode": "Mã trực tiếp", "code_html": "HTML"
 }

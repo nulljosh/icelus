@@ -141,7 +141,7 @@
  "part_tooltip": "Kidokezo",
  "part_tags": "Lebo",
  "part_chart": "Chati ya baa",
- "part_code": "Kizuizi cha msimbo",
+ "part_livecode": "Kizuizi cha msimbo",
  "part_ios-nav": "Upau wa urambazaji",
  "part_ios-list": "Orodha iliyoingizwa",
  "part_ios-switch": "Safu ya swichi",
@@ -374,5 +374,5 @@
  "describe_changing": "Ninabadilisha {name}",
  "describe_new": "Skrini mpya",
  "describe_failed": "Hakuna jibu. Jaribu tena.",
- "color_mode": "Hali ya rangi", "add_color_var": "Ongeza rangi", "add_width_var": "Ongeza upana", "width_var": "Kigeu cha upana", "sets_var": "Huweka kigeu", "describe_area": "Ndani ya eneo lililochaguliwa, {w} kwa {h}", "describe_notes": "Maelezo {n} kwa Claude yanaenda pamoja"
+ "color_mode": "Hali ya rangi", "add_color_var": "Ongeza rangi", "add_width_var": "Ongeza upana", "width_var": "Kigeu cha upana", "sets_var": "Huweka kigeu", "describe_area": "Ndani ya eneo lililochaguliwa, {w} kwa {h}", "describe_notes": "Maelezo {n} kwa Claude yanaenda pamoja", "part_livecode": "Msimbo hai", "code_html": "HTML"
 }

@@ -1,0 +1,7 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Live code</title>
+<style>html,body{margin:0;font:14px -apple-system,system-ui,sans-serif}</style>
+<!-- Icelus live code parts render here. The app frames this page sandboxed (scripts, no same origin), so a
+     snippet can never reach the app or its storage, and its own headers allow no network at all. -->
+<script>addEventListener('message', e => { if (typeof e.data !== 'string') return; document.open(); document.write(e.data); document.close(); });</script>

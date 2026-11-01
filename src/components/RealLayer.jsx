@@ -44,6 +44,8 @@ function Part({ el, charW, rowH, byId }) {
     case 'text': return <div className={cls} style={style}>{p.lines.map((l, i) => <span key={i} className="real-line" style={at(0, i)}>{linked(l)}</span>)}</div>;
     case 'avatar': return <div className={cls} style={style}><span>{p.initials}</span></div>;
     case 'image': return <div className={cls} style={style}><span className="real-photo" aria-hidden="true" /></div>;
+    // Live code: the snippet runs in the sandbox page (scripts, no same origin, no network), handed over by message.
+    case 'livecode': return <div className={cls} style={style}><iframe key={p.html} title="Live code" src="/sandbox" sandbox="allow-scripts" style={{ border: 0, width: '100%', height: '100%', pointerEvents: 'none' }} onLoad={e => e.currentTarget.contentWindow?.postMessage(p.html, '*')} /></div>;
     case 'skeleton': return <div className={cls} style={style} />;
     case 'segmented': case 'tags': return <div className={cls} style={style}>{p.items.map((s, i) => <span key={i} className={i === p.at ? 'is-on' : undefined}>{s}</span>)}</div>;
     case 'tabs': return ( // a tab strip on the first two rows, the open tab's content in a card under it

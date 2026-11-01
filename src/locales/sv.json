@@ -141,7 +141,7 @@
  "part_tooltip": "Verktygstips",
  "part_tags": "Taggar",
  "part_chart": "Stapeldiagram",
- "part_code": "Kodblock",
+ "part_livecode": "Kodblock",
  "part_ios-nav": "Navigeringsfält",
  "part_ios-list": "Grupperad lista",
  "part_ios-switch": "Rad med brytare",
@@ -374,5 +374,5 @@
  "describe_changing": "Ändrar {name}",
  "describe_new": "En ny skärm",
  "describe_failed": "Inget svar. Försök igen.",
- "color_mode": "Färgläge", "add_color_var": "Lägg till färg", "add_width_var": "Lägg till bredd", "width_var": "Breddvariabel", "sets_var": "Sätter variabel", "describe_area": "I det valda området, {w} gånger {h}", "describe_notes": "{n} anteckningar till Claude följer med"
+ "color_mode": "Färgläge", "add_color_var": "Lägg till färg", "add_width_var": "Lägg till bredd", "width_var": "Breddvariabel", "sets_var": "Sätter variabel", "describe_area": "I det valda området, {w} gånger {h}", "describe_notes": "{n} anteckningar till Claude följer med", "part_livecode": "Live-kod", "code_html": "HTML"
 }

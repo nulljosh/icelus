@@ -147,3 +147,13 @@ export function fillVars(el, vars) {
 export function setSets(elements, id, name) {
   return elements.map(el => { if (el.id !== id) return el; const { sets: _, ...rest } = el; return isVarName(name) ? { ...rest, sets: name } : rest; });
 }
+
+// A live code part's HTML, at most HTML_MAX characters; it runs only inside the sandbox page (landing/sandbox.html).
+export const HTML_MAX = 20000;
+export function setHtml(elements, id, html) {
+  return elements.map(el => (el.id === id && el.presetId === 'livecode' ? { ...el, html: String(html ?? '').slice(0, HTML_MAX) } : el));
+}
+
+// What updateElement routes here: a variable name or a code part's HTML.
+export const setPlayField = (elements, id, changes) =>
+  changes.html !== undefined ? setHtml(elements, id, changes.html) : setSets(elements, id, changes.sets);

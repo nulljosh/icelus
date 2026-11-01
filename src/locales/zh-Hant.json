@@ -141,7 +141,7 @@
  "part_tooltip": "工具提示",
  "part_tags": "標籤",
  "part_chart": "長條圖",
- "part_code": "程式碼區塊",
+ "part_livecode": "程式碼區塊",
  "part_ios-nav": "導覽列",
  "part_ios-list": "分組清單",
  "part_ios-switch": "開關列",
@@ -374,5 +374,5 @@
  "describe_changing": "正在修改 {name}",
  "describe_new": "一個新畫面",
  "describe_failed": "沒有回應，請再試一次。",
- "color_mode": "顏色模式", "add_color_var": "新增顏色", "add_width_var": "新增寬度", "width_var": "寬度變數", "sets_var": "設定變數", "describe_area": "放進選取的區域，{w} × {h}", "describe_notes": "{n} 則給 Claude 的便條會一起送出"
+ "color_mode": "顏色模式", "add_color_var": "新增顏色", "add_width_var": "新增寬度", "width_var": "寬度變數", "sets_var": "設定變數", "describe_area": "放進選取的區域，{w} × {h}", "describe_notes": "{n} 則給 Claude 的便條會一起送出", "part_livecode": "即時程式碼", "code_html": "HTML"
 }

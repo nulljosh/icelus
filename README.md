@@ -9,7 +9,7 @@ Free on the web, $0.99 on the App Store for iPhone, iPad and Mac.
 
 ## Features
 
-Say what a screen is for and it appears. Edit it on a canvas with 38 parts, auto layout, symbols and grids, or paint over it with brushes and masks. Link buttons to screens and press Play to click through it like a real app. Review flags overlaps, unlabeled fields and taps that are too small, and fixes what it can. When it's done, hand it off as React or SwiftUI code, a build brief for Claude Code, a PDF or plain text. 27 languages, no account needed.
+Say what a screen is for and it appears. Edit it on a canvas with 39 parts, auto layout, symbols and grids, or paint over it with brushes and masks. Link buttons to screens and press Play to click through it like a real app. Review flags overlaps, unlabeled fields and taps that are too small, and fixes what it can. When it's done, hand it off as React or SwiftUI code, a build brief for Claude Code, a PDF or plain text. 27 languages, no account needed.
 
 ## Run
 

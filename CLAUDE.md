@@ -40,7 +40,7 @@ order onto a character grid, so later elements sit on top. Undo keeps 50 element
 file is `{blockprint: 1, cols, rows, elements}` (the old key stays so every saved file still opens) and is the same JSON on every platform.
 
 - `src/lib/engine.js`: grid, elements, undo, exports (trim, ASCII, Markdown); project files in `project.js` (re-exported) and `Project.swift`
-- `src/lib/presets.js`: the 38 parts, the drawing tools and the four part packs (`PACKS`)
+- `src/lib/presets.js`: the 39 parts, the drawing tools and the four part packs (`PACKS`)
 - `src/lib/tools.js`: the one tool list behind `/api/*` and `/mcp` (Pages Functions in `functions/`)
 - `src/lib/webmcp.js`: browser agent tools that drive the live canvas
 - `src/lib/real.js`: `realPart(el)`, what each part draws as in the real look (the default since v36; the text look is a Settings switch, `glyphbox-look` in storage). `RealLayer.jsx` draws it, `Real.swift` and `RealView.swift` are the native twins

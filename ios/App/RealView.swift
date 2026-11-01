@@ -64,6 +64,7 @@ private struct RealPartView: View {
             Circle().fill(paper ?? Theme.accent.opacity(0.15)).overlay(Text(verbatim: initials).fontWeight(.semibold).foregroundStyle(ink ?? Theme.accent))
         case .image: RoundedRectangle(cornerRadius: rowH * 0.4).fill(paper ?? fill).overlay(Image(systemName: "photo").foregroundStyle(Theme.muted))
         case .skeleton: RoundedRectangle(cornerRadius: rowH * 0.3).fill(fill)
+        case .livecode(let html): LiveCodeView(html: html).allowsHitTesting(false)
         case .segmented(let items, let at):
             HStack(spacing: 0) {
                 ForEach(Array(items.enumerated()), id: \.offset) { i, s in

@@ -8,7 +8,7 @@ private let characterParts: Set<String> = ["line", "paint", "adjust", "chart", "
 
 enum RealPart: Equatable {
     case control(CodePart)
-    case toggle(Bool), slider(Double), progress(Double), search(String), avatar(String), image, skeleton
+    case toggle(Bool), slider(Double), progress(Double), search(String), avatar(String), image, skeleton, livecode(String)
     case segmented([String], at: Int), tags([String])
     case tabs([String], at: Int, rows: [TextRow])
     case box([TextRow]), words([TextRow])
@@ -54,6 +54,7 @@ func realPart(_ el: Element) -> RealPart? {
     case "search": return .search(t.replacingOccurrences(of: "[()⌕]", with: "", options: .regularExpression).trimmingCharacters(in: .whitespaces))
     case "avatar": return .avatar(String(rowsOfText(el.template).map(\.text).joined().filter { $0.isLetter || $0.isNumber }.prefix(2)).uppercased())
     case "image": return .image
+    case "livecode": return .livecode(el.html ?? "")
     case "skeleton": return .skeleton
     case "segmented": return .segmented(t.trimmingCharacters(in: CharacterSet(charactersIn: "[]")).split(separator: "|").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }, at: el.live ?? 0)
     case "tabs": // the labels on the second row; the open one is under the corners on the first (or the one played)

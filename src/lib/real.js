@@ -39,6 +39,7 @@ export function realPart(el) {
     case 'search': return { kind: 'input', placeholder: t.replace(/[()⌕]/g, '').trim(), search: true };
     case 'avatar': return { kind: 'avatar', initials: rowsOfText(el).map(r => r.text).join('').replace(/\W/g, '').slice(0, 2).toUpperCase() };
     case 'image': return { kind: 'image' };
+    case 'livecode': return { kind: 'livecode', html: el.html ?? '' };
     case 'skeleton': return { kind: 'skeleton' };
     case 'segmented': return { kind: 'segmented', items: t.replace(/^\[|\]$/g, '').split('|').map(s => s.trim()).filter(Boolean), at: el.live ?? 0 };
     case 'tabs': { // the labels on the second row; the open one is under the corners on the first (or the one played)

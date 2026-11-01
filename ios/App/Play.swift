@@ -202,3 +202,13 @@ func setSets(_ elements: [Element], id: String, _ name: String?) -> [Element] {
         return out
     }
 }
+
+/// A live code part's HTML, at most htmlMax characters; it only ever runs in LiveCodeView, with no network.
+func setHtml(_ elements: [Element], id: String, _ html: String) -> [Element] {
+    elements.map { el in
+        guard el.id == id, el.presetId == "livecode" else { return el }
+        var out = el
+        out.html = String(html.prefix(htmlMax))
+        return out
+    }
+}

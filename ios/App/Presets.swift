@@ -80,6 +80,14 @@ let presets: [Preset] = [
     ]),
     chartPreset("progress", "Progress", "Feedback", "42"),
     Preset(id: "icon", label: "Icon", category: "Media", template: ["★"]),
+    // Live code (Play.swift, Real.swift): its `html` runs sandboxed in the real look; the characters are its stand-in.
+    Preset(id: "livecode", label: "Live code", category: "Media", template: [
+        "╔══════════════╗",
+        "║              ║",
+        "║   </> live   ║",
+        "║              ║",
+        "╚══════════════╝",
+    ]),
     Preset(id: "image", label: "Image", category: "Media", template: [
         "╔══════════════╗",
         "║              ║",

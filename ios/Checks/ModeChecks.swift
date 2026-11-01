@@ -75,4 +75,11 @@ func runModeChecks() {
     var ps = EditorState(cols: 30, rows: 10)
     ps.elements = [vbox]
     check(parseProject(serializeProject(ps))?.elements[0].sets == "news", "play vars: the name survives a save")
+    // Live code parts (Play.swift setHtml, Real.swift): HTML kept on livecode parts only, capped, saved.
+    let lc = part("livecode", 0, 0)
+    check(setHtml([lc], id: lc.id, "<b>hi</b>")[0].html == "<b>hi</b>" && setHtml([vbox], id: vbox.id, "<b>x</b>")[0].html == nil, "live code: html only on livecode parts")
+    check(setHtml([lc], id: lc.id, String(repeating: "a", count: htmlMax + 5))[0].html?.count == htmlMax, "live code: html is capped")
+    ps.elements = setHtml([lc], id: lc.id, "<i>x</i>")
+    check(parseProject(serializeProject(ps))?.elements[0].html == "<i>x</i>", "live code: html survives a save")
+    if case .livecode(let h)? = realPart(ps.elements[0]) { check(h == "<i>x</i>", "live code: real look runs the html") } else { check(false, "live code: real look") }
 }

@@ -141,7 +141,7 @@
  "part_tooltip": "Tooltip",
  "part_tags": "Tags",
  "part_chart": "Balkendiagramm",
- "part_code": "Codeblock",
+ "part_livecode": "Codeblock",
  "part_ios-nav": "Navigationsleiste",
  "part_ios-list": "Gruppierte Liste",
  "part_ios-switch": "Zeile mit Schalter",
@@ -374,5 +374,5 @@
  "describe_changing": "{name} wird geändert",
  "describe_new": "Ein neuer Bildschirm",
  "describe_failed": "Keine Antwort. Versuch es noch einmal.",
- "color_mode": "Farbmodus", "add_color_var": "Farbe hinzufügen", "add_width_var": "Breite hinzufügen", "width_var": "Breitenvariable", "sets_var": "Setzt Variable", "describe_area": "In den gewählten Bereich, {w} × {h}", "describe_notes": "{n} Notizen für Claude gehen mit"
+ "color_mode": "Farbmodus", "add_color_var": "Farbe hinzufügen", "add_width_var": "Breite hinzufügen", "width_var": "Breitenvariable", "sets_var": "Setzt Variable", "describe_area": "In den gewählten Bereich, {w} × {h}", "describe_notes": "{n} Notizen für Claude gehen mit", "part_livecode": "Live-Code", "code_html": "HTML"
 }

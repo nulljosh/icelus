@@ -80,3 +80,24 @@ struct SetsField: View {
         if v != (value ?? "") { save(v.isEmpty ? nil : v) }
     }
 }
+
+/// A live code part's HTML (Play.swift setHtml). Saved when focus leaves, so a whole edit is one undo step.
+struct HtmlField: View {
+    let value: String?
+    let save: (String) -> Void
+    @State private var draft = ""
+    @FocusState private var focused: Bool
+
+    var body: some View {
+        TextField("HTML", text: $draft, prompt: Text(verbatim: "<button>Hi</button>"), axis: .vertical)
+            .textFieldStyle(.roundedBorder)
+            .font(.system(.footnote, design: .monospaced))
+            .lineLimit(3...8)
+            .frame(maxWidth: 260)
+            .autocorrectionDisabled()
+            .focused($focused)
+            .onAppear { draft = value ?? "" }
+            .onChange(of: value) { _, v in draft = v ?? "" }
+            .onChange(of: focused) { _, on in if !on, draft != (value ?? "") { save(draft) } }
+    }
+}

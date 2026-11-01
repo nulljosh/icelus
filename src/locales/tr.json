@@ -141,7 +141,7 @@
  "part_tooltip": "Araç ipucu",
  "part_tags": "Etiketler",
  "part_chart": "Çubuk grafik",
- "part_code": "Kod bloğu",
+ "part_livecode": "Kod bloğu",
  "part_ios-nav": "Gezinme çubuğu",
  "part_ios-list": "Gruplu liste",
  "part_ios-switch": "Anahtarlı satır",
@@ -374,5 +374,5 @@
  "describe_changing": "{name} değiştiriliyor",
  "describe_new": "Yeni bir ekran",
  "describe_failed": "Yanıt gelmedi. Tekrar deneyin.",
- "color_mode": "Renk modu", "add_color_var": "Renk ekle", "add_width_var": "Genişlik ekle", "width_var": "Genişlik değişkeni", "sets_var": "Değişkeni ayarlar", "describe_area": "Seçilen alana, {w} × {h}", "describe_notes": "Claude için {n} not birlikte gider"
+ "color_mode": "Renk modu", "add_color_var": "Renk ekle", "add_width_var": "Genişlik ekle", "width_var": "Genişlik değişkeni", "sets_var": "Değişkeni ayarlar", "describe_area": "Seçilen alana, {w} × {h}", "describe_notes": "Claude için {n} not birlikte gider", "part_livecode": "Canlı kod", "code_html": "HTML"
 }

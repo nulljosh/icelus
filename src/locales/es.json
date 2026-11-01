@@ -141,7 +141,7 @@
  "part_tooltip": "Tooltip",
  "part_tags": "Etiquetas",
  "part_chart": "Gráfico de barras",
- "part_code": "Bloque de código",
+ "part_livecode": "Bloque de código",
  "part_ios-nav": "Barra de navegación",
  "part_ios-list": "Lista empotrada",
  "part_ios-switch": "Fila con interruptor",
@@ -374,5 +374,5 @@
  "describe_changing": "Cambiando {name}",
  "describe_new": "Una pantalla nueva",
  "describe_failed": "No hubo respuesta. Inténtalo de nuevo.",
- "color_mode": "Modo de color", "add_color_var": "Añadir color", "add_width_var": "Añadir ancho", "width_var": "Variable de ancho", "sets_var": "Define variable", "describe_area": "En el área elegida, {w} por {h}", "describe_notes": "{n} notas para Claude van incluidas"
+ "color_mode": "Modo de color", "add_color_var": "Añadir color", "add_width_var": "Añadir ancho", "width_var": "Variable de ancho", "sets_var": "Define variable", "describe_area": "En el área elegida, {w} por {h}", "describe_notes": "{n} notas para Claude van incluidas", "part_livecode": "Código en vivo", "code_html": "HTML"
 }

@@ -70,6 +70,7 @@
 		E8AC8D1716C4CAE2CD8E9089 /* Lines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1BA5C1AA0F00AB6EB87226 /* Lines.swift */; };
 		E9B8A1083A2CE98F0D979864 /* ReviewSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD1C43C57601DE2743786E0 /* ReviewSheet.swift */; };
 		F0D253732521AD3BAE6B6DC4 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C02085D7634E7A40206A127 /* Palette.swift */; };
+		F0EF810BB4A5BC30F7E96814 /* LiveCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5677F1EF5AEFEF74B526CA58 /* LiveCodeView.swift */; };
 		F11D69B7B5344DB018B48505 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C770C89F3EE0FB3F0F7FDE2 /* Theme.swift */; };
 		F2DF33282BEA4AEF6C67CE7A /* Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF25801F171E6565367FC00D /* Shapes.swift */; };
 		F57CA2D2751F665F013C0863 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8256BF6BED71D9179305726 /* Project.swift */; };
@@ -100,6 +101,7 @@
 		4EEAFE70C5CC44FE1266EF7F /* CanvasVarsMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasVarsMenu.swift; sourceTree = "<group>"; };
 		5084EB91A39CB3AEECD78655 /* ContentView+Brush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Brush.swift"; sourceTree = "<group>"; };
 		5484773E47EA73A7F1F10210 /* Tweaks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweaks.swift; sourceTree = "<group>"; };
+		5677F1EF5AEFEF74B526CA58 /* LiveCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveCodeView.swift; sourceTree = "<group>"; };
 		57424AF9D748F7E21870DB86 /* Deck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 		5B20898F035FF1CC8BEDD3A8 /* Heal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heal.swift; sourceTree = "<group>"; };
 		5C770C89F3EE0FB3F0F7FDE2 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				5EECD3D9BB67D44DEA7D2CF3 /* Layout.swift */,
 				ACD187040BCC4FBAC60583EF /* Library.swift */,
 				8E1BA5C1AA0F00AB6EB87226 /* Lines.swift */,
+				5677F1EF5AEFEF74B526CA58 /* LiveCodeView.swift */,
 				AB84827DB3AAE3C5A2D8E08E /* Localizable.xcstrings */,
 				5DE55F405EF48DA465F09BA1 /* Mask.swift */,
 				C158F9FBC296CB8C1D1C1481 /* MaskView.swift */,
@@ -386,6 +389,7 @@
 				1A57AFBB187D986047D205CD /* Layout.swift in Sources */,
 				876D754B93A617CE9E4452FE /* Library.swift in Sources */,
 				E8AC8D1716C4CAE2CD8E9089 /* Lines.swift in Sources */,
+				F0EF810BB4A5BC30F7E96814 /* LiveCodeView.swift in Sources */,
 				E338AE18AC6B0BA01FDB43B0 /* Mask.swift in Sources */,
 				D8FD9CD32586FC514F2C1CB0 /* MaskView.swift in Sources */,
 				169C891A6F05E01E700B75ED /* Modes.swift in Sources */,

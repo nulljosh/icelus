@@ -141,7 +141,7 @@
  "part_tooltip": "Подсказка",
  "part_tags": "Теги",
  "part_chart": "Столбчатая диаграмма",
- "part_code": "Блок кода",
+ "part_livecode": "Блок кода",
  "part_ios-nav": "Навигационная панель",
  "part_ios-list": "Сгруппированный список",
  "part_ios-switch": "Строка с переключателем",
@@ -374,5 +374,5 @@
  "describe_changing": "Меняю {name}",
  "describe_new": "Новый экран",
  "describe_failed": "Нет ответа. Попробуйте снова.",
- "color_mode": "Цветовой режим", "add_color_var": "Добавить цвет", "add_width_var": "Добавить ширину", "width_var": "Переменная ширины", "sets_var": "Задаёт переменную", "describe_area": "В выбранную область, {w} на {h}", "describe_notes": "{n} заметок для Claude уйдут вместе"
+ "color_mode": "Цветовой режим", "add_color_var": "Добавить цвет", "add_width_var": "Добавить ширину", "width_var": "Переменная ширины", "sets_var": "Задаёт переменную", "describe_area": "В выбранную область, {w} на {h}", "describe_notes": "{n} заметок для Claude уйдут вместе", "part_livecode": "Живой код", "code_html": "HTML"
 }
