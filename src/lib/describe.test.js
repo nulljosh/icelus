@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { describeMessages, cleanReply, MAX_MESSAGE } from './describe.js';
+import { describeMessages, cleanReply, MAX_MESSAGE, cellArea, areaHint, intoArea } from './describe.js';
 
 describe('describe it', () => {
   it('builds the rules, recent turns and the ask', () => {
@@ -23,5 +23,19 @@ describe('describe it', () => {
     expect(cleanReply('# A\nName: ________\nConfirm Password: ____\nTotal: $5')).toBe('# A\n"Name"\n"Confirm Password"\nTotal: $5');
     expect(cleanReply('# A\n' + Array(500).fill('[x]').join('\n')).split('\n')).toHaveLength(60);
     expect(cleanReply('You are talking to a language model trained on text.')).toBe('');
+  });
+});
+
+describe('describe into a selection', () => {
+  it('the area is the box around the picked cells', () => {
+    expect(cellArea([[5, 3], [9, 3], [7, 6]])).toEqual({ col: 5, row: 3, width: 5, height: 4 });
+    expect(cellArea([])).toBe(null);
+  });
+  it('parts move so their top left lands on the area, keeping their layout', () => {
+    const parts = [{ id: 'a', col: 2, row: 4 }, { id: 'b', col: 6, row: 7 }];
+    expect(intoArea(parts, { col: 20, row: 10 })).toEqual([{ id: 'a', col: 20, row: 10 }, { id: 'b', col: 24, row: 13 }]);
+  });
+  it('the hint names the size', () => {
+    expect(areaHint({ width: 30, height: 8 })).toMatch(/30 columns wide and 8 rows tall/);
   });
 });

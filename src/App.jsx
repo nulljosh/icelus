@@ -17,6 +17,7 @@ import { recordAction, saveAction, playAction, cleanActionName } from './lib/act
 import { harmonize } from './lib/heal.js';
 import { autoLayout, constrain, syncTwins, makeSizes } from './lib/layout.js';
 import { setMode, setVar, setGridStyle, setColorVar, setWidthVar, setColorMode } from './lib/modes.js';
+import { cellArea, intoArea } from './lib/describe.js';
 import { gridEverywhere } from './lib/grids.js';
 import { fixFocusOrder } from './lib/access.js';
 import { applyCopy } from './lib/copydeck.js';
@@ -149,9 +150,15 @@ function edit(state, action) {
 
     case 'PLACE_DESCRIBED': {
       // A screen from Describe it: it replaces the picked screen in place, or lands to the right of the rest.
-      const { source, replaceId } = action;
+      const { source, replaceId, area } = action;
       const name = (source.match(/^#\s+(.+)$/m)?.[1] ?? 'Screen').trim().slice(0, 40);
       const withHistory = pushHistory(state);
+      if (area) { // Describe into a selection (describe.js): the parts only, top left on the picked area
+        const parts = intoArea(screenTemplate(name, source, area.col, area.row).slice(1), area);
+        const elements = [...withHistory.elements, ...parts];
+        const { cols, rows } = fitCanvas(state, elements);
+        return { ...withHistory, cols, rows, elements, grid: renderElements(elements, cols, rows), selectedPreset: null, selectedId: null };
+      }
       const old = replaceId ? withHistory.elements.find(e => e.id === replaceId && e.presetId === 'screen') : null;
       let rest = withHistory.elements, col = 0, row = 0;
       if (old) {
@@ -897,7 +904,7 @@ export default function App() {
       {playing && <Play elements={state.elements} start={playing} onClose={closePlay} />}
       {filesOpen && <FilesPanel files={files} onClose={() => setFilesOpen(false)} />}
       {chatOpen && <ChatPanel onClose={() => setChatOpen(false)} current={describedSource} currentName={describedScreen?.text}
-        onScreen={source => dispatch({ type: 'PLACE_DESCRIBED', source, replaceId: describedScreen?.id })} />}
+        area={cellArea(cellSel)} onScreen={source => { dispatch({ type: 'PLACE_DESCRIBED', source, replaceId: describedScreen?.id, area: cellArea(cellSel) }); setCellSel([]); }} />}
       <input ref={photoRef} type="file" accept="image/*" hidden onChange={handlePhoto} />
       <input ref={fileRef} type="file" accept=".icelus,.morphis,.morpheus,.glyphbox,.glyphic,.blockprint,.json,.txt,text/plain,application/json" hidden onChange={handleOpenFile} />
       <header className="app-header">

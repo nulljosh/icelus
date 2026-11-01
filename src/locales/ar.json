@@ -374,5 +374,5 @@
  "describe_changing": "تغيير {name}",
  "describe_new": "شاشة جديدة",
  "describe_failed": "لم يصل رد. حاول مجددًا.",
- "color_mode": "وضع الألوان", "add_color_var": "إضافة لون", "add_width_var": "إضافة عرض", "width_var": "متغير العرض", "sets_var": "يضبط متغيرًا"
+ "color_mode": "وضع الألوان", "add_color_var": "إضافة لون", "add_width_var": "إضافة عرض", "width_var": "متغير العرض", "sets_var": "يضبط متغيرًا", "describe_area": "في المنطقة المحددة، {w} في {h}"
 }

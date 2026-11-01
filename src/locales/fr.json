@@ -374,5 +374,5 @@
  "describe_changing": "Modification de {name}",
  "describe_new": "Un nouvel écran",
  "describe_failed": "Pas de réponse. Réessayez.",
- "color_mode": "Mode de couleur", "add_color_var": "Ajouter une couleur", "add_width_var": "Ajouter une largeur", "width_var": "Variable de largeur", "sets_var": "Définit la variable"
+ "color_mode": "Mode de couleur", "add_color_var": "Ajouter une couleur", "add_width_var": "Ajouter une largeur", "width_var": "Variable de largeur", "sets_var": "Définit la variable", "describe_area": "Dans la zone choisie, {w} sur {h}"
 }

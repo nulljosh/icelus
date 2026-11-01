@@ -374,5 +374,5 @@
  "describe_changing": "{name} बदल रहा है",
  "describe_new": "नई स्क्रीन",
  "describe_failed": "जवाब नहीं आया। फिर कोशिश करें।",
- "color_mode": "रंग मोड", "add_color_var": "रंग जोड़ें", "add_width_var": "चौड़ाई जोड़ें", "width_var": "चौड़ाई वेरिएबल", "sets_var": "वेरिएबल सेट करता है"
+ "color_mode": "रंग मोड", "add_color_var": "रंग जोड़ें", "add_width_var": "चौड़ाई जोड़ें", "width_var": "चौड़ाई वेरिएबल", "sets_var": "वेरिएबल सेट करता है", "describe_area": "चुने हुए हिस्से में, {w} × {h}"
 }

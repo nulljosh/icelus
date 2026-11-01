@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
+import { areaHint } from '../lib/describe.js';
 import { t } from '../i18n.js';
 import './ChatPanel.css';
 
 // Describe it: say what a screen is for and a model draws it. With a screen picked, say what to change and
 // it redraws that screen. Each answer is typed lines the app parses, so it lands like any screen template.
-export default function ChatPanel({ onClose, onScreen, current, currentName }) {
+export default function ChatPanel({ onClose, onScreen, current, currentName, area }) {
   const [turns, setTurns] = useState([]); // [{ role, content }], content is typed lines for the assistant
   const [draft, setDraft] = useState('');
   const [busy, setBusy] = useState(false);
@@ -22,7 +23,7 @@ export default function ChatPanel({ onClose, onScreen, current, currentName }) {
     setDraft('');
     try {
       const res = await fetch('/api/describe', { method: 'POST', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ message, history, current: current ?? '' }) });
+        body: JSON.stringify({ message: area ? `${message}\n${areaHint(area)}` : message, history, current: area ? '' : current ?? '' }) });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.source) throw new Error(data.error || t('describe_failed'));
       setTurns(ts => [...ts, { role: 'assistant', content: data.source }]);
@@ -51,7 +52,7 @@ export default function ChatPanel({ onClose, onScreen, current, currentName }) {
         {problem && <p className="chat-problem" role="alert">{problem}</p>}
       </div>
       <form className="chat-form" onSubmit={send}>
-        <p className="chat-target">{currentName ? t('describe_changing', { name: currentName }) : t('describe_new')}</p>
+        <p className="chat-target">{area ? t('describe_area', { w: area.width, h: area.height }) : currentName ? t('describe_changing', { name: currentName }) : t('describe_new')}</p>
         <textarea id="chat-input" className="chat-input" rows={3} maxLength={2000} value={draft} placeholder={t('describe_placeholder')}
           onChange={e => setDraft(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) send(e); }} aria-label={t('describe_title')} />
         <button type="submit" className="btn btn-primary" disabled={busy || !draft.trim()}>{t('send')}</button>

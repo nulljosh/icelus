@@ -374,5 +374,5 @@
  "describe_changing": "{name} wird geändert",
  "describe_new": "Ein neuer Bildschirm",
  "describe_failed": "Keine Antwort. Versuch es noch einmal.",
- "color_mode": "Farbmodus", "add_color_var": "Farbe hinzufügen", "add_width_var": "Breite hinzufügen", "width_var": "Breitenvariable", "sets_var": "Setzt Variable"
+ "color_mode": "Farbmodus", "add_color_var": "Farbe hinzufügen", "add_width_var": "Breite hinzufügen", "width_var": "Breitenvariable", "sets_var": "Setzt Variable", "describe_area": "In den gewählten Bereich, {w} × {h}"
 }

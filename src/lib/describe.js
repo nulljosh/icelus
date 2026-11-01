@@ -37,3 +37,18 @@ export function cleanReply(text) {
   // A field written as "Name: ____" becomes the field it means.
   return lines.slice(0, 60).map(l => l.slice(0, 200).replace(/^\s*([^"\[\]:]{1,40}?):?\s*_{3,}\s*$/, '"$1"')).join('\n').trim();
 }
+
+// Describe into a selection: the box around the cells the marquee or wand picked, the hint the model gets, and
+// the parts of the described screen moved so their top left sits on the box's top left (no screen frame).
+export function cellArea(cells) {
+  if (!cells?.length) return null;
+  const cs = cells.map(c => c[0]), rs = cells.map(c => c[1]);
+  const col = Math.min(...cs), row = Math.min(...rs);
+  return { col, row, width: Math.max(...cs) - col + 1, height: Math.max(...rs) - row + 1 };
+}
+export const areaHint = area => `It goes into an area ${area.width} columns wide and ${area.height} rows tall inside a screen, so keep it to what fits there.`;
+export function intoArea(parts, area) {
+  if (!parts.length) return parts;
+  const dCol = area.col - Math.min(...parts.map(p => p.col)), dRow = area.row - Math.min(...parts.map(p => p.row));
+  return parts.map(p => ({ ...p, col: p.col + dCol, row: p.row + dRow }));
+}
