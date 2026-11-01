@@ -31,19 +31,8 @@ history. Figma brings components, auto layout, variables, prototypes and working
 wedge: every new feature is also an API and MCP tool on the day it ships.
 
 ### Gaps, round two (docs/STRATEGY.md, one per tick between versions)
-- [x] Describe into a selection: marquee an area and type what goes there. Done 2026-11-01 (web, where Describe lives): with cells picked, Describe tells the model the area size and places the parts with their top left on the area, no new screen frame; describe.js cellArea/areaHint/intoArea with tests, 26 locales. Walked live: marquee 23 by 6, "two buttons, Save and Cancel" placed two buttons there; area asks get their own model rules (only what was asked, sized to the area) and the # title banner is dropped.
-- [x] Notes Claude acts on: a note addressed to Claude is read by Describe it and resolved when done. Done 2026-11-01 (web): notes starting "@claude" or "Claude:" on the picked screen ride along with the ask (or are the ask when nothing is typed); Describe redraws the screen, so the noted parts and their notes go. describe.js claudeNotes/notesAsk with tests, 26 locales. Panel opens live; the notes path was not run against the model.
-- [x] (11-01: web Export > Download PowerPoint, native Export > Share PowerPoint; both open in python-pptx) PowerPoint export: the deck as a .pptx.
-- [x] (11-01: an auto screen can run left to right, wrap at the frame and align rows top, middle or bottom; web and native) Auto layout across: stacks that run left to right, with alignment and wrap (Figma auto layout).
-- [x] Live code parts: a part that runs a small sandboxed HTML snippet in the real look. (2026-11-01: `livecode` preset, web iframe on /sandbox with no network, native WKWebView with the same policy, HTML field, edit op `html`)
-- [x] (11-01: a symbol copy hides lines of itself, Show lines in the inspector on web and native, saved in project files) Show and hide per copy: a symbol copy hides a line of itself without detaching (Figma boolean properties).
-- [x] Color and width variables: name an ink or a width once and every part using it follows, with a light and a dark set (Figma color variables and modes). Done 2026-11-01: canvas panel and native Canvas menu hold named colors (light and dark), the color mode and named widths; ink, paper and width bind in the inspector; edit ops color_var, width_var, color_mode, bind; 26 locales; 384 web tests, 852 Swift checks, Mac build.
 - [ ] Shared libraries by link: publish a library to a URL and projects check it for updates on open, with a list of what changed (Figma library updates).
-- [x] (11-01: baseline rows and named grid styles, web and native) Row grids and named grid styles: baseline rows as well as columns, saved by name and picked per screen (Figma grid styles).
-- [x] (11-01: Inspect "Measure to" on web and native shows the gap across and down; inspect_part takes `to`) Measure between any two parts: hold a key over another part to see the gap between them (Figma redlines).
-- [x] (11-01: Back, web links and Overlay, web and native) More prototype actions: Back, open as an overlay, and open a web link, on press or after a delay (Figma interactions).
 - [ ] Play on a device: open a prototype on a phone from the canvas and see edits land while it plays (Figma mirror).
-- [x] Variables in play: a typed field or a ticked box sets a value that other screens read and show (Figma prototype variables and conditionals). Done 2026-11-01: a live part gets a Sets Variable name; while playing, words written {name} on any screen show its value (typed words, Yes/No, the chosen item, stars, slider percent), web and native, edit op sets, 26 locales; 387 web tests, 857 Swift checks. Conditionals not done.
 - [ ] Languages side by side: keep each translation as its own copy of the words and flip between them without undo (Figma and Lokalise copy variants).
 
 ### Era 6: Figma, prototype (51 to 60)
