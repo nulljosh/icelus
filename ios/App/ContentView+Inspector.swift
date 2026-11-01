@@ -159,10 +159,22 @@ extension ContentView {
                                                set: { id in canvasEdit { updateElement($0, id: el.id, opens: id.isEmpty ? nil : id) } })) {
                 Text("Nothing").tag("")
                 Text("Back").tag(backTarget)
-                if let url = opensLink(el) { Text(verbatim: url).tag(url) } // set on the web or by an agent; native editing comes later
+                if let url = opensLink(el) { Text(verbatim: url).tag(url) }
                 ForEach(screens, id: \.id) { Text(verbatim: ($0.text ?? "").isEmpty ? "Screen" : $0.text!).tag($0.id) }
             }
             .pickerStyle(.menu).fixedSize()
+            // A web link: type an https address and press return. Anything else is left alone.
+            TextField("Web link", text: $linkDraft, prompt: Text(verbatim: opensLink(el) ?? "https://"))
+                .textContentType(.URL)
+                #if os(iOS)
+                .keyboardType(.URL).textInputAutocapitalization(.never)
+                #endif
+                .autocorrectionDisabled()
+                .onSubmit {
+                    let url = linkDraft.trimmingCharacters(in: .whitespaces)
+                    if isLink(url) { canvasEdit { updateElement($0, id: el.id, opens: url) }; linkDraft = "" }
+                }
+                .frame(maxWidth: 240)
             if opensScreen(state.elements, el) != nil { // v56: how that screen arrives
                 Picker("Arrives", selection: Binding(get: { el.move ?? "" },
                                                      set: { m in canvasEdit { updateElement($0, id: el.id, move: m.isEmpty ? nil : m) } })) {
