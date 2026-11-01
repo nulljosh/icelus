@@ -23,7 +23,7 @@ export default function ChatPanel({ onClose, onScreen, current, currentName, are
     setDraft('');
     try {
       const res = await fetch('/api/describe', { method: 'POST', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ message: area ? `${message}\n${areaHint(area)}` : message, history, current: area ? '' : current ?? '' }) });
+        body: JSON.stringify({ message: area ? `${message}\n${areaHint(area)}` : message, history, current: area ? '' : current ?? '', ...(area && { area: { width: area.width, height: area.height } }) }) });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.source) throw new Error(data.error || t('describe_failed'));
       setTurns(ts => [...ts, { role: 'assistant', content: data.source }]);

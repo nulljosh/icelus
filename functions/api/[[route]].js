@@ -83,7 +83,7 @@ export async function onRequest({ request, env }) {
     const { body, bad, tooLarge } = await readJson(request);
     if (tooLarge) return json({ error: `Body is over ${MAX_BODY} bytes.` }, 413);
     if (bad) return json({ error: 'Body must be JSON.' }, 400);
-    const messages = describeMessages(body?.message, { history: body?.history, current: typeof body?.current === 'string' ? body.current : '' });
+    const messages = describeMessages(body?.message, { history: body?.history, current: typeof body?.current === 'string' ? body.current : '', area: body?.area });
     if (!messages) return json({ error: 'Say what the screen is for.' }, 400);
     let reply;
     try {

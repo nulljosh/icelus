@@ -31,7 +31,7 @@ history. Figma brings components, auto layout, variables, prototypes and working
 wedge: every new feature is also an API and MCP tool on the day it ships.
 
 ### Gaps, round two (docs/STRATEGY.md, one per tick between versions)
-- [x] Describe into a selection: marquee an area and type what goes there. Done 2026-11-01 (web, where Describe lives): with cells picked, Describe tells the model the area size and places the parts with their top left on the area, no new screen frame; describe.js cellArea/areaHint/intoArea with tests, 26 locales. Not walked live: a headless click on Describe opens no panel on this build or the one before it.
+- [x] Describe into a selection: marquee an area and type what goes there. Done 2026-11-01 (web, where Describe lives): with cells picked, Describe tells the model the area size and places the parts with their top left on the area, no new screen frame; describe.js cellArea/areaHint/intoArea with tests, 26 locales. Walked live: marquee 23 by 6, "two buttons, Save and Cancel" placed two buttons there; area asks get their own model rules (only what was asked, sized to the area) and the # title banner is dropped.
 - [ ] Notes Claude acts on: a note addressed to Claude is read by Describe it and resolved when done.
 - [x] (11-01: web Export > Download PowerPoint, native Export > Share PowerPoint; both open in python-pptx) PowerPoint export: the deck as a .pptx.
 - [x] (11-01: an auto screen can run left to right, wrap at the frame and align rows top, middle or bottom; web and native) Auto layout across: stacks that run left to right, with alignment and wrap (Figma auto layout).

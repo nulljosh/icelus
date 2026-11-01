@@ -34,8 +34,20 @@ describe('describe into a selection', () => {
   it('parts move so their top left lands on the area, keeping their layout', () => {
     const parts = [{ id: 'a', col: 2, row: 4 }, { id: 'b', col: 6, row: 7 }];
     expect(intoArea(parts, { col: 20, row: 10 })).toEqual([{ id: 'a', col: 20, row: 10 }, { id: 'b', col: 24, row: 13 }]);
+    expect(intoArea([{ id: 't', presetId: 'banner', col: 0, row: 0 }, ...parts], { col: 20, row: 10 }).map(p => p.id)).toEqual(['a', 'b']);
   });
   it('the hint names the size', () => {
     expect(areaHint({ width: 30, height: 8 })).toMatch(/30 columns wide and 8 rows tall/);
+    expect(areaHint({ width: 30, height: 8 })).toMatch(/only what was asked/);
+  });
+});
+
+describe('describe into a selection, server side', () => {
+  it('an area swaps in rules that ask for only what was asked, sized to the area', () => {
+    const sys = describeMessages('two buttons', { area: { width: 23, height: 6 } })[0].content;
+    expect(sys).toMatch(/only what the person asked for/);
+    expect(sys).toMatch(/23 columns and 6 rows/);
+    expect(sys).not.toMatch(/every form an error/);
+    expect(describeMessages('two buttons', { area: { width: 'x', height: 6 } })[0].content).toMatch(/every form an error/); // bad area, normal rules
   });
 });
