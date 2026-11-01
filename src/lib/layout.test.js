@@ -21,6 +21,21 @@ describe('auto layout', () => {
     expect(autoLayout(after, after)).toBe(after); // nothing to move, same list back
   });
 
+  it('across: parts run left to right with the gap, wrap at the frame, and rows align', () => {
+    const narrow = screenAt(20, 12);
+    const x = createElement(getPreset('button'), 1, 1), y = createElement(getPreset('button'), 1, 4), z = createElement(getPreset('button'), 1, 7);
+    const els = [narrow, x, y, z];
+    const laid = autoLayout(els, updateElement(els, narrow.id, { auto: { gap: 1, pad: 1, across: true } }));
+    const at = id => laid.find(el => el.id === id);
+    expect(at(x.id).row).toBe(at(y.id).row); // side by side
+    expect(at(y.id).col).toBe(at(x.id).col + x.width + 1);
+    expect(at(z.id).row).toBeGreaterThan(at(x.id).row); // wrapped, a 6 wide button cannot fit three to a row in 16 cells
+    expect(cleanAuto({ gap: 1, pad: 1, across: true, align: 'sideways' })).toEqual({ gap: 1, pad: 1, across: true, align: 'top' });
+    expect(cleanAuto({ gap: 1, pad: 1, align: 'center' })).toEqual({ gap: 1, pad: 1 }); // align only with across
+    const back = parseProject(serializeProject({ cols: 40, rows: 20, elements: updateElement(els, narrow.id, { auto: { gap: 1, pad: 1, across: true, align: 'bottom' } }) }));
+    expect(back.elements.find(e => e.presetId === 'screen').auto).toEqual({ gap: 1, pad: 1, across: true, align: 'bottom' });
+  });
+
   it('pushes the rest down when a part grows, and pulls up when one goes', () => {
     const laid = autoLayout([screen, a, b, c], on([screen, a, b, c]));
     const grown = updateElement(laid, a.id, { text: '• one\n• two\n• three\n• four\n• five\n• six' });

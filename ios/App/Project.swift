@@ -46,7 +46,11 @@ private func elementJSON(_ e: Element) -> [String: Any] {
     if let clip = e.clip { el["clip"] = clip }
     if let opens = e.opens { el["opens"] = opens; if let move = e.move { el["move"] = move } }
     if let blend = e.blend { el["blend"] = blend }
-    if let auto = e.auto { el["auto"] = ["gap": auto.gapVar ?? auto.gap as Any, "pad": auto.padVar ?? auto.pad as Any] }
+    if let auto = e.auto {
+        var a: [String: Any] = ["gap": auto.gapVar ?? auto.gap as Any, "pad": auto.padVar ?? auto.pad as Any]
+        if auto.across { a["across"] = true; a["align"] = auto.align; if !auto.wrap { a["wrap"] = false } }
+        el["auto"] = a
+    }
     if let g = e.grid { var d: [String: Any] = ["cols": g.cols, "gutter": g.gutter]; if g.baseline > 0 { d["baseline"] = g.baseline }; el["grid"] = d }
     if e.canvas {
         el["canvas"] = true; if !e.vars.isEmpty { el["vars"] = e.vars }

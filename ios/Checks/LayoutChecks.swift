@@ -66,4 +66,11 @@ func runSizeChecks() {
     state.elements = made.elements
     let open = parseProject(serializeProject(state))
     check(open?.elements.filter { $0.size != nil }.count == 3 && open?.elements.filter { $0.presetId == "input" }.allSatisfy { $0.twin != nil } == true, "sizes: survive a save")
+    var narrow = Element(id: "nw", presetId: "screen", label: "Screen", template: screenFrame("Screen", width: 20, height: 12), width: 20, height: 12, col: 0, row: 0, text: "Screen")
+    narrow.auto = AutoLayout(gap: 1, pad: 1, across: true)
+    let bx = createElement(presets.first { $0.id == "button" }!, col: 1, row: 1), by = createElement(presets.first { $0.id == "button" }!, col: 1, row: 4), bz = createElement(presets.first { $0.id == "button" }!, col: 1, row: 7)
+    let row = autoLayout([narrow, bx, by, bz], [narrow, bx, by, bz])
+    let px = row.first { $0.id == bx.id }!, py = row.first { $0.id == by.id }!, pz = row.first { $0.id == bz.id }!
+    check(px.row == py.row && py.col == px.col + px.width + 1 && pz.row > px.row, "layout: across runs left to right and wraps")
+    check(cleanAuto(["gap": 1, "pad": 1, "across": true, "align": "sideways"])?.align == "top" && cleanAuto(["gap": 1, "pad": 1, "align": "center"])?.across == false, "layout: across cleaned")
 }

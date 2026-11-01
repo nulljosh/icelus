@@ -180,8 +180,10 @@ extension ContentView {
         state.pushHistory()
         if let auto = el.auto, style == nil { // with auto layout on, the knobs are the stack's own (Layout.swift)
             // a stepped knob lets go of its variable (Modes.swift)
-            state.elements = updateElement(state.elements, id: el.id, auto: AutoLayout(gap: spacing ?? auto.gap, pad: padding ?? auto.pad,
-                                                                                    gapVar: spacing == nil ? auto.gapVar : nil, padVar: padding == nil ? auto.padVar : nil))
+            var next = auto
+            next.gap = spacing ?? auto.gap; next.pad = padding ?? auto.pad
+            next.gapVar = spacing == nil ? auto.gapVar : nil; next.padVar = padding == nil ? auto.padVar : nil
+            state.elements = updateElement(state.elements, id: el.id, auto: next)
         } else {
             state.elements = tweakScreen(state.elements, id: el.id, spacing: spacing, padding: padding, style: style)
         }

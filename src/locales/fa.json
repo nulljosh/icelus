@@ -311,7 +311,7 @@
  "next": "بعدی",
  "slide_count": "{n} از {of}",
  "save_pdf": "ذخیره به‌صورت PDF",
- "download_deck": "دانلود ارائه", "download_pptx": "دانلود PowerPoint", "measure_to": "اندازه تا", "web_link": "پیوند وب", "grid_baseline": "خط پایه", "grid_style": "سبک شبکه", "show_lines": "نمایش خطوط", "save_grid_style": "ذخیره با نام", "move_overlay": "روی‌هم",
+ "download_deck": "دانلود ارائه", "download_pptx": "دانلود PowerPoint", "measure_to": "اندازه تا", "web_link": "پیوند وب", "grid_baseline": "خط پایه", "grid_style": "سبک شبکه", "show_lines": "نمایش خطوط", "auto_across": "از چپ به راست", "auto_align": "تراز", "align_top": "بالا", "align_center": "وسط", "align_bottom": "پایین", "save_grid_style": "ذخیره با نام", "move_overlay": "روی‌هم",
  "no_slides": "اول یک صفحه بکشید",
  "part_brush": "قلم‌مو",
  "part_eraser": "پاک‌کن",

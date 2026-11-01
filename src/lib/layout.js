@@ -6,12 +6,16 @@ import { isVarName, canvasVars, knobValue } from './modes.js';
 // that share rows run top to bottom, `gap` rows apart and `pad` cells inside the frame, and the frame hugs them.
 // Every edit restacks it, so a part whose text grows pushes the rest down. ios/App/Layout.swift is the twin.
 export const AUTO_MAX = 8;
+// Across: parts run left to right instead, `gap` cells apart, wrapping onto a new row at the frame's edge,
+// each row's parts aligned to its top, middle or bottom (Figma auto layout, horizontal with wrap).
+export const ALIGNS = ['top', 'center', 'bottom'];
 
 export function cleanAuto(a) {
   if (!a || typeof a !== 'object') return null;
   // A knob is a number or the name of a spacing variable (modes.js).
   const knob = v => (isVarName(v) || (Number.isInteger(v) && v >= 0 && v <= AUTO_MAX) ? v : 1);
-  return { gap: knob(a.gap), pad: knob(a.pad) };
+  const across = a.across === true ? { across: true, align: ALIGNS.includes(a.align) ? a.align : 'top', ...(a.wrap === false && { wrap: false }) } : {};
+  return { gap: knob(a.gap), pad: knob(a.pad), ...across };
 }
 
 const inner = (elements, screen) => partsInside(elements, screen).filter(el => el.presetId !== 'line' && !el.locked);
@@ -45,6 +49,35 @@ function stack(elements, screen, parts, { gap, pad }, keyHeight) {
   }));
 }
 
+// Left to right with wrap: rows of parts, each row as tall as its tallest part, parts aligned inside it.
+function across(elements, screen, parts, { gap, pad, align, wrap = true }) {
+  const room = screen.width - 2 - 2 * pad, lines = [[]];
+  let x = 0;
+  for (const p of [...parts].sort((a, b) => a.row - b.row || a.col - b.col)) {
+    if (wrap && lines.at(-1).length && x + p.width > room) { lines.push([]); x = 0; }
+    lines.at(-1).push({ p, x });
+    x += p.width + gap;
+  }
+  const moved = new Map();
+  let row = screen.row + 1 + pad, right = 0;
+  for (const line of lines.filter(l => l.length)) {
+    const tall = Math.max(...line.map(({ p }) => p.height));
+    for (const { p, x: px } of line) {
+      const off = align === 'center' ? Math.floor((tall - p.height) / 2) : align === 'bottom' ? tall - p.height : 0;
+      moved.set(p.id, { col: screen.col + 1 + pad + px, row: row + off });
+      right = Math.max(right, screen.col + 1 + pad + px + p.width);
+    }
+    row += tall + gap;
+  }
+  const bottom = parts.length ? row - gap : row;
+  const width = Math.max(screen.width, right + pad + 1 - screen.col), height = Math.max(3, bottom + pad + 1 - screen.row);
+  return routeLines(elements.map(el => {
+    if (moved.has(el.id)) return { ...el, ...moved.get(el.id) };
+    if (el.id !== screen.id || (width === el.width && height === el.height)) return el;
+    return { ...el, width, height, template: screenFrame(el.text ?? 'Screen', width, height) };
+  }));
+}
+
 // Restack every auto screen after an edit from prev to next. A part that was inside stays in its stack even when
 // it grew past the frame; one dragged out leaves it. Returns next itself when nothing moved.
 export function autoLayout(prev, next) {
@@ -61,7 +94,9 @@ export function autoLayout(prev, next) {
     }) : [];
     const ids = new Set([...stayed, ...inner(out, now)].map(p => p.id));
     const a = cleanAuto(now.auto);
-    out = stack(out, now, out.filter(el => ids.has(el.id)), { gap: knobValue(a.gap, vars), pad: knobValue(a.pad, vars) }, p => was.get(p.id)?.height ?? p.height);
+    const knobs = { gap: knobValue(a.gap, vars), pad: knobValue(a.pad, vars) }, mine = out.filter(el => ids.has(el.id));
+    out = a.across ? across(out, now, mine, { ...knobs, align: a.align, wrap: a.wrap !== false })
+      : stack(out, now, mine, knobs, p => was.get(p.id)?.height ?? p.height);
   }
   return out.every((el, i) => el === next[i] || JSON.stringify(el) === JSON.stringify(next[i])) ? next : out;
 }

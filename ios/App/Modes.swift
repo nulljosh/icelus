@@ -70,7 +70,7 @@ func setVar(_ elements: [Element], _ name: String, _ value: Int?) -> [Element] {
 
 /// A gap or pad that names a variable reads its value; an unknown name reads 1.
 func resolvedAuto(_ a: AutoLayout, _ vars: [String: Int]) -> AutoLayout {
-    AutoLayout(gap: a.gapVar.map { vars[$0] ?? 1 } ?? a.gap, pad: a.padVar.map { vars[$0] ?? 1 } ?? a.pad)
+    AutoLayout(gap: a.gapVar.map { vars[$0] ?? 1 } ?? a.gap, pad: a.padVar.map { vars[$0] ?? 1 } ?? a.pad, across: a.across, align: a.align, wrap: a.wrap)
 }
 
 /// The canvas mode goes over everything, whatever its place in the list.

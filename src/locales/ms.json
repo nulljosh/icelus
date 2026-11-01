@@ -311,7 +311,7 @@
  "next": "Seterusnya",
  "slide_count": "{n} daripada {of}",
  "save_pdf": "Simpan sebagai PDF",
- "download_deck": "Muat turun pembentangan", "download_pptx": "Muat turun PowerPoint", "measure_to": "Ukur ke", "web_link": "Pautan web", "grid_baseline": "Garis dasar", "grid_style": "Gaya grid", "show_lines": "Tunjuk baris", "save_grid_style": "Simpan sebagai", "move_overlay": "Tindihan",
+ "download_deck": "Muat turun pembentangan", "download_pptx": "Muat turun PowerPoint", "measure_to": "Ukur ke", "web_link": "Pautan web", "grid_baseline": "Garis dasar", "grid_style": "Gaya grid", "show_lines": "Tunjuk baris", "auto_across": "Kiri ke kanan", "auto_align": "Jajar", "align_top": "Atas", "align_center": "Tengah", "align_bottom": "Bawah", "save_grid_style": "Simpan sebagai", "move_overlay": "Tindihan",
  "no_slides": "Lukis skrin dahulu",
  "part_brush": "Berus",
  "part_eraser": "Pemadam",

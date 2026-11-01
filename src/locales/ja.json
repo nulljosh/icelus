@@ -311,7 +311,7 @@
  "next": "次へ",
  "slide_count": "{n} / {of}",
  "save_pdf": "PDFとして保存",
- "download_deck": "プレゼンをダウンロード", "download_pptx": "PowerPointをダウンロード", "measure_to": "距離を測る", "web_link": "Webリンク", "grid_baseline": "ベースライン", "grid_style": "グリッドスタイル", "show_lines": "表示する行", "save_grid_style": "名前を付けて保存", "move_overlay": "オーバーレイ",
+ "download_deck": "プレゼンをダウンロード", "download_pptx": "PowerPointをダウンロード", "measure_to": "距離を測る", "web_link": "Webリンク", "grid_baseline": "ベースライン", "grid_style": "グリッドスタイル", "show_lines": "表示する行", "auto_across": "左から右へ", "auto_align": "揃え", "align_top": "上", "align_center": "中央", "align_bottom": "下", "save_grid_style": "名前を付けて保存", "move_overlay": "オーバーレイ",
  "no_slides": "まず画面を描いてください",
  "part_brush": "ブラシ",
  "part_eraser": "消しゴム",

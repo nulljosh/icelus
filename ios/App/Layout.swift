@@ -9,7 +9,9 @@ struct AutoLayout: Equatable {
     var gap = 1
     var pad = 1
     var gapVar: String? = nil, padVar: String? = nil // bound to a canvas variable by name (Modes.swift)
+    var across = false, align = "top", wrap = true // left to right with wrap (src/lib/layout.js across)
 }
+let autoAligns = ["top", "center", "bottom"]
 
 func cleanAuto(_ value: Any?) -> AutoLayout? {
     guard let a = value as? [String: Any] else { return nil }
@@ -18,7 +20,8 @@ func cleanAuto(_ value: Any?) -> AutoLayout? {
         return i
     }
     func bound(_ k: String) -> String? { (a[k] as? String).flatMap { isVarName($0) ? $0 : nil } }
-    return AutoLayout(gap: knob("gap"), pad: knob("pad"), gapVar: bound("gap"), padVar: bound("pad"))
+    let across = a["across"] as? Bool == true, align = (a["align"] as? String).flatMap { autoAligns.contains($0) ? $0 : nil } ?? "top"
+    return AutoLayout(gap: knob("gap"), pad: knob("pad"), gapVar: bound("gap"), padVar: bound("pad"), across: across, align: across ? align : "top", wrap: !(across && a["wrap"] as? Bool == false))
 }
 
 private func inner(_ elements: [Element], _ screen: Element) -> [Element] {
@@ -58,6 +61,37 @@ private func stack(_ elements: [Element], _ screen: Element, _ parts: [Element],
     })
 }
 
+/// Left to right with wrap: rows of parts, each row as tall as its tallest part, parts aligned inside it.
+private func across(_ elements: [Element], _ screen: Element, _ parts: [Element], _ auto: AutoLayout) -> [Element] {
+    let room = screen.width - 2 - 2 * auto.pad
+    var lines: [[(p: Element, x: Int)]] = [[]], x = 0
+    for p in parts.sorted(by: { ($0.row, $0.col) < ($1.row, $1.col) }) {
+        if auto.wrap, !lines[lines.count - 1].isEmpty, x + p.width > room { lines.append([]); x = 0 }
+        lines[lines.count - 1].append((p, x))
+        x += p.width + auto.gap
+    }
+    var moved: [String: (col: Int, row: Int)] = [:]
+    var row = screen.row + 1 + auto.pad, right = 0
+    for line in lines where !line.isEmpty {
+        let tall = line.map(\.p.height).max() ?? 1
+        for (p, px) in line {
+            let off = auto.align == "center" ? (tall - p.height) / 2 : auto.align == "bottom" ? tall - p.height : 0
+            moved[p.id] = (screen.col + 1 + auto.pad + px, row + off)
+            right = max(right, screen.col + 1 + auto.pad + px + p.width)
+        }
+        row += tall + auto.gap
+    }
+    let bottom = parts.isEmpty ? row : row - auto.gap
+    let width = max(screen.width, right + auto.pad + 1 - screen.col), height = max(3, bottom + auto.pad + 1 - screen.row)
+    return routeLines(elements.map { el in
+        if let at = moved[el.id] { var next = el; next.col = at.col; next.row = at.row; return next }
+        guard el.id == screen.id, width != el.width || height != el.height else { return el }
+        var next = el
+        next.width = width; next.height = height; next.template = screenFrame(el.text ?? "Screen", width: width, height: height)
+        return next
+    })
+}
+
 /// Restack every auto screen after an edit from prev to next. A part that was inside stays in its stack even when
 /// it grew past the frame; one dragged out leaves it.
 func autoLayout(_ prev: [Element], _ next: [Element]) -> [Element] {
@@ -71,7 +105,8 @@ func autoLayout(_ prev: [Element], _ next: [Element]) -> [Element] {
             out.first { $0.id == p.id }.map { $0.presetId != "line" && !$0.locked && $0.col == p.col && $0.row == p.row } ?? false
         } } ?? []
         let ids = Set((stayed + inner(out, now)).map(\.id))
-        out = stack(out, now, out.filter { ids.contains($0.id) }, resolvedAuto(auto, vars)) { was[$0.id]?.height ?? $0.height }
+        let mine = out.filter { ids.contains($0.id) }
+        out = auto.across ? across(out, now, mine, resolvedAuto(auto, vars)) : stack(out, now, mine, resolvedAuto(auto, vars)) { was[$0.id]?.height ?? $0.height }
     }
     return out
 }
@@ -80,7 +115,8 @@ func updateElement(_ elements: [Element], id: String, auto: AutoLayout?) -> [Ele
     elements.map { el in
         guard el.id == id, el.presetId == "screen" else { return el }
         var next = el
-        next.auto = auto.map { AutoLayout(gap: max(0, min(autoMax, $0.gap)), pad: max(0, min(autoMax, $0.pad)), gapVar: $0.gapVar, padVar: $0.padVar) }
+        next.auto = auto.map { AutoLayout(gap: max(0, min(autoMax, $0.gap)), pad: max(0, min(autoMax, $0.pad)), gapVar: $0.gapVar, padVar: $0.padVar,
+                                          across: $0.across, align: autoAligns.contains($0.align) ? $0.align : "top", wrap: $0.wrap) }
         return next
     }
 }

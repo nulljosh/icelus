@@ -34,7 +34,7 @@ wedge: every new feature is also an API and MCP tool on the day it ships.
 - [ ] Describe into a selection: marquee an area and type what goes there.
 - [ ] Notes Claude acts on: a note addressed to Claude is read by Describe it and resolved when done.
 - [x] (11-01: web Export > Download PowerPoint, native Export > Share PowerPoint; both open in python-pptx) PowerPoint export: the deck as a .pptx.
-- [ ] Auto layout across: stacks that run left to right, with alignment and wrap (Figma auto layout).
+- [x] (11-01: an auto screen can run left to right, wrap at the frame and align rows top, middle or bottom; web and native) Auto layout across: stacks that run left to right, with alignment and wrap (Figma auto layout).
 - [ ] Live code parts: a part that runs a small sandboxed HTML snippet in the real look.
 - [x] (11-01: a symbol copy hides lines of itself, Show lines in the inspector on web and native, saved in project files) Show and hide per copy: a symbol copy hides a line of itself without detaching (Figma boolean properties).
 - [ ] Color and width variables: name an ink or a width once and every part using it follows, with a light and a dark set (Figma color variables and modes).

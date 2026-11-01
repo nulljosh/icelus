@@ -311,7 +311,7 @@
  "next": "Weiter",
  "slide_count": "{n} von {of}",
  "save_pdf": "Als PDF sichern",
- "download_deck": "Präsentation laden", "download_pptx": "PowerPoint laden", "measure_to": "Messen bis", "web_link": "Weblink", "grid_baseline": "Grundlinie", "grid_style": "Rasterstil", "show_lines": "Zeilen zeigen", "save_grid_style": "Sichern als", "move_overlay": "Überlagerung",
+ "download_deck": "Präsentation laden", "download_pptx": "PowerPoint laden", "measure_to": "Messen bis", "web_link": "Weblink", "grid_baseline": "Grundlinie", "grid_style": "Rasterstil", "show_lines": "Zeilen zeigen", "auto_across": "Von links nach rechts", "auto_align": "Ausrichten", "align_top": "Oben", "align_center": "Mitte", "align_bottom": "Unten", "save_grid_style": "Sichern als", "move_overlay": "Überlagerung",
  "no_slides": "Zeichne zuerst einen Bildschirm",
  "part_brush": "Pinsel",
  "part_eraser": "Radierer",

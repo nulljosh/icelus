@@ -1,4 +1,5 @@
 import ShowLines from './ShowLines.jsx';
+import AutoAcross from './AutoAcross.jsx';
 import './Inspector.css';
 import { expandChanges } from '../lib/heal.js';
 import { useState, useEffect } from 'react';
@@ -45,7 +46,7 @@ function Tweaks({ element, elements, onUpdate }) {
   const now = a ? { spacing: knobValue(a.gap, vars), padding: knobValue(a.pad, vars) } : screenTweaks(elements, element);
   // With auto layout on, the knobs are the stack's own gap and padding, kept on the screen (layout.js).
   const tweak = changes => (a && changes.style === undefined
-    ? onUpdate(element.id, { auto: { gap: changes.spacing ?? bound.spacing, pad: changes.padding ?? bound.padding } })
+    ? onUpdate(element.id, { auto: { ...a, gap: changes.spacing ?? bound.spacing, pad: changes.padding ?? bound.padding } })
     : onUpdate(element.id, { tweak: changes }));
   return (
     <>
@@ -54,6 +55,7 @@ function Tweaks({ element, elements, onUpdate }) {
         <input id="auto-layout" type="checkbox" className="inspector-switch" checked={Boolean(element.auto)}
           onChange={e => onUpdate(element.id, { auto: e.target.checked ? { gap: now.spacing, pad: now.padding } : null })} />
       </div>
+      {a && <AutoAcross auto={a} onChange={next => onUpdate(element.id, { auto: next })} />}
       {['spacing', 'padding'].map(key => (
         <div key={key} className="inspector-row">
           <label className="inspector-key" htmlFor={`tweak-${key}`}>{t(key)}</label>

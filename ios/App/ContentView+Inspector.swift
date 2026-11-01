@@ -5,6 +5,19 @@ extension ContentView {
     @ViewBuilder func screenControls(_ el: Element) -> some View {
         if el.presetId == "screen" {
             Toggle("Auto layout", isOn: autoBinding(el)).fixedSize()
+            if let auto = el.auto { // left to right with wrap (Layout.swift across)
+                Toggle("Left to right", isOn: Binding(get: { auto.across }, set: { on in
+                    var a = auto; a.across = on; a.align = "top"
+                    state.pushHistory(); state.elements = updateElement(state.elements, id: el.id, auto: a); persist()
+                })).fixedSize()
+                if auto.across {
+                    Picker("Align", selection: Binding(get: { auto.align }, set: { v in
+                        var a = auto; a.align = v
+                        state.pushHistory(); state.elements = updateElement(state.elements, id: el.id, auto: a); persist()
+                    })) { Text("Top").tag("top"); Text("Middle").tag("center"); Text("Bottom").tag("bottom") }
+                    .pickerStyle(.menu).fixedSize()
+                }
+            }
             let now = knobs(el)
             Stepper("Spacing \(now.spacing)", onIncrement: { tweak(el, spacing: now.spacing + 1) },
                     onDecrement: { tweak(el, spacing: now.spacing - 1) })

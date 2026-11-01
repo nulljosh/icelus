@@ -311,7 +311,7 @@
  "next": "Далі",
  "slide_count": "{n} з {of}",
  "save_pdf": "Зберегти як PDF",
- "download_deck": "Завантажити презентацію", "download_pptx": "Завантажити PowerPoint", "measure_to": "Виміряти до", "web_link": "Веб-посилання", "grid_baseline": "Базова лінія", "grid_style": "Стиль сітки", "show_lines": "Показати рядки", "save_grid_style": "Зберегти як", "move_overlay": "Поверх",
+ "download_deck": "Завантажити презентацію", "download_pptx": "Завантажити PowerPoint", "measure_to": "Виміряти до", "web_link": "Веб-посилання", "grid_baseline": "Базова лінія", "grid_style": "Стиль сітки", "show_lines": "Показати рядки", "auto_across": "Зліва направо", "auto_align": "Вирівнювання", "align_top": "Згори", "align_center": "Посередині", "align_bottom": "Знизу", "save_grid_style": "Зберегти як", "move_overlay": "Поверх",
  "no_slides": "Спершу намалюйте екран",
  "part_brush": "Пензель",
  "part_eraser": "Гумка",

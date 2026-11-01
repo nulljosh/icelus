@@ -311,7 +311,7 @@
  "next": "הבא",
  "slide_count": "{n} מתוך {of}",
  "save_pdf": "שמירה כ-PDF",
- "download_deck": "הורדת המצגת", "download_pptx": "הורדה כ-PowerPoint", "measure_to": "מדידה אל", "web_link": "קישור אינטרנט", "grid_baseline": "קו בסיס", "grid_style": "סגנון רשת", "show_lines": "הצגת שורות", "save_grid_style": "שמירה בשם", "move_overlay": "שכבת על",
+ "download_deck": "הורדת המצגת", "download_pptx": "הורדה כ-PowerPoint", "measure_to": "מדידה אל", "web_link": "קישור אינטרנט", "grid_baseline": "קו בסיס", "grid_style": "סגנון רשת", "show_lines": "הצגת שורות", "auto_across": "משמאל לימין", "auto_align": "יישור", "align_top": "למעלה", "align_center": "אמצע", "align_bottom": "למטה", "save_grid_style": "שמירה בשם", "move_overlay": "שכבת על",
  "no_slides": "קודם ציירו מסך",
  "part_brush": "מכחול",
  "part_eraser": "מחק",
