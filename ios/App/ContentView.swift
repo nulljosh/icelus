@@ -10,6 +10,7 @@ struct ContentView: View {
     /// Parts picked to group: while picking, a tap adds or drops a part.
     @State var picked: [String] = []
     @State var picking = false
+    @State var measureTo = "" // Inspect: the second part to measure the gap to (Inspect.swift partGap)
     @State var linkDraft = "" // the web link being typed in the inspector (Hotspots.swift isLink)
     @State var drag: (col: Int, row: Int)?
     @State var erasing = false

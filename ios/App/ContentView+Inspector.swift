@@ -202,6 +202,16 @@ extension ContentView {
                 .foregroundStyle(Theme.muted).fixedSize()
                 .accessibilityLabel("Spacing left \(side(gap.left)), right \(side(gap.right)), top \(side(gap.top)), bottom \(side(gap.bottom))")
         }
+        let others = state.elements.filter { $0.id != el.id && !$0.hidden && !["line", "adjust", "paint"].contains($0.presetId) }
+        Picker("Measure to", selection: $measureTo) {
+            Text(verbatim: "–").tag("")
+            ForEach(others, id: \.id) { Text(verbatim: ($0.text ?? "").isEmpty ? $0.label : $0.text!).tag($0.id) }
+        }
+        .pickerStyle(.menu).fixedSize()
+        if let g = partGap(state.elements, el.id, measureTo) {
+            Text(verbatim: "↔\(g.across) ↕\(g.down)").foregroundStyle(Theme.muted).fixedSize()
+                .accessibilityLabel("\(g.across) across, \(g.down) down")
+        }
         Menu("Code") {
             Button("Copy React") { copyToClipboard(partSnippet(el, format: "react")) }
             Button("Copy SwiftUI") { copyToClipboard(partSnippet(el, format: "swiftui")) }

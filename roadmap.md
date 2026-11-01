@@ -40,7 +40,7 @@ wedge: every new feature is also an API and MCP tool on the day it ships.
 - [ ] Color and width variables: name an ink or a width once and every part using it follows, with a light and a dark set (Figma color variables and modes).
 - [ ] Shared libraries by link: publish a library to a URL and projects check it for updates on open, with a list of what changed (Figma library updates).
 - [ ] (11-01: baseline rows done on web and native, snapping and drawing included; named grid styles still to do) Row grids and named grid styles: baseline rows as well as columns, saved by name and picked per screen (Figma grid styles).
-- [x] (11-01: web Inspect "Measure to" a second part shows the gap across and down; inspect_part takes `to`; Swift partGap twin with checks, native UI still to add) Measure between any two parts: hold a key over another part to see the gap between them (Figma redlines).
+- [x] (11-01: Inspect "Measure to" on web and native shows the gap across and down; inspect_part takes `to`) Measure between any two parts: hold a key over another part to see the gap between them (Figma redlines).
 - [x] (11-01: Back, web links and Overlay, web and native) More prototype actions: Back, open as an overlay, and open a web link, on press or after a delay (Figma interactions).
 - [ ] Play on a device: open a prototype on a phone from the canvas and see edits land while it plays (Figma mirror).
 - [ ] Variables in play: a typed field or a ticked box sets a value that other screens read and show (Figma prototype variables and conditionals).
