@@ -10,22 +10,22 @@
 		00011868AC2593F27094D1E9 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FD2436F46E7824A72E79B3 /* CanvasView.swift */; };
 		1B57F154143FE72E3E433EEF /* Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = E020A050D3AEF8A6D8CE948B /* Presets.swift */; };
 		1BF3076479F0E535B60A7B48 /* PaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DC951854A8DDDD552C06CC /* PaletteView.swift */; };
-		1EBB80E0A826D96600B86663 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1D7B53255332971BBC37F65 /* Assets.xcassets */; };
 		2AE7E01E5C66FBCD8B93A2EF /* Heal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A7ADA5CA9E70AF85236ABB /* Heal.swift */; };
 		3A8E7F57ECD0CC15D4DDB5CD /* Symbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52B46BA53F53379C288C52E /* Symbols.swift */; };
 		3C343435C84BD74236FA2231 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EA137851A4974126E4F28A /* Project.swift */; };
-		401EFA0A3016021AC26F9DFE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F603B4585CD7B3151D1475C5 /* ContentView.swift */; };
 		4342788EE5273DA29096AF66 /* Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8736D86726F94166F3E6E2D0 /* Shapes.swift */; };
 		5BE709CF67FA48A19F845477 /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7462A3DA83B6CD153AB82F11 /* Actions.swift */; };
 		6AD9B8B8B9ECBBE33CD86AF4 /* Lines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A0B86E01C3CC4E95B400A6C /* Lines.swift */; };
 		6F934E15819D6E2F4816BD9A /* Hotspots.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA14492161C53E284886AE2 /* Hotspots.swift */; };
-		865169F86BF775DB26F322C4 /* IcelusWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5733217419067E190F9AF43A /* IcelusWatchApp.swift */; };
+		A1F5EC6706F37F17B5307086 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC49042F7C19A2F027CFFA7 /* Assets.xcassets */; };
 		B00511AB2DBCFCAEA5E4D980 /* Mask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 247E90D4FC2E1B6B5ACB4601 /* Mask.swift */; };
 		B08573BE6CB151E5D241B071 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23245C03482D89C431A3035 /* Theme.swift */; };
 		B1903325184344351313B26E /* Grids.swift in Sources */ = {isa = PBXBuildFile; fileRef = B09E8B569A328AA9EDE43372 /* Grids.swift */; };
 		B205A53C576184135A20F1A2 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF867FFAD8CBAE908513995 /* Layout.swift */; };
+		CB7E6CE41776919C47DA98A7 /* IcelusWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BA1359F6638F4FCC515637 /* IcelusWatchApp.swift */; };
 		CCD0A0B1326D5608761B9ECD /* Modes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6B37F496459948738E0D11 /* Modes.swift */; };
 		DDD410A8587722D3DA6352A7 /* Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFDCFA6ADCB7BE2F58A967F /* Engine.swift */; };
+		EE706D306C72FFC55279291A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E295CB3A58AE5537C581D1E4 /* ContentView.swift */; };
 		F4A45F91A3934F34BDAA042C /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62BC73AE896394FDEA07260B /* History.swift */; };
 		FB26866C6249FE1A4594F0C8 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272EBF037E0A8D5AB65C3C1C /* Store.swift */; };
 /* End PBXBuildFile section */
@@ -35,7 +35,8 @@
 		14DC951854A8DDDD552C06CC /* PaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteView.swift; sourceTree = "<group>"; };
 		247E90D4FC2E1B6B5ACB4601 /* Mask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mask.swift; sourceTree = "<group>"; };
 		272EBF037E0A8D5AB65C3C1C /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
-		5733217419067E190F9AF43A /* IcelusWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IcelusWatchApp.swift; sourceTree = "<group>"; };
+		34BA1359F6638F4FCC515637 /* IcelusWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IcelusWatchApp.swift; sourceTree = "<group>"; };
+		3EC49042F7C19A2F027CFFA7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		59EA137851A4974126E4F28A /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		5B220C9BE6CAA4C703B9D3C1 /* IcelusWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IcelusWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		62BC73AE896394FDEA07260B /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
@@ -50,32 +51,21 @@
 		CBFDCFA6ADCB7BE2F58A967F /* Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine.swift; sourceTree = "<group>"; };
 		D23245C03482D89C431A3035 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		E020A050D3AEF8A6D8CE948B /* Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presets.swift; sourceTree = "<group>"; };
+		E295CB3A58AE5537C581D1E4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E52B46BA53F53379C288C52E /* Symbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbols.swift; sourceTree = "<group>"; };
-		F1D7B53255332971BBC37F65 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F603B4585CD7B3151D1475C5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		10D56145BB936639D8C561B0 = {
 			isa = PBXGroup;
 			children = (
+				3EC49042F7C19A2F027CFFA7 /* Assets.xcassets */,
+				E295CB3A58AE5537C581D1E4 /* ContentView.swift */,
+				34BA1359F6638F4FCC515637 /* IcelusWatchApp.swift */,
 				4BDB133EA27BECE73CDB802E /* App */,
 				BB08EF1CEAAF501E5A24D328 /* Views */,
-				2F382CBF94EBD75AF35AB7AD /* watchos */,
 				E571039C951C98BD5289C01C /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		2F382CBF94EBD75AF35AB7AD /* watchos */ = {
-			isa = PBXGroup;
-			children = (
-				F1D7B53255332971BBC37F65 /* Assets.xcassets */,
-				F603B4585CD7B3151D1475C5 /* ContentView.swift */,
-				5733217419067E190F9AF43A /* IcelusWatchApp.swift */,
-				BB08EF1CEAAF501E5A24D328 /* Views */,
-			);
-			name = watchos;
-			path = .;
 			sourceTree = "<group>";
 		};
 		4BDB133EA27BECE73CDB802E /* App */ = {
@@ -179,7 +169,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1EBB80E0A826D96600B86663 /* Assets.xcassets in Resources */,
+				A1F5EC6706F37F17B5307086 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,13 +182,13 @@
 			files = (
 				5BE709CF67FA48A19F845477 /* Actions.swift in Sources */,
 				00011868AC2593F27094D1E9 /* CanvasView.swift in Sources */,
-				401EFA0A3016021AC26F9DFE /* ContentView.swift in Sources */,
+				EE706D306C72FFC55279291A /* ContentView.swift in Sources */,
 				DDD410A8587722D3DA6352A7 /* Engine.swift in Sources */,
 				B1903325184344351313B26E /* Grids.swift in Sources */,
 				2AE7E01E5C66FBCD8B93A2EF /* Heal.swift in Sources */,
 				F4A45F91A3934F34BDAA042C /* History.swift in Sources */,
 				6F934E15819D6E2F4816BD9A /* Hotspots.swift in Sources */,
-				865169F86BF775DB26F322C4 /* IcelusWatchApp.swift in Sources */,
+				CB7E6CE41776919C47DA98A7 /* IcelusWatchApp.swift in Sources */,
 				B205A53C576184135A20F1A2 /* Layout.swift in Sources */,
 				6AD9B8B8B9ECBBE33CD86AF4 /* Lines.swift in Sources */,
 				B00511AB2DBCFCAEA5E4D980 /* Mask.swift in Sources */,

@@ -14,11 +14,10 @@ targets:
     type: application
     platform: watchOS
     sources:
-      - path: .
-        excludes:
-          - "*.xcodeproj"
-          - "*.yml"
-          - "*.md"
+      - IcelusWatchApp.swift
+      - ContentView.swift
+      - Views
+      - Assets.xcassets
       # The engine, parts, project file and colours are the iOS files themselves, not copies.
       - ../ios/App/Engine.swift
       - ../ios/App/Lines.swift
