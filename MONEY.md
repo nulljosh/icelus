@@ -1,49 +1,51 @@
 # Icelus Money
 
-How Icelus makes money. The fleet-wide ledger is `GTM.md` in the Code root.
+How Icelus makes money. The company plan is `REVENUE.md` in the Code root; the ledger is `GTM.md`.
 
-## Price
+## Price and rail
 
-$0.99 upfront on the App Store. Free on the web.
+$0.99 upfront on the App Store (ASC 6794988951), iPhone, iPad and Mac. Apple keeps 15%, so each sale pays about $0.84. Free on the web at icelus.jaybulb.com, where the landing page runs the real app.
 
-## Rail
+## What is actually sold
 
-App Store paid download. Apple keeps 15%, so each sale pays out $0.84. The web version stays free, so the landing page is the trial and the store is the checkout.
+The design tool: the canvas, the parts, the text under every screen, the exports and the agent tools. All of it is ours. The dollar is for the app. The paid parts of the cloud (Describe it and Translate) are a cost we carry, not a second thing to buy.
 
-## Why it is worth a dollar
+## Who pays and why
 
-In Joshua's voice:
+A product person or developer who wants a wireframe they can paste into a commit, an issue or a chat. Most rivals charge more, and some charge monthly. Icelus is one dollar, and it saves as you draw.
 
-first sale was a friend of my dad's. he paid a dollar and didn't ask what it does, which is fair, it does one thing.
-you pick a part, stamp it on a grid, copy it as text. the text pastes into a commit, an issue, a readme. every other wireframe tool hands you a picture nobody can edit.
-monodraw is $9.99. balsamiq is $16 a month per editor. this is $0.99, free on the web, and it saves as you draw so you can't lose the sketch xd
-2.0.0 with the new name and icon is in review now. the web version already has all of it, and the landing page runs the real app so you can try before the dollar.
+## Cost to serve
 
-As Steve Jobs on stage:
+Describe it and Translate call Workers AI (Llama 3.3 70B) through the `[ai]` binding, from the app origin only. The code's own note says the daily quota is the ceiling on what it costs. Translate takes at most 200 strings of 200 characters, 8,000 in all, per call. ElevenLabs narrated the launch ad only. It is not in the app. The code sets no dollar cap.
 
-Most wireframe tools give you a picture. A picture you cannot edit in a pull request. A picture you cannot paste into a chat.
-Everyone else made the sketch a file. We made it text.
-Today we are introducing Icelus. Pick a part. Stamp it on a grid. Copy it anywhere.
-It saves as you draw, and an assistant can sketch with you. It just works.
-How it makes money. The plan is a dollar from each person, and the dollar is the point: Monodraw is $9.99 and Balsamiq is $16 a month per editor.
-The first thing to try after that is a paid pack of parts, which is not built yet. No number yet.
-One more thing. This is Boxy.
+## Where we are
 
-## Numbers
+- 2026-09-20: price set to $0.99.
+- 2026-10-18: iOS 2.0.0 went to review.
+- 2026-10-19: renamed to Icelus. The old names are listed in `CLAUDE.md`.
+- Last read in the old file (date not recorded): 27 downloads, 706 store impressions and 102 page views. Every download came while the app was free.
+- Revenue: no verified number (the App Store Connect key cannot read sales yet).
 
-Since 2026-07-01 (`asc web analytics overview --app 6794988951 --start 2026-07-01 --end <today>`):
-27 downloads, 12 redownloads, 706 store impressions, 102 page views, 9.5% conversion, $0 proceeds.
-Every download landed while the app was free; none since the $0.99 price on 2026-09-20.
-The dad's-friend dollar does not show in Apple's numbers.
+## Role in the company plan
+
+Catalogue. GTM.md lists it as a $0.99 app that is free on the web. It serves Stage 0 as one more dollar app that has to prove strangers pay. Under Stage 2 it earns a place on the grid or is retired.
 
 ## Next
 
-iOS 2.0.0 went to review on 2026-10-18 (build 202610182155). Once it is live: Product Hunt, then watch App Store Connect sales. If a month passes with installs on the web and none in the store, go back to free. Part packs wait for the first sale that is not a friend.
+Once 2.0.0 is live, read the first month of store sales against web page views.
+
+## Million, billion, trillion
+
+**A million.** Icelus is the wireframe tool people paste into their pull requests, bought once for a dollar.
+
+**A billion.** Icelus is the design tool on every Jaybulb device, where a sketch becomes text a developer can use.
+
+**A trillion.** Icelus is how every screen on the platform gets drawn and handed to a developer, as text.
 
 ## Change it
 
-`asc pricing schedule create --app 6794988951 --price 0.99 --base-territory USA --start-date YYYY-MM-DD`. Swap `--price 0.99` for `--free` to revert. No build, no review.
+`asc pricing schedule create --app 6794988951 --price 0.99 --base-territory USA --start-date YYYY-MM-DD`. Swap `--price 0.99` for `--free` to revert. No build, no review. Only with Joshua's yes in chat.
 
-Anyone who got Icelus while it was free keeps it free. Only new customers pay.
+Anyone who got Icelus while it was free keeps it free.
 
-*ASC 6794988951. Price set 2026-09-20. Renamed from Blockframe 2026-10-18.*
+*ASC 6794988951. Verified 2026-11-02.*
