@@ -42,7 +42,6 @@ The long plan (v6 to v100) lives in the wiki page icelus.md under Someday. Pull 
 - Price stays $0.99 on the App Store, free on the web (the $1 rule).
 
 ## Ingested 2026-10-30
-- [ ] (blocked: naming is Joshua's pick, 2026-11-01) Needs better name
 
 ## Ingested 2026-10-31
 - [ ] Bloated semver: App Store Connect shows 50.0.0 on iOS, status Not Applicable, What's New empty (notes/attachments/2026-10-31/icelus-1.png). Apply honest semver (feature = minor, fix = patch, major only on Joshua's call) and reset the store version line.
