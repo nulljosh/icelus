@@ -15,7 +15,6 @@ gets a new icon and new App Store text. Checkpoints where Joshua gets a report: 
 - [ ] Submit `server.json` to the MCP registry. 2026-10-27: server.json fixed (description 81 chars, version 55.4.0) and validates; HTTP auth file is live at https://jaybulb.com/.well-known/mcp-registry-auth (key in the session scratchpad only). Publish was blocked by the permission classifier (public surface). To finish: `mcp-publisher login http --domain jaybulb.com --private-key <hex of the matching ed25519 key>` then `mcp-publisher publish` in `icelus/`. If the key is gone, generate a new ed25519 key and replace the `.well-known` file in nulljosh.github.io.
 
 ## v5.x Hardening (Joshua 2026-10-19: speed, efficiency, stability, security)
-- [ ] Rate limit /api, /mcp and /api/capture with Cloudflare rules (zone jaybulb.com 5a233f10d21125b64aadab7c2f021f9b). 2026-10-27: NOT done. The wrangler OAuth token and the DNS token get an auth error on /rulesets; needs an API token with Zone WAF/Rulesets Edit (or the dashboard). Planned: 60 req/min per IP on /api and /mcp, 10/min on /api/capture, block action. Each call is already bounded by the body cap and Workers CPU limit
 
 ## Road to v100
 
@@ -31,7 +30,6 @@ The long plan (v6 to v100) lives in the wiki page icelus.md under Someday. Pull 
 - [ ] App Store privacy answers for accounts: email address, linked to the user, for app functionality (the next store submission needs it; it is a dashboard form, Joshua's yes)
 - [ ] App Review note: sign-in is optional. Apple may ask for a demo account, which must not be made on the production service without Joshua
 - [ ] Cloud projects (v62): a new owner-only table on the shared jaybulb-api, its own release behind jaybulb-api's checks
-- [ ] (covered by the combined rate-limit line above) Rate limit /api/capture
 - [ ] Describe it: type a sentence, get a screen, and Make (a sentence becomes a whole flow), through a model (blocked: needs Joshua's pay decision; ships as a point release the day he picks)
 - [ ] Screenshot or sketch to wireframe through a vision model (blocked: needs Joshua's pay decision, Workers AI free tier or a paid key)
 - [ ] iCloud sync for projects on Apple devices (blocked: needs the iCloud capability turned on for the App ID, Joshua's yes)
