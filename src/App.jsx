@@ -900,7 +900,7 @@ export default function App() {
         <AccountPanel tab={accountOpen} onClose={() => { setAccountOpen(false); setRecovery(false); }} user={user} setUser={setUser} recovery={recovery} setRecovery={setRecovery}
           settings={{ darkMode, setDarkMode, look, setLook, more, setMore, onTutorial: startLesson }} />
       )}
-      {lesson !== null && <Tutorial step={lesson} onClose={() => setLesson(null)} />}
+      {lesson !== null && <Tutorial step={lesson} onClose={() => setLesson(null)} onNext={() => setLesson(l => l + 1)} />}
       {presenting && <Present slides={presenting} onClose={closePresent} />}
       {playing && <Play elements={state.elements} start={playing} onClose={closePlay} />}
       {filesOpen && <FilesPanel files={files} onClose={() => setFilesOpen(false)} />}

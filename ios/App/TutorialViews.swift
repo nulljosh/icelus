@@ -6,6 +6,7 @@ import SwiftUI
 struct TutorialCard: View {
     let step: Int
     var compact = false // the iPhone layout, where the parts are under Add
+    var onNext: () -> Void = {}
     let onClose: () -> Void
 
     var body: some View {
@@ -17,6 +18,9 @@ struct TutorialCard: View {
             }
             Spacer(minLength: 0)
             Button(last ? "Got it" : "Skip", action: onClose).buttonStyle(.bordered).buttonBorderShape(.capsule)
+            if tourOnlySteps.contains(name) {
+                Button("Next", action: onNext).buttonStyle(.borderedProminent).buttonBorderShape(.capsule).tint(Theme.accent)
+            }
         }
         .padding(.horizontal, 16).padding(.vertical, 12)
         .frame(maxWidth: 560)
@@ -37,6 +41,13 @@ struct TutorialCard: View {
         case "edit": return "Choose Edit text, type new words like Sign up, then Save."
         case "move": return "Now drag the button to a new spot."
         case "copy": return "Open Export and choose Copy text."
+        #if os(macOS)
+        case "files": return "Click the title at the top to open Files. Start a blank file there, or a ready-made flow like Sign in or Checkout."
+        #else
+        case "files": return "Tap the title at the top to open Files. Start a blank file there, or a ready-made flow like Sign in or Checkout."
+        #endif
+        case "play": return "Link a button on one screen to another, then press Play to click through them like a real app."
+        case "panels": return "Layers and History keep every part and every step. Settings switches between real controls and the plain-text look."
         default: return "Done. Your screen is plain text now. Paste it into a chat, a doc or a pull request."
         }
     }

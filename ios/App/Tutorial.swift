@@ -1,7 +1,10 @@
 // The first-run tutorial, a port of src/lib/tutorial.js: five small steps that wait for you to do each one,
-// then move on by themselves. Pick Button, place it, change its words, drag it, copy the screen.
+// then move on by themselves (pick Button, place it, change its words, drag it, copy the screen), then three
+// you read and press Next on: where files and templates live, Play, and the panels.
 
-let tutorialSteps = ["pick", "place", "edit", "move", "copy", "done"]
+let tutorialSteps = ["pick", "place", "edit", "move", "copy", "files", "play", "panels", "done"]
+/// Steps with nothing to do: the card shows Next instead of waiting.
+let tourOnlySteps: Set<String> = ["files", "play", "panels"]
 
 struct LessonSnapshot {
     var copies = 0

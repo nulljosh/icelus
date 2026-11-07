@@ -1,10 +1,15 @@
 import { describe, it, expect } from 'vitest';
-import { TUTORIAL, lessonSnapshot, stepDone, newestButton } from './tutorial.js';
+import { TUTORIAL, TOUR_ONLY, lessonSnapshot, stepDone, newestButton } from './tutorial.js';
 import { createElement, updateElement, moveElement } from './engine.js';
 import { getPreset } from './presets.js';
 
 describe('tutorial', () => {
   const button = getPreset('button');
+  it('ends on files, play and panels, which wait for Next instead of an action', () => {
+    expect(TUTORIAL.slice(-4)).toEqual(['files', 'play', 'panels', 'done']);
+    const start = lessonSnapshot([]);
+    for (const step of TOUR_ONLY) expect(stepDone(step, { selectedPreset: button, elements: [], copies: 9 }, start)).toBe(false);
+  });
   it('walks pick, place, edit, move and copy in order', () => {
     expect(TUTORIAL.at(-1)).toBe('done');
     let elements = [], start = lessonSnapshot(elements);

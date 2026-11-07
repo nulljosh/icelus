@@ -155,7 +155,7 @@ struct ContentView: View {
             toolbar
             Divider().overlay(Theme.rule)
             // The tutorial takes its own row under the toolbar, so it never covers the parts or controls it points at.
-            if let lesson { TutorialCard(step: lesson) { self.lesson = nil } }
+            if let lesson { TutorialCard(step: lesson, onNext: { self.lesson = lesson + 1 }) { self.lesson = nil } }
             canvas
             editBars
             Divider().overlay(Theme.rule)

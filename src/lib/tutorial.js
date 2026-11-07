@@ -1,7 +1,10 @@
-// The first-run tutorial: five small steps that wait for you to do each one, then move on by themselves.
-// Pick Button, place it, change its words, drag it, copy the screen. stepDone compares the canvas now with
-// where it stood when the step began.
-export const TUTORIAL = ['pick', 'place', 'edit', 'move', 'copy', 'done'];
+// The first-run tutorial: five small steps that wait for you to do each one, then move on by themselves
+// (pick Button, place it, change its words, drag it, copy the screen), then three you read and press Next on:
+// where files and templates live, Play, and the panels. stepDone compares the canvas now with where it stood
+// when the step began.
+export const TUTORIAL = ['pick', 'place', 'edit', 'move', 'copy', 'files', 'play', 'panels', 'done'];
+// Steps with nothing to do: the card shows Next instead of waiting.
+export const TOUR_ONLY = new Set(['files', 'play', 'panels']);
 
 export const lessonSnapshot = (elements, copies = 0) => ({
   copies,

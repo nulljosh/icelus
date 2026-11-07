@@ -72,7 +72,7 @@ enum MacShot {
                     view.cacheDisplay(in: view.bounds, to: rep)
                     try? rep.representation(using: .png, properties: [:])?.write(to: URL(fileURLWithPath: path))
                 }
-                NSApp.terminate(nil)
+                exit(0) // terminate(nil) left the window up; this is a screenshot run, nothing to save
             }
         }
     }

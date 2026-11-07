@@ -11,7 +11,11 @@ WEB = {"Undo": "undo", "Redo": "redo", "Clear": "clear", "Stop tracing": "stop_t
        "Export": "export", "Copy text": "copy_text", "Copy as typed lines": "copy_lines", "Copy as Markdown": "copy_markdown",
        "Copy all screens": "copy_screens", "Cancel": "cancel", "Save": "save", "Draw it": "draw_it", "Type a screen": "type_title",
        "Color Mode": "color_mode", "Add Color": "add_color_var", "Add Width": "add_width_var", "Width Variable": "width_var",
-       "Sets Variable": "sets_var", "HTML": "code_html"}
+       "Sets Variable": "sets_var", "HTML": "code_html",
+       "Click the title at the top to open Files. Start a blank file there, or a ready-made flow like Sign in or Checkout.": "lesson_files",
+       "Tap the title at the top to open Files. Start a blank file there, or a ready-made flow like Sign in or Checkout.": "lesson_files_phone",
+       "Link a button on one screen to another, then press Play to click through them like a real app.": "lesson_play",
+       "Layers and History keep every part and every step. Settings switches between real controls and the plain-text look.": "lesson_panels"}
 
 # Part labels and categories: the web keys them part_<id> and cat_<name>; the apps by their English text.
 en = json.loads(subprocess.run(["node", "-e", """

@@ -25,7 +25,7 @@ extension ContentView {
             .safeAreaInset(edge: .top, spacing: 0) {
                 VStack(spacing: 8) {
                     phoneTopBar
-                    if let lesson { TutorialCard(step: lesson, compact: true) { self.lesson = nil }.glass(in: RoundedRectangle(cornerRadius: 24)) .padding(.horizontal, 16) }
+                    if let lesson { TutorialCard(step: lesson, compact: true, onNext: { self.lesson = lesson + 1 }) { self.lesson = nil }.glass(in: RoundedRectangle(cornerRadius: 24)) .padding(.horizontal, 16) }
                 }
             }
             .safeAreaInset(edge: .bottom, spacing: 0) {
