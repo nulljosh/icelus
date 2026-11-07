@@ -1,6 +1,6 @@
 # Icelus
 
-v55.4.1. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
+v55.5.0. A design tool for screens, for people and agents: describe a screen and it draws, edit it on a real canvas
 like Figma or Photoshop, and underneath every screen is text on a character grid that pastes anywhere. Web (Vite + React 19) at icelus.jaybulb.com, native SwiftUI for
 iPhone, iPad and Mac (ASC app 6794988951, $0.99), plus a Watch app and a terminal companion.
 
@@ -85,4 +85,6 @@ The system font (SF Pro on Apple devices), never a custom face. Monospace only i
 - One target builds iOS and macOS (`supportedDestinations`). Two entitlements files, split by SDK, because
   `application-identifier` is not a valid Mac entitlement.
 - Measure text with CoreText, not UIFont, so the canvas compiles on both platforms without `#if`.
+- Honest semver from 55.5.0 (2026-11-07). The store number cannot go down (iPhone was live at 50.0.0), so the bloat stops here instead: a feature is a minor (55.6.0), a fix is a patch (55.5.1), a major only on Joshua's call for a change to how the app works. Never a major per roadmap row.
+- Mac App Store shots: `open -W -n Icelus.app --args -shot-mac /tmp/x.png [-shot-sheet new-sign-in]` saves the window at 2880x1800 with no Screen Recording prompt (`MacShot` in IcelusApp.swift). The Mac record already has timestamp builds, so archive with `CURRENT_PROJECT_VERSION=$(date +%Y%m%d%H%M)`.
 - One store build in review at a time. Check `asc versions list --app 6794988951` before submitting.

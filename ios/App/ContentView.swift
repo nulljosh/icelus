@@ -29,6 +29,7 @@ struct ContentView: View {
     @AppStorage("glyphbox-more") var showMore = false
     @AppStorage("glyphbox-look") var look = "real"
     @AppStorage("glyphbox-tour-seen") var tourSeen = false
+    @State var splashDone = false // the welcome sheet waits for the launch splash (IcelusApp.swift), or it slides over it
     /// The tutorial step, or nil when it is not running (Tutorial.swift).
     @State var lesson: Int?
     @State var lessonStart = LessonSnapshot()
@@ -71,7 +72,8 @@ struct ContentView: View {
     var body: some View {
         layout // ContentView+Phone.swift: the iPhone layout, or this one on iPad and Mac
         .background(Theme.background)
-        .sheet(isPresented: Binding(get: { !tourSeen }, set: { if !$0 { tourSeen = true } })) {
+        .task { try? await Task.sleep(for: .milliseconds(1300)); splashDone = true }
+        .sheet(isPresented: Binding(get: { splashDone && !tourSeen }, set: { if !$0 { tourSeen = true } })) {
             WelcomeSheet(onStart: startLesson, onSkip: { tourSeen = true })
         }
         .onChange(of: state.elements) { advanceLesson() }

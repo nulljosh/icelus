@@ -1,6 +1,6 @@
 <img src="icon.svg" width="80" alt="Icelus">
 
-![version](https://img.shields.io/badge/version-v55.4.0-blue)
+![version](https://img.shields.io/badge/version-v55.5.0-blue)
 ![license](https://img.shields.io/badge/license-Apache%202.0-green)
 
 Describe a screen and it draws. Then edit it like Figma, with real buttons, fields and switches. Underneath, every screen is text on a character grid, so it pastes into a README or a chat and stays editable.

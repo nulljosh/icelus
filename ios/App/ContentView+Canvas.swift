@@ -46,11 +46,13 @@ extension ContentView {
                 parts: look == "real" ? shown.elements : state.elements,
                 card: !isPhone
             )
+            // iPad and Mac: the hint sits on the card, which is narrower than the window, not across its edge.
+            .overlay { if !isPhone && state.elements.isEmpty { emptyCanvas.allowsHitTesting(false) } }
             .padding(isPhone ? 16 : 20)
         }
         .background(isPhone ? Theme.canvas : Theme.background)
         // A blank canvas says what to do, like the web: Boxy and one line. It never takes a tap.
-        .overlay { if state.elements.isEmpty { emptyCanvas.allowsHitTesting(false) } }
+        .overlay { if isPhone && state.elements.isEmpty { emptyCanvas.allowsHitTesting(false) } }
         // Fit the work to the width once, so a phone opens on the whole screen, not its top left corner.
         .background(GeometryReader { g in // after restore, and again when another file opens
             Color.clear.onAppear { DispatchQueue.main.async { fit(width: g.size.width) } }
