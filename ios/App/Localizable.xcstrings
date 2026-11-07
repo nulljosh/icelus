@@ -8468,6 +8468,172 @@
         }
       }
     },
+    "Click the title at the top to open Files. Start a blank file there, or a ready-made flow like Sign in or Checkout.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انقر على العنوان في الأعلى لفتح Files. ابدأ ملفًا فارغًا هناك، أو تدفقًا جاهزًا مثل تسجيل الدخول أو الدفع."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Files খুলতে উপরের শিরোনামে ক্লিক করুন। সেখানে একটি ফাঁকা ফাইল শুরু করুন, বা সাইন ইন বা চেকআউটের মতো তৈরি একটি ফ্লো।"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klick oben auf den Titel, um Files zu öffnen. Starte dort eine leere Datei oder einen fertigen Ablauf wie Anmelden oder Kasse."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Click the title at the top to open Files. Start a blank file there, or a ready-made flow like Sign in or Checkout."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haz clic en el título de arriba para abrir Files. Empieza ahí un archivo en blanco o un flujo listo como Iniciar sesión o Pago."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "برای باز کردن Files روی عنوان بالا کلیک کنید. آنجا یک فایل خالی بسازید، یا یک جریان آماده مثل ورود یا پرداخت."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cliquez sur le titre en haut pour ouvrir Files. Commencez-y un fichier vide, ou un parcours tout prêt comme Connexion ou Paiement."
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "לחצו על הכותרת למעלה כדי לפתוח את Files. התחילו שם קובץ ריק, או זרימה מוכנה כמו התחברות או תשלום."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Files खोलने के लिए ऊपर शीर्षक पर क्लिक करें। वहाँ एक खाली फ़ाइल शुरू करें, या साइन इन या चेकआउट जैसा तैयार फ़्लो।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klik judul di atas untuk membuka Files. Mulai file kosong di sana, atau alur siap pakai seperti Masuk atau Checkout."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fai clic sul titolo in alto per aprire Files. Lì puoi iniziare un file vuoto, o un flusso pronto come Accedi o Pagamento."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上部のタイトルをクリックして Files を開きます。そこで空のファイルや、サインインやチェックアウトなどの既製のフローを始められます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "상단의 제목을 클릭해 Files를 엽니다. 거기서 빈 파일이나 로그인, 결제 같은 준비된 흐름을 시작하세요."
+          }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klik tajuk di atas untuk membuka Files. Mulakan fail kosong di situ, atau aliran sedia ada seperti Log masuk atau Bayar."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klik bovenaan op de titel om Files te openen. Begin daar een leeg bestand, of een kant-en-klare flow zoals Inloggen of Afrekenen."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kliknij tytuł u góry, aby otworzyć Files. Zacznij tam pusty plik albo gotowy przepływ, jak Logowanie czy Płatność."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clique no título no topo para abrir Files. Comece ali um arquivo em branco, ou um fluxo pronto como Entrar ou Pagamento."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нажмите на заголовок вверху, чтобы открыть Files. Начните там пустой файл или готовый сценарий, например Вход или Оплата."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klicka på titeln högst upp för att öppna Files. Starta en tom fil där, eller ett färdigt flöde som Logga in eller Kassa."
+          }
+        },
+        "sw": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bofya kichwa juu ili kufungua Files. Anzisha faili tupu hapo, au mtiririko ulio tayari kama Ingia au Lipia."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "คลิกชื่อด้านบนเพื่อเปิด Files เริ่มไฟล์เปล่าที่นั่น หรือโฟลว์สำเร็จรูปอย่างลงชื่อเข้าใช้หรือชำระเงิน"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Files'ı açmak için üstteki başlığa tıkla. Orada boş bir dosya ya da Giriş veya Ödeme gibi hazır bir akış başlat."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Натисніть на заголовок угорі, щоб відкрити Files. Почніть там порожній файл або готовий сценарій, як-от Вхід чи Оплата."
+          }
+        },
+        "ur": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Files کھولنے کے لیے اوپر عنوان پر کلک کریں۔ وہاں ایک خالی فائل شروع کریں، یا سائن اِن یا چیک آؤٹ جیسا تیار فلو۔"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nhấp vào tiêu đề ở trên để mở Files. Bắt đầu một tệp trống ở đó, hoặc một luồng có sẵn như Đăng nhập hay Thanh toán."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击顶部的标题打开 Files。在那里新建空白文件，或使用登录、结账等现成流程。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點按頂部的標題開啟 Files。在那裡新增空白檔案，或使用登入、結帳等現成流程。"
+          }
+        }
+      }
+    },
     "Code block": {
       "localizations": {
         "en": {
@@ -23418,6 +23584,172 @@
         }
       }
     },
+    "Layers and History keep every part and every step. Settings switches between real controls and the plain-text look.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الطبقات والسجل يحفظان كل جزء وكل خطوة. تبدّل الإعدادات بين عناصر التحكم الحقيقية والمظهر النصي."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "লেয়ার আর ইতিহাস প্রতিটি অংশ ও প্রতিটি ধাপ রাখে। সেটিংস আসল কন্ট্রোল আর সাধারণ টেক্সট চেহারার মধ্যে বদলায়।"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ebenen und Verlauf behalten jedes Teil und jeden Schritt. Einstellungen wechselt zwischen echten Bedienelementen und dem Textlook."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Layers and History keep every part and every step. Settings switches between real controls and the plain-text look."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capas e Historial guardan cada parte y cada paso. Ajustes cambia entre controles reales y el aspecto de texto plano."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لایه‌ها و تاریخچه هر بخش و هر مرحله را نگه می‌دارند. تنظیمات بین کنترل‌های واقعی و نمای متن ساده جابه‌جا می‌کند."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Calques et Historique gardent chaque élément et chaque étape. Réglages bascule entre de vrais contrôles et l'aspect texte brut."
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "שכבות והיסטוריה שומרים כל חלק וכל צעד. הגדרות מחליפות בין פקדים אמיתיים למראה טקסט פשוט."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "परतें और इतिहास हर हिस्सा और हर कदम रखते हैं। सेटिंग असली कंट्रोल और सादे टेक्स्ट लुक के बीच बदलती है।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lapisan dan Riwayat menyimpan setiap bagian dan setiap langkah. Pengaturan beralih antara kontrol asli dan tampilan teks biasa."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Livelli e Cronologia tengono ogni parte e ogni passo. Impostazioni passa dai controlli reali all'aspetto di solo testo."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "レイヤーと履歴はすべてのパーツとすべての手順を残します。設定で本物のコントロールとプレーンテキスト表示を切り替えます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "레이어와 기록은 모든 부분과 모든 단계를 남깁니다. 설정에서 실제 컨트롤과 일반 텍스트 모양을 바꿉니다."
+          }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lapisan dan Sejarah menyimpan setiap bahagian dan setiap langkah. Tetapan menukar antara kawalan sebenar dan rupa teks biasa."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lagen en Geschiedenis bewaren elk onderdeel en elke stap. Instellingen wisselt tussen echte bedieningselementen en de platte-tekstweergave."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warstwy i Historia zachowują każdą część i każdy krok. Ustawienia przełączają między prawdziwymi kontrolkami a wyglądem zwykłego tekstu."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Camadas e Histórico guardam cada parte e cada passo. Configurações alterna entre controles reais e a aparência de texto simples."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Слои и История хранят каждую часть и каждый шаг. Настройки переключают между настоящими элементами управления и видом простого текста."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lager och Historik sparar varje del och varje steg. Inställningar växlar mellan riktiga kontroller och vanlig textvy."
+          }
+        },
+        "sw": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabaka na Historia huhifadhi kila sehemu na kila hatua. Mipangilio hubadilisha kati ya vidhibiti halisi na mwonekano wa maandishi tu."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เลเยอร์และประวัติเก็บทุกส่วนและทุกขั้นตอน การตั้งค่าสลับระหว่างตัวควบคุมจริงกับมุมมองข้อความธรรมดา"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Katmanlar ve Geçmiş her parçayı ve her adımı saklar. Ayarlar gerçek kontroller ile düz metin görünümü arasında geçiş yapar."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Шари та Історія зберігають кожну частину й кожен крок. Налаштування перемикають між справжніми елементами керування та виглядом простого тексту."
+          }
+        },
+        "ur": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "پرتیں اور تاریخ ہر حصہ اور ہر قدم رکھتے ہیں۔ ترتیبات اصل کنٹرولز اور سادہ ٹیکسٹ انداز کے درمیان بدلتی ہیں۔"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lớp và Lịch sử giữ mọi phần và mọi bước. Cài đặt chuyển giữa điều khiển thật và giao diện văn bản thuần."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图层和历史记录保留每个部件和每一步。设置可在真实控件与纯文本外观之间切换。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圖層和歷史記錄保留每個部件和每一步。設定可在真實控制項與純文字外觀之間切換。"
+          }
+        }
+      }
+    },
     "Layout": {
       "localizations": {
         "ar": {
@@ -23746,6 +24078,172 @@
           "stringUnit": {
             "state": "translated",
             "value": "淺"
+          }
+        }
+      }
+    },
+    "Link a button on one screen to another, then press Play to click through them like a real app.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اربط زرًا في شاشة بشاشة أخرى، ثم اضغط Play للتنقل بينها كتطبيق حقيقي."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "এক স্ক্রিনের একটি বোতাম অন্য স্ক্রিনের সাথে যুক্ত করুন, তারপর আসল অ্যাপের মতো ঘুরে দেখতে Play চাপুন।"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verknüpfe einen Button auf einem Bildschirm mit einem anderen und drück dann Play, um wie in einer echten App durchzuklicken."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Link a button on one screen to another, then press Play to click through them like a real app."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enlaza un botón de una pantalla con otra y pulsa Play para recorrerlas como en una app real."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "دکمه‌ای در یک صفحه را به صفحه‌ای دیگر وصل کنید، سپس Play را بزنید تا مثل یک اپ واقعی بین آن‌ها بروید."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reliez un bouton d'un écran à un autre, puis appuyez sur Play pour les parcourir comme une vraie app."
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "קשרו כפתור במסך אחד למסך אחר, ואז לחצו Play כדי לעבור ביניהם כמו באפליקציה אמיתית."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "एक स्क्रीन के बटन को दूसरी स्क्रीन से जोड़ें, फिर असली ऐप की तरह घूमने के लिए Play दबाएँ।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tautkan tombol di satu layar ke layar lain, lalu tekan Play untuk menjelajahinya seperti aplikasi sungguhan."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collega un pulsante di una schermata a un'altra, poi premi Play per sfogliarle come in una vera app."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ある画面のボタンを別の画面にリンクし、Play を押すと本物のアプリのように操作できます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "한 화면의 버튼을 다른 화면에 연결한 뒤 Play를 눌러 실제 앱처럼 둘러보세요."
+          }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pautkan butang pada satu skrin ke skrin lain, kemudian tekan Play untuk melaluinya seperti aplikasi sebenar."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Koppel een knop op het ene scherm aan een ander, en druk dan op Play om erdoorheen te klikken als in een echte app."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Połącz przycisk na jednym ekranie z innym, a potem naciśnij Play, by przeklikać je jak prawdziwą aplikację."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ligue um botão de uma tela a outra e depois toque em Play para navegar por elas como num app de verdade."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Свяжите кнопку на одном экране с другим, затем нажмите Play, чтобы пройти их как в настоящем приложении."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Länka en knapp på en skärm till en annan och tryck sedan på Play för att klicka dig igenom dem som i en riktig app."
+          }
+        },
+        "sw": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unganisha kitufe kwenye skrini moja na nyingine, kisha bonyeza Play kupitia kama programu halisi."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ลิงก์ปุ่มบนหน้าจอหนึ่งไปยังอีกหน้าจอ แล้วกด Play เพื่อคลิกผ่านเหมือนแอปจริง"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir ekrandaki düğmeyi başka bir ekrana bağla, sonra gerçek bir uygulama gibi gezinmek için Play'e bas."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зв'яжіть кнопку на одному екрані з іншим, а потім натисніть Play, щоб пройти їх як справжній застосунок."
+          }
+        },
+        "ur": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ایک اسکرین کا بٹن دوسری اسکرین سے جوڑیں، پھر اصل ایپ کی طرح گھومنے کے لیے Play دبائیں۔"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Liên kết một nút trên màn hình này với màn hình khác, rồi nhấn Play để đi qua chúng như một ứng dụng thật."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "把一个屏幕上的按钮链接到另一个屏幕，然后按 Play，像真正的 App 一样点击浏览。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "把一個畫面上的按鈕連結到另一個畫面，然後按 Play，像真正的 App 一樣點擊瀏覽。"
           }
         }
       }
@@ -43168,6 +43666,172 @@
           "stringUnit": {
             "state": "translated",
             "value": "點一下網格，把按鈕放在那裡。"
+          }
+        }
+      }
+    },
+    "Tap the title at the top to open Files. Start a blank file there, or a ready-made flow like Sign in or Checkout.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط على العنوان في الأعلى لفتح Files. ابدأ ملفًا فارغًا هناك، أو تدفقًا جاهزًا مثل تسجيل الدخول أو الدفع."
+          }
+        },
+        "bn": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Files খুলতে উপরের শিরোনামে ট্যাপ করুন। সেখানে একটি ফাঁকা ফাইল শুরু করুন, বা সাইন ইন বা চেকআউটের মতো তৈরি একটি ফ্লো।"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tippe oben auf den Titel, um Files zu öffnen. Starte dort eine leere Datei oder einen fertigen Ablauf wie Anmelden oder Kasse."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap the title at the top to open Files. Start a blank file there, or a ready-made flow like Sign in or Checkout."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toca el título de arriba para abrir Files. Empieza ahí un archivo en blanco o un flujo listo como Iniciar sesión o Pago."
+          }
+        },
+        "fa": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "برای باز کردن Files روی عنوان بالا ضربه بزنید. آنجا یک فایل خالی بسازید، یا یک جریان آماده مثل ورود یا پرداخت."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Touchez le titre en haut pour ouvrir Files. Commencez-y un fichier vide, ou un parcours tout prêt comme Connexion ou Paiement."
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "הקישו על הכותרת למעלה כדי לפתוח את Files. התחילו שם קובץ ריק, או זרימה מוכנה כמו התחברות או תשלום."
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Files खोलने के लिए ऊपर शीर्षक पर टैप करें। वहाँ एक खाली फ़ाइल शुरू करें, या साइन इन या चेकआउट जैसा तैयार फ़्लो।"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ketuk judul di atas untuk membuka Files. Mulai file kosong di sana, atau alur siap pakai seperti Masuk atau Checkout."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tocca il titolo in alto per aprire Files. Lì puoi iniziare un file vuoto, o un flusso pronto come Accedi o Pagamento."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上部のタイトルをタップして Files を開きます。そこで空のファイルや、サインインやチェックアウトなどの既製のフローを始められます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "상단의 제목을 탭해 Files를 엽니다. 거기서 빈 파일이나 로그인, 결제 같은 준비된 흐름을 시작하세요."
+          }
+        },
+        "ms": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ketik tajuk di atas untuk membuka Files. Mulakan fail kosong di situ, atau aliran sedia ada seperti Log masuk atau Bayar."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tik bovenaan op de titel om Files te openen. Begin daar een leeg bestand, of een kant-en-klare flow zoals Inloggen of Afrekenen."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stuknij tytuł u góry, aby otworzyć Files. Zacznij tam pusty plik albo gotowy przepływ, jak Logowanie czy Płatność."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toque no título no topo para abrir Files. Comece ali um arquivo em branco, ou um fluxo pronto como Entrar ou Pagamento."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Коснитесь заголовка вверху, чтобы открыть Files. Начните там пустой файл или готовый сценарий, например Вход или Оплата."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tryck på titeln högst upp för att öppna Files. Starta en tom fil där, eller ett färdigt flöde som Logga in eller Kassa."
+          }
+        },
+        "sw": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gusa kichwa juu ili kufungua Files. Anzisha faili tupu hapo, au mtiririko ulio tayari kama Ingia au Lipia."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แตะชื่อด้านบนเพื่อเปิด Files เริ่มไฟล์เปล่าที่นั่น หรือโฟลว์สำเร็จรูปอย่างลงชื่อเข้าใช้หรือชำระเงิน"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Files'ı açmak için üstteki başlığa dokun. Orada boş bir dosya ya da Giriş veya Ödeme gibi hazır bir akış başlat."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Торкніться заголовка вгорі, щоб відкрити Files. Почніть там порожній файл або готовий сценарій, як-от Вхід чи Оплата."
+          }
+        },
+        "ur": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Files کھولنے کے لیے اوپر عنوان پر ٹیپ کریں۔ وہاں ایک خالی فائل شروع کریں، یا سائن اِن یا چیک آؤٹ جیسا تیار فلو۔"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chạm vào tiêu đề ở trên để mở Files. Bắt đầu một tệp trống ở đó, hoặc một luồng có sẵn như Đăng nhập hay Thanh toán."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轻点顶部的标题打开 Files。在那里新建空白文件，或使用登录、结账等现成流程。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "點一下頂部的標題開啟 Files。在那裡新增空白檔案，或使用登入、結帳等現成流程。"
           }
         }
       }
