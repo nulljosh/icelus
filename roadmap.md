@@ -44,4 +44,3 @@ The long plan (v6 to v100) lives in the wiki page icelus.md under Someday. Pull 
 ## Ingested 2026-10-31
 - [ ] Bloated semver: App Store Connect shows 50.0.0 on iOS, status Not Applicable, What's New empty (notes/attachments/2026-10-31/icelus-1.png). Apply honest semver (feature = minor, fix = patch, major only on Joshua's call) and reset the store version line.
 
-- [x] 2026-11-07: 55.5.0 submitted on iPhone and, for the first time, Mac (build 202611071420): launch splash, tutorial tour steps in 26 languages, honest semver. Support and marketing URLs moved off the lapsed heyitsmejosh.com to icelus.jaybulb.com.
