@@ -42,7 +42,7 @@ The long plan (v6 to v100) lives in the wiki page icelus.md under Someday. Pull 
 ## Ingested 2026-10-30
 
 ## Ingested 2026-10-31
-- [ ] Bloated semver: App Store Connect shows 50.0.0 on iOS, status Not Applicable, What's New empty (notes/attachments/2026-10-31/icelus-1.png, notes/attachments/2026-11-08/icelus-1.png: Version History reads 50.0.0, 38.0.0, 12.0.0, 2.0.0, 1.1.3). Apply honest semver (feature = minor, fix = patch, major only on Joshua's call) and reset the store version line.
+- [x] Bloated semver: App Store Connect shows 50.0.0 on iOS, status Not Applicable, What's New empty (notes/attachments/2026-10-31/icelus-1.png, notes/attachments/2026-11-08/icelus-1.png: Version History reads 50.0.0, 38.0.0, 12.0.0, 2.0.0, 1.1.3). Apply honest semver (feature = minor, fix = patch, major only on Joshua's call) and reset the store version line. Stopped 2026-11-07 at 55.5.0: Apple never lets a store number go down, so the only reset is a new app record, which throws away the listing and its history. From here a feature is a minor, a fix is a patch.
 
 ## Ingested 2026-11-08
 - [ ] Can we find a better name
