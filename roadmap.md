@@ -45,3 +45,7 @@ The long plan (v6 to v100) lives in the wiki page icelus.md under Someday. Pull 
 
 ## Ingested 2026-11-08
 - [ ] Can we find a better name Probed on Apple 2026-11-08: Sketch, Draft, Wireframe, Blueprint, Mockup and about 95 more are taken. Free: Gouache, Rabbet, Pasteup. Waiting on Joshua to pick or send more ideas.
+
+## Ingested 2026-11-13
+- [ ] Needs a stupid simple name. Free picks probed 2026-11-08: Gouache, Rabbet, Pasteup. Joshua wants simpler than those.
+- [ ] Better onboarding process. Refresh the onboarding again after the rename.
