@@ -49,3 +49,8 @@ The long plan (v6 to v100) lives in the wiki page icelus.md under Someday. Pull 
 ## Ingested 2026-11-13
 - [ ] Needs a stupid simple name. Free picks probed 2026-11-08: Gouache, Rabbet, Pasteup. Joshua wants simpler than those.
 - [ ] Better onboarding process. Refresh the onboarding again after the rename.
+
+## Ingested 2026-11-16
+- [ ] (Note "Icelus") Needs a super stupid simple name, like Dave. Make the mascot a Main Street guy, like a photographer. Dumb down the onboarding process/tutorial too.
+- [ ] (Icelus) Anything else it is missing, marketing-wise, distribution and user introductions? The main idea: you upload photos, ideas, words through the chat and it builds it out as UI, like a graphing/blueprinting app similar to Figma.
+- [ ] (Icelus) What does making an account get a user? List features and see how we can make this subscription or pay gated.
