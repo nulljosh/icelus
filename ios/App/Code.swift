@@ -175,7 +175,7 @@ func toSwiftUI(_ elements: [Element], cols: Int, rows: Int, name: String = "Layo
             ZStack(alignment: .topLeading) {
     \(parts.joined(separator: "\n"))
             }
-            .font(.system(size: 14, design: .monospaced))
+            .font(.system(.subheadline, design: .monospaced))
             .frame(width: \(n(cols)) * ch, height: \(n(rows)) * row, alignment: .topLeading)
         }
     }

@@ -70,7 +70,7 @@ extension ContentView {
             }
             .glass(in: Capsule())
         }
-        .font(.system(size: 17, weight: .medium))
+        .font(.system(.body, weight: .medium))
         .padding(.horizontal, 16)
         .padding(.top, 4)
     }
@@ -136,8 +136,8 @@ extension ContentView {
     private func tab(_ title: String, _ icon: String, enabled: Bool = true, active: Bool = false, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             VStack(spacing: 2) {
-                Image(systemName: icon).font(.system(size: 20, weight: .medium)).frame(height: 26) // one height, so the labels line up
-                Text(LocalizedStringKey(title)).font(.system(size: 10, weight: .medium))
+                Image(systemName: icon).font(.system(.title3, weight: .medium)).frame(height: 26) // one height, so the labels line up
+                Text(LocalizedStringKey(title)).font(.system(.caption2, weight: .medium))
             }
             .frame(maxWidth: .infinity, minHeight: 56)
             .foregroundStyle(active ? Theme.accent : enabled ? Theme.ink : Theme.muted)
